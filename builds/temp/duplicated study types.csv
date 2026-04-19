@@ -1,0 +1,76 @@
+key,scientificName,node_name,evidence_type,evidence_inclusion,Source_that_provides_primary_evidence,Evidence_category,Evidence_effect,Evidence_method,Hypothesis_supported,has_data,of_quality
+Setonix brachyurus (Bain et al. 2015),Setonix brachyurus,(Bain et al. 2015),Population not in support,INCLUDE,0,Population,Abundance,Spatial,0,yes,yes
+Setonix brachyurus (Bain et al. 2015),Setonix brachyurus,(Bain et al. 2015),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Diomedea exulans (Barbraud et al. 2021),Diomedea exulans,(Barbraud et al. 2021),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Diomedea exulans (Barbraud et al. 2021),Diomedea exulans,(Barbraud et al. 2021),Control program in support,INCLUDE,0,Control program,Reproduction,Temporal,1,no,no
+Diomedea exulans (Blanchard et al. 2024),Diomedea exulans,(Blanchard et al. 2024),Population in support,INCLUDE,0,Population,Reproduction,Spatial,1,yes,yes
+Diomedea exulans (Blanchard et al. 2024),Diomedea exulans,(Blanchard et al. 2024),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Traversia lyalli (Buller & Keulemans 1905),Traversia lyalli,(Buller & Keulemans 1905),Predation in support,INCLUDE,0,Predation,Predation,Domestic cat,1,no,no
+Traversia lyalli (Buller & Keulemans 1905),Traversia lyalli,(Buller & Keulemans 1905),Population in support,INCLUDE,0,Population,Abundance,Timing,1,no,no
+Charadrius sanctaehelenae (Burns et al. 2013),Charadrius sanctaehelenae,(Burns et al. 2013),Population in support,INCLUDE,0,Population,Reproduction,Spatial,1,yes,yes
+Charadrius sanctaehelenae (Burns et al. 2013),Charadrius sanctaehelenae,(Burns et al. 2013),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Dasycercus cristicauda (Doherty et al. 2015),Dasycercus cristicauda,(Doherty et al. 2015),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Dasycercus cristicauda (Doherty et al. 2015),Dasycercus cristicauda,(Doherty et al. 2015),Population in support,INCLUDE,0,Population,Abundance,Temporal,1,yes,no
+Sminthopsis douglasi (Doherty et al. 2015),Sminthopsis douglasi,(Doherty et al. 2015),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Sminthopsis douglasi (Doherty et al. 2015),Sminthopsis douglasi,(Doherty et al. 2015),Predation not in support,INCLUDE,0,Predation,Predation,Preference,0,no,no
+Coenocorypha aucklandica (Dowding & Murphy 2001),Coenocorypha aucklandica,(Dowding & Murphy 2001),Population in support,INCLUDE,0,Population,Abundance,Timing,1,no,no
+Coenocorypha aucklandica (Dowding & Murphy 2001),Coenocorypha aucklandica,(Dowding & Murphy 2001),Population not in support,INCLUDE,0,Population,Abundance,Timing,0,no,no
+Traversia lyalli (Galbreath & Brown 2004),Traversia lyalli,(Galbreath & Brown 2004),Predation in support,INCLUDE,0,Predation,Predation,Domestic cat,1,no,no
+Traversia lyalli (Galbreath & Brown 2004),Traversia lyalli,(Galbreath & Brown 2004),Population in support,INCLUDE,0,Population,Abundance,Timing,1,no,no
+Pezoporus occidentalis (Garnett et al. 2011) core source,Pezoporus occidentalis,(Garnett et al. 2011) core source,Population in support,INCLUDE,1,Population,Abundance,Timing,1,no,no
+Pezoporus occidentalis (Garnett et al. 2011) core source,Pezoporus occidentalis,(Garnett et al. 2011) core source,Predation in support,INCLUDE,1,Predation,Predation,Domestic cat,1,no,no
+Apteryx australis (Gillies et al. 2003),Apteryx australis,(Gillies et al. 2003),Population in support,INCLUDE,0,Population,Reproduction,Temporal,1,yes,no
+Apteryx australis (Gillies et al. 2003),Apteryx australis,(Gillies et al. 2003),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Pterodroma sandwichensis (Hodges & Nagata Sr 2001),Pterodroma sandwichensis,(Hodges & Nagata Sr 2001),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Pterodroma sandwichensis (Hodges & Nagata Sr 2001),Pterodroma sandwichensis,(Hodges & Nagata Sr 2001),Population in support,INCLUDE,0,Population,Reproduction,Temporal,1,yes,yes
+Traversia lyalli (Hume 2017) core source,Traversia lyalli,(Hume 2017) core source,Predation in support,INCLUDE,1,Predation,Predation,Domestic cat,1,no,no
+Traversia lyalli (Hume 2017) core source,Traversia lyalli,(Hume 2017) core source,Population in support,INCLUDE,1,Population,Abundance,Timing,1,no,no
+Brachylophus vitiensis (IUCN 2025) core source,Brachylophus vitiensis,(IUCN 2025) core source,Predation in support,INCLUDE,1,Predation,Predation,Predation,1,no,no
+Brachylophus vitiensis (IUCN 2025) core source,Brachylophus vitiensis,(IUCN 2025) core source,Population in support,INCLUDE,1,Population,Abundance,Timing,1,no,no
+Pentalagus furnessi (IUCN 2025) core source,Pentalagus furnessi,(IUCN 2025) core source,Predation in support,INCLUDE,1,Predation,Predation,Predation,1,no,no
+Pentalagus furnessi (IUCN 2025) core source,Pentalagus furnessi,(IUCN 2025) core source,Population in support,INCLUDE,1,Population,Abundance,Spatial,1,no,no
+Sephanoides fernandensis (IUCN 2025) core source,Sephanoides fernandensis,(IUCN 2025) core source,Predation in support,INCLUDE,1,Predation,Predation,Predation,1,no,no
+Sephanoides fernandensis (IUCN 2025) core source,Sephanoides fernandensis,(IUCN 2025) core source,Predation in support,INCLUDE,1,Predation,Predation,Domestic cat,1,no,no
+Megadyptes antipodes (King et al. 2012),Megadyptes antipodes,(King et al. 2012),Predation not in support,INCLUDE,0,Predation,Predation,Predation,0,no,no
+Megadyptes antipodes (King et al. 2012),Megadyptes antipodes,(King et al. 2012),Population in support,INCLUDE,0,Population,Reproduction,Spatial,1,yes,no
+Sminthopsis douglasi (Kutt & Kitchener 2012),Sminthopsis douglasi,(Kutt & Kitchener 2012),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Sminthopsis douglasi (Kutt & Kitchener 2012),Sminthopsis douglasi,(Kutt & Kitchener 2012),Predation not in support,INCLUDE,0,Predation,Predation,Preference,0,no,no
+Chelonoidis niger (MacFarland et al. 1974a),Chelonoidis niger,(MacFarland et al. 1974a),Population not in support,INCLUDE,0,Population,Abundance,Spatial,0,yes,no
+Chelonoidis niger (MacFarland et al. 1974a),Chelonoidis niger,(MacFarland et al. 1974a),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Gallotia intermedia (Medina & Nogales 2009),Gallotia intermedia,(Medina & Nogales 2009),No claim,EXCLUDE,0,,,,,,
+Gallotia intermedia (Medina & Nogales 2009),Gallotia intermedia,(Medina & Nogales 2009),Opinion claim,EXCLUDE,0,,,,,,
+Pterodroma feae (Medina et al. 2010),Pterodroma feae,(Medina et al. 2010),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Pterodroma feae (Medina et al. 2010),Pterodroma feae,(Medina et al. 2010),Predation not in support,INCLUDE,0,Predation,Predation,Predation,0,no,no
+Potorous tridactylus (Miritis et al. 2020),Potorous tridactylus,(Miritis et al. 2020),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Potorous tridactylus (Miritis et al. 2020),Potorous tridactylus,(Miritis et al. 2020),Population not in support,INCLUDE,0,Population,Abundance,Spatial,0,yes,yes
+Coenocorypha aucklandica (Miskelly 1987),Coenocorypha aucklandica,(Miskelly 1987),Population not in support,INCLUDE,0,Population,Abundance,Timing,0,no,no
+Coenocorypha aucklandica (Miskelly 1987),Coenocorypha aucklandica,(Miskelly 1987),Population not in support,INCLUDE,0,Population,Abundance,Timing,0,yes,no
+Macrotis lagotis (Moseby et al. 2011),Macrotis lagotis,(Moseby et al. 2011),Predation in support,INCLUDE,0,Predation,Predation,Reintroduced,1,no,no
+Macrotis lagotis (Moseby et al. 2011),Macrotis lagotis,(Moseby et al. 2011),Population not in support,INCLUDE,0,Population,Abundance,Temporal,0,yes,no
+Macrotis lagotis (Moseby et al. 2015),Macrotis lagotis,(Moseby et al. 2015),Predation in support,INCLUDE,0,Predation,Predation,Reintroduced,1,no,no
+Macrotis lagotis (Moseby et al. 2015),Macrotis lagotis,(Moseby et al. 2015),Predation not in support,INCLUDE,0,Predation,Predation,Reintroduced,0,no,no
+Macrotis lagotis (Moseby et al. 2015),Macrotis lagotis,(Moseby et al. 2015),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Bettongia lesueur (Moseby et al. 2019),Bettongia lesueur,(Moseby et al. 2019),Predation in support,INCLUDE,0,Predation,Predation,Reintroduced,1,no,no
+Bettongia lesueur (Moseby et al. 2019),Bettongia lesueur,(Moseby et al. 2019),Population in support,INCLUDE,0,Population,Abundance,Temporal,1,yes,no
+Dasyurus geoffroii (Moseby et al. 2021a),Dasyurus geoffroii,(Moseby et al. 2021a),Predation in support,INCLUDE,0,Predation,Predation,Reintroduced,1,no,no
+Dasyurus geoffroii (Moseby et al. 2021a),Dasyurus geoffroii,(Moseby et al. 2021a),Population not in support,INCLUDE,0,Population,Abundance,Temporal,0,yes,no
+Macrotis lagotis (Paltridge 2005),Macrotis lagotis,(Paltridge 2005),Population not in support,INCLUDE,0,Population,Abundance,Temporal,0,yes,no
+Macrotis lagotis (Paltridge 2005),Macrotis lagotis,(Paltridge 2005),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Macrotis lagotis (Paltridge et al. 2020),Macrotis lagotis,(Paltridge et al. 2020),Population in support,INCLUDE,0,Population,Abundance,Spatial,1,no,no
+Macrotis lagotis (Paltridge et al. 2020),Macrotis lagotis,(Paltridge et al. 2020),Predation not in support,INCLUDE,0,Predation,Predation,Predation,0,no,no
+Pseudomys australis (Pavey et al. 2014),Pseudomys australis,(Pavey et al. 2014),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Pseudomys australis (Pavey et al. 2014),Pseudomys australis,(Pavey et al. 2014),Population not in support,INCLUDE,0,Population,Abundance,Temporal,0,yes,no
+Dasyurus viverrinus (Peacock & Abbott 2014),Dasyurus viverrinus,(Peacock & Abbott 2014),Predation not in support,INCLUDE,0,Predation,Predation,Predation,0,no,no
+Dasyurus viverrinus (Peacock & Abbott 2014),Dasyurus viverrinus,(Peacock & Abbott 2014),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Petrogale lateralis (Read et al. 2019a),Petrogale lateralis,(Read et al. 2019a),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Petrogale lateralis (Read et al. 2019a),Petrogale lateralis,(Read et al. 2019a),Predation not in support,INCLUDE,0,Predation,Predation,Preference,0,no,no
+Pentalagus furnessi (Sugimura et al. 2000),Pentalagus furnessi,(Sugimura et al. 2000),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Pentalagus furnessi (Sugimura et al. 2000),Pentalagus furnessi,(Sugimura et al. 2000),Population in support,INCLUDE,0,Population,Abundance,Spatial,1,no,no
+Parantechinus apicalis (Wallach & Lundgren 2025),Parantechinus apicalis,(Wallach & Lundgren 2025),Population not in support,INCLUDE,1,Population,Abundance,Timing,0,yes,no
+Parantechinus apicalis (Wallach & Lundgren 2025),Parantechinus apicalis,(Wallach & Lundgren 2025),Population in support,INCLUDE,1,Population,Abundance,Timing,1,yes,no
+Bettongia penicillata (Wayne et al. 2011),Bettongia penicillata,(Wayne et al. 2011),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Bettongia penicillata (Wayne et al. 2011),Bettongia penicillata,(Wayne et al. 2011),Population not in support,INCLUDE,0,Population,Abundance,Temporal,0,yes,no
+Charadrius obscurus (Wills et al. 2003),Charadrius obscurus,(Wills et al. 2003),Predation in support,INCLUDE,0,Predation,Predation,Predation,1,no,no
+Charadrius obscurus (Wills et al. 2003),Charadrius obscurus,(Wills et al. 2003),Predation not in support,INCLUDE,0,Predation,Predation,Predation,0,no,no
+Phascogale pirata (Woinarski et al. 2011a),Phascogale pirata,(Woinarski et al. 2011a),Population in support,INCLUDE,0,Population,Abundance,Timing,1,no,no
+Phascogale pirata (Woinarski et al. 2011a),Phascogale pirata,(Woinarski et al. 2011a),Population not in support,INCLUDE,0,Population,Abundance,Spatial,0,yes,no
