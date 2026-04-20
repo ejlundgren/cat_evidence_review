@@ -335,18 +335,72 @@ unique(nodes.sub$evidence_type)
 nodes.sub[evidence_type != "Inaccessible" | is.na(evidence_type), Peer_reviewed_source := NA]
 nodes.sub <- unique(nodes.sub)
 
+# >>> No claim core sources ---------------------------------------------
+# We missed this. Citations that terminate in another core source shouldn't happen because those core
+# sources should either cite Nothing or something.
+
+core_claims <- edges.sub[grepl("core source_claim", cited_by_id), ] |> unique()
+core_claims[, key := paste(cited_by_id, scientificName)]
+
+# I think all we need is this:
+core_claims <- core_claims$key
+
+
+edges.sub[grepl("No claim", cited_by_id)]
+
+edges.sub[, temp_key := paste(article_id, scientificName)]
+temp <- edges.sub[grepl("core source_claim", temp_key) &
+            !temp_key %in% core_claims, ]
+edges.sub2 <- edges.sub[!(grepl("core source_claim", temp_key) &
+                          !temp_key %in% core_claims), ]
+
+temp
+temp[grepl("core source_claim", temp_key) &
+            !temp_key %in% core_claims, 
+          article_id := gsub("_claim", "_EXCLUDE_NA_No claim", article_id)]
+temp
+
+temp$temp_key <- NULL
+edges.sub2$temp_key <- NULL
+
+
+# Going to have to add the missing nodes
+unique(nodes.sub$evidence_type)
+unique(nodes.sub[evidence_type == "No claim"]$node_id)
+nodes.new <- temp[, .(article_id)]
+setnames(nodes.new, "article_id", "node_id")
+nodes.new <- nodes.new %>%
+  separate(col = node_id, into = c("article_node_name", "evidence_inclusion",
+                                   "Peer_reviewed_source", "evidence_type"),
+           sep = "_",
+           remove = F) |> setDT()
+nodes.new 
+
+setdiff(temp$article_id, nodes.new$node_id)
+setdiff(nodes.new$node_id, temp$article_id)
+unique(nodes.sub[evidence_type == "No claim"])
+
+nodes.new[, evidence_type_synthetic := "No claim"]
+nodes.new[, evidence_type_simple := "Excluded"]
+nodes.new[, in_support := "Not relevant"]
+nodes.new[, of_quality := "no"]
+nodes.new[, has_data := NA]
+
+
+edges.final <- rbind(temp, edges.sub2)
+nodes.final <- rbind(nodes.sub, nodes.new)
+nodes.final <- unique(nodes.final)
+
 # >>> Test that network works ---------------------------------------------
 
-igraph.gr <- igraph::graph_from_data_frame(d = edges.sub, 
-                                           vertices = nodes.sub,
+igraph.gr <- igraph::graph_from_data_frame(d = edges.final, 
+                                           vertices = nodes.final,
                                            directed = T)
 igraph.gr
 
-
-
 # >>> Save --------------------------------------------------
-fwrite(nodes.sub, "builds/citation_network/nodes.csv")
-fwrite(edges.sub, "builds/citation_network/edges.csv")
+fwrite(nodes.final, "builds/citation_network/nodes.csv")
+fwrite(edges.final, "builds/citation_network/edges.csv")
 
 
 
