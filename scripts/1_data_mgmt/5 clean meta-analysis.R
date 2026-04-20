@@ -19,33 +19,16 @@ get_r <- function(x, y){
   return(out$estimate)
 }
 
-source("../../Meta_Methods_UAlberta/package_development/metatools_dev/scripts/1_functions/convert_effect_sizes.R")
+# Copying from separate directory:
+run <- FALSE
+if(run){
+  file.copy("../../Meta_Methods_UAlberta/package_development/metatools_dev/scripts/1_functions/convert_effect_sizes.R",
+            "scripts/functions/convert_effect_sizes.R")
+  file.copy("../../Meta_Methods_UAlberta/package_development/metatools_dev/data/conversion_formulas.csv",
+            "scripts/functions/conversion_formulas.csv")
+}
 
-#' [Study notes] The SMDs are weird as hell.
-#
-#' *Blanvillain 2002 (ES44, 45, 46):* surveyed a bunch of islands. Some have
-# cats, some don't. Survey effort varied between islands. Then reported
-# abuindance and relative abundance of birds on those islands Currently, ADW
-# summarized mean/sd, with islands as the N
-#
-#' *Massaro and Blair (ES_50)*: Breeding sites on islands with and without cats,
-# with multiple breeding sites for some islands. ADW used number of islands as N.
-# They present+SD across breeding locations (with response as number of
-# individuals)
-#
-#' *Marks and Redmond (ES_47)* Surveys at two islands before and after cat eradication.
-# Since there aren't enough surveys within an island/treatment combo, ADW combined the islands
-# and N is the number of surveys before/after.
-#
-#' *Moseby (ES_12):* Surveys inside and outside a fenced cat-free site. N = total number of surveys
-#
-# The odds ratios are by number of islands or sites (presence absence for birds and cats)
-# Some SMD are sort of the same (right now), others have to be analzyed by effort.
-
-# OK. So Blanvillain 2002 == SMD, but convert to OR. Survey based studies analyzed separately as SMD.
-# I think N for Massaro and Blair should be breeding locations.
-
-# ES44, 45, 46, ES_50 <- convert these to OR
+source("scripts/functions/convert_effect_sizes.R")
 
 #0. Load data ---------------------------------------------------------------
 
@@ -85,7 +68,6 @@ ns[, analysis_effect_size := fcase(analysis_group == "Short-term abundance", "Zr
                                                          "Before-after eradication reproduction"), "SMD",
                                    analysis_group %in% c("Long-term abundance"), "OR"
                          )]
-
 
 # 1. Zr ---------------------------------------------------------
 
@@ -167,6 +149,7 @@ cor.smd <- convert_effect_sizes(from = "r",
                      to = "SMD",
                      r = r, n = n,
                      bind = TRUE,
+                     formula_path = "scripts/functions/conversion_formulas.csv",
                      data = cor.smd) |> setDT()
 setnames(cor.smd, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
 cor.smd[, analysis_effect_size := "SMD"]
@@ -277,16 +260,8 @@ ns
 # smd[converted_to == "Zr"]
 
 # >>> Convert -------------------------------------------------------------
-convert_effect_sizes()
+convert_effect_sizes(formula_path = "scripts/functions/conversion_formulas.csv")
 # 
-# conv_1 <- convert_effect_sizes(from = "SMD",
-#                      to = "Zr",
-#                      yi = yi_smd, vi = vi_smd,
-#                      n1 = Sample_size_overall_cats_Absent,
-#                      n2 = Sample_size_overall_cats_Present,
-#                      data = smd[converted_to == "Zr"],
-#                      bind = TRUE)
-# setnames(conv_1, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
 
 smd_final <- convert_effect_sizes(from = "SMD",
                                      to = "lnOR",
@@ -294,7 +269,8 @@ smd_final <- convert_effect_sizes(from = "SMD",
                                      n1 = Sample_size_overall_cats_Absent,
                                      n2 = Sample_size_overall_cats_Present,
                                      data = smd,
-                                     bind = TRUE)
+                                     bind = TRUE,
+                                  formula_path = "scripts/functions/conversion_formulas.csv")
 setnames(smd_final, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
 
 
@@ -336,11 +312,12 @@ or.or[, `:=` (yi_analysis = yi_OR, vi_analysis = vi_OR, analysis_effect_size = "
 
 or.smd <- or[analysis_group == "Before-after eradication reproduction", ]
 or.smd
-convert_effect_sizes()
+convert_effect_sizes(formula_path = "scripts/functions/conversion_formulas.csv")
 
 or.smd <- convert_effect_sizes(from = "lnOR", to = "SMD", 
                                yi = yi_OR, vi = vi_OR, n1 = n1, n2 = n2,
-                               data = or.smd, bind = TRUE)
+                               data = or.smd, bind = TRUE,
+                               formula_path = "scripts/functions/conversion_formulas.csv")
 setnames(or.smd, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
 or.smd[, analysis_effect_size := "SMD"]
 
@@ -364,6 +341,8 @@ meta_combined$analysis_effect_size
 meta_combined$original_effect_size
 
 # 6. Species body mass / class ------------------------------
+# Copy phylacine over:
+#
 species <- data.table(scientificName = unique(c(meta_combined$scientificName)))
 
 species[, spp_name_corrected := scientificName]
@@ -371,7 +350,8 @@ species[scientificName == "Pampusana erythroptera", spp_name_corrected := "Galli
 species[scientificName == "Prosobonia cancellata", spp_name_corrected := "Prosobonia parvirostris"]
 
 # Mammals:
-phyl <- fread("../../../Resources/Databases/PHYLACINE_1.2.1-master/Data/Traits/Trait_data.csv")
+phyl <- fread("data/trait_databases/phylacine_traits.csv")
+
 phyl[, Binomial.1.2 := gsub("_", " ", Binomial.1.2)]
 phyl
 
@@ -381,9 +361,10 @@ species.m1 <- merge(species, phyl[, .(Binomial.1.2, Order.1.2,
                     all.x = T, all.y = F)
 species.m1
 
-# Birds
-avonet <- read_excel("../../../Resources/Databases/AVONET/AVONET Supplementary dataset 1.xlsx",
-                     "AVONET1_BirdLife") |> setDT() #AVONET1_BirdLife
+# Birds:
+
+avonet <- read_excel("data/trait_databases/AVONET Supplementary dataset 1.xlsx",
+                     "AVONET1_BirdLife") |> setDT()
 avonet
 unique(avonet$Species1)
 

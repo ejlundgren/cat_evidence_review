@@ -37,7 +37,7 @@ dat[scientificName == "Prosobonia cancellata", spp_name_corrected := "Prosobonia
 
 
 # Mammals:
-phyl <- fread("../../../Resources/Databases/PHYLACINE_1.2.1-master/Data/Traits/Trait_data.csv")
+phyl <- fread("data/trait_databases/phylacine_traits.csv")
 phyl[, Binomial.1.2 := gsub("_", " ", Binomial.1.2)]
 phyl
 
@@ -48,8 +48,7 @@ dat.m1 <- merge(dat, phyl[, .(Binomial.1.2, Order.1.2,
 dat.m1
 
 # Birds
-excel_sheets("../../../Resources/Databases/AVONET/AVONET Supplementary dataset 1.xlsx")
-avonet <- read_excel("../../../Resources/Databases/AVONET/AVONET Supplementary dataset 1.xlsx",
+avonet <- read_excel("data/trait_databases//AVONET Supplementary dataset 1.xlsx",
                      "AVONET1_BirdLife") |> setDT() #AVONET1_BirdLife
 avonet
 unique(avonet$Species1)
@@ -352,7 +351,7 @@ dat[scientificName == "Prosobonia cancellata", spp_name_corrected := "Prosobonia
 # >>> Get class ---------------------------------------------------------------
 
 # Mammals:
-phyl <- fread("../../../Resources/Databases/PHYLACINE_1.2.1-master/Data/Traits/Trait_data.csv")
+phyl <- fread("data/trait_databases/phylacine_traits.csv")
 phyl[, Binomial.1.2 := gsub("_", " ", Binomial.1.2)]
 phyl
 
@@ -363,8 +362,7 @@ dat.m1 <- merge(dat, phyl[, .(Binomial.1.2, Order.1.2,
 dat.m1
 
 # Birds
-excel_sheets("../../../Resources/Databases/AVONET/AVONET Supplementary dataset 1.xlsx")
-avonet <- read_excel("../../../Resources/Databases/AVONET/AVONET Supplementary dataset 1.xlsx",
+avonet <- read_excel("data/trait_databases/AVONET Supplementary dataset 1.xlsx",
                      "AVONET1_BirdLife") |> setDT() #AVONET1_BirdLife
 avonet
 unique(avonet$Species1)

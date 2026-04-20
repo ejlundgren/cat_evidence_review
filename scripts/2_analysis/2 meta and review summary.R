@@ -197,8 +197,14 @@ Ns
 guide <- merge(guide, Ns[, .(n_species, n_articles, n_obs, model_id)], by = "model_id")
 guide[n_articles == 0, ]
 
+# at least 3 articles for intercept only models
 guide <- guide[n_articles >= 3, ]
 guide
+
+# and at least 5 for continuous
+guide <- guide[!(moderator == "log_mass" & n_articles < 5), ]
+guide
+
 
 # >>> Download phylogeny ---------------------------------------------
 dat.long[, spp_name_corrected := scientificName]
@@ -209,7 +215,6 @@ nms <- unique(dat.long$spp_name_corrected)
 (nms_res <- tnrs_match_names(nms))
 nms_res[]
 tnrs_match_names("Prosobonia cancellata")
-
 #
 #
 tree <- tol_induced_subtree(ott_ids = nms_res$ott_id)
