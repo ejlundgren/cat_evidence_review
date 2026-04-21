@@ -192,6 +192,8 @@ terminus_edges <- rbindlist(graph_list)
 terminus_edges[distance_to_terminus > 2, ]
 # OK. I think this worked.
 
+
+# There shouldn't be a core source_claim in article id (instead those would be Nothing cited)
 terminus_edges[grepl("core source", article_id)]
 
 which(guide$scientificName == "Perameles eremiana")
@@ -203,8 +205,6 @@ terminus_edges[grepl("nothing", article_id, ignore.case = T)]
 # Save this for double checking
 fwrite(terminus_edges[grepl("core source", article_id)],
        "builds/citation_network/check_core_source_terminus.csv")
-
-
 
 # >>> Extract data from simplified network -------------------------------------------------------
 terminus_edges
@@ -224,8 +224,11 @@ nodes[evidence_type == "No citation given", evidence_type_simple := "No citation
 
 terminus_edges[grepl("Opportunistic", cited_by_id)]
 
+unique(nodes$evidence_type_fine)
+
 terminus_edges.mrg <- merge(terminus_edges,
                             nodes[, .(node_id, article_node_name, Peer_reviewed_source,  in_support,
+                                      evidence_type_fine,
                                       evidence_type_synthetic, has_data, of_quality)],
                             by.x = "article_id",
                             by.y = "node_id")
@@ -288,6 +291,7 @@ evidence_years
 # This may increase number of rows because there are multiple evidence types per article
 evidence_years.mrg <- merge(evidence_years,
                             unique(nodes[, .(article_node_name, node_id, evidence_inclusion, Peer_reviewed_source,
+                                             evidence_type_fine,
                                              evidence_type_synthetic, in_support, has_data, of_quality)]),
                             by.x = "value",
                             by.y = "article_node_name",
@@ -316,6 +320,7 @@ nodes[article_node_name == "(Gillies et al. 2003)"]
 #
 x <- setdiff(evidence_years.mrg$scientificName, terminus_simple$scientificName)
 x
+
 # Ahh excluded species
 # Ok so what are these??
 raw_dat[scientificName %in% x & exclude_species == "included_species"]
@@ -336,7 +341,8 @@ terminus_simple[article_node_name == "(Gillies et al. 2003)"]
 # Right these are NOTHING citations
 #
 terminus_exploded <- merge(evidence_years.mrg[, .(scientificName, potential_node, potential_evidence, pub_year, Peer_reviewed_source,
-                                                  evidence_inclusion, evidence_type_synthetic, in_support, has_data, of_quality)],
+                                                  evidence_inclusion, evidence_type_fine,
+                                                  evidence_type_synthetic, in_support, has_data, of_quality)],
                            terminus_simple[, .(scientificName, cited_by_id, source_year, article_id)],
                            by = "scientificName",
                            all.x = T,
@@ -344,6 +350,7 @@ terminus_exploded <- merge(evidence_years.mrg[, .(scientificName, potential_node
                            allow.cartesian = TRUE)
 nrow(terminus_simple)
 nrow(terminus_exploded)
+terminus_exploded$evidence_type_fine
 terminus_exploded
 
 terminus_exploded[potential_node == "(Gillies et al. 2003)"]
@@ -365,7 +372,8 @@ terminus_exploded
 terminus_exploded <- terminus_exploded[, .SD[which.max(cited), !c("article_id")],
                                        by = .(scientificName, cited_by_id, source_year, Peer_reviewed_source,
                                               potential_node, potential_evidence, pub_year,
-                                              evidence_inclusion, evidence_type_synthetic,
+                                              evidence_inclusion, evidence_type_fine,
+                                              evidence_type_synthetic,
                                               in_support, has_data, of_quality)] |> unique()
 names(terminus_exploded)
 # terminus_exploded <- unique(terminus_exploded[, .(scientificName, cited_by_id, source_year, potential_node, potential_evidence,

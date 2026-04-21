@@ -205,7 +205,6 @@ guide
 guide <- guide[!(moderator == "log_mass" & n_articles < 5), ]
 guide
 
-
 # >>> Download phylogeny ---------------------------------------------
 dat.long[, spp_name_corrected := scientificName]
 dat.long[scientificName == "Pampusana erythroptera",
@@ -537,7 +536,7 @@ dat.long[analysis_group_collapsed %in% "abundance_Zr", .(n = uniqueN(Article)),
 class.abundance <- ggplot()+
   geom_hline(yintercept = 0, linetype = "dashed")+
   geom_text(data = class[analysis_group_collapsed %in% "abundance_Zr", ],
-            aes(x = class, y = -2, hjust = 1,
+            aes(x = class, y = -3, hjust = 1,
                 label = string),
             size = 3)+
   geom_jitter(data = dat.long[analysis_group_collapsed %in% "abundance_Zr"], 
@@ -599,7 +598,7 @@ class.long.abundance <- ggplot()+
                   size = 1)+
   # coord_cartesian(ylim = c(-4, 4))+
   xlab(NULL)+
-  ylab("Long-term abundance (ln Odds Ratio)")+
+  ylab("Long-term abundance (log Odds Ratio)")+
   guides(size = "none")+
   theme_bw()+
   theme(panel.grid = element_blank(),
@@ -608,7 +607,6 @@ class.long.abundance <- ggplot()+
         strip.background = element_blank(),
         panel.border = element_blank())
 class.long.abundance
-
 
 class.reproduction <- ggplot()+
   geom_hline(yintercept = 0, linetype = "dashed")+
@@ -801,7 +799,7 @@ labels <- as_labeller(c("abundance_Zr" = "Short-term abundance",
 p1.si <- ggplot()+
   geom_hline(yintercept = 0, linetype = "dashed")+
   geom_text(data = intercepts[analysis_group_collapsed %in% "abundance_Zr"], 
-            aes(x = "All species", y = -2, #hjust = 2,
+            aes(x = "All species", y = -3, #hjust = 2,
                 label = string),
             size = 3)+
   geom_jitter(data = dat.long[analysis_group_collapsed %in% "abundance_Zr" &
@@ -841,7 +839,7 @@ p1.si
 p2.si <- ggplot()+
   geom_hline(yintercept = 0, linetype = "dashed")+
   geom_text(data = intercepts[analysis_group_collapsed %in% "abundance_lnOR"], 
-            aes(x = "All species", y = -2, #hjust = 2,
+            aes(x = "All species", y = -3, hjust = 2,
                 label = string),
             size = 3)+
   geom_jitter(data = dat.long[analysis_group_collapsed %in% "abundance_lnOR" &
@@ -863,6 +861,7 @@ p2.si <- ggplot()+
                       ymin = lower_pi, ymax = upper_pi),
                   shape = 21, fill = "grey50",
                   size = 1)+
+  coord_cartesian(ylim = c(-4, 4))+
   # facet_wrap(~analysis_group_collapsed, scales = "free_y",
   #            labeller = labels,
   #            strip.position = "bottom")+
@@ -929,7 +928,8 @@ p2.si
 
 # >>> Patchwork -----------------------------------------------------------
 
-p1.si + p2.si + plot_layout(guides = "collect") &
+p1.si + p2.si + plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A") &
   theme(legend.position = "none")
 
 ggsave("figures/SI/meta dominant effect size.pdf",
@@ -942,7 +942,8 @@ ggsave("figures/SI/meta dominant effect size.png",
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Other SI plots ----------------------------------------------------------
-class.abundance + class.long.abundance# + class.reproduction
+class.abundance + class.long.abundance + plot_annotation(tag_levels = "A")
+
 ggsave("figures/SI/meta effects by class.pdf",
        width = 7, height = 6)
 ggsave("figures/SI/meta effects by class.png",

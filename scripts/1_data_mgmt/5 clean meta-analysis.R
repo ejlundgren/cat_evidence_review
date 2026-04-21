@@ -407,89 +407,11 @@ species.m2[spp_name_corrected == "Gallicolumba erythroptera", `:=` (Order_final 
 
 species.m2[is.na(class), ]
 
-# 7. Island vs continent (and continent name) --------------------------------------------------
-
-# meta_combined[, key := .GRP, by = .(Latitude, Longitude)]
-meta_combined[Study_location == "Gulf of California"]
-
-locations <- meta_combined[, .(Study_location, Latitude, Longitude)]
-
-locations <- unique(locations)
-
-locations <- locations %>% st_as_sf(x = ., coords = c("Longitude", "Latitude"), crs=4326)
-locations
-
-# Quick map for checking
-# library("webshot")
-# x <- mapview(locations, zcol = "Study_location")
-# mapshot(
-#   x,
-#   url = "figures/temp/meta map.html",
-#   file = "figures/temp/meta map.png"
-# )
-
-#
-continents <- st_read("../../../Resources/Spatial/ESRI_continents/")
-continents
-mapview(continents)
-
-#
-continents.multi <- continents %>%
-  st_cast("POLYGON") %>%
-  mutate(area = st_area(.))
-
-continents.multi.assigned <- continents.multi %>%
-  # group_by(CONTINENT) %>%
-  arrange(CONTINENT, -area) %>%
-  group_by(CONTINENT) %>%
-  mutate(n_polys = n())
-
-continents.multi.assigned %>% filter(CONTINENT == "Asia")
- 
-continents.multi.assigned <- continents.multi.assigned %>%
-  group_by(CONTINENT) %>%
-  mutate(max_size = max(area)) %>%
-  mutate(continent_island = ifelse(area == max_size, "Continent", "Island"))#c("Continent", rep("Island", times = (n_polys-1))))
-
-continents.multi.assigned %>% filter(continent_island == "Continent") %>% mapview()
-# OK.
-
-# Now join:
-locations.jnd <- st_join(locations,
-                         continents.multi.assigned)
-
-locations.jnd %>% filter(is.na(continent_island)) %>% pull(Study_location)
-locations.jnd %>% filter(is.na(continent_island)) %>% mapview()
-
-# ALl islands but with different continents...
-unique(continents$CONTINENT)
-
-locations.jnd <- locations.jnd %>%
-  mutate(CONTINENT = ifelse(Study_location %in% c("Tuamotu Archipelago, French Polynesia", 
-                                                  "Aitutaki", "Phoenix Islands", "Little Barrier Island"), "Oceania", CONTINENT),
-         continent_island = ifelse(Study_location %in% c("Tuamotu Archipelago, French Polynesia", 
-                                                         "Aitutaki", "Phoenix Islands", "Little Barrier Island"), "Island", continent_island)) %>%
-  mutate(CONTINENT = ifelse(Study_location == "Turks and Caicos Islands", "North America", CONTINENT),
-         continent_island = ifelse(Study_location == "Turks and Caicos Islands", "Island", continent_island)) %>%
-  mutate(CONTINENT = ifelse(Study_location == "Port-Cros", "Europe", CONTINENT),
-         continent_island = ifelse(Study_location == "Port-Cros", "Island", continent_island)) 
-
-# locations.jnd %>% filter(is.na(continent_island)) %>% mapview()
-
-locations.dat <- locations.jnd %>%
-  cbind(., st_coordinates(.)) %>%
-  as.data.frame() %>%
-  select(Study_location, CONTINENT, continent_island, X, Y) %>%
-  setDT()
-
-locations.dat[continent_island == "Continent", ]
-
 # 8. Merge traits and locations into dataset ---------------------------------
 meta_combined.mrg <- merge(meta_combined,
                            species.m2[, .(scientificName, Order_final, Mass_g_final, class)],
                            by = "scientificName",
-                           all.x = T) |>
-  merge(locations.dat, by = "Study_location")
+                           all.x = T)
 
 nrow(meta_combined.mrg) == nrow(meta_combined)
 # Must be TRUE
@@ -497,9 +419,6 @@ meta_combined.mrg[duplicated(Effect_size_ID)]
 # Must be 0 rows
 
 meta_combined.mrg[is.na(class), ]
-
-
-
 
 # 9. Analysis groups ---------------------------------------------------------
 
@@ -518,6 +437,14 @@ meta_combined.mrg <- meta_combined.mrg[!scientificName %in% c("Dasyurus maculatu
                                                               "Fossa fossana",
                                                               "Cryptoprocta ferox")]
 
+
+
+# >>> Check for duplicates by ID ------------------------------------------
+
+meta_combined.mrg[duplicated(Effect_size_ID)]
+meta_combined.mrg[Effect_size_ID == "ES_38a", ]
+meta_combined.mrg[Effect_size_ID == "ES_38b", ]
+meta_combined.mrg[Effect_size_ID == "ES_43", ]
 
 # 10 Save --------------------------------------------------------------------
 # Let's have arian check the labels:

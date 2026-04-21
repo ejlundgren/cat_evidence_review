@@ -16,7 +16,6 @@ library("ggraph")
 library("readxl")
 library("stringr")
 library("patchwork")
-library("glmmTMB")
 library("broom")
 library("broom.mixed")
 
@@ -154,8 +153,6 @@ nrow(dat.m1)
 dat.m1 <- unique(dat.m1)
 dat.m1
 
-dat.m1
-
 # >>> Make sure article_id of core sources matches their cited_by_id... --------
 dat.m1[cited_by_id == "(Doherty et al. 2016) core source_claim" &
          grepl("IUCN", article_id)]
@@ -238,21 +235,61 @@ nodes[evidence_type_synthetic %in% c("External review without claim", "Systemati
       evidence_type_synthetic := "External review without claim"]
 nodes[evidence_type %in% c("Not in English"), evidence_type_synthetic := "Not in English or Spanish"]
 
+nodes[is.na(evidence_type)]
+nodes[is.na(evidence_type), evidence_type := evidence_type_synthetic]
+
+unique(nodes$evidence_type_synthetic)
+nodes[is.na(evidence_type_synthetic)]
+
+unique(nodes$evidence_type)
+
+nodes[evidence_type == "Model no pop data", evidence_type := "Modelling without data"]
+nodes[evidence_type_synthetic == "Model no pop data", evidence_type_synthetic := "Modelling without data"]
+
+nodes[, evidence_type_fine := evidence_type_synthetic]
+
+# Coarsen the evidence categories for primary plots
+sort(unique(nodes$evidence_type_synthetic))
+
+nodes[evidence_type_synthetic %in% c("Failure to access or locate online full citation",
+                                     "Personal communication", "Not in English or Spanish",
+                                     "Unpublished data or article",
+                                     "Missing reference"),
+      evidence_type_synthetic := "Inaccessible"]
+
+
+nodes[evidence_type %in% c("Failure to access or locate online full citation",
+                                     "Personal communication", "Not in English or Spanish",
+                           "Unpublished data or article",
+                                     "Missing reference"),
+      evidence_type := "Inaccessible"]
+
+
+
+nodes[evidence_type %in% c("Expert opinion",
+                           "Modelling without data"),
+      evidence_type := "Does not test claim"]
+
+
+nodes[evidence_type_synthetic %in% c("Expert opinion",
+                           "Modelling without data"),
+      evidence_type_synthetic := "Does not test claim"]
+
 # >>> Format some factor values ------------------------------------------------------
 edges <- dat.m1[, .(cited_by_id, article_id, edge_type,
                     scientificName, encounter_method)]
 
 # Set factor levels of node types
 sort(unique(nodes$evidence_type_synthetic))
-          lvls <- c("Core claim", "External review without claim", 
-                    "Opinion claim", "Inaccessible", "Not in English or Spanish",
-                    "Does not test claim", "Cites different core source",
-                    "No claim",
-                    "Predation not in support without data", "Predation in support without data",
-                    "Control program not in support without data", "Control program in support without data",
-                    "Population not in support without data", "Population in support without data",
-                    "Population not in support with data", "Population in support with data",
-                    "Population not in support with data of quality", "Population in support with data of quality")
+lvls <- c("Core claim", "External review without claim", 
+          "Opinion claim", "Inaccessible", 
+          "Does not test claim", "Cites different core source",
+          "No claim",
+          "Predation not in support without data", "Predation in support without data",
+          "Control program not in support without data", "Control program in support without data",
+          "Population not in support without data", "Population in support without data",
+          "Population not in support with data", "Population in support with data",
+          "Population not in support with data of quality", "Population in support with data of quality")
 
 nodes[is.na(evidence_type_synthetic)]
 setdiff(unique(nodes$evidence_type_synthetic), lvls)
@@ -294,15 +331,19 @@ nodes$evidence_type_simple <- factor(nodes$evidence_type_simple,
                                                 "Excluded", "Predation without data",
                                                 "Control program without data", "Population without data", 
                                                 "Population with data"))
-nodes
+unique(nodes$evidence_type_simple)
 
 edges[scientificName == "Pseudobulweria becki"]
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 # Save nodes and edges ----------------------------------------------------
+unique(edges$edge_type)
 
-edges.sub <- edges[edge_type == "citation", ]
+edges[edge_type == "core_source_that_provided_primary_evidence"]
+edges[edge_type == "core_source_that_provided_primary_evidence", edge_type := "citation"]
+
+edges.sub <- edges[edge_type %in% c("citation"), ]
 
 setdiff(edges.sub$cited_by_id, nodes$node_id)
 setdiff(edges.sub$article_id, nodes$node_id)
@@ -339,6 +380,7 @@ nodes.sub <- unique(nodes.sub)
 # We missed this. Citations that terminate in another core source shouldn't happen because those core
 # sources should either cite Nothing or something.
 
+#' [This apparently didn't work...]
 core_claims <- edges.sub[grepl("core source_claim", cited_by_id), ] |> unique()
 core_claims[, key := paste(cited_by_id, scientificName)]
 
@@ -363,7 +405,6 @@ temp
 temp$temp_key <- NULL
 edges.sub2$temp_key <- NULL
 
-
 # Going to have to add the missing nodes
 unique(nodes.sub$evidence_type)
 unique(nodes.sub[evidence_type == "No claim"]$node_id)
@@ -378,15 +419,25 @@ nodes.new
 
 setdiff(temp$article_id, nodes.new$node_id)
 setdiff(nodes.new$node_id, temp$article_id)
-unique(nodes.sub[evidence_type == "No claim"])
+unique(nodes.sub[evidence_type == "No claim"]$evidence_type_fine)
 
+nodes.new[, evidence_type_fine := "No claim"]
 nodes.new[, evidence_type_synthetic := "No claim"]
 nodes.new[, evidence_type_simple := "Excluded"]
 nodes.new[, in_support := "Not relevant"]
 nodes.new[, of_quality := "no"]
 nodes.new[, has_data := NA]
+#
+
+temp[scientificName == "Mundia elpenor", ]
+edges.sub[scientificName == "Mundia elpenor", ]
+edges[scientificName == "Mundia elpenor", ]
+
+temp[scientificName == "Pezophaps solitaria", ]
+edges.sub[scientificName == "Pezophaps solitaria", ]
 
 
+#
 edges.final <- rbind(temp, edges.sub2)
 nodes.final <- rbind(nodes.sub, nodes.new)
 nodes.final <- unique(nodes.final)
