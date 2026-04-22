@@ -1019,7 +1019,7 @@ gtsave(only_dominant, filename = "figures/SI/only dominant effect size models.pd
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Systematic review panel -------------------------------------------------
-sys_rev <- fread("builds/systematic_review_tidy.csv")
+sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 sys_rev
 
 sys_rev[spp_name_corrected == "Dasyurus maculatus"]$exclude_species
@@ -1149,7 +1149,7 @@ p.sys
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Best evidence per species -----------------------------------------------------------
-claims <- fread("builds/species_claims_tidy_populated.csv")
+claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 claims
 # claims[duplicated(scientificName)]
 # claims[scientificName == "Coenocorypha pusilla", Synonyms_or_previous_lump := "Coenocorypha aucklandica"]
