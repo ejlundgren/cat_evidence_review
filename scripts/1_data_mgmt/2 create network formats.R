@@ -16,7 +16,6 @@ library("ggraph")
 library("readxl")
 library("stringr")
 library("patchwork")
-library("glmmTMB")
 library("broom")
 library("broom.mixed")
 
@@ -154,8 +153,6 @@ nrow(dat.m1)
 dat.m1 <- unique(dat.m1)
 dat.m1
 
-dat.m1
-
 # >>> Make sure article_id of core sources matches their cited_by_id... --------
 dat.m1[cited_by_id == "(Doherty et al. 2016) core source_claim" &
          grepl("IUCN", article_id)]
@@ -238,21 +235,61 @@ nodes[evidence_type_synthetic %in% c("External review without claim", "Systemati
       evidence_type_synthetic := "External review without claim"]
 nodes[evidence_type %in% c("Not in English"), evidence_type_synthetic := "Not in English or Spanish"]
 
+nodes[is.na(evidence_type)]
+nodes[is.na(evidence_type), evidence_type := evidence_type_synthetic]
+
+unique(nodes$evidence_type_synthetic)
+nodes[is.na(evidence_type_synthetic)]
+
+unique(nodes$evidence_type)
+
+nodes[evidence_type == "Model no pop data", evidence_type := "Modelling without data"]
+nodes[evidence_type_synthetic == "Model no pop data", evidence_type_synthetic := "Modelling without data"]
+
+nodes[, evidence_type_fine := evidence_type_synthetic]
+
+# Coarsen the evidence categories for primary plots
+sort(unique(nodes$evidence_type_synthetic))
+
+nodes[evidence_type_synthetic %in% c("Failure to access or locate online full citation",
+                                     "Personal communication", "Not in English or Spanish",
+                                     "Unpublished data or article",
+                                     "Missing reference"),
+      evidence_type_synthetic := "Inaccessible"]
+
+
+nodes[evidence_type %in% c("Failure to access or locate online full citation",
+                                     "Personal communication", "Not in English or Spanish",
+                           "Unpublished data or article",
+                                     "Missing reference"),
+      evidence_type := "Inaccessible"]
+
+
+
+nodes[evidence_type %in% c("Expert opinion",
+                           "Modelling without data"),
+      evidence_type := "Does not test claim"]
+
+
+nodes[evidence_type_synthetic %in% c("Expert opinion",
+                           "Modelling without data"),
+      evidence_type_synthetic := "Does not test claim"]
+
 # >>> Format some factor values ------------------------------------------------------
 edges <- dat.m1[, .(cited_by_id, article_id, edge_type,
                     scientificName, encounter_method)]
 
 # Set factor levels of node types
 sort(unique(nodes$evidence_type_synthetic))
-          lvls <- c("Core claim", "External review without claim", 
-                    "Opinion claim", "Inaccessible", "Not in English or Spanish",
-                    "Does not test claim", "Cites different core source",
-                    "No claim",
-                    "Predation not in support without data", "Predation in support without data",
-                    "Control program not in support without data", "Control program in support without data",
-                    "Population not in support without data", "Population in support without data",
-                    "Population not in support with data", "Population in support with data",
-                    "Population not in support with data of quality", "Population in support with data of quality")
+lvls <- c("Core claim", "External review without claim", 
+          "Opinion claim", "Inaccessible", 
+          "Does not test claim", "Cites different core source",
+          "No claim",
+          "Predation not in support without data", "Predation in support without data",
+          "Control program not in support without data", "Control program in support without data",
+          "Population not in support without data", "Population in support without data",
+          "Population not in support with data", "Population in support with data",
+          "Population not in support with data of quality", "Population in support with data of quality")
 
 nodes[is.na(evidence_type_synthetic)]
 setdiff(unique(nodes$evidence_type_synthetic), lvls)
@@ -294,15 +331,19 @@ nodes$evidence_type_simple <- factor(nodes$evidence_type_simple,
                                                 "Excluded", "Predation without data",
                                                 "Control program without data", "Population without data", 
                                                 "Population with data"))
-nodes
+unique(nodes$evidence_type_simple)
 
 edges[scientificName == "Pseudobulweria becki"]
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 # Save nodes and edges ----------------------------------------------------
+unique(edges$edge_type)
 
-edges.sub <- edges[edge_type == "citation", ]
+edges[edge_type == "core_source_that_provided_primary_evidence"]
+edges[edge_type == "core_source_that_provided_primary_evidence", edge_type := "citation"]
+
+edges.sub <- edges[edge_type %in% c("citation"), ]
 
 setdiff(edges.sub$cited_by_id, nodes$node_id)
 setdiff(edges.sub$article_id, nodes$node_id)
@@ -335,18 +376,82 @@ unique(nodes.sub$evidence_type)
 nodes.sub[evidence_type != "Inaccessible" | is.na(evidence_type), Peer_reviewed_source := NA]
 nodes.sub <- unique(nodes.sub)
 
+# >>> No claim core sources ---------------------------------------------
+# We missed this. Citations that terminate in another core source shouldn't happen because those core
+# sources should either cite Nothing or something.
+
+#' [This apparently didn't work...]
+core_claims <- edges.sub[grepl("core source_claim", cited_by_id), ] |> unique()
+core_claims[, key := paste(cited_by_id, scientificName)]
+
+# I think all we need is this:
+core_claims <- core_claims$key
+
+
+edges.sub[grepl("No claim", cited_by_id)]
+
+edges.sub[, temp_key := paste(article_id, scientificName)]
+temp <- edges.sub[grepl("core source_claim", temp_key) &
+            !temp_key %in% core_claims, ]
+edges.sub2 <- edges.sub[!(grepl("core source_claim", temp_key) &
+                          !temp_key %in% core_claims), ]
+
+temp
+temp[grepl("core source_claim", temp_key) &
+            !temp_key %in% core_claims, 
+          article_id := gsub("_claim", "_EXCLUDE_NA_No claim", article_id)]
+temp
+
+temp$temp_key <- NULL
+edges.sub2$temp_key <- NULL
+
+# Going to have to add the missing nodes
+unique(nodes.sub$evidence_type)
+unique(nodes.sub[evidence_type == "No claim"]$node_id)
+nodes.new <- temp[, .(article_id)]
+setnames(nodes.new, "article_id", "node_id")
+nodes.new <- nodes.new %>%
+  separate(col = node_id, into = c("article_node_name", "evidence_inclusion",
+                                   "Peer_reviewed_source", "evidence_type"),
+           sep = "_",
+           remove = F) |> setDT()
+nodes.new 
+
+setdiff(temp$article_id, nodes.new$node_id)
+setdiff(nodes.new$node_id, temp$article_id)
+unique(nodes.sub[evidence_type == "No claim"]$evidence_type_fine)
+
+nodes.new[, evidence_type_fine := "No claim"]
+nodes.new[, evidence_type_synthetic := "No claim"]
+nodes.new[, evidence_type_simple := "Excluded"]
+nodes.new[, in_support := "Not relevant"]
+nodes.new[, of_quality := "no"]
+nodes.new[, has_data := NA]
+#
+
+temp[scientificName == "Mundia elpenor", ]
+edges.sub[scientificName == "Mundia elpenor", ]
+edges[scientificName == "Mundia elpenor", ]
+
+temp[scientificName == "Pezophaps solitaria", ]
+edges.sub[scientificName == "Pezophaps solitaria", ]
+
+
+#
+edges.final <- rbind(temp, edges.sub2)
+nodes.final <- rbind(nodes.sub, nodes.new)
+nodes.final <- unique(nodes.final)
+
 # >>> Test that network works ---------------------------------------------
 
-igraph.gr <- igraph::graph_from_data_frame(d = edges.sub, 
-                                           vertices = nodes.sub,
+igraph.gr <- igraph::graph_from_data_frame(d = edges.final, 
+                                           vertices = nodes.final,
                                            directed = T)
 igraph.gr
 
-
-
 # >>> Save --------------------------------------------------
-fwrite(nodes.sub, "builds/citation_network/nodes.csv")
-fwrite(edges.sub, "builds/citation_network/edges.csv")
+fwrite(nodes.final, "builds/citation_network/nodes.csv")
+fwrite(edges.final, "builds/citation_network/edges.csv")
 
 
 

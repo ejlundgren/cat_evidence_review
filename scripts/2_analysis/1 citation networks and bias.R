@@ -106,6 +106,7 @@ nodes[evidence_type == "No citation given", evidence_type_synthetic_simple := "N
 nodes[is.na(evidence_type_synthetic_simple)]
 nodes[evidence_type_synthetic_simple == "Control program in support without data",
       evidence_type_synthetic_simple := "Population in support without data"]
+
 #
 lvls <- c("Core claim", "External review without claim",
           # "Opportunistic",
@@ -120,6 +121,8 @@ lvls <- c("Core claim", "External review without claim",
           "Population in support without data",
           "Population in support with data")
 setdiff(nodes$evidence_type_synthetic_simple, lvls)
+
+nodes[evidence_type_synthetic_simple == "Not in English or Spanish", evidence_type_synthetic_simple := "Excluded"]
 
 nodes$evidence_type_synthetic_simple <- factor(nodes$evidence_type_synthetic_simple,
                                                levels = lvls)
@@ -283,7 +286,7 @@ ggraph(graph, layout = 'stress',
 # Reanalyze with just claims, on in support / not support
 # Sensitivity analysis with just Doherty, Medina, and Hess (all from tables no potentially text-misinterpretations)
 # 
-#
+
 # >>> Load and format data ----------------------------------------------------
 terminus_exploded_filtered <- fread("builds/citation_network/citation_probability.csv")
 
@@ -386,6 +389,8 @@ ggplot(data = pred, aes(x = in_support, y = plogis(fit),
 terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
 
 terminus_edges <- terminus_edges[cited_by_id != "Opportunistic_Systematic external review"]
+unique(terminus_edges$evidence_type_fine)
+
 # Number of citations:
 terminus_freq <- terminus_edges[, .(n = .N),
                                 by = .(cited_by_id, evidence_type_synthetic, 
@@ -398,9 +403,13 @@ sort(unique(terminus_freq$evidence_type_synthetic))
 unique(terminus_freq$cited_by_id)
 terminus_freq[grepl("Opportunistic", cited_by_id)]
 
+unique(terminus_edges$evidence_type_synthetic)
+
+unique(terminus_edges[grepl("EXCLUDE", article_id)]$evidence_type_fine)
 
 terminus_edges[evidence_type_synthetic %in% c("Does not test claim", "Inaccessible",
-                                                    "No claim", "Opinion claim"),
+                                              "Not in English or Spanish",
+                                              "No claim", "Opinion claim"),
                      evidence_type_synthetic := "Excluded"]
 
 unique(terminus_edges$cited_by_id)
@@ -416,7 +425,7 @@ terminus_freq.simple[grepl("Predation", evidence_type_synthetic), evidence_simpl
 unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_synthetic)
 terminus_freq.simple[evidence_type_synthetic %in% c("Core claim", "No citation given",
                                                     "No claim", "Inaccessible", "Opinion claim",
-                                                    "Excluded",
+                                                    "Excluded", "Not in English or Spanish",
                                                     "Does not test claim"), evidence_simple := "Excluded"]
 
 terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
@@ -467,20 +476,14 @@ terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
 
 
 #
-cites.p <- ggplot(data = terminus_freq.simple, #[making_claim == "making claim"],
-       aes(x = evidence_simple, fill = evidence_type_synthetic, 
+cites.p.included <- ggplot(data = terminus_freq.simple[evidence_simple %in% c("Population", "Predation") &
+                                                         making_claim == "making claim"], #[making_claim == "making claim"],
+       aes(y = evidence_simple, fill = evidence_type_synthetic, 
            color = of_quality, #group = in_support,# label = value, 
-           y = n
+           x = n
        ))+
-  facet_wrap(~making_claim, ncol = 1,
-             strip.position = "left",
-             labeller = as_labeller(c("making claim" = "Making claim",
-                                      "no claim" = "No claim")))+
   geom_col(lwd = 1) +
-  # geom_stratum(alpha = 1, aes(fill = type_simple, color = of_quality
-  # ),
-  # reverse = TRUE)+
-  scale_x_discrete(breaks = c("Population", "Predation", "Excluded"),
+  scale_y_discrete(breaks = c("Population", "Predation", "Excluded"),
                    labels = c("Population", "Predation", "No primary data found"))+
   scale_color_manual(name = "Of quality",
                      values = c("no" = "transparent",
@@ -488,17 +491,179 @@ cites.p <- ggplot(data = terminus_freq.simple, #[making_claim == "making claim"]
                      na.value = "black")+
   scale_fill_manual(values = fill_pal,
                     labels = labs)+
-  ylab("Terminus of citation chains\n(total number of citations)")+
-  xlab(NULL)+
+  xlab("Terminus of citation chains\n(total number of citations)")+
+  ylab(NULL)+
   # geom_text(stat = "stratum", size = 3, color = "black") +
-  coord_flip()+
+  # coord_flip()+
+  coord_cartesian(xlim = c(0, 527))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         panel.border = element_blank(),
         strip.background = element_blank(),
         strip.placement = "outside")
-cites.p
+cites.p.included
 
+# >>> evidence type fine just by sources making a claim--------------------------------------------------
+# This is really tricky...Getting the levels right...Ugh
+# I hate making plots like this...
+
+terminus_edges
+terminus_edges[evidence_type_synthetic == "No citation given", evidence_type_fine := "No citation given"]
+
+unique(terminus_edges$evidence_type_synthetic)
+
+unique(terminus_edges[grepl("EXCLUDE", article_id)]$evidence_type_fine)
+
+unique(terminus_edges[, .(evidence_type_fine, evidence_type_synthetic)])
+
+terminus_edges[, evidence_inclusion := ifelse(grepl("INCLUDE", article_id), "Evidence", "Excluded")]
+
+terminus_freq.simple <- terminus_edges[, .(n = .N),
+                                       by = .(evidence_type_fine, making_claim,
+                                              evidence_inclusion,
+                                              has_data, of_quality, in_support)]
+
+terminus_freq.simple[grepl("Population", evidence_type_fine), evidence_simple := "Population"]
+terminus_freq.simple[grepl("Predation", evidence_type_fine), evidence_simple := "Predation"]
+unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_fine)
+terminus_freq.simple[evidence_type_fine == "No citation given", evidence_simple := "No citation given"]
+
+unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_fine)
+terminus_freq.simple[is.na(evidence_simple) , evidence_simple := "Excluded"]
+
+unique(terminus_freq.simple$evidence_simple)
+terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
+                                               levels = c("No citation given", "Excluded", "Predation", "Population"))
+
+unique(terminus_freq.simple$of_quality)
+unique(terminus_freq.simple$evidence_type_fine)
+terminus_freq.simple[, evidence_type_fine := gsub(" of quality", "", evidence_type_fine)]
+
+#
+
+lvls <- c( "Core claim", 
+           "No citation given", 
+           "Failure to access or locate online full citation",
+           "No claim",
+           "Expert opinion",
+           "Unpublished data or article",
+           "Personal communication",
+           
+           "Missing reference",
+           "Does not test claim", 
+           "Not in English or Spanish", 
+           "Modelling without data",
+          
+           "Predation in support without data", 
+           "Predation not in support without data", 
+           "Population not in support without data",
+           "Population not in support with data",
+           "Population in support without data", 
+           "Population in support with data")
+
+setdiff(terminus_freq.simple$evidence_type_fine, lvls)
+
+#
+terminus_freq.simple$evidence_type_fine <- factor(terminus_freq.simple$evidence_type_fine,
+                                                       levels = rev(lvls))
+
+labs <- c(`Core claim` = "Core claim", `No citation given` = "No citation given", 
+          `Modelling without data` = "Modelling without data", `Does not test claim` = "Does not test claim", 
+          `Personal communication` = "Personal communication", `Missing reference` = "Missing reference", 
+          `Unpublished data or article` = "Unpublished", 
+          `Not in English or Spanish` = "Not in English or Spanish", `Expert opinion` = "Expert opinion", 
+          `Failure to access or locate online full citation` = "Unavailable", 
+          `No claim` = "No claim", `Predation in support without data` = "Predation in support without data", 
+          `Predation not in support without data` = "Predation not in support without data", 
+          `Population not in support without data` = "Population not in support without data", 
+          `Population not in support with data` = "Population not in support with data",  
+          `Population in support without data` = "Population in support without data", 
+          `Population in support with data` = "Population in support with data"
+)
+
+unique(terminus_freq.simple$evidence_simple)
+terminus_freq.simple[is.na(evidence_simple), evidence_simple := "No citation given"]
+# terminus_freq.simple[evidence_simple %in% c("Population", "Predation"),
+#                      evidence_simple := evidence_type_fine]
+
+unique(terminus_freq.simple$evidence_simple)
+fill_pal <- c(`Excluded` = "grey", `No citation given` = "black", 
+              `Predation in support without data` = "#a6d3a0", 
+              `Predation not in support without data` = "#40531b", 
+              `Population not in support without data` = "indianred4", 
+              `Population not in support with data` = "indianred", 
+              # `Population not in support with data of quality` = "indianred", 
+              `Population in support without data` = "dodgerblue4", 
+              `Population in support with data` = "dodgerblue"#,
+              # `Population in support with data of quality` = "dodgerblue"
+              )
+setdiff(terminus_freq.simple$evidence_simple, names(fill_pal))
+
+terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
+
+#
+max(terminus_freq.simple[making_claim == "making claim" &
+                           evidence_inclusion == "Excluded"]$n)
+
+terminus_freq.simple
+cites.p.excluded <- ggplot(data = terminus_freq.simple[making_claim == "making claim" &
+                                                         evidence_inclusion == "Excluded"], 
+                  aes(y = evidence_type_fine, fill = evidence_simple, 
+                      color = of_quality, 
+                      x = n
+                  ))+
+  geom_col(lwd = 1) +
+  # facet_wrap(~evidence_inclusion, scales = "free_y")+
+  scale_color_manual(name = "Of quality",
+                     values = c("no" = "transparent",
+                                "yes" = "gold"),
+                     na.value = "black")+
+  scale_fill_manual(values = fill_pal,
+                    labels = labs)+
+  scale_y_discrete(breaks = names(labs),
+                   labels = labs)+
+  xlab("Terminus of citation chains\n(total number of citations)")+
+  ylab(NULL)+
+  # geom_text(stat = "stratum", size = 3, color = "black") +
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        strip.background = element_blank(),
+        panel.border = element_blank(),
+        legend.position = "none")
+cites.p.excluded
+
+
+# terminus_freq.simple[]
+# 
+# terminus_freq.simple[making_claim == "making claim" &
+#                        evidence_inclusion == "Evidence"]
+#
+
+
+#
+# cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making claim" &
+#                                                          evidence_inclusion == "Evidence"], 
+#                            aes(y = evidence_simple, fill = evidence_type_fine, 
+#                                color = of_quality, group = in_support,
+#                                x = n
+#                            ))+
+#   geom_col(lwd = 1, position = position_dodge()) +
+#   facet_wrap(~evidence_inclusion, scales = "free_y")+
+#   scale_color_manual(name = "Of quality",
+#                      values = c("no" = "transparent",
+#                                 "yes" = "gold"),
+#                      na.value = "black")+
+#   scale_fill_manual(values = fill_pal,
+#                     labels = labs)+
+#   xlab("Terminus of citation chains\n(total number of citations)")+
+#   ylab(NULL)+
+#   # geom_text(stat = "stratum", size = 3, color = "black") +
+#   theme_bw()+
+#   theme(panel.grid = element_blank(),
+#         strip.background = element_blank(),
+#         panel.border = element_blank(),
+#         legend.position = "none")
+# cites.p.included
 
 # >>> By class ------------------------------------------------------------
 spp <- fread("builds/claims/species_claims_tidy_populated.csv")
@@ -635,19 +800,36 @@ cites.p.class
 
 ggsave("figures/SI/citation terminus by class.pdf", width = 12, height = 8)
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 
 # Patchwork ---------------------------------------------------------------
 # right_bar <- (alluv.p + citation.p) + plot_layout(heights = c(.66, .33))
 # (p1 + theme(legend.position = "bottom")) + right_bar + plot_layout(widths = c(.75, .25))
-
-(p1 + theme(legend.position = "none")) / 
-  (cites.p + theme(legend.position = "none") + citation.p + plot_layout(widths = c(.66, .33)))
+# 
+# (p1 + theme(legend.position = "none")) / 
+#   (cites.p + theme(legend.position = "none") + citation.p + plot_layout(widths = c(.66, .33)))
 # right_bar <- ((cites.p + theme(legend.position = "none")) / citation.p) 
 # (p1 + theme(legend.position = "bottom")) + right_bar + plot_layout(widths = c(.66, .33))
 
+# ggsave("figures/main_text/citations_raw.pdf", width = 8.5, height = 11,
+#        device = cairo_pdf)
+
+
+# Alternative:
+citation.p.flip <- citation.p + coord_flip()
+citation.p.flip
+
+cites.p.included <- cites.p.included + theme(legend.position = "none")
+
+(p1 + theme(legend.position = "none")) / 
+  (cites.p.excluded + theme(legend.position = "none") + 
+     cites.p.included / citation.p.flip)
+
 ggsave("figures/main_text/citations_raw.pdf", width = 8.5, height = 11,
        device = cairo_pdf)
+# cites.p.excluded + cites.p.included
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 
@@ -660,798 +842,4 @@ unique(excluded[is.na(Peer_reviewed_source)]$article_node_name)
 excluded[, .(n = uniqueN(article_node_name)), by = .(Peer_reviewed_source)]
 
 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# OLD ---------------------------------------------------------------------
-
-# >>> Test ggalluvial -----------------------------------------------------
-#' 
-#' test <- alluvial::Refugees
-#' setDT(test)
-#' 
-#' test[, year := c(rep("<2000", 50),
-#'                  rep(">2000", 60))]
-#' test[1:16, outcome := c(rep("A", 8),
-#'                         rep("B", 8))]
-#' 
-#' ggplot(data = test,
-#'        aes(y = refugees, axis1 = country, axis2 = year, axis3 = outcome))+
-#'   geom_alluvium(width = 1/12) +
-#'   geom_stratum(width = 1/12, fill = "black", color = "grey")
-#' 
-#' # >>> Test plot 1 ---------------------------------------------------------
-#' 
-#' terminus_freq[, evidence_type_synthetic := gsub(" of quality", "", evidence_type_synthetic)]
-#' unique(terminus_freq$evidence_type_synthetic)
-#' unique(terminus_freq$in_support)
-#' 
-#' terminus_freq[grepl("Predation", evidence_type_synthetic), 
-#'               evidence_type_synthetic := gsub(" with data", "", evidence_type_synthetic)]
-#' terminus_freq[grepl("Predation", evidence_type_synthetic), 
-#'               evidence_type_synthetic := gsub(" without data", "", evidence_type_synthetic)]
-#' unique(terminus_freq$evidence_type_synthetic)
-#' 
-#' fill_pal <- c(`Core claim` = "hotpink", `External review without claim` = "pink", 
-#'                Inaccessible = "grey", `Does not test claim` = "grey",
-#'                `Opinion claim` = "grey", `No claim` = "grey",
-#'                `No citation given` = "black", 
-#'                `Predation in support` = "#749C75", `Predation not in support` = "#F8FA90", 
-#'                `Population not in support without data` = "indianred4", `Population not in support with data` = "indianred", 
-#'                `Population in support without data` = "dodgerblue4", `Population in support with data` = "dodgerblue"
-#' )
-#' 
-#' setdiff(unique(terminus_freq$evidence_type_synthetic), names(node_fill))
-#' 
-#' # setdiff(names(node_fill), unique(terminus_freq$evidence_type_synthetic))
-#' # I think we'll have to color those in inkscape. Might look stupid anyways.
-#' 
-#' #
-#' ggplot(data = terminus_freq,
-#'        aes(y = n, axis1 = cited_by_id, axis2 = evidence_type_synthetic))+
-#'   geom_alluvium(width = 1/12, aes(fill = evidence_type_synthetic, color = of_quality)) +
-#'   geom_stratum(width = 1/12, fill = "white", color = "grey")+
-#'   geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
-#'   scale_color_manual(values = c("no" = "transparent",
-#'                                 "yes" = "gold"))+
-#'   scale_fill_manual(values = fill_pal)+
-#'   ylab("Number of citations")+
-#'   theme_bw()+
-#'   theme(panel.grid = element_blank())
-#' 
-#' # >>> Long format plot ----------------------------------------------------
-#' #' [This is really difficult lol]
-#' terminus_freq[, id := seq(1:.N)]
-#' terminus_freq[, type_simple := evidence_type_synthetic]
-#' terminus_freq[in_support == "Yes", in_support := "In support"]
-#' terminus_freq[in_support == "No", in_support := "Not in support"]
-#' unique(terminus_freq$in_support)
-#' 
-#' terminus_freq[evidence_type_synthetic == "Predation in support"]
-#' 
-#' 
-#' #
-#' unique(terminus_freq$in_support)
-#' terminus_freq.mlt <- melt(terminus_freq,
-#'                           measure.vars = c("cited_by_id", "evidence_type_synthetic",
-#'                                            "in_support"))
-#' # dput(levels(terminus_freq$evidence_type_synthetic))
-#' 
-#' terminus_freq.mlt[value %in% c("In support", "Not in support"),]
-#' 
-#' terminus_freq.mlt[!value %in% c("In support", "Not in support"),]
-#' terminus_freq.mlt[!value %in% c("In support", "Not in support"),
-#'                   of_quality := "not relevant"]
-#' 
-#' # terminus_freq.mlt <- terminus_freq.mlt[!is.na(value), ]
-#' unique(terminus_freq.mlt$value)
-#' 
-#' dput(unique(terminus_freq$cited_by_id))
-#' dput(unique(terminus_freq$evidence_type_synthetic))
-#' dput(unique(terminus_freq$in_support))
-#' 
-#' unique(terminus_freq.mlt$value)
-#' terminus_freq.mlt[value == "In support" & of_quality == "yes", 
-#'                   value := "In support with qualities"]
-#' terminus_freq.mlt[value == "Not in support" & of_quality == "yes", 
-#'                   value := "Not in support with qualities"]
-#' 
-#' terminus_freq.mlt$value <- factor(terminus_freq.mlt$value ,
-#'                                   levels = c("(Doherty et al. 2016) core source_claim", "(IUCN 2025) core source_claim", 
-#'                                              "Web of Science_Systematic external review", "(Hume 2017) core source_claim", 
-#'                                              "(Medina et al. 2011) core source_claim", "(Garnett & Baker 2021) core source_claim", 
-#'                                              "(Wallach & Lundgren 2025)_external review without claim", "(Woinarski et al. 2014) core source_claim", 
-#'                                              "(Garnett et al. 2011) core source_claim", "(Radford et al. 2018) core source_claim", 
-#'                                              "(Dickman 1996b) core source_claim", "(Campolina et al. 2024) core source_claim", 
-#'                                              "(Oedin et al. 2021) core source_claim", "(Welch & Leppanen 2017) core source_claim", 
-#'                                              "(Alberts 2000) core source_claim", "(Hess 2014) core source_claim",
-#'                                              "No citation given", "No claim", "Inaccessible", 
-#'                                              "Opinion claim",  "Does not test claim", "Core claim", 
-#'                                              "Predation not in support", "Predation in support", 
-#'                                              "Population not in support without data", "Population in support without data", 
-#'                                              "Population not in support with data", "Population in support with data",
-#'                                              "Not relevant",
-#'                                              "In support", "Not in support",
-#'                                              "In support with qualities", "Not in support with qualities"#,
-#'                                              
-#'                                              
-#'                                   ))
-#' levels(terminus_freq.mlt$value)
-#' terminus_freq.mlt[is.na(value)]
-#' #
-#' terminus_freq.mlt$variable <- factor(terminus_freq.mlt$variable,
-#'                                      levels = c("cited_by_id", "evidence_type_synthetic", "in_support"))
-#' 
-#' unique(terminus_freq.mlt$value)
-#' 
-#' # terminus_freq.mlt[!value %in% c("In support", "Not in support"),
-#' #                   of_quality := NA]
-#' 
-#' # terminus_freq.mlt[value %in% c("In support", "Not in support")]
-#' 
-#' # # terminus_freq.mlt[variable == "in_support", ]
-#' # unique(terminus_freq.mlt[variable == "in_support", ]$type_simple)
-#' 
-#' unique(terminus_freq.mlt$of_quality)
-#' # type_pal <- unique(terminus_freq.mlt$type_simple)
-#' # type_pal
-#' # Hmmm
-#' 
-#' ggplot(data = terminus_freq.mlt,
-#'        aes(x = variable, fill = type_simple, 
-#'            stratum = value,
-#'            alluvium = id, label = value, #color = of_quality,
-#'            y = n
-#'        ))+
-#'   geom_flow(stat = "alluvium", lode.guidance = "frontback",
-#'             alpha = .75) +
-#'   geom_stratum(alpha = 1, aes(fill = type_simple, color = of_quality
-#'                               ),
-#'                reverse = TRUE)+
-#'   scale_color_manual(values = c("no" = "black",
-#'                                 "not relevant" = "black",
-#'                                 "yes" = "gold"),
-#'                      na.value = "black")+
-#'   scale_fill_manual(values = fill_pal)+
-#'   ylab("Number of citations")+
-#'   xlab(NULL)+
-#'   geom_text(stat = "stratum", size = 3, color = "black") +
-#'   theme_bw()+
-#'   theme(panel.grid = element_blank())
-#' 
-#' 
-#' # >>> Alt -----------------------------------------------------------------
-#' # Let's just do 2 columns.
-#' terminus_freq.alt <- copy(terminus_freq)
-#' 
-#' unique(terminus_freq.alt$evidence_type_synthetic)
-#' unique(terminus_freq.alt$of_quality)
-#' terminus_freq.alt[of_quality == "yes" & grepl("Population", evidence_type_synthetic),
-#'                   evidence_type_synthetic := paste(evidence_type_synthetic, "and qualities")]
-#' terminus_freq.mlt <- melt(terminus_freq.alt,
-#'                           measure.vars = c("cited_by_id", "evidence_type_synthetic"))
-#' unique(terminus_freq.mlt$value)
-#' 
-#' #
-#' terminus_freq.mlt$value <- factor(terminus_freq.mlt$value ,
-#'                                   levels = c("(Doherty et al. 2016) core source_claim", "(IUCN 2025) core source_claim", 
-#'                                              "Web of Science_Systematic external review", "(Hume 2017) core source_claim", 
-#'                                              "(Medina et al. 2011) core source_claim", "(Garnett & Baker 2021) core source_claim", 
-#'                                              "(Wallach & Lundgren 2025)_external review without claim", "(Woinarski et al. 2014) core source_claim", 
-#'                                              "(Garnett et al. 2011) core source_claim", "(Radford et al. 2018) core source_claim", 
-#'                                              "(Dickman 1996b) core source_claim", "(Campolina et al. 2024) core source_claim", 
-#'                                              "(Oedin et al. 2021) core source_claim", "(Welch & Leppanen 2017) core source_claim", 
-#'                                              "(Alberts 2000) core source_claim", "(Hess 2014) core source_claim",
-#'                                              "No citation given", "No claim", "Inaccessible", 
-#'                                              "Opinion claim",  "Does not test claim", "Core claim", 
-#'                                              "Predation not in support", "Predation in support", 
-#'                                              "Population not in support without data", "Population in support without data", 
-#'                                              "Population not in support with data", "Population in support with data",
-#'                                              "Population not in support with data and qualities", "Population in support with data and qualities"
-#'                                              
-#'                                   ))
-#' levels(terminus_freq.mlt$value)
-#' terminus_freq.mlt[is.na(value)]
-#' #
-#' terminus_freq.mlt$variable <- factor(terminus_freq.mlt$variable,
-#'                                      levels = c("cited_by_id", "evidence_type_synthetic", "in_support"))
-#' 
-#' unique(terminus_freq.mlt$value)
-#' 
-#' # terminus_freq.mlt[!value %in% c("In support", "Not in support"),
-#' #                   of_quality := NA]
-#' 
-#' # terminus_freq.mlt[value %in% c("In support", "Not in support")]
-#' 
-#' # # terminus_freq.mlt[variable == "in_support", ]
-#' # unique(terminus_freq.mlt[variable == "in_support", ]$type_simple)
-#' 
-#' unique(terminus_freq.mlt$of_quality)
-#' # type_pal <- unique(terminus_freq.mlt$type_simple)
-#' # type_pal
-#' # Hmmm
-#' 
-#' alluv.p <- ggplot(data = terminus_freq.mlt,
-#'        aes(x = variable, fill = type_simple, 
-#'            stratum = value,
-#'            alluvium = id, label = value, #color = of_quality,
-#'            y = n
-#'        ))+
-#'   geom_flow(stat = "alluvium", lode.guidance = "frontback",
-#'             alpha = .75) +
-#'   geom_stratum(alpha = 1, aes(fill = type_simple, color = of_quality
-#'   ),
-#'   reverse = TRUE)+
-#'   scale_color_manual(values = c("no" = "black",
-#'                                 "not relevant" = "black",
-#'                                 "yes" = "gold"),
-#'                      na.value = "black")+
-#'   scale_fill_manual(values = fill_pal)+
-#'   ylab("Number of citations")+
-#'   xlab(NULL)+
-#'   geom_text(stat = "stratum", size = 3, color = "black") +
-#'   theme_bw()+
-#'   theme(panel.grid = element_blank(),
-#'         panel.border = element_blank())
-#' alluv.p
-#' 
-
-# >>> Calculate frequencies --------------------------------------
-# We want support / not support as the final column, quality as an aesthetic attribute
-unique(terminus_edges$evidence_type_synthetic)
-terminus_edges[grepl("not in support", evidence_type_synthetic), in_support := "Not in support"]
-terminus_edges[grepl("not in support", evidence_type_synthetic), 
-               evidence_type_synthetic := gsub(" not in support", "", evidence_type_synthetic)]
-
-terminus_edges[grepl("in support", evidence_type_synthetic), in_support := "In support"]
-terminus_edges[grepl("in support", evidence_type_synthetic), 
-               evidence_type_synthetic := gsub(" in support", "", evidence_type_synthetic)]
-unique(terminus_edges$in_support)
-
-terminus_edges[, evidence_type_synthetic := gsub(" of quality", "", evidence_type_synthetic)]
-unique(terminus_edges$evidence_type_synthetic)
-
-terminus_edges
-
-
-unique(terminus_freq$evidence_type_synthetic)
-terminus_freq[, type_simple := ifelse(evidence_type_synthetic %in% c("Predation without data",
-                                                                     "Population without data",
-                                                                     "Population with data"), 
-                                      evidence_type_synthetic,
-                                      "Excluded")]
-
-# terminus_freq[is.na(in_support), in_support := "N/A"]
-
-
-# Colors based on type_simple
-#' [Where'd NOTHING go?????]
-unique(terminus_freq$type_simple)
-
-unique(terminus_freq$evidence_type_synthetic)
-
-# I think just two columns now. Let's 
-
-
-
-fill_pal <- c("Excluded" = "grey50", "Predation without data" = "grey20",
-              "Population with data" = "dodgerblue2",   "Population without data" = "dodgerblue4")
-
-unique(terminus_freq$cited_by_id)
-
-unique(terminus_freq$of_quality)
-terminus_freq$of_quality <- factor(terminus_freq$of_quality,
-                                   levels = c("no", "yes"))
-setorder(terminus_freq, 
-         cited_by_id, evidence_type_synthetic,of_quality, in_support)
-
-unique(terminus_freq$evidence_type_synthetic)
-terminus_freq$evidence_type_synthetic <- factor(terminus_freq$evidence_type_synthetic,
-                                                levels = c("No citation", "No claim", "Opinion claim", 
-                                                           "Core claim", "Inaccessible", "Does not test claim",
-                                                           "Predation without data", "Population without data",
-                                                           "Population with data"))
-terminus_freq[, cited_by_id := gsub(" core source_claim", "", cited_by_id)]
-terminus_freq[, cited_by_id := gsub("_external review without claim", "", cited_by_id)]
-
-
-ggplot(data = terminus_freq,
-       aes(y = n, axis1 = cited_by_id, axis2 = evidence_type_synthetic, axis3 = in_support))+
-  geom_alluvium(width = 1/12, aes(fill = type_simple, color = of_quality)) +
-  geom_stratum(width = 1/12, fill = "white", color = "grey")+
-  geom_label(stat = "stratum", aes(label = after_stat(stratum))) +
-  scale_color_manual(values = c("no" = "transparent",
-                                "yes" = "gold"))+
-  scale_fill_manual(values = fill_pal)+
-  ylab("Number of citations")+
-  theme_bw()+
-  theme(panel.grid = element_blank())
-
-
-# >>> Long format plot ----------------------------------------------------
-
-terminus_freq[, id := seq(1:.N)]
-
-terminus_freq.mlt <- melt(terminus_freq,
-                          measure.vars = c("cited_by_id", "in_support", "evidence_type_synthetic"))
-dput(levels(terminus_freq$evidence_type_synthetic))
-terminus_freq.mlt <- terminus_freq.mlt[!is.na(value), ]
-unique(terminus_freq.mlt$value)
-
-dput(unique(terminus_freq$cited_by_id))
-unique(terminus_freq.mlt$value)
-terminus_freq.mlt$value <- factor(terminus_freq.mlt$value ,
-                                  levels = c("(IUCN 2025)", "(Alberts 2000)", "(Campolina et al. 2024)", "(Dickman 1996b)", 
-                                             "(Doherty et al. 2016)", "(Garnett & Baker 2021)", "(Garnett et al. 2011)", 
-                                             "(Hess 2014)", "(Hume 2017)", "(Medina et al. 2011)", 
-                                             "(Oedin et al. 2021)", "(Radford et al. 2018)", 
-                                             "(Welch & Leppanen 2017)", "(Woinarski et al. 2014)", "(Wallach & Lundgren 2025)", 
-                                             "Web of Science_Systematic external review","Opportunistic_Systematic external review",
-                                             "Population with data", 
-                                             "Population without data", 
-                                             "Predation without data", 
-                                             "No citation", "No claim", "Opinion claim", "Core claim", "Inaccessible", 
-                                             "Does not test claim",
-                                             "In support", "Not in support"))
-unique(terminus_freq.mlt$value)
-#
-terminus_freq.mlt$variable <- factor(terminus_freq.mlt$variable,
-                                     levels = c("cited_by_id", "evidence_type_synthetic", "in_support"))
-
-unique(terminus_freq.mlt$value)
-# terminus_freq.mlt[!value %in% c("In support", "Not in support"),
-#                   of_quality := NA]
-
-terminus_freq.mlt[value %in% c("In support", "Not in support")]
-
-
-type_pal <- unique(terminus_freq.mlt$type_simple)
-type_pal
-
-# Hmmm
-ggplot(data = terminus_freq.mlt,
-       aes(x = variable, fill = type_simple, stratum = value,
-           alluvium = id, label = value, color = of_quality,
-           y = n
-       ))+
-  geom_flow(stat = "alluvium", lode.guidance = "frontback",
-            alpha = .75) +
-  geom_stratum(alpha = 1, aes(fill = type_simple))+
-  scale_color_manual(values = c("no" = NA,
-                                "yes" = "gold"))+
-  scale_fill_manual(values = fill_pal)+
-  ylab("Number of citations")+
-  xlab(NULL)+
-  geom_text(stat = "stratum", size = 3, color = "black") +
-  theme_bw()+
-  theme(panel.grid = element_blank())
-
-
-# OK, i think last shot is to have of quality in there....gahh
-terminus_freq.mlt[of_quality == "yes", ]
-
-terminus_freq.mlt[of_quality == "yes", value2 := paste(value, "of quality")]
-terminus_freq.mlt[of_quality == "no", value2 := value]
-terminus_freq.mlt
-
-
-terminus_freq.mlt$value2 <- factor(terminus_freq.mlt$value2 ,
-                                   levels = c("(IUCN 2025)", "(Alberts 2000)", "(Campolina et al. 2024)", "(Dickman 1996b)", 
-                                              "(Doherty et al. 2016)", "(Garnett & Baker 2021)", "(Garnett et al. 2011)", 
-                                              "(Hess 2014)", "(Hume 2017)", "(Medina et al. 2011)", 
-                                              "(Oedin et al. 2021)", "(Radford et al. 2018)", 
-                                              "(Welch & Leppanen 2017)", "(Woinarski et al. 2014)", "(Wallach & Lundgren 2025)", 
-                                              "Web of Science_Systematic external review","Opportunistic_Systematic external review",
-                                              
-                                              "Predation without data", "Population without data", 
-                                              "Population with data", "Population with data of quality", 
-                                              
-                                              "No citation", "No claim", "Opinion claim", "Core claim", "Inaccessible", 
-                                              "Does not test claim", 
-                                              "In support", "Not in support"))
-
-#
-#
-alluv <- ggplot(data = terminus_freq.mlt,
-                aes(x = variable, fill = type_simple, stratum = value2,
-                    alluvium = id, label = value2, color = of_quality,
-                    y = n
-                ))+
-  geom_flow(stat = "alluvium", lode.guidance = "frontback",
-            alpha = .75) +
-  geom_stratum(alpha = 1, color = "black")+
-  scale_color_manual(values = c("no" = NA,
-                                "yes" = "gold"))+
-  scale_fill_manual(values = fill_pal)+
-  ylab("Number of citations")+
-  xlab(NULL)+
-  geom_text(stat = "stratum", size = 3, color = "black") +
-  theme_bw()+
-  theme(panel.grid = element_blank(), panel.border = element_blank(),
-        legend.position = "bottom")
-alluv 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-
-# OLD ---------------------------------------------------------------------
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
-# Frequency plot ----------------------------------------------------------
-
-# >>> By # of citations ---------------------------------------------------
-
-citation_freq <- dat.m1[edge_type == "citation" & original_source_makes_claim == "Yes", 
-                        .(n_citations = .N),
-                        by = .(evidence_type, evidence_inclusion, Hypothesis_supported,
-                               has_data, of_quality)]
-
-citation_freq[, evidence_type_simple := gsub("not in support", "", evidence_type)]
-citation_freq[, evidence_type_simple := gsub("in support", "", evidence_type_simple)]
-citation_freq[, evidence_type_simple := trimws(evidence_type_simple)]
-
-citation_freq[Hypothesis_supported == 0, n_citations := -n_citations]
-citation_freq[is.na(Hypothesis_supported),]
-# citation_freq[is.na(Hypothesis_supported), n_citations := -n_citations]
-
-citation_freq[evidence_inclusion == "EXCLUDE", has_data := NA]
-citation_freq[evidence_inclusion == "EXCLUDE", of_quality := NA]
-
-citation_freq[evidence_inclusion == "INCLUDE", evidence_type_v2 := ifelse(has_data == "yes",
-                                                                          paste(evidence_type_simple, "with data"),
-                                                                          paste(evidence_type_simple, "without data"))]
-citation_freq[is.na(evidence_type_v2), evidence_type_v2 := evidence_type_simple]
-citation_freq
-
-dput(node_fill)
-unique(citation_freq$evidence_type_v2)
-bar_fill <- c(`No claim` = "grey90", `Opinion claim` = "grey90", `No citation given` = "grey90",
-              Inaccessible = "grey90", `Cites different core source` = "grey90",
-              Inaccessible = "grey90", `Does not test claim` = "grey90", 
-              `Predation without data` = "grey50", `Control program without data` = "indianred4", 
-              `Population without data` = "dodgerblue4", `Population with data` = "dodgerblue")
-
-unique(citation_freq$evidence_type_simple)
-setdiff(citation_freq$evidence_type_simple, c("Inaccessible", "No citation given", "No claim", "Opinion claim",
-                                              "Cites different core source", "Does not test claim", "Predation",
-                                              "Control program", "Population"))
-setdiff(c("Inaccessible", "No citation given", "No claim", "Opinion claim",
-          "Cites different core source", "Does not test claim", "Predation",
-          "Control program", "Population"), citation_freq$evidence_type_simple)
-citation_freq$evidence_type_simple <- factor(citation_freq$evidence_type_simple,
-                                             levels = c("Inaccessible", "No citation given", "No claim", "Opinion claim",
-                                                        "Cites different core source", "Does not test claim", "Predation",
-                                                        "Control program", "Population"))
-unique(citation_freq$evidence_type_simple)
-
-unique(citation_freq$evidence_type_v2)
-citation_freq$evidence_type_v2 <- factor(citation_freq$evidence_type_v2,
-                                         levels = c("Inaccessible", "No citation given", "No claim", "Opinion claim",
-                                                    "Cites different core source", "Does not test claim", "Predation without data",
-                                                    "Control program without data", "Population with data", 
-                                                    "Population without data"))
-
-citation_freq$of_quality <- factor(citation_freq$of_quality,
-                                   levels = c("yes", "no"))
-
-# citation_freq[evidence_inclusion == "EXCLUDE", n_citations := -n_citations]
-cit_freq <- ggplot(data = citation_freq,
-                   aes(x = n_citations, y = evidence_type_simple,
-                       fill = evidence_type_v2, color = of_quality))+
-  geom_vline(xintercept = 0, linetype = "dashed")+
-  geom_col(linewidth = 1)+
-  scale_fill_manual("Evidence type",
-                    # breaks = levels(citation_freq$evidence_type_v2),
-                    values = bar_fill)+
-  scale_color_manual("Of quality",,
-                     values = c("yes" = "gold",
-                                "no" = "transparent"),
-                     na.value = "transparent")+
-  xlab("Number citations by core claims (not in support / in support)")+
-  ylab(NULL)+
-  # facet_wrap(~evidence_inclusion, ncol = 1,
-  #            scales = "free_y",
-  #            labeller = as_labeller(c("EXCLUDE" = "Excluded articles",
-  #                                   "INCLUDE" = "Included articles")))+
-  theme_bw()+
-  theme(strip.background = element_blank(),
-        panel.border = element_blank(),
-        panel.grid = element_blank())
-cit_freq
-# Not sure if that makes sense to do...
-
-
-p1 + cit_freq + plot_layout(ncol = 2, widths = c(.75, .25))
-
-
-# >>> By # of articles/species combinations ----------------------------------------------
-evidence <- dat.m1[, .(scientificName, article_node_name,
-                       evidence_type, evidence_inclusion, has_data, of_quality, 
-                       Hypothesis_supported)] |> unique()
-evidence[, article_species := paste(article_node_name, scientificName)]
-evidence[evidence_type == "Does not test claim" & Hypothesis_supported == 1]
-
-evidence_freq <- evidence[, .(n_citations = uniqueN(article_species)),
-                          by = .(evidence_type, evidence_inclusion, Hypothesis_supported,
-                                 has_data, of_quality)]
-
-evidence_freq[, evidence_type_simple := gsub("not in support", "", evidence_type)]
-evidence_freq[, evidence_type_simple := gsub("in support", "", evidence_type_simple)]
-evidence_freq[, evidence_type_simple := trimws(evidence_type_simple)]
-
-evidence_freq[Hypothesis_supported == 0, n_citations := -n_citations]
-# evidence_freq[is.na(Hypothesis_supported), n_citations := -n_citations]
-evidence_freq[evidence_inclusion == "EXCLUDE", has_data := NA]
-evidence_freq[evidence_inclusion == "EXCLUDE", of_quality := NA]
-
-evidence_freq[evidence_inclusion == "INCLUDE", evidence_type_v2 := ifelse(has_data == "yes",
-                                                                          paste(evidence_type_simple, "with data"),
-                                                                          paste(evidence_type_simple, "without data"))]
-evidence_freq[is.na(evidence_type_v2), evidence_type_v2 := evidence_type_simple]
-evidence_freq
-
-dput(node_fill)
-unique(evidence_freq$evidence_type_v2)
-bar_fill <- c(`No claim` = "grey90", `Opinion claim` = "grey90", `No citation given` = "grey90",
-              Inaccessible = "grey90", `Cites different core source` = "grey90",
-              Inaccessible = "grey90", `Does not test claim` = "grey90", `Predation without data` = "grey50", `Control program without data` = "indianred4", 
-              `Population without data` = "dodgerblue4", `Population with data` = "dodgerblue")
-
-evidence_freq$evidence_type_simple <- factor(evidence_freq$evidence_type_simple,
-                                             levels = c("Inaccessible", #"No citation given", 
-                                                        "No claim", "Opinion claim",
-                                                        "Cites different core source", "Does not test claim", "Predation",
-                                                        "Control program", "Population"))
-
-evidence_freq$of_quality <- factor(evidence_freq$of_quality,
-                                   levels = c("yes", "no"))
-
-ggplot(data = evidence_freq,
-       aes(x = n_citations, y = evidence_type_simple,
-           fill = evidence_type_v2, color = of_quality))+
-  geom_vline(xintercept = 0, linetype = "dashed")+
-  geom_col(linewidth = 1)+
-  scale_fill_manual(values = bar_fill)+
-  scale_color_manual(values = c("yes" = "gold",
-                                "no" = "transparent"),
-                     na.value = "transparent")+
-  xlab("Number of studies (not in support / in support)")+
-  facet_wrap(~evidence_inclusion, ncol = 1,
-             scales = "free_y",
-             labeller = as_labeller(c("EXCLUDE" = "Excluded articles",
-                                      "INCLUDE" = "Included articles")))+
-  theme_bw()
-
-# Not sure if that makes sense to do...
-
-
-
-
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------
-
-# >>> Alternative colors --------------------------------------------------
-
-# Let's do a continuous color palette...
-nodes
-
-# This is probably too complicated. Fuck...
-# nodes[, type_quant := fcase(evidence_type_simple == "Excluded", NA,
-#                             )]
-library("scico")
-scico(n = 8, palette = "roma")
-# "#7E1700" "#A05F1B" "#BD9C3D" "#D1DE98" "#9BE2D4" "#45ABCB" "#2471B4" "#023198"
-
-nodes[, evidence_type_simple_v2 := evidence_type_simple]
-unique(nodes$in_support)
-nodes[in_support != "Not relevant", evidence_type_simple_v2 := ifelse(in_support == "Yes",
-                                                                      paste(evidence_type_simple, "in support"),
-                                                                      paste(evidence_type_simple, "not in support"))]
-nodes[, evidence_type_simple_v2 := gsub("Predation without data", "Predation", evidence_type_simple_v2)]
-nodes
-dput(as.character(unique(nodes$evidence_type_simple_v2)))
-unique(nodes$evidence_type_simple_v2)
-# Going to be funny...
-nodes$evidence_type_simple_v2 <- factor(nodes$evidence_type_simple_v2,
-                                        levels = c("Core claim", "External review without claim", 
-                                                   "Population with data not in support", 
-                                                   "Population without data not in support", 
-                                                   "Control program without data not in support",
-                                                   "Predation not in support", 
-                                                   "Excluded", 
-                                                   "Predation in support", 
-                                                   "Control program without data in support", 
-                                                   "Population without data in support", 
-                                                   "Population with data in support"
-                                        ))
-node_fill <- scico(n = 8, palette = "roma")
-names(node_fill) <- c("Population with data not in support", 
-                      "Population without data not in support", 
-                      "Control program without data not in support",
-                      "Predation not in support", 
-                      "Predation in support", 
-                      "Control program without data in support", 
-                      "Population without data in support", 
-                      "Population with data in support")
-node_fill <- c(node_fill,
-               "Core claim" = "hotpink", "External review without claim" = "pink", 
-               "Excluded" = "grey80")
-
-
-# template <- rep("XXXX", length(unique(nodes$evidence_type_simple_v2)))
-# names(template) <- (unique(nodes$evidence_type_simple_v2))
-# dput(template)
-# node_fill <- c(Excluded = "XXXX", `Core claim` = "XXXX", `Predation without data in support` = "XXXX", 
-#                `Population with data not in support` = "XXXX", `Predation without data not in support` = "XXXX", 
-#                `Population without data in support` = "XXXX", `Population with data in support` = "XXXX", 
-#                `Population without data not in support` = "XXXX", `External review without claim` = "XXXX", 
-#                `Control program without data in support` = "XXXX", `Control program without data not in support` = "XXXX"
-# )
-# 
-# node_fill <- c(`Core claim` = "hotpink", `External review without claim` = "pink",
-#                Excluded = "grey90", 
-#                `Predation without data` = "grey50", `Control program without data` = "indianred4",
-#                `Population without data` = "dodgerblue4", `Population with data` = "dodgerblue"
-# )
-template <- rep(3, length(unique(nodes$evidence_type_simple_v2)))
-names(template) <- (unique(nodes$evidence_type_simple_v2))
-dput(template)
-node_size <- c(Excluded = 1, `Core claim` = 5, `Predation in support` = 3, 
-               `Population with data not in support` = 3, `Predation not in support` = 3, 
-               `Population without data in support` = 3, `Population with data in support` = 3, 
-               `Population without data not in support` = 3, `External review without claim` = 5, 
-               `Control program without data in support` = 3, `Control program without data not in support` = 3)
-
-
-unique(nodes$of_quality)
-stroke_color <- c("no" = "black", 
-                  "yes" = "gold")
-
-stroke_width <- c("no" = .1, 
-                  "yes" = 2)
-
-unique(nodes$in_support)
-# support_shape <- c("Not relevant" = 21,
-#                    "Yes" = 24,
-#                    "No" = 25)
-
-# Create network
-graph <- igraph::graph_from_data_frame(edges, 
-                                       vertices = nodes,
-                                       directed = T)
-graph
-
-
-graph <- tidygraph::as_tbl_graph(graph)
-#
-
-unique(edges$edge_type)
-#
-unique(nodes$evidence_type_simple_v2)
-#
-
-# >>> Plot ----------------------------------------------------------------
-# labels <- c(`Core claim` = "Core claim", `External review without claim` = "External review without claim", 
-#             Excluded = "Excluded", `Predation without data` = "Predation", `Control program without data` = "Control program without data", 
-#             `Population without data` = "Population without data", `Population with data` = "Population with data"
-# )
-
-
-#
-p1 <- ggraph(graph, layout = "kk")+
-  geom_edge_fan(arrow = arrow(length = unit(1, 'mm')), 
-                start_cap = circle(1, 'mm'),
-                end_cap = circle(1, 'mm'),
-                color = "grey50",
-                alpha = .5,
-                linewidth = 0.25) + 
-  # geom_edge_loop()+ #aes(color = edge_type)
-  geom_node_point(aes(fill = evidence_type_simple_v2,
-                      color = of_quality,
-                      stroke = of_quality,
-                      size = evidence_type_simple_v2), 
-                  shape = 21, #stroke = 2,
-                  alpha = .75)+
-  scale_fill_manual("Article type",
-                    values = node_fill,
-                    breaks = levels(nodes$evidence_type_simple_v2))+
-  scale_size_manual("Article type",
-                    values = node_size *2,
-                    breaks = levels(nodes$evidence_type_simple_v2))+ 
-  # scale_linewidth_manual(values = stroke_width) + 
-  scale_discrete_manual("Quality research",
-                        aesthetics = "stroke", 
-                        values = c(1, 2))+
-  # scale_shape_manual(values = support_shape) +
-  scale_color_manual("Quality research",
-                     values = stroke_color )+
-  # scale_fill_manual("trophic level / guild", values = TL_palette)+
-  # scale_fill_brewer("trophic level", palette = "Spectral")+
-  # geom_node_text(aes(label = name), #label.size = NA, 
-  #                repel = TRUE)+
-  theme_graph()#+
-p1
-
-
-
-
-
-# p1 + alluv
-
-# >>> Alternative long format ----------------------------------------------------
-# This is tricky....
-# terminus_freq[, id := .GRP, by = .(cited_by_id, evidence_type_synthetic)]
-# 
-# terminus_freq.mlt <- melt(terminus_freq[, .(cited_by_id, evidence_type_synthetic, n, type_simple,
-#                                             id)],
-#                           measure.vars = c("cited_by_id", "evidence_type_synthetic"))
-# terminus_freq.mlt
-# 
-# # Now a separate ID just linking population/predation studies with support...
-# terminus.2 <- terminus_freq[!is.na(in_support), .(evidence_type_synthetic,
-#                                                   in_support, type_simple, of_quality, 
-#                                                   n, id)]
-# terminus.2
-# terminus.2 <- terminus.2[, .(n = sum(n),
-#                              id = min(id)),
-#                          by = .(evidence_type_synthetic, in_support, type_simple, of_quality)]
-# # .(n = sum(n)),
-# # terminus.2[, id := paste0("3rd_axis", seq(1:.N))]
-# terminus.2.mlt <- melt(terminus.2,
-#                         measure.vars = c("evidence_type_synthetic", "in_support"))
-# 
-# 
-# terminus_bind <- rbind(terminus_freq.mlt, terminus.2.mlt, fill = TRUE)
-# terminus_bind
-# 
-# dput(unique(terminus_freq$cited_by_id))
-# 
-# terminus_bind$value <- factor(terminus_bind$value ,
-#                                   levels = c("(IUCN 2025)", "(Alberts 2000)", "(Campolina et al. 2024)", "(Dickman 1996b)", 
-#                                              "(Doherty et al. 2016)", "(Garnett & Baker 2021)", "(Garnett et al. 2011)", 
-#                                              "(Hess 2014)", "(Hume 2017)", "(Medina et al. 2011)", 
-#                                              "(Oedin et al. 2021)", "(Radford et al. 2018)", 
-#                                              "(Welch & Leppanen 2017)", "(Woinarski et al. 2014)", "(Wallach & Lundgren 2025)", 
-#                                              "Systematic (WoS + Opportunistic)",
-#                                              
-#                                              "No citation", "No claim", "Opinion claim", "Core claim", "Inaccessible", 
-#                                              "Does not test claim", "Predation without data", "Population without data", 
-#                                              "Population with data", "In support", "Not in support"))
-# unique(terminus_bind$variable)
-# #
-# terminus_bind$variable <- factor(terminus_bind$variable,
-#                                      levels = c("cited_by_id", "evidence_type_synthetic", "in_support"))
-# 
-# unique(terminus_bind$value)
-# # terminus_bind[!value %in% c("In support", "Not in support"),
-# #                   of_quality := NA]
-# 
-# terminus_bind[value %in% c("In support", "Not in support")]
-# 
-# # is_lodes_form(terminus_bind)
-# # Hmmm
-# ggplot(data = terminus_bind,
-#        aes(x = variable, stratum = value, alluvium = id, 
-#            fill = type_simple,  y = n,
-#            label = value, color = of_quality,
-#        ))+
-#   geom_flow(stat = "alluvium", lode.guidance = "frontback",
-#             alpha = .75) +
-#   geom_stratum(alpha = 1, color = "grey70")+
-#   scale_color_manual(values = c("no" = "transparent",
-#                                 "yes" = "gold"))+
-#   scale_fill_manual(values = fill_pal)+
-#   geom_text(stat = "stratum", size = 3, color = "black") +
-#   theme_bw()
-# 
 
