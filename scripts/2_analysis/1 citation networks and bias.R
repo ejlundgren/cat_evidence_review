@@ -501,7 +501,7 @@ cites.p
 
 
 # >>> By class ------------------------------------------------------------
-spp <- fread("builds/species_claims_tidy_populated.csv")
+spp <- fread("builds/claims/species_claims_tidy_populated.csv")
 spp <- unique(spp[, .(scientificName, class)])
 
 setdiff(terminus_edges$scientificName, spp$scientificName)

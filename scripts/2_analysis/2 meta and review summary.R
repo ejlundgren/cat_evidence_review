@@ -1018,7 +1018,7 @@ gtsave(only_dominant, filename = "figures/SI/only dominant effect size models.pd
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Systematic review panel -------------------------------------------------
-sys_rev <- fread("builds/systematic_review_tidy.csv")
+sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 sys_rev
 
 sys_rev[spp_name_corrected == "Dasyurus maculatus"]$exclude_species
@@ -1148,7 +1148,7 @@ p.sys
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Best evidence per species -----------------------------------------------------------
-claims <- fread("builds/species_claims_tidy_populated.csv")
+claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 claims
 # claims[duplicated(scientificName)]
 # claims[scientificName == "Coenocorypha pusilla", Synonyms_or_previous_lump := "Coenocorypha aucklandica"]
@@ -1319,7 +1319,7 @@ ggsave("figures/main_text/meta_review_raw.pdf", width = 8, height = 8)
 # Maps ------------------------------------------------------
 library("stringr")
 # sys_rev$Study_lat
-sys_rev <- fread("builds/systematic_review_tidy.csv")
+sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 sys_rev[Article_simple %in% dat$Article]
 setdiff(dat$Article, sys_rev$Article_simple)
 sys_rev[, in_meta := ifelse(Article_simple %in% dat$Article, "yes", "no")]
@@ -1359,7 +1359,7 @@ sys_rev
 
 # >>> Plot ----------------------------------------------------
 
-continents <- st_read("../../../Resources/Spatial/ESRI_continents/")
+continents <- st_read("../../../Resources/Spatial/ESRI_continents/") #'[LV: Consider uploading this file to the data folder. Is not possible to do the next section without access to it]
 unique(sys_rev$Evidence_category)
 sys_rev[Evidence_category == "Control program", Evidence_category := "Population"]
 #

@@ -10,7 +10,7 @@ library("gt")
 library("dplyr")
 
 # Claims -------------------------------------------------------
-claims <- fread("builds/species_claims_tidy_populated.csv")
+claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 
 claims
 claims <- claims[exclude_species == "included_species"]
@@ -23,7 +23,7 @@ claims[, .(n = uniqueN(spp_name_corrected)),
 
 # Systematic review -------------------------------------------------------
 
-sys_rev <- fread("builds/systematic_review_tidy.csv")
+sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 sys_rev
 
 unique(sys_rev[exclude_species == "excluded_species"]$scientificName)
@@ -92,7 +92,7 @@ x[of_quality == "yes"]
 
 # Best evidence -----------------------------------------------------------
 
-claims <- fread("builds/species_claims_tidy_populated.csv")
+claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 claims
 
 # claims[duplicated(scientificName)]

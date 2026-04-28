@@ -429,7 +429,7 @@ locations
 # )
 
 #
-continents <- st_read("../../../Resources/Spatial/ESRI_continents/")
+continents <- st_read("../../../Resources/Spatial/ESRI_continents/") #'[LV: Consider uploading this file to the data folder. Is not possible to do the next section without access to it]
 continents
 mapview(continents)
 

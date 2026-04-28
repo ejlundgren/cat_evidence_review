@@ -118,7 +118,6 @@ node_id,article_node_name,evidence_inclusion,Peer_reviewed_source,evidence_type,
 (Keitt 2005)_EXCLUDE_1_No claim_NA_NA,(Keitt 2005),EXCLUDE,,No claim,,no,No claim,Excluded,Not relevant
 (King et al. 2012)_INCLUDE_NA_Predation not in support_no_no,(King et al. 2012),INCLUDE,,Predation not in support,no,no,Predation not in support without data,Predation without data,No
 (King et al. 2012)_INCLUDE_NA_Population in support_yes_no,(King et al. 2012),INCLUDE,,Population in support,yes,no,Population in support with data,Population with data,Yes
-(Kumar 2019)_INCLUDE_NA_Population in support_yes_no,(Kumar 2019),INCLUDE,,Population in support,yes,no,Population in support with data,Population with data,Yes
 (Lavery et al. 2022)_EXCLUDE_1_Opinion claim_NA_NA,(Lavery et al. 2022),EXCLUDE,,Opinion claim,,no,Opinion claim,Excluded,Not relevant
 (Li et al. 2014)_EXCLUDE_0_No claim_NA_NA,(Li et al. 2014),EXCLUDE,,No claim,,no,No claim,Excluded,Not relevant
 (Malachowski et al. 2018)_EXCLUDE_1_Opinion claim_NA_NA,(Malachowski et al. 2018),EXCLUDE,,Opinion claim,,no,Opinion claim,Excluded,Not relevant
@@ -223,6 +222,7 @@ Opportunistic_Systematic external review,Opportunistic,Systematic external revie
 Web of Science_Systematic external review,Web of Science,Systematic external review,,,,no,External review without claim,External review without claim,Not relevant
 (Williams 1991)_INCLUDE_NA_Predation in support_no_no,(Williams 1991),INCLUDE,,Predation in support,no,no,Predation in support without data,Predation without data,Yes
 (Iverson 1978)_INCLUDE_NA_Predation in support_no_no,(Iverson 1978),INCLUDE,,Predation in support,no,no,Predation in support without data,Predation without data,Yes
+(Moreno 1995)_EXCLUDE_0_Inaccessible_NA_NA,(Moreno 1995),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Cyclura collei,NOTHING NA Cyclura collei,EXCLUDE,,No citation given,,no,Opinion claim,Excluded,Not relevant
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Cyclura cornuta,NOTHING NA Cyclura cornuta,EXCLUDE,,No citation given,,no,Opinion claim,Excluded,Not relevant
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Cyclura lewisi,NOTHING NA Cyclura lewisi,EXCLUDE,,No citation given,,no,Opinion claim,Excluded,Not relevant
@@ -736,6 +736,7 @@ C. Schuster pers. comm. 2022_EXCLUDE_0_Inaccessible_NA_NA,C. Schuster pers. comm
 (Camp et al. 2009)_EXCLUDE_1_No claim_NA_NA,(Camp et al. 2009),EXCLUDE,,No claim,,no,No claim,Excluded,Not relevant
 (Carboneras et al. 2014)_EXCLUDE_0_Inaccessible_NA_NA,(Carboneras et al. 2014),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (Carrión Avilés 2012)_EXCLUDE_0_Not in English or Spanish_NA_NA,(Carrión Avilés 2012),EXCLUDE,,Not in English or Spanish,,no,Not in English or Spanish,Excluded,Not relevant
+(Case 1982)_EXCLUDE_?_Opinion claim_NA_NA,(Case 1982),EXCLUDE,,Opinion claim,,no,Opinion claim,Excluded,Not relevant
 (Ceballos & Ceballos 2014)_EXCLUDE_1_Inaccessible_NA_NA,(Ceballos & Ceballos 2014),EXCLUDE,1,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (Ceia 2008)_EXCLUDE_0_Not in English or Spanish_NA_NA,(Ceia 2008),EXCLUDE,,Not in English or Spanish,,no,Not in English or Spanish,Excluded,Not relevant
 (Cepeda & Cruz 1994)_EXCLUDE_0_Inaccessible_NA_NA,(Cepeda & Cruz 1994),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
@@ -870,6 +871,7 @@ K. Sivakumar in litt. 2004_EXCLUDE_0_Inaccessible_NA_NA,K. Sivakumar in litt. 20
 (Keitt & Tershy 2003)_INCLUDE_NA_Predation in support_no_no,(Keitt & Tershy 2003),INCLUDE,,Predation in support,no,no,Predation in support without data,Predation without data,Yes
 (Kemp & Kirwan 2020)_EXCLUDE_0_Inaccessible_NA_NA,(Kemp & Kirwan 2020),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 Kirkconnell 2013_EXCLUDE_0_Inaccessible_NA_NA,Kirkconnell 2013,EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
+(Kumar 2019)_INCLUDE_NA_Population in support_yes_no,(Kumar 2019),INCLUDE,,Population in support,yes,no,Population in support with data,Population with data,Yes
 L. Bonaparte in litt. 2022_EXCLUDE_0_Inaccessible_NA_NA,L. Bonaparte in litt. 2022,EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 L. Broome pers. comm._EXCLUDE_0_Inaccessible_NA_NA,L. Broome pers. comm.,EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 L. Dollar pers. comm._EXCLUDE_0_Inaccessible_NA_NA,L. Dollar pers. comm.,EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
@@ -1333,6 +1335,7 @@ T. Pratt in litt. 1999_EXCLUDE_0_Inaccessible_NA_NA,T. Pratt in litt. 1999,EXCLU
 (USFWS 2000)_EXCLUDE_0_Inaccessible_NA_NA,(USFWS 2000),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 USFWS (1993)_EXCLUDE_0_Inaccessible_NA_NA,USFWS (1993),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (Underhill et al. 2006)_EXCLUDE_1_Opinion claim_NA_NA,(Underhill et al. 2006),EXCLUDE,,Opinion claim,,no,Opinion claim,Excluded,Not relevant
+V. Reynoso and Y. Gadar pers. obs. 2016_EXCLUDE_0_Inaccessible_NA_NA,V. Reynoso and Y. Gadar pers. obs. 2016,EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (VanderWerf 2020)_EXCLUDE_0_Inaccessible_NA_NA,(VanderWerf 2020),EXCLUDE,0,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (Vargas 1996)_EXCLUDE_?_Inaccessible_NA_NA,(Vargas 1996),EXCLUDE,?,Inaccessible,,no,Inaccessible,Excluded,Not relevant
 (Chapple et al. 2024)_EXCLUDE_0_No claim_NA_NA,(Chapple et al. 2024),EXCLUDE,,No claim,,no,No claim,Excluded,Not relevant
