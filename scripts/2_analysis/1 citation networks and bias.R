@@ -1,10 +1,8 @@
+# April 2025
 #
 #
-# Figures:
-# full citation network
-# alluvial plot
-# probability of evidence being cited
-#
+# Plot full citation networks, the evidence at the terminus of each citation chain
+# and the probability of a claimant citing an available population study
 #
 #
 
@@ -275,7 +273,7 @@ ggraph(graph, layout = 'stress',
   geom_node_point(aes(color = col, size = col)) #+
 
 # Unfortunately that didn't work for some reason with full network
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -----------------------------------------
 # Probability of a population study being cited by support/not support ---------------------------
 
@@ -290,21 +288,60 @@ ggraph(graph, layout = 'stress',
 # >>> Load and format data ----------------------------------------------------
 terminus_exploded_filtered <- fread("builds/citation_network/citation_probability.csv")
 
+terminus_exploded_filtered[grepl("Wallach", cited_by_id)]
+
+
+
 # >>> Model -----------------------------------------------------------------
 #' [Only look at the sources making a claim]
-# Create some predictors.
 terminus_exploded_filtered[, making_claim := ifelse(grepl("_claim", cited_by_id), "CLAIM", "NO_CLAIM")]
 terminus_exploded_filtered <- terminus_exploded_filtered[making_claim == "CLAIM", ]
+
+terminus_exploded_filtered[grepl("Wallach", cited_by_id)]
 
 unique(terminus_exploded_filtered$in_support)
 
 unique(terminus_exploded_filtered$cited_by_id)
 # terminus_exploded_filtered[grepl("O")]
 
+# Overall:
+m <- glmmTMB(cited ~ 1 + (1|cited_by_id) + (1|scientificName),
+             family = binomial(link = "logit"),
+             data = terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
+                                                 has_data == "yes" &
+                                                 making_claim == "CLAIM", ])
+
+summary(m)
+
+pred <- tidy(m) |> filter(effect == "fixed") |> setDT()
+crit <- qnorm(0.975)
+pred[, lower_ci := estimate - (std.error * 1.96)]
+pred[, upper_ci := estimate + (std.error * 1.96)]
+pred[, fit := plogis(estimate)]
+pred[, lower_ci := plogis(lower_ci)]
+pred[, upper_ci := plogis(upper_ci)]
+pred
+
+# calculate manually:
+out <- terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
+                             has_data == "yes", .(n = .N),
+                           by = .(cited, cited_by_id, scientificName)]
+out <- dcast(out,
+             scientificName + cited_by_id ~ cited, value.var = "n",
+             fill = 0)
+out[, total := `0` + `1`]
+out[, perc_cited := `1` / total * 100]
+out[, perc_not_cited := `0` / total * 100]
+
+out[, .(mean = mean(perc_cited), sd=sd(perc_cited))]
+out[, .(mean = mean(perc_not_cited), sd=sd(perc_not_cited))]
+
+#
 m <- glmmTMB(cited ~ in_support + (1|cited_by_id) + (1|scientificName),
              family = binomial(link = "logit"),
              data = terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
-                                                 has_data == "yes", ])
+                                                 has_data == "yes" &
+                                                 making_claim == "CLAIM", ])
 summary(m)
 tidy(m)
 
@@ -334,19 +371,32 @@ citation.p <- ggplot(data = pred,
   geom_errorbar(position = position_dodge(width = .75), width = .25)+
   geom_point(position = position_dodge(width = .75),
                   shape = 21, size = 4)+
-  ylab("Probability of a claimant citing\nan available population study with data")+
+  ylab("Probability (±95% CIs) of a claimant citing\nan available population study with data")+
   scale_fill_manual("In support",
                     values = c("No" = "indianred", "Yes" = "dodgerblue"))+
-  xlab("Negative association found")+
+  xlab("Negative association\nfound")+
   theme_bw()+
   theme(panel.border = element_blank(),
         panel.grid = element_blank(),
         legend.position = "none")
 citation.p
 
+
+out <- terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
+                                    has_data == "yes", .(n = .N),
+                                  by = .(cited, scientificName, cited_by_id, in_support)]
+out <- dcast(out,
+             scientificName + in_support + cited_by_id ~ cited, value.var = "n",
+             fill = 0)
+out[, total := `0` + `1`]
+out[, perc_cited := `1` / total * 100]
+
+out[, .(mean = mean(perc_cited), sd=sd(perc_cited)),
+    by = .(in_support)]
+
+  #
+# Just claimants with lists (no possibility of misinterpretation):
 #
-#
-# Just datasets with lists:
 unique(terminus_exploded_filtered$cited_by_id)
 
 unique(terminus_exploded_filtered$cited_by_id)
@@ -375,7 +425,7 @@ pred[, upper_ci := plogis(upper_ci)]
 pred$in_support <- c("Yes", "No")
 pred
 
-# Hmmm. 
+#
 ggplot(data = pred, aes(x = in_support, y = plogis(fit), 
                         ymin = plogis(lower_ci), ymax = plogis(upper_ci)))+
   geom_pointrange()+
@@ -391,78 +441,60 @@ terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
 terminus_edges <- terminus_edges[cited_by_id != "Opportunistic_Systematic external review"]
 unique(terminus_edges$evidence_type_fine)
 
-# Number of citations:
-terminus_freq <- terminus_edges[, .(n = .N),
-                                by = .(cited_by_id, evidence_type_synthetic, 
-                                       has_data, of_quality, in_support)]
-
-sort(unique(terminus_freq$evidence_type_synthetic))
-
-# >>> Simple bar chart of citation terminus types ----------------------------------------------------
-
-unique(terminus_freq$cited_by_id)
-terminus_freq[grepl("Opportunistic", cited_by_id)]
+# >>> Evidence tally ----------------------------------------------------
+#' [Breaking this into two separate graphs and data munging processes because of the challenge of formating things correctly]
 
 unique(terminus_edges$evidence_type_synthetic)
 
 unique(terminus_edges[grepl("EXCLUDE", article_id)]$evidence_type_fine)
 
-terminus_edges[evidence_type_synthetic %in% c("Does not test claim", "Inaccessible",
-                                              "Not in English or Spanish",
-                                              "No claim", "Opinion claim"),
-                     evidence_type_synthetic := "Excluded"]
-
-unique(terminus_edges$cited_by_id)
 terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id), 
                                         "making claim", "no claim")]
+terminus_edges
+terminus_edges[grepl("Population", evidence_type_synthetic), evidence_simple := "Population"]
+terminus_edges[grepl("Predation", evidence_type_synthetic), evidence_simple := "Predation"]
+#
 
-terminus_freq.simple <- terminus_edges[, .(n = .N),
-                                       by = .(evidence_type_synthetic, making_claim,
+# >>> Calculate % that aren't evidence ------------------------------------
+sub_terminus <- terminus_edges[making_claim == "making claim"]
+sub_terminus[, evidence_simple := ifelse(is.na(evidence_simple), "excluded", "included")]
+
+x <- sub_terminus[, .(n = .N), by = evidence_simple]
+x[, total := sum(n)]
+x[, perc := n / total]
+x
+
+# >>> Included evidence graph ---------------------------------------------
+
+terminus_freq.simple <- terminus_edges[evidence_simple %in% c("Population", "Predation"), 
+                                       .(n = .N),
+                                       by = .(evidence_type_synthetic, evidence_simple, making_claim,
                                               has_data, of_quality, in_support)]
 
-terminus_freq.simple[grepl("Population", evidence_type_synthetic), evidence_simple := "Population"]
-terminus_freq.simple[grepl("Predation", evidence_type_synthetic), evidence_simple := "Predation"]
 unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_synthetic)
-terminus_freq.simple[evidence_type_synthetic %in% c("Core claim", "No citation given",
-                                                    "No claim", "Inaccessible", "Opinion claim",
-                                                    "Excluded", "Not in English or Spanish",
-                                                    "Does not test claim"), evidence_simple := "Excluded"]
 
 terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
-                                               levels = c("Excluded", "Predation", "Population"))
+                                               levels = c("Predation", "Population"))
 
 unique(terminus_freq.simple$evidence_type_synthetic)
 
 unique(terminus_freq.simple$of_quality)
 
 terminus_freq.simple$evidence_type_synthetic <- factor(terminus_freq.simple$evidence_type_synthetic,
-                                                       levels = rev(c( "Core claim", "No citation given", 
-                                                                       "Excluded", 
+                                                       levels = (c( 
                                                                   "Predation in support without data", 
                                                                   "Predation not in support without data", 
-                                                                  "Population not in support without data",
-                                                                  "Population not in support with data",
                                                                   "Population not in support with data of quality",
-                                                                  "Population in support without data", 
+                                                                  "Population not in support with data",
+                                                                  "Population not in support without data",
+                                                                  "Population in support with data of quality",
                                                                   "Population in support with data", 
-                                                                  "Population in support with data of quality")))
-labs <- c(`Core claim` = "Core claim", `No citation given` = "No citation given", 
-          Excluded = "No primary data found", `Predation in support without data` = "Predation in support without data", 
-          `Predation not in support without data` = "Predation not in support without data", 
-          `Population not in support without data` = "Population not in support without data", 
-          `Population not in support with data` = "Population not in support with data", 
-          `Population not in support with data of quality` = "Population not in support with data of quality", 
-          `Population in support without data` = "Population in support without data", 
-          `Population in support with data` = "Population in support with data", 
-          `Population in support with data of quality` = "Population in support with data of quality"
-)
+                                                                  "Population in support without data"
+                                                                  )))
 
 unique(terminus_freq.simple$evidence_type_synthetic)
 
-fill_pal <- c(`Core claim` = "hotpink", `Excluded` = "grey", `External review without claim` = "pink", 
-              Inaccessible = "grey", `Does not test claim` = "grey", `Opinion claim` = "grey", 
-              `No claim` = "grey", `No citation given` = "black", 
-              `Predation in support without data` = "#a6d3a0", 
+fill_pal <- c(`Predation in support without data` = "#a6d3a0", 
               `Predation not in support without data` = "#40531b", 
               `Population not in support without data` = "indianred4", 
               `Population not in support with data` = "indianred", 
@@ -474,21 +506,28 @@ setdiff(terminus_freq.simple$evidence_type_synthetic, names(fill_pal))
 
 terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
 
+col_pal <- c(`Predation in support without data` = "transparent", 
+             `Predation not in support without data` = "transparent", 
+             `Population not in support without data` = "transparent", 
+             `Population not in support with data` = "transparent", 
+             `Population not in support with data of quality` = "gold", 
+             `Population in support without data` = "transparent", 
+             `Population in support with data` = "transparent",
+             `Population in support with data of quality` = "gold")
 
-#
-cites.p.included <- ggplot(data = terminus_freq.simple[evidence_simple %in% c("Population", "Predation") &
-                                                         making_claim == "making claim"], #[making_claim == "making claim"],
+
+#' position_dodge leads to strange incorrect plotting, which I can't debug. So manually dodging in Inkscape
+cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making claim"], 
        aes(y = evidence_simple, fill = evidence_type_synthetic, 
-           color = of_quality, #group = in_support,# label = value, 
-           x = n
+           color = evidence_type_synthetic, x = n, #group = in_support
        ))+
-  geom_col(lwd = 1) +
+  geom_col(lwd = 1#, 
+           #position = position_dodge()
+           ) +
   scale_y_discrete(breaks = c("Population", "Predation", "Excluded"),
                    labels = c("Population", "Predation", "No primary data found"))+
   scale_color_manual(name = "Of quality",
-                     values = c("no" = "transparent",
-                                "yes" = "gold"),
-                     na.value = "black")+
+                     values = col_pal)+
   scale_fill_manual(values = fill_pal,
                     labels = labs)+
   xlab("Terminus of citation chains\n(total number of citations)")+
@@ -500,131 +539,118 @@ cites.p.included <- ggplot(data = terminus_freq.simple[evidence_simple %in% c("P
   theme(panel.grid = element_blank(),
         panel.border = element_blank(),
         strip.background = element_blank(),
-        strip.placement = "outside")
+        strip.placement = "outside",
+        legend.position = "none")
 cites.p.included
 
-# >>> evidence type fine just by sources making a claim--------------------------------------------------
-# This is really tricky...Getting the levels right...Ugh
-# I hate making plots like this...
-
-terminus_edges
-terminus_edges[evidence_type_synthetic == "No citation given", evidence_type_fine := "No citation given"]
-
-unique(terminus_edges$evidence_type_synthetic)
-
-unique(terminus_edges[grepl("EXCLUDE", article_id)]$evidence_type_fine)
-
-unique(terminus_edges[, .(evidence_type_fine, evidence_type_synthetic)])
-
-terminus_edges[, evidence_inclusion := ifelse(grepl("INCLUDE", article_id), "Evidence", "Excluded")]
-
-terminus_freq.simple <- terminus_edges[, .(n = .N),
-                                       by = .(evidence_type_fine, making_claim,
-                                              evidence_inclusion,
-                                              has_data, of_quality, in_support)]
-
-terminus_freq.simple[grepl("Population", evidence_type_fine), evidence_simple := "Population"]
-terminus_freq.simple[grepl("Predation", evidence_type_fine), evidence_simple := "Predation"]
-unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_fine)
-terminus_freq.simple[evidence_type_fine == "No citation given", evidence_simple := "No citation given"]
-
-unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_fine)
-terminus_freq.simple[is.na(evidence_simple) , evidence_simple := "Excluded"]
-
-unique(terminus_freq.simple$evidence_simple)
-terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
-                                               levels = c("No citation given", "Excluded", "Predation", "Population"))
-
-unique(terminus_freq.simple$of_quality)
-unique(terminus_freq.simple$evidence_type_fine)
-terminus_freq.simple[, evidence_type_fine := gsub(" of quality", "", evidence_type_fine)]
-
-#
-
-lvls <- c( "Core claim", 
-           "No citation given", 
-           "Failure to access or locate online full citation",
-           "No claim",
-           "Expert opinion",
-           "Unpublished data or article",
-           "Personal communication",
-           
-           "Missing reference",
-           "Does not test claim", 
-           "Not in English or Spanish", 
-           "Modelling without data",
-          
-           "Predation in support without data", 
-           "Predation not in support without data", 
-           "Population not in support without data",
-           "Population not in support with data",
-           "Population in support without data", 
-           "Population in support with data")
-
-setdiff(terminus_freq.simple$evidence_type_fine, lvls)
-
-#
-terminus_freq.simple$evidence_type_fine <- factor(terminus_freq.simple$evidence_type_fine,
-                                                       levels = rev(lvls))
-
-labs <- c(`Core claim` = "Core claim", `No citation given` = "No citation given", 
-          `Modelling without data` = "Modelling without data", `Does not test claim` = "Does not test claim", 
-          `Personal communication` = "Personal communication", `Missing reference` = "Missing reference", 
-          `Unpublished data or article` = "Unpublished", 
-          `Not in English or Spanish` = "Not in English or Spanish", `Expert opinion` = "Expert opinion", 
-          `Failure to access or locate online full citation` = "Unavailable", 
-          `No claim` = "No claim", `Predation in support without data` = "Predation in support without data", 
-          `Predation not in support without data` = "Predation not in support without data", 
-          `Population not in support without data` = "Population not in support without data", 
-          `Population not in support with data` = "Population not in support with data",  
-          `Population in support without data` = "Population in support without data", 
-          `Population in support with data` = "Population in support with data"
-)
-
-unique(terminus_freq.simple$evidence_simple)
-terminus_freq.simple[is.na(evidence_simple), evidence_simple := "No citation given"]
-# terminus_freq.simple[evidence_simple %in% c("Population", "Predation"),
-#                      evidence_simple := evidence_type_fine]
-
-unique(terminus_freq.simple$evidence_simple)
-fill_pal <- c(`Excluded` = "grey", `No citation given` = "black", 
-              `Predation in support without data` = "#a6d3a0", 
-              `Predation not in support without data` = "#40531b", 
-              `Population not in support without data` = "indianred4", 
-              `Population not in support with data` = "indianred", 
-              # `Population not in support with data of quality` = "indianred", 
-              `Population in support without data` = "dodgerblue4", 
-              `Population in support with data` = "dodgerblue"#,
-              # `Population in support with data of quality` = "dodgerblue"
-              )
-setdiff(terminus_freq.simple$evidence_simple, names(fill_pal))
-
-terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
-
-#
-max(terminus_freq.simple[making_claim == "making claim" &
-                           evidence_inclusion == "Excluded"]$n)
-
-terminus_freq.simple
-cites.p.excluded <- ggplot(data = terminus_freq.simple[making_claim == "making claim" &
-                                                         evidence_inclusion == "Excluded"], 
-                  aes(y = evidence_type_fine, fill = evidence_simple, 
-                      color = of_quality, 
-                      x = n
-                  ))+
-  geom_col(lwd = 1) +
-  # facet_wrap(~evidence_inclusion, scales = "free_y")+
+# No claim:
+cites.included.no.claim <- ggplot(data = terminus_freq.simple[making_claim == "no claim"], 
+                           aes(y = evidence_simple, fill = evidence_type_synthetic, 
+                               color = evidence_type_synthetic, x = n, #group = in_support
+                           ))+
+  geom_col(lwd = 1#, 
+           #position = position_dodge()
+  ) +
+  scale_y_discrete(breaks = c("Population", "Predation", "Excluded"),
+                   labels = c("Population", "Predation", "No primary data found"))+
   scale_color_manual(name = "Of quality",
-                     values = c("no" = "transparent",
-                                "yes" = "gold"),
-                     na.value = "black")+
+                     values = col_pal)+
   scale_fill_manual(values = fill_pal,
                     labels = labs)+
-  scale_y_discrete(breaks = names(labs),
-                   labels = labs)+
   xlab("Terminus of citation chains\n(total number of citations)")+
   ylab(NULL)+
   # geom_text(stat = "stratum", size = 3, color = "black") +
+  # coord_flip()+
+  coord_cartesian(xlim = c(0, 527))+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
+        strip.background = element_blank(),
+        strip.placement = "outside",
+        legend.position = "none")
+cites.included.no.claim
+
+
+# >>> Excluded evidence --------------------------------------------------
+
+terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
+terminus_edges
+terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id), 
+                                        "making claim", "no claim")]
+excluded <- terminus_edges[grepl("EXCLUDE", article_id)]
+
+excluded
+unique(excluded$evidence_type_fine)
+#
+unique(excluded[evidence_type_fine == "Failure to access or locate online full citation",]$Peer_reviewed_source)
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation", .(n = .N),
+         by = Peer_reviewed_source]
+
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           Peer_reviewed_source %in% c("Peer-reviewed journal article",
+                                       "Journal pre-1975") ,
+         evidence_type_fine := "Inaccessible journal article"]
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           Peer_reviewed_source %in% c("Book or chapter") ,
+         evidence_type_fine := "Inaccessible book"]
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           !Peer_reviewed_source %in% c("Peer-reviewed journal article",
+                                       "Journal pre-1975") ,
+         evidence_type_fine := "Inaccessible grey literature"]
+
+excluded[evidence_type_fine == "Modelling without data", evidence_type_fine := "Modelling without data"]
+
+#
+excluded_freq <- excluded[, .(n = .N), by = .(evidence_type_fine, making_claim)]
+
+sort(unique(excluded_freq$evidence_type_fine))
+
+excluded_freq[evidence_type_fine == "Opinion claim", ]
+excluded[evidence_type_fine == "Opinion claim", ]
+
+excluded_freq[evidence_type_fine == "Opinion claim", evidence_type_fine := "No citation given"]
+lvls <- c( "No citation given", 
+           "No claim",
+           "Expert opinion",
+           "Inaccessible grey literature",
+           "Inaccessible book",
+           "Unpublished data or article",
+           "Personal communication",
+           "Inaccessible journal article",
+           "Missing reference",
+           "Does not test claim", 
+           "Not in English or Spanish", 
+           "Modelling without data")
+
+setdiff(excluded_freq$evidence_type_fine, lvls)
+
+#
+excluded_freq$evidence_type_fine <- factor(excluded_freq$evidence_type_fine,
+                                                       levels = rev(lvls))
+sort(unique(excluded_freq$evidence_type_fine))
+
+pal <- c(`Modelling without data` = "grey", `Not in English or Spanish` = "grey", 
+         `Does not test claim` = "grey", `Missing reference` = "grey", 
+         `Personal communication` = "grey", 
+         `Unpublished data or article` = "grey", `Inaccessible book` = "grey", 
+         `Expert opinion` = "grey", `Modelling without data` = "grey",
+         `No claim` = "grey", `Inaccessible journal article` = "grey", 
+         `Inaccessible grey literature` = "grey", `No citation given` = "black"
+)
+
+excluded_freq
+cites.p.excluded <- ggplot(data = excluded_freq[making_claim == "making claim", ], 
+                  aes(y = evidence_type_fine, x = n, fill = evidence_type_fine))+
+  geom_col(lwd = 1) +
+  # scale_y_discrete(breaks = names(labs),
+  #                  labels = labs)+
+  scale_fill_manual(values = pal)+
+  xlab("Terminus of citation chains\n(total number of citations)")+
+  ylab(NULL)+
   theme_bw()+
   theme(panel.grid = element_blank(),
         strip.background = element_blank(),
@@ -632,38 +658,6 @@ cites.p.excluded <- ggplot(data = terminus_freq.simple[making_claim == "making c
         legend.position = "none")
 cites.p.excluded
 
-
-# terminus_freq.simple[]
-# 
-# terminus_freq.simple[making_claim == "making claim" &
-#                        evidence_inclusion == "Evidence"]
-#
-
-
-#
-# cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making claim" &
-#                                                          evidence_inclusion == "Evidence"], 
-#                            aes(y = evidence_simple, fill = evidence_type_fine, 
-#                                color = of_quality, group = in_support,
-#                                x = n
-#                            ))+
-#   geom_col(lwd = 1, position = position_dodge()) +
-#   facet_wrap(~evidence_inclusion, scales = "free_y")+
-#   scale_color_manual(name = "Of quality",
-#                      values = c("no" = "transparent",
-#                                 "yes" = "gold"),
-#                      na.value = "black")+
-#   scale_fill_manual(values = fill_pal,
-#                     labels = labs)+
-#   xlab("Terminus of citation chains\n(total number of citations)")+
-#   ylab(NULL)+
-#   # geom_text(stat = "stratum", size = 3, color = "black") +
-#   theme_bw()+
-#   theme(panel.grid = element_blank(),
-#         strip.background = element_blank(),
-#         panel.border = element_blank(),
-#         legend.position = "none")
-# cites.p.included
 
 # >>> By class ------------------------------------------------------------
 spp <- fread("builds/claims/species_claims_tidy_populated.csv")
@@ -728,7 +722,7 @@ terminus_freq.simple$evidence_type_synthetic <- factor(terminus_freq.simple$evid
                                                                        "Population in support with data", 
                                                                        "Population in support with data of quality")))
 labs <- c(`Core claim` = "Core claim", `No citation given` = "No citation given", 
-          Excluded = "No primary data found", `Predation in support without data` = "Predation in support without data", 
+          Excluded = "Excluded", `Predation in support without data` = "Predation in support without data", 
           `Predation not in support without data` = "Predation not in support without data", 
           `Population not in support without data` = "Population not in support without data", 
           `Population not in support with data` = "Population not in support with data", 
@@ -822,24 +816,30 @@ citation.p.flip
 
 cites.p.included <- cites.p.included + theme(legend.position = "none")
 
-(p1 + theme(legend.position = "none")) / 
-  (cites.p.excluded + theme(legend.position = "none") + 
-     cites.p.included / citation.p.flip)
+p1 <- p1 + theme(legend.position = "none")
+bottom_row <- cites.p.excluded + theme(legend.position = "none") | ( cites.p.included / citation.p.flip )
+bottom_row
 
-ggsave("figures/main_text/citations_raw.pdf", width = 8.5, height = 11,
+# Going to save these separately and combine in Inkscape.
+ggsave("figures/main_text/citations_raw.pdf", 
+       p1,
+       width = 14, height = 9,
        device = cairo_pdf)
 # cites.p.excluded + cites.p.included
 
+bottom_row
+ggsave("figures/main_text/citations_bottom_row.pdf", 
+       width = 8, height = 3)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
+# Alternatibve:
+bottom_row_left <- (cites.p.excluded + theme(legend.position = "none", 
+                                          axis.text.x = element_blank(),
+                                          axis.title.x = element_blank(),
+                                          axis.ticks.x = element_blank())) +
+                      cites.p.included + plot_layout(nrow = 2, heights = c(12/14, 2/14))#| (citation.p.flip )
+bottom_row_left
 
-# Proportion excluded by peer-reviewed ------------------------------------
-nodes
-
-excluded <- nodes[evidence_inclusion == "EXCLUDE" & evidence_type_synthetic != "No citation", ]
-unique(excluded[is.na(Peer_reviewed_source)]$article_node_name)
-
-excluded[, .(n = uniqueN(article_node_name)), by = .(Peer_reviewed_source)]
-
-
-
+bottom_row2 <- bottom_row_left | ((citation.p.flip ) / plot_spacer())
+bottom_row2
+ggsave("figures/main_text/citations_bottom_row_alternative.pdf", 
+       width = 8, height = 4)

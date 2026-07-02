@@ -21,8 +21,7 @@ convert_effect_sizes <- function(...,
                                  from = NULL,
                                  to = NULL,
                                  data = NULL,
-                                 bind = FALSE,
-                                 formula_path = NULL
+                                 bind = FALSE
                                  ){
   require("crayon")
   require("data.table")
@@ -30,9 +29,8 @@ convert_effect_sizes <- function(...,
   
   if(!is.null(data)) setDT(data)
   
-  if(is.null(formula_path)) stop("Please specify path to conversion formulas")
   # Prepare formulas:
-  formulas <- fread(formula_path)
+  formulas <- fread("/Users/ejlundgren/Dropbox/Projects/Meta_Methods_UAlberta/package_development/metatools_dev/data/conversion_formulas.csv")
   
   if(is.null(from) | is.null(to)){
     
@@ -40,6 +38,10 @@ convert_effect_sizes <- function(...,
     and provide necessary variables (as named arguments, e.g., n1 = group1_n or a numeric vector).\n")), 
         blue("\nReturning effect size names & required variables for reference.\n\n"))
     return(unique(formulas[, .(from_effect, to_effect, vars_required)]))
+  }
+  
+  if(length(from) > 1 | length(to) > 1){
+    stop("Vectors `from` and `to` must be length 1.")
   }
   
   sub_formulas <- formulas[from_effect == from &
@@ -62,6 +64,8 @@ convert_effect_sizes <- function(...,
   input <- list()
   args <- args[vars[vars %in% names(args)]]
   
+  #
+  # print(args)
   if(!is.null(data)){
     setDT(data)
     for(i in 1:length(args)){
@@ -96,19 +100,34 @@ convert_effect_sizes <- function(...,
 
 testing <- F
 if(testing){
-  from <- "SMD"
-  to <- "Zr"
+  formulas <- fread("/Users/ejlundgren/Dropbox/Projects/Meta_Methods_UAlberta/package_development/metatools_dev/data/conversion_formulas.csv")
+  
+  formulas[from_effect == "Zr" & to_effect == "SMD", ]
+  
+  
+  sub_formulas <- formulas[from_effect == "r" &
+                             to_effect == "SMD", ]
+  sub_formulas <- formulas[from_effect == "Zr" &
+                             to_effect == "SMD", ]
+  from <- "Zr"
+  to <- "SMD"
   yi <- 3.5
   vi <- .1
-  n1 <- 10
-  n2 <- 10
-  input <- list("yi" = yi, "n1" = n1, "n2" = n2)
+  n <- 10
+  # n2 <- 10
   
   # J <- ifelse((input$n1 + input$n2 - 2) <= 1, NA_real_, exp(lgamma((input$n1 + input$n2 - 2)/2) - log(sqrt((input$n1 + input$n2 - 2)/2)) - lgamma(((input$n1 + input$n2 - 2) - 1)/2))); d <- input$yi / J; a <- (input$n1 + input$n2)^2 / (input$n1 * input$n2); r <- d/sqrt(d^2 + a); yi_trans <- atanh(r)
+  dat <- data.table(n = c(9, 4), 
+                    yi = c(-1.331789, -1.659096), 
+                    vi = c(12, 4))
   
-  convert_effect_sizes(yi = yi, vi = vi, n1 = n1, n2 = n2,
-                       from = "SMD", to = "Zr")
-  
+  convert_effect_sizes(n = n, yi = yi, vi = vi,
+                       from = "Zr", to = "SMD",
+                       bind = TRUE,
+                       data = dat)
+  input <- list("yi" = dat$yi, "n" = dat$n)
+  from <- "Zr"
+  to <- "SMD"
   # input_vars <- list("yi" = yi, "n1" = n1, "n2" = n2)
   # input_vars
   # 
