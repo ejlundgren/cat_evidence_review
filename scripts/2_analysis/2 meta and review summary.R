@@ -2242,6 +2242,7 @@ sys_rev
 # >>> Plot ----------------------------------------------------
 
 continents <- st_read("data/spatial/4a7d27e1-84a3-4d6a-b4c2-6b6919f3cf4b202034-1-2zg7ul.ht5ut.shp")
+
 unique(sys_rev$Evidence_category)
 sys_rev[Evidence_category == "Control program", Evidence_category := "Population"]
 #
