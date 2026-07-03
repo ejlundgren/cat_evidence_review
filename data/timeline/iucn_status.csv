@@ -1,0 +1,114 @@
+Class,Order,Family,Genus,Scientific name,Redlist category,Realm,Systems
+REPTILIA,SQUAMATA,SCINCIDAE,Cryptoblepharus,Cryptoblepharus egeriae,Extinct in the Wild,Indomalayan,Terrestrial
+AVES,PASSERIFORMES,ACROCEPHALIDAE,Acrocephalus,Acrocephalus yamashinae,Extinct,Oceanian,Terrestrial|Freshwater (=Inland waters)
+AVES,PASSERIFORMES,FRINGILLIDAE,Hemignathus,Hemignathus hanapepe,Extinct,Oceanian,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Hemignathus,Hemignathus affinis,Extinct,Oceanian,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Loxops,Loxops ochraceus,Extinct,Oceanian,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,PERAMELIDAE,Isoodon,Isoodon auratus,Least Concern,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Lagorchestes,Lagorchestes asomatus,Extinct,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Lagorchestes,Lagorchestes hirsutus,Near Threatened,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Lagostrophus,Lagostrophus fasciatus,Vulnerable,Australasian,Terrestrial
+REPTILIA,SQUAMATA,TROPIDURIDAE,Leiocephalus,Leiocephalus eremitus,Extinct,Neotropical,Terrestrial
+REPTILIA,SQUAMATA,GEKKONIDAE,Lepidodactylus,Lepidodactylus listeri,Extinct in the Wild,Indomalayan,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Leporillus,Leporillus apicalis,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Leporillus,Leporillus conditor,Near Threatened,Australasian,Terrestrial
+REPTILIA,SQUAMATA,DIPSADIDAE,Erythrolamprus,Erythrolamprus perfuscus,Extinct,Neotropical,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,THYLACOMYIDAE,Macrotis,Macrotis lagotis,Vulnerable,Australasian,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,THYLACOMYIDAE,Macrotis,Macrotis leucura,Extinct,Australasian,Terrestrial
+REPTILIA,SQUAMATA,SCINCIDAE,Chioninia,Chioninia coctei,Extinct,Afrotropical,Terrestrial
+MAMMALIA,DASYUROMORPHIA,MYRMECOBIIDAE,Myrmecobius,Myrmecobius fasciatus,Endangered,Australasian,Terrestrial
+MAMMALIA,RODENTIA,CRICETIDAE,Nesoryzomys,Nesoryzomys darwini,Extinct,Neotropical,Terrestrial
+MAMMALIA,RODENTIA,CRICETIDAE,Nesoryzomys,Nesoryzomys indefessus,Extinct,Neotropical,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys amplus,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys fuscus,Near Threatened,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys longicaudatus,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys macrotis,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys mordax,Extinct,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Onychogalea,Onychogalea fraenata,Vulnerable,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Onychogalea,Onychogalea lunata,Extinct,Australasian,Terrestrial
+MAMMALIA,DASYUROMORPHIA,DASYURIDAE,Antechinomys,Antechinomys laniger,Least Concern,Australasian,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,PERAMELIDAE,Perameles,Perameles bougainville,Vulnerable,Australasian,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,PERAMELIDAE,Perameles,Perameles eremiana,Extinct,Australasian,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,PERAMELIDAE,Perameles,Perameles gunnii,Vulnerable,Australasian,Terrestrial
+MAMMALIA,DASYUROMORPHIA,DASYURIDAE,Phascogale,Phascogale calura,Near Threatened,Australasian,Terrestrial
+REPTILIA,SQUAMATA,SCINCIDAE,Leiolopisma,Leiolopisma ceciliae,Extinct,Afrotropical,Terrestrial
+REPTILIA,SQUAMATA,IGUANIDAE,Cyclura,Cyclura onchiopsis,Extinct,Neotropical,Terrestrial
+REPTILIA,SQUAMATA,GEKKONIDAE,Phelsuma,Phelsuma edwardnewtonii,Extinct,Afrotropical,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Potorous,Potorous platyops,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Pseudomys,Pseudomys fieldi,Vulnerable,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Pseudomys,Pseudomys glaucus,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Rattus,Rattus tunneyi,Least Concern,Australasian,Terrestrial
+MAMMALIA,EULIPOTYPHLA,SOLENODONTIDAE,Solenodon,Solenodon marcanoi,Extinct,Neotropical,Terrestrial
+MAMMALIA,PERAMELEMORPHIA,CHAEROPODIDAE,Chaeropus,Chaeropus ecaudatus,Extinct,Australasian,Terrestrial
+AVES,GALLIFORMES,PHASIANIDAE,Coturnix,Coturnix novaezelandiae,Extinct,Oceanian,Terrestrial
+AVES,ANSERIFORMES,ANATIDAE,Mergus,Mergus australis,Extinct,Oceanian,Freshwater (=Inland waters)|Marine
+AVES,COLUMBIFORMES,COLUMBIDAE,Pezophaps,Pezophaps solitaria,Extinct,Afrotropical,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Columba,Columba versicolor,Extinct,Palearctic,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Columba,Columba jouyi,Extinct,Palearctic,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Zenaida,Zenaida graysoni,Extinct in the Wild,Neotropical,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Pampusana,Pampusana salamonis,Extinct,Australasian,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Microgoura,Microgoura meeki,Extinct,Australasian,Terrestrial
+AVES,COLUMBIFORMES,COLUMBIDAE,Ptilinopus,Ptilinopus mercierii,Extinct,Oceanian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Hypotaenidia,Hypotaenidia pacifica,Extinct,Oceanian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Hypotaenidia,Hypotaenidia dieffenbachii,Extinct,Australasian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Zapornia,Zapornia sandwichensis,Extinct,Oceanian,Terrestrial
+AVES,CHARADRIIFORMES,HAEMATOPODIDAE,Haematopus,Haematopus meadewaldoi,Extinct,Palearctic,Terrestrial|Marine
+AVES,CHARADRIIFORMES,ALCIDAE,Ptychoramphus,Ptychoramphus aleuticus,Near Threatened,Nearctic,Terrestrial|Marine
+AVES,PROCELLARIIFORMES,HYDROBATIDAE,Hydrobates,Hydrobates macrodactylus,Critically Endangered,Nearctic,Terrestrial|Marine
+AVES,PASSERIFORMES,ACANTHISITTIDAE,Traversia,Traversia lyalli,Extinct,Australasian,Terrestrial
+AVES,PASSERIFORMES,PETROICIDAE,Petroica,Petroica traversi,Vulnerable,Australasian,Terrestrial
+AVES,PASSERIFORMES,CORVIDAE,Corvus,Corvus hawaiiensis,Extinct in the Wild,Oceanian,Terrestrial
+AVES,PASSERIFORMES,TURDIDAE,Zoothera,Zoothera terrestris,Extinct,Palearctic,Terrestrial
+AVES,PASSERIFORMES,TURDIDAE,Turdus,Turdus ravidus,Extinct,Neotropical,Terrestrial
+AVES,PASSERIFORMES,ZOSTEROPIDAE,Zosterops,Zosterops albogularis,Extinct,Australasian,Terrestrial
+AVES,PASSERIFORMES,ACROCEPHALIDAE,Nesillas,Nesillas aldabrana,Extinct,Afrotropical,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Carpodacus,Carpodacus ferreorostris,Extinct,Palearctic,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Psittirostra,Psittirostra psittacea,Extinct,Oceanian,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Dysmorodrepanis,Dysmorodrepanis munroi,Extinct,Oceanian,Terrestrial
+AVES,PASSERIFORMES,FRINGILLIDAE,Melamprosops,Melamprosops phaeosoma,Extinct,Oceanian,Terrestrial
+AVES,CORACIIFORMES,ALCEDINIDAE,Todiramphus,Todiramphus cinnamominus,Extinct in the Wild,Oceanian,Terrestrial
+AVES,CHARADRIIFORMES,SCOLOPACIDAE,Coenocorypha,Coenocorypha aucklandica,Near Threatened,Australasian,Terrestrial
+AVES,CHARADRIIFORMES,SCOLOPACIDAE,Coenocorypha,Coenocorypha iredalei,Extinct,Oceanian,Terrestrial
+AVES,ANSERIFORMES,ANATIDAE,Anas,Anas chlorotis,Near Threatened,Oceanian,Terrestrial|Freshwater (=Inland waters)|Marine
+AVES,ANSERIFORMES,ANATIDAE,Alopochen,Alopochen mauritiana,Extinct,Afrotropical,Freshwater (=Inland waters)
+AVES,COLUMBIFORMES,COLUMBIDAE,Nesoenas,Nesoenas duboisi,Extinct,Afrotropical,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Hypotaenidia,Hypotaenidia poeciloptera,Extinct,Oceanian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Mundia,Mundia elpenor,Extinct,Afrotropical,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Gallinula,Gallinula nesiotis,Extinct,Afrotropical,Terrestrial|Freshwater (=Inland waters)
+AVES,PELECANIFORMES,ARDEIDAE,Nycticorax,Nycticorax mauritianus,Extinct,Afrotropical,Terrestrial|Freshwater (=Inland waters)
+AVES,PELECANIFORMES,ARDEIDAE,Nycticorax,Nycticorax megacephalus,Extinct,Afrotropical,Freshwater (=Inland waters)
+AVES,PELECANIFORMES,THRESKIORNITHIDAE,Threskiornis,Threskiornis solitarius,Extinct,Afrotropical,Terrestrial|Freshwater (=Inland waters)
+AVES,PROCELLARIIFORMES,PROCELLARIIDAE,Pterodroma,Pterodroma rupinarum,Extinct,Afrotropical,Terrestrial|Marine
+AVES,PASSERIFORMES,MELIPHAGIDAE,Anthornis,Anthornis melanocephala,Extinct,Australasian,Terrestrial
+AVES,PASSERIFORMES,ORIOLIDAE,Turnagra,Turnagra tanagra,Extinct,Oceanian,Terrestrial
+AVES,PSITTACIFORMES,PSITTACIDAE,Necropsittacus,Necropsittacus rodricanus,Extinct,Afrotropical,Terrestrial
+AVES,STRIGIFORMES,STRIGIDAE,Mascarenotus,Mascarenotus murivorus,Extinct,Afrotropical,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Cabalus,Cabalus modestus,Extinct,Australasian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Aphanapteryx,Aphanapteryx bonasia,Extinct,Afrotropical,Terrestrial
+AVES,PASSERIFORMES,LOCUSTELLIDAE,Poodytes,Poodytes rufescens,Extinct,Australasian,Terrestrial
+AVES,PASSERIFORMES,MONARCHIDAE,Pomarea,Pomarea fluxa,Extinct,Oceanian,Terrestrial
+AVES,PASSERIFORMES,ACROCEPHALIDAE,Acrocephalus,Acrocephalus musae,Extinct,Oceanian,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Bettongia,Bettongia gaimardi,Near Threatened,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Bettongia,Bettongia lesueur,Near Threatened,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Bettongia,Bettongia penicillata,Near Threatened,Australasian,Terrestrial
+REPTILIA,SQUAMATA,BOLYERIDAE,Bolyeria,Bolyeria multocarinata,Extinct,Afrotropical,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Caloprymnus,Caloprymnus campestris,Extinct,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,PHALANGERIDAE,Trichosurus,Trichosurus vulpecula,Least Concern,Australasian,Terrestrial
+MAMMALIA,DIPROTODONTIA,MACROPODIDAE,Notamacropus,Macropus eugenii,Least Concern,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Pseudomys,Pseudomys bolami,Least Concern,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Notomys,Notomys robustus,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Conilurus,Conilurus albipes,Extinct,Australasian,Terrestrial
+AVES,CHARADRIIFORMES,SCOLOPACIDAE,Coenocorypha,Coenocorypha barrierensis,Extinct,Oceanian,Terrestrial
+AVES,GRUIFORMES,RALLIDAE,Dryolimnas,Dryolimnas augusti,Extinct,Afrotropical,Terrestrial|Freshwater (=Inland waters)
+AVES,GRUIFORMES,RALLIDAE,Porphyrio,Porphyrio paepae,Extinct,Oceanian,Terrestrial|Freshwater (=Inland waters)
+AVES,PELECANIFORMES,ARDEIDAE,Nyctanassa,Nyctanassa carcinocatactes,Extinct,Neotropical,Terrestrial|Freshwater (=Inland waters)
+AVES,CHARADRIIFORMES,SCOLOPACIDAE,Prosobonia,Prosobonia cancellata,Extinct,Oceanian,Terrestrial|Marine
+MAMMALIA,DASYUROMORPHIA,DASYURIDAE,Dasycercus,Dasycercus cristicauda,Near Threatened,Australasian,Terrestrial
+MAMMALIA,DASYUROMORPHIA,DASYURIDAE,Dasyurus,Dasyurus geoffroii,Near Threatened,Australasian,Terrestrial
+MAMMALIA,DASYUROMORPHIA,DASYURIDAE,Dasyurus,Dasyurus viverrinus,Endangered,Australasian,Terrestrial
+REPTILIA,SQUAMATA,TEIIDAE,Contomastix,Contomastix charrua,Extinct,Neotropical,Terrestrial
+MAMMALIA,DIPROTODONTIA,POTOROIDAE,Bettongia,Bettongia anhydra,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Pseudomys,Pseudomys australis,Vulnerable,Australasian,Terrestrial
+MAMMALIA,RODENTIA,MURIDAE,Pseudomys,Pseudomys auritus,Extinct,Australasian,Terrestrial
+MAMMALIA,RODENTIA,CAPROMYIDAE,Geocapromys,Geocapromys thoracatus,Extinct,Neotropical,Terrestrial
+REPTILIA,TESTUDINES,TESTUDINIDAE,Chelonoidis,Chelonoidis niger,Extinct,Neotropical,Terrestrial
