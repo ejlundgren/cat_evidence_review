@@ -81,8 +81,6 @@ nrow(dat[duplicated(article_id)])
 nrow(dat[duplicated(Article)])
 # Must be equal. Good
 
-dat[is.na(yi_smd), ]
-
 unique(dat[, .(analysis_group, analysis_effect_size)])
 
 # Let's lump abundance and reproduction by effect size type
@@ -118,63 +116,76 @@ dat.long[year == "12", year := 2009]
 
 dat.long[, year := as.numeric(year)]
 
-# >>> Calculate effective sample size ---------------------
-
-unique(dat.long$analysis_effect_size)
-dat.long[analysis_effect_size == "SMD", ]$original_effect_size
-# I think we should use vi for this one
-
-dat.long[analysis_effect_size == "lnOR", ]$original_effect_size
-# I think we should use effective n for this one
-
-dat.long[analysis_effect_size == "Zr", ]$original_effect_size
-# I think we should use vi for this one
-
-#
-# n2i = Sample_size_overall_cats_Absent, n1i = Sample_size_overall_cats_Present,
-
-dat.long[analysis_effect_size == "lnOR", .(Sample_size_overall_cats_Absent)]
-dat.long[analysis_effect_size == "lnOR" &
-           original_effect_size == "SMD",]
-dat.long[analysis_effect_size == "lnOR" &
-           original_effect_size == "SMD", `:=` (n2 = Sample_size_overall_cats_Absent,
-                                                n1 = Sample_size_overall_cats_Present)]
-
-dat.long[analysis_effect_size %in% c("lnOR"), 
-         effective_N := (4*n1*n2)/(n1+n2)]
-dat.long[analysis_effect_size %in% c("lnOR"), ]
-
-
-dat.long[analysis_effect_size %in% c("lnOR"), correction := 1/effective_N]
-dat.long[analysis_effect_size %in% c("lnOR"), bias_test := sqrt(1/effective_N)]
-
-#
-dat.long[analysis_effect_size %in% c("SMD","Zr"), correction := vi_analysis]
-dat.long[analysis_effect_size %in% c("SMD","Zr"), bias_test := sqrt(vi_analysis)]
-
+# Because of mixed effect size types, let's just do time-lag publication bias?
 
 dat.long[, year_scaled := scale(year)]
+
+# >>> DEPREC Calculate effective sample size ---------------------
+#' [This is tricky for conversions. No published method. No way to calculate effective N for Zr that has been converted to SMD...]
+
+# dat.long[, n_effect_types := uniqueN(original_effect_size), by = .(analysis_group)]
+# unique(dat.long[n_effect_types == 1, ]$analysis_group)
+# 
+# 
+# 
+# unique(dat.long$analysis_effect_size)
+# dat.long[analysis_effect_size == "SMD", ]$original_effect_size
+# # I think we should use vi for this one
+# 
+# dat.long[analysis_effect_size == "lnOR", ]$original_effect_size
+# # I think we should use effective n for this one
+# 
+# dat.long[analysis_effect_size == "Zr", ]$original_effect_size
+# # I think we should use vi for this one
+# 
+# #
+# # n2i = Sample_size_overall_cats_Absent, n1i = Sample_size_overall_cats_Present,
+# 
+# dat.long[analysis_effect_size == "lnOR", ]
+# dat.long[original_effect_size == "SMD",]$n1
+# dat.long[original_effect_size == "lnOR",]$n1
+# 
+# dat.long[analysis_effect_size %in% c("lnOR", "SMD"), .(n1, n2)]
+# dat.long[analysis_effect_size %in% c("lnOR", "SMD") &
+#            is.na(n1), ]
+# 
+# # dat.long[analysis_effect_size == "lnOR" &
+# #            original_effect_size == "SMD", `:=` (n2 = Sample_size_overall_cats_Absent,
+# #                                                 n1 = Sample_size_overall_cats_Present)]
+# 
+# dat.long[analysis_effect_size %in% c("lnOR"), 
+#          effective_N := (4*n1*n2)/(n1+n2)]
+# dat.long[analysis_effect_size %in% c("lnOR"), ]
+# # 
+# # 
+# # dat.long[analysis_effect_size %in% c("lnOR"), correction := 1/effective_N]
+# # dat.long[analysis_effect_size %in% c("lnOR"), bias_test := sqrt(1/effective_N)]
+# # 
+# # #
+# # dat.long[analysis_effect_size %in% c("SMD","Zr"), correction := vi_analysis]
+# # dat.long[analysis_effect_size %in% c("SMD","Zr"), bias_test := sqrt(vi_analysis)]
+
+
 
 # Set up model guide -----------------------------------------------------------------
 
 unique(dat.long$analysis_group)
-unique(dat.long$class)
 
-guide <- CJ(analysis_group_collapsed = unique(dat.long$analysis_group_collapsed),
-            moderator = c("year_scaled", "correction", "bias_test"),
-            class = c("All", "Mammals", "Birds")
+
+guide <- CJ(analysis_group = unique(dat.long$analysis_group),
+            moderator = c("year_scaled")
 )
 
 guide[, random_effect := "list(~1|article_id/Effect_size_ID"]
 
-guide[, exclusion := paste0("analysis_group_collapsed == '", analysis_group_collapsed, "'")]
-guide[class != "All", exclusion := paste(exclusion, "& class == '", class, "'")]
+guide[, exclusion := paste0("analysis_group == '", analysis_group, "'")]
+# guide[class != "All", exclusion := paste(exclusion, "& class == '", class, "'")]
 
 guide[, formula := paste("~", moderator)]
 
 guide
 
-guide[, model_id := paste(analysis_group_collapsed, moderator)]
+guide[, model_id := paste(analysis_group, moderator)]
 
 # Run models --------------------------------------------------------------
 
@@ -185,8 +196,8 @@ i <- 1
 for(i in 1:nrow(guide)){
   sub.dat <- dat.long[eval(parse(text = guide$exclusion[i]))]
   
-  try({
-    bias_models[[i]] <- rma.mv(yi_analysis,
+  bias_models[[i]] <- try({
+                            rma.mv(yi_analysis,
                              V = vi_analysis,
                              method = "REML",
                              test = "t",
@@ -194,18 +205,21 @@ for(i in 1:nrow(guide)){
                              mods = as.formula(guide$formula[i]),
                              random = ~1 | article_id/Effect_size_ID,
                              data = sub.dat)
-  
-  bias_tidy[[i]] <- bias_models[[i]] |> 
-    tidy() |>
-    mutate(sigma = min(bias_models[[i]]$sigma2),
-           df = paste(bias_models[[i]]$ddf, collapse = ", "),
-           lower_ci = bias_models[[i]]$ci.lb,
-           upper_ci = bias_models[[i]]$ci.ub) |>
-    bind_cols(guide[i, ]) |>
-    setDT()
   })
+  if(!inherits(bias_models[[i]], "try-error")){
+    bias_tidy[[i]] <- bias_models[[i]] |> 
+      tidy() |>
+      mutate(sigma = min(bias_models[[i]]$sigma2),
+             df = paste(bias_models[[i]]$ddf, collapse = ", "),
+             lower_ci = bias_models[[i]]$ci.lb,
+             upper_ci = bias_models[[i]]$ci.ub) |>
+      bind_cols(guide[i, ]) |>
+      setDT()
+  }
+
   
 }
+
 # names(bias_models) <- guide$model_id
 bias_models
 
@@ -213,19 +227,8 @@ bias_models
 # Bias:
 bias_tidy <- rbindlist(bias_tidy)
 bias_tidy
-bias_tidy[p.value < 0.05 &
-            term == "bias_test" &
-            moderator == "bias_test"]
 
-bias_tidy[analysis_group_collapsed == "reproduction_SMD" &
-            moderator == "correction"]
-#' [This suggests that without publication bias, cats would have a positive effect on reproduction]
-
-
-# Decline effects:
-bias_tidy[p.value < 0.05 &
-            moderator == "year_scaled"]
-# So increasingly positive relationship between abundance and cats with time. 
+bias_tidy[p.value < 0.05, ]
 
 # Table -------------------------------------------------------------------
 
@@ -235,28 +238,51 @@ bias_tidy[p.value < 0.05, `Test statistics` := paste(`Test statistics`, "*")]
 
 bias_tidy
 
+dput(unique(bias_tidy$analysis_group))
+#
+bias_tidy$analysis_group <- factor(bias_tidy$analysis_group,
+                                   levels = c("Abundance with/without cats", 
+                                              "Abundance before-after eradication", 
+                                              "Abundance on islands with/without cats", 
+                                              "Abundance spatial association", 
+                                              "Abundance temporal association", 
+                                              
+                                              "Reproduction with/without cats",
+                                              "Reproduction before-after eradication", 
+                                              "Reproduction inside/outside exclosure", 
+                                              "Reproduction temporal association"
+                                              ))
+bias_tidy[analysis_group == "Reproduction inside/outside exclosure", ]
+
 model.gt <- bias_tidy %>%
-  mutate(response = case_when(analysis_group_collapsed == "abundance_Zr" ~ "Short-term abundance (Zr)",
-                              analysis_group_collapsed == "abundance_lnOR" ~ "Long-term abundance (lnOR)",
-                              analysis_group_collapsed == "reproduction_SMD" ~ "Reproductive success (SMD)"),
+  filter(!is.na(term) & term != "overall") %>%
+  mutate(
          moderator = case_when(moderator == "bias_test" ~ "Testing for bias",
                                moderator == "correction" ~ "Bias-corrected estimate",
                                moderator == "year_scaled" ~ "Year"),
          term = case_when(term == "bias_test" ~ "Bias test",
                           term == "correction" ~ "Correction",
                           term == "year_scaled" ~ "Publication year",
-                          term == "intercept" ~ "intercept")) %>%
-  select(moderator, term, `Test statistics`, Estimate,
-         response, class) %>%
-  group_by(response, class) %>%
+                          term == "intercept" ~ "Intercept")) %>%
+  select(term, Estimate, `Test statistics`,
+         analysis_group) %>%
+  group_by(analysis_group) %>%
   gt() %>%
   fmt_markdown(columns = `Test statistics`) %>%
+  tab_header(#title = ,
+    md("**Table S13**. We found no evidence for time-lag effects, where initially strong results decline through time. Table includes test statistics and model estimates ± 95% CIs for the intercept and publication year.")) |>
+  opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),
     locations = cells_row_groups()) %>%
   opt_table_font(
     size = 12
+  ) |> 
+  tab_options(
+    latex.use_longtable = TRUE,
+    latex.header_repeat = FALSE
   )
+
 class(model.gt)
 
 print(model.gt)

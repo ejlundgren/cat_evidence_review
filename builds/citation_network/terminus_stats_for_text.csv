@@ -1,187 +1,158 @@
 class,network_type,total_citation_chains,n_citations,percent,evidence_type
-overall,Non-claimant network,598,270,45.1505016722408,Not primary data
-overall,Non-claimant network,598,328,54.8494983277592,Primary data
-overall,Non-claimant network,598,1,0.167224080267559,No citation given
-overall,Non-claimant network,598,46,7.69230769230769,Opinion claim
-overall,Non-claimant network,598,173,28.9297658862876,No claim
-overall,Non-claimant network,598,36,6.02006688963211,Inaccessible
-overall,Non-claimant network,598,2,0.334448160535117,Not in English or Spanish
-overall,Non-claimant network,598,12,2.0066889632107,Does not test claim
-overall,Non-claimant network,598,184,30.7692307692308,Predation in support without data
-overall,Non-claimant network,598,34,5.68561872909699,Predation not in support without data
-overall,Non-claimant network,598,7,1.17056856187291,Population in support without data
-overall,Non-claimant network,598,3,0.501672240802676,Population not in support without data
-overall,Non-claimant network,598,29,4.8494983277592,Population in support with data
-overall,Non-claimant network,598,29,4.8494983277592,Population not in support with data
-overall,Non-claimant network,598,16,2.67558528428094,Population in support with data of quality
-overall,Non-claimant network,598,26,4.34782608695652,Population not in support with data of quality
+overall,Non-claimant network,630,270,42.8571428571429,Not primary data
+overall,Non-claimant network,630,360,57.1428571428571,Primary data
+overall,Non-claimant network,630,1,0.158730158730159,No citation given
+overall,Non-claimant network,630,173,27.4603174603175,No claim
+overall,Non-claimant network,630,38,6.03174603174603,Inaccessible
+overall,Non-claimant network,630,58,9.20634920634921,Does not test claim
+overall,Non-claimant network,630,184,29.2063492063492,Predation in support without data
+overall,Non-claimant network,630,34,5.3968253968254,Predation not in support without data
+overall,Non-claimant network,630,7,1.11111111111111,Population in support without data
+overall,Non-claimant network,630,3,0.476190476190476,Population not in support without data
+overall,Non-claimant network,630,50,7.93650793650794,Population in support with data
+overall,Non-claimant network,630,37,5.87301587301587,Population not in support with data
+overall,Non-claimant network,630,19,3.01587301587302,Population in support with data of quality
+overall,Non-claimant network,630,26,4.12698412698413,Population not in support with data of quality
 overall,Web of Science network,433,268,61.8937644341802,Not primary data
 overall,Web of Science network,433,165,38.1062355658199,Primary data
 overall,Web of Science network,433,1,0.23094688221709,No citation given
-overall,Web of Science network,433,45,10.3926096997691,Opinion claim
 overall,Web of Science network,433,172,39.7228637413395,No claim
-overall,Web of Science network,433,36,8.31408775981524,Inaccessible
-overall,Web of Science network,433,2,0.46189376443418,Not in English or Spanish
-overall,Web of Science network,433,12,2.77136258660508,Does not test claim
+overall,Web of Science network,433,38,8.77598152424942,Inaccessible
+overall,Web of Science network,433,57,13.1639722863741,Does not test claim
 overall,Web of Science network,433,93,21.4780600461894,Predation in support without data
 overall,Web of Science network,433,18,4.15704387990762,Predation not in support without data
 overall,Web of Science network,433,4,0.92378752886836,Population in support without data
 overall,Web of Science network,433,2,0.46189376443418,Population not in support without data
-overall,Web of Science network,433,15,3.46420323325635,Population in support with data
+overall,Web of Science network,433,14,3.23325635103926,Population in support with data
 overall,Web of Science network,433,12,2.77136258660508,Population not in support with data
-overall,Web of Science network,433,8,1.84757505773672,Population in support with data of quality
+overall,Web of Science network,433,9,2.07852193995381,Population in support with data of quality
 overall,Web of Science network,433,13,3.00230946882217,Population not in support with data of quality
-overall,claimant network,2250,1861,82.7111111111111,Not primary data
-overall,claimant network,2250,389,17.2888888888889,Primary data
-overall,claimant network,2250,527,23.4222222222222,No citation given
-overall,claimant network,2250,279,12.4,Opinion claim
-overall,claimant network,2250,310,13.7777777777778,No claim
-overall,claimant network,2250,661,29.3777777777778,Inaccessible
-overall,claimant network,2250,24,1.06666666666667,Not in English or Spanish
-overall,claimant network,2250,31,1.37777777777778,Core claim
-overall,claimant network,2250,29,1.28888888888889,Does not test claim
-overall,claimant network,2250,271,12.0444444444444,Predation in support without data
-overall,claimant network,2250,34,1.51111111111111,Predation not in support without data
-overall,claimant network,2250,20,0.888888888888889,Population in support without data
-overall,claimant network,2250,6,0.266666666666667,Population not in support without data
-overall,claimant network,2250,15,0.666666666666667,Population in support with data
-overall,claimant network,2250,28,1.24444444444444,Population not in support with data
-overall,claimant network,2250,9,0.4,Population in support with data of quality
-overall,claimant network,2250,6,0.266666666666667,Population not in support with data of quality
-overall,entire network,2893,2159,74.6284134116834,Not primary data
-overall,entire network,2893,734,25.3715865883166,Primary data
-overall,entire network,2893,528,18.2509505703422,No citation given
-overall,entire network,2893,334,11.5451088835119,Opinion claim
-overall,entire network,2893,489,16.9028689941237,No claim
-overall,entire network,2893,709,24.5074317317663,Inaccessible
-overall,entire network,2893,26,0.898721050812306,Not in English or Spanish
-overall,entire network,2893,31,1.07155202212236,Core claim
-overall,entire network,2893,42,1.45178015900449,Does not test claim
-overall,entire network,2893,469,16.2115451088835,Predation in support without data
-overall,entire network,2893,69,2.38506740407881,Predation not in support without data
-overall,entire network,2893,27,0.933287245074317,Population in support without data
-overall,entire network,2893,9,0.311095748358106,Population not in support without data
-overall,entire network,2893,44,1.52091254752852,Population in support with data
-overall,entire network,2893,57,1.97027307293467,Population not in support with data
-overall,entire network,2893,25,0.864154856550294,Population in support with data of quality
-overall,entire network,2893,34,1.1752506049084,Population not in support with data of quality
+overall,claimant network,2304,1859,80.6857638888889,Not primary data
+overall,claimant network,2304,445,19.3142361111111,Primary data
+overall,claimant network,2304,527,22.8732638888889,No citation given
+overall,claimant network,2304,339,14.7135416666667,No claim
+overall,claimant network,2304,685,29.7309027777778,Inaccessible
+overall,claimant network,2304,308,13.3680555555556,Does not test claim
+overall,claimant network,2304,309,13.4114583333333,Predation in support without data
+overall,claimant network,2304,35,1.51909722222222,Predation not in support without data
+overall,claimant network,2304,24,1.04166666666667,Population in support without data
+overall,claimant network,2304,8,0.347222222222222,Population not in support without data
+overall,claimant network,2304,18,0.78125,Population in support with data
+overall,claimant network,2304,34,1.47569444444444,Population not in support with data
+overall,claimant network,2304,11,0.477430555555556,Population in support with data of quality
+overall,claimant network,2304,6,0.260416666666667,Population not in support with data of quality
+overall,entire network,2979,2157,72.4068479355488,Not primary data
+overall,entire network,2979,822,27.5931520644512,Primary data
+overall,entire network,2979,528,17.7240684793555,No citation given
+overall,entire network,2979,518,17.3883853642162,No claim
+overall,entire network,2979,735,24.6727089627392,Inaccessible
+overall,entire network,2979,376,12.621685129238,Does not test claim
+overall,entire network,2979,507,17.0191339375629,Predation in support without data
+overall,entire network,2979,70,2.34978180597516,Predation not in support without data
+overall,entire network,2979,31,1.04061765693186,Population in support without data
+overall,entire network,2979,11,0.369251426653239,Population not in support without data
+overall,entire network,2979,68,2.2826451829473,Population in support with data
+overall,entire network,2979,71,2.38335011748909,Population not in support with data
+overall,entire network,2979,30,1.00704934541793,Population in support with data of quality
+overall,entire network,2979,34,1.14132259147365,Population not in support with data of quality
 Reptiles,Non-claimant network,31,25,80.6451612903226,Not primary data
 Reptiles,Non-claimant network,31,6,19.3548387096774,Primary data
-Reptiles,Non-claimant network,31,7,22.5806451612903,Opinion claim
 Reptiles,Non-claimant network,31,12,38.7096774193548,No claim
 Reptiles,Non-claimant network,31,3,9.67741935483871,Inaccessible
-Reptiles,Non-claimant network,31,3,9.67741935483871,Does not test claim
+Reptiles,Non-claimant network,31,10,32.258064516129,Does not test claim
 Reptiles,Non-claimant network,31,5,16.1290322580645,Predation in support without data
 Reptiles,Non-claimant network,31,1,3.2258064516129,Population in support with data of quality
 Reptiles,Web of Science network,31,25,80.6451612903226,Not primary data
 Reptiles,Web of Science network,31,6,19.3548387096774,Primary data
-Reptiles,Web of Science network,31,7,22.5806451612903,Opinion claim
 Reptiles,Web of Science network,31,12,38.7096774193548,No claim
 Reptiles,Web of Science network,31,3,9.67741935483871,Inaccessible
-Reptiles,Web of Science network,31,3,9.67741935483871,Does not test claim
+Reptiles,Web of Science network,31,10,32.258064516129,Does not test claim
 Reptiles,Web of Science network,31,5,16.1290322580645,Predation in support without data
 Reptiles,Web of Science network,31,1,3.2258064516129,Population in support with data of quality
-Reptiles,claimant network,469,421,89.7654584221748,Not primary data
-Reptiles,claimant network,469,48,10.2345415778252,Primary data
-Reptiles,claimant network,469,145,30.9168443496802,No citation given
-Reptiles,claimant network,469,48,10.2345415778252,Opinion claim
-Reptiles,claimant network,469,74,15.7782515991471,No claim
-Reptiles,claimant network,469,142,30.2771855010661,Inaccessible
-Reptiles,claimant network,469,7,1.49253731343284,Not in English or Spanish
-Reptiles,claimant network,469,1,0.213219616204691,Core claim
-Reptiles,claimant network,469,4,0.852878464818763,Does not test claim
-Reptiles,claimant network,469,42,8.95522388059701,Predation in support without data
-Reptiles,claimant network,469,2,0.426439232409382,Population in support without data
-Reptiles,claimant network,469,1,0.213219616204691,Population not in support without data
-Reptiles,claimant network,469,2,0.426439232409382,Population in support with data
-Reptiles,claimant network,469,1,0.213219616204691,Population not in support with data
-Reptiles,entire network,512,449,87.6953125,Not primary data
-Reptiles,entire network,512,63,12.3046875,Primary data
-Reptiles,entire network,512,145,28.3203125,No citation given
-Reptiles,entire network,512,57,11.1328125,Opinion claim
-Reptiles,entire network,512,87,16.9921875,No claim
-Reptiles,entire network,512,145,28.3203125,Inaccessible
-Reptiles,entire network,512,7,1.3671875,Not in English or Spanish
-Reptiles,entire network,512,1,0.1953125,Core claim
-Reptiles,entire network,512,7,1.3671875,Does not test claim
-Reptiles,entire network,512,55,10.7421875,Predation in support without data
-Reptiles,entire network,512,1,0.1953125,Predation not in support without data
-Reptiles,entire network,512,2,0.390625,Population in support without data
-Reptiles,entire network,512,1,0.1953125,Population not in support without data
-Reptiles,entire network,512,2,0.390625,Population in support with data
-Reptiles,entire network,512,1,0.1953125,Population not in support with data
-Reptiles,entire network,512,1,0.1953125,Population in support with data of quality
-Mammals,Non-claimant network,350,119,34,Not primary data
-Mammals,Non-claimant network,350,231,66,Primary data
-Mammals,Non-claimant network,350,8,2.28571428571429,Opinion claim
-Mammals,Non-claimant network,350,99,28.2857142857143,No claim
-Mammals,Non-claimant network,350,6,1.71428571428571,Inaccessible
-Mammals,Non-claimant network,350,1,0.285714285714286,Not in English or Spanish
-Mammals,Non-claimant network,350,5,1.42857142857143,Does not test claim
-Mammals,Non-claimant network,350,125,35.7142857142857,Predation in support without data
-Mammals,Non-claimant network,350,20,5.71428571428571,Predation not in support without data
-Mammals,Non-claimant network,350,4,1.14285714285714,Population in support without data
-Mammals,Non-claimant network,350,2,0.571428571428571,Population not in support without data
-Mammals,Non-claimant network,350,23,6.57142857142857,Population in support with data
-Mammals,Non-claimant network,350,23,6.57142857142857,Population not in support with data
-Mammals,Non-claimant network,350,10,2.85714285714286,Population in support with data of quality
-Mammals,Non-claimant network,350,24,6.85714285714286,Population not in support with data of quality
+Reptiles,claimant network,486,421,86.6255144032922,Not primary data
+Reptiles,claimant network,486,65,13.3744855967078,Primary data
+Reptiles,claimant network,486,145,29.8353909465021,No citation given
+Reptiles,claimant network,486,75,15.4320987654321,No claim
+Reptiles,claimant network,486,149,30.6584362139918,Inaccessible
+Reptiles,claimant network,486,52,10.6995884773663,Does not test claim
+Reptiles,claimant network,486,57,11.7283950617284,Predation in support without data
+Reptiles,claimant network,486,3,0.617283950617284,Population in support without data
+Reptiles,claimant network,486,1,0.205761316872428,Population not in support without data
+Reptiles,claimant network,486,2,0.411522633744856,Population in support with data
+Reptiles,claimant network,486,1,0.205761316872428,Population not in support with data
+Reptiles,claimant network,486,1,0.205761316872428,Population in support with data of quality
+Reptiles,entire network,529,449,84.8771266540643,Not primary data
+Reptiles,entire network,529,80,15.1228733459357,Primary data
+Reptiles,entire network,529,145,27.4102079395085,No citation given
+Reptiles,entire network,529,88,16.6351606805293,No claim
+Reptiles,entire network,529,152,28.7334593572779,Inaccessible
+Reptiles,entire network,529,64,12.0982986767486,Does not test claim
+Reptiles,entire network,529,70,13.2325141776938,Predation in support without data
+Reptiles,entire network,529,1,0.189035916824197,Predation not in support without data
+Reptiles,entire network,529,3,0.56710775047259,Population in support without data
+Reptiles,entire network,529,1,0.189035916824197,Population not in support without data
+Reptiles,entire network,529,2,0.378071833648393,Population in support with data
+Reptiles,entire network,529,1,0.189035916824197,Population not in support with data
+Reptiles,entire network,529,2,0.378071833648393,Population in support with data of quality
+Mammals,Non-claimant network,382,119,31.151832460733,Not primary data
+Mammals,Non-claimant network,382,263,68.848167539267,Primary data
+Mammals,Non-claimant network,382,99,25.9162303664922,No claim
+Mammals,Non-claimant network,382,7,1.83246073298429,Inaccessible
+Mammals,Non-claimant network,382,13,3.40314136125654,Does not test claim
+Mammals,Non-claimant network,382,125,32.7225130890052,Predation in support without data
+Mammals,Non-claimant network,382,20,5.23560209424084,Predation not in support without data
+Mammals,Non-claimant network,382,4,1.04712041884817,Population in support without data
+Mammals,Non-claimant network,382,2,0.523560209424084,Population not in support without data
+Mammals,Non-claimant network,382,44,11.5183246073298,Population in support with data
+Mammals,Non-claimant network,382,31,8.1151832460733,Population not in support with data
+Mammals,Non-claimant network,382,13,3.40314136125654,Population in support with data of quality
+Mammals,Non-claimant network,382,24,6.28272251308901,Population not in support with data of quality
 Mammals,Web of Science network,185,117,63.2432432432433,Not primary data
 Mammals,Web of Science network,185,68,36.7567567567568,Primary data
-Mammals,Web of Science network,185,7,3.78378378378378,Opinion claim
 Mammals,Web of Science network,185,98,52.972972972973,No claim
-Mammals,Web of Science network,185,6,3.24324324324324,Inaccessible
-Mammals,Web of Science network,185,1,0.540540540540541,Not in English or Spanish
-Mammals,Web of Science network,185,5,2.7027027027027,Does not test claim
+Mammals,Web of Science network,185,7,3.78378378378378,Inaccessible
+Mammals,Web of Science network,185,12,6.48648648648649,Does not test claim
 Mammals,Web of Science network,185,34,18.3783783783784,Predation in support without data
 Mammals,Web of Science network,185,4,2.16216216216216,Predation not in support without data
 Mammals,Web of Science network,185,1,0.540540540540541,Population in support without data
 Mammals,Web of Science network,185,1,0.540540540540541,Population not in support without data
-Mammals,Web of Science network,185,9,4.86486486486487,Population in support with data
+Mammals,Web of Science network,185,8,4.32432432432432,Population in support with data
 Mammals,Web of Science network,185,6,3.24324324324324,Population not in support with data
-Mammals,Web of Science network,185,2,1.08108108108108,Population in support with data of quality
+Mammals,Web of Science network,185,3,1.62162162162162,Population in support with data of quality
 Mammals,Web of Science network,185,11,5.94594594594595,Population not in support with data of quality
-Mammals,claimant network,622,510,81.9935691318328,Not primary data
-Mammals,claimant network,622,112,18.0064308681672,Primary data
-Mammals,claimant network,622,173,27.8135048231511,No citation given
-Mammals,claimant network,622,87,13.9871382636656,Opinion claim
-Mammals,claimant network,622,94,15.112540192926,No claim
-Mammals,claimant network,622,109,17.524115755627,Inaccessible
-Mammals,claimant network,622,1,0.160771704180064,Not in English or Spanish
-Mammals,claimant network,622,25,4.01929260450161,Core claim
-Mammals,claimant network,622,21,3.37620578778135,Does not test claim
-Mammals,claimant network,622,77,12.379421221865,Predation in support without data
-Mammals,claimant network,622,9,1.44694533762058,Predation not in support without data
-Mammals,claimant network,622,9,1.44694533762058,Population in support without data
-Mammals,claimant network,622,4,0.643086816720257,Population in support with data
-Mammals,claimant network,622,9,1.44694533762058,Population not in support with data
-Mammals,claimant network,622,1,0.160771704180064,Population in support with data of quality
-Mammals,claimant network,622,3,0.482315112540193,Population not in support with data of quality
-Mammals,entire network,990,645,65.1515151515152,Not primary data
-Mammals,entire network,990,345,34.8484848484849,Primary data
-Mammals,entire network,990,173,17.4747474747475,No citation given
-Mammals,entire network,990,99,10,Opinion claim
-Mammals,entire network,990,195,19.6969696969697,No claim
-Mammals,entire network,990,125,12.6262626262626,Inaccessible
-Mammals,entire network,990,2,0.202020202020202,Not in English or Spanish
-Mammals,entire network,990,25,2.52525252525253,Core claim
-Mammals,entire network,990,26,2.62626262626263,Does not test claim
-Mammals,entire network,990,202,20.4040404040404,Predation in support without data
-Mammals,entire network,990,29,2.92929292929293,Predation not in support without data
-Mammals,entire network,990,13,1.31313131313131,Population in support without data
-Mammals,entire network,990,2,0.202020202020202,Population not in support without data
-Mammals,entire network,990,27,2.72727272727273,Population in support with data
-Mammals,entire network,990,32,3.23232323232323,Population not in support with data
-Mammals,entire network,990,11,1.11111111111111,Population in support with data of quality
-Mammals,entire network,990,29,2.92929292929293,Population not in support with data of quality
+Mammals,claimant network,631,510,80.824088748019,Not primary data
+Mammals,claimant network,631,121,19.175911251981,Primary data
+Mammals,claimant network,631,173,27.4167987321712,No citation given
+Mammals,claimant network,631,119,18.8589540412044,No claim
+Mammals,claimant network,631,110,17.43264659271,Inaccessible
+Mammals,claimant network,631,108,17.1156893819334,Does not test claim
+Mammals,claimant network,631,84,13.3122028526149,Predation in support without data
+Mammals,claimant network,631,9,1.42630744849445,Predation not in support without data
+Mammals,claimant network,631,10,1.58478605388273,Population in support without data
+Mammals,claimant network,631,3,0.475435816164818,Population in support with data
+Mammals,claimant network,631,10,1.58478605388273,Population not in support with data
+Mammals,claimant network,631,2,0.316957210776545,Population in support with data of quality
+Mammals,claimant network,631,3,0.475435816164818,Population not in support with data of quality
+Mammals,entire network,1031,645,62.560620756547,Not primary data
+Mammals,entire network,1031,386,37.439379243453,Primary data
+Mammals,entire network,1031,173,16.7798254122211,No citation given
+Mammals,entire network,1031,220,21.3385063045587,No claim
+Mammals,entire network,1031,127,12.3181377303589,Inaccessible
+Mammals,entire network,1031,125,12.1241513094083,Does not test claim
+Mammals,entire network,1031,209,20.2715809893307,Predation in support without data
+Mammals,entire network,1031,29,2.81280310378274,Predation not in support without data
+Mammals,entire network,1031,14,1.35790494665373,Population in support without data
+Mammals,entire network,1031,2,0.193986420950534,Population not in support without data
+Mammals,entire network,1031,47,4.55868089233754,Population in support with data
+Mammals,entire network,1031,41,3.97672162948594,Population not in support with data
+Mammals,entire network,1031,15,1.454898157129,Population in support with data of quality
+Mammals,entire network,1031,29,2.81280310378274,Population not in support with data of quality
 Birds,Non-claimant network,216,126,58.3333333333333,Not primary data
 Birds,Non-claimant network,216,90,41.6666666666667,Primary data
 Birds,Non-claimant network,216,1,0.462962962962963,No citation given
-Birds,Non-claimant network,216,31,14.3518518518519,Opinion claim
 Birds,Non-claimant network,216,62,28.7037037037037,No claim
-Birds,Non-claimant network,216,27,12.5,Inaccessible
-Birds,Non-claimant network,216,1,0.462962962962963,Not in English or Spanish
-Birds,Non-claimant network,216,4,1.85185185185185,Does not test claim
+Birds,Non-claimant network,216,28,12.962962962963,Inaccessible
+Birds,Non-claimant network,216,35,16.2037037037037,Does not test claim
 Birds,Non-claimant network,216,53,24.537037037037,Predation in support without data
 Birds,Non-claimant network,216,14,6.48148148148148,Predation not in support without data
 Birds,Non-claimant network,216,3,1.38888888888889,Population in support without data
@@ -193,11 +164,9 @@ Birds,Non-claimant network,216,2,0.925925925925926,Population not in support wit
 Birds,Web of Science network,216,126,58.3333333333333,Not primary data
 Birds,Web of Science network,216,90,41.6666666666667,Primary data
 Birds,Web of Science network,216,1,0.462962962962963,No citation given
-Birds,Web of Science network,216,31,14.3518518518519,Opinion claim
 Birds,Web of Science network,216,62,28.7037037037037,No claim
-Birds,Web of Science network,216,27,12.5,Inaccessible
-Birds,Web of Science network,216,1,0.462962962962963,Not in English or Spanish
-Birds,Web of Science network,216,4,1.85185185185185,Does not test claim
+Birds,Web of Science network,216,28,12.962962962963,Inaccessible
+Birds,Web of Science network,216,35,16.2037037037037,Does not test claim
 Birds,Web of Science network,216,53,24.537037037037,Predation in support without data
 Birds,Web of Science network,216,14,6.48148148148148,Predation not in support without data
 Birds,Web of Science network,216,3,1.38888888888889,Population in support without data
@@ -206,53 +175,49 @@ Birds,Web of Science network,216,6,2.77777777777778,Population in support with d
 Birds,Web of Science network,216,6,2.77777777777778,Population not in support with data
 Birds,Web of Science network,216,5,2.31481481481482,Population in support with data of quality
 Birds,Web of Science network,216,2,0.925925925925926,Population not in support with data of quality
-Birds,claimant network,1143,914,79.9650043744532,Not primary data
-Birds,claimant network,1143,229,20.0349956255468,Primary data
-Birds,claimant network,1143,201,17.5853018372703,No citation given
-Birds,claimant network,1143,142,12.4234470691164,Opinion claim
-Birds,claimant network,1143,141,12.3359580052493,No claim
-Birds,claimant network,1143,405,35.4330708661417,Inaccessible
-Birds,claimant network,1143,16,1.39982502187227,Not in English or Spanish
-Birds,claimant network,1143,5,0.437445319335083,Core claim
-Birds,claimant network,1143,4,0.349956255468067,Does not test claim
-Birds,claimant network,1143,152,13.2983377077865,Predation in support without data
-Birds,claimant network,1143,25,2.18722659667542,Predation not in support without data
-Birds,claimant network,1143,9,0.78740157480315,Population in support without data
-Birds,claimant network,1143,5,0.437445319335083,Population not in support without data
-Birds,claimant network,1143,9,0.78740157480315,Population in support with data
-Birds,claimant network,1143,18,1.5748031496063,Population not in support with data
-Birds,claimant network,1143,8,0.699912510936133,Population in support with data of quality
-Birds,claimant network,1143,3,0.26246719160105,Population not in support with data of quality
-Birds,entire network,1374,1049,76.3464337700146,Not primary data
-Birds,entire network,1374,325,23.6535662299854,Primary data
-Birds,entire network,1374,202,14.7016011644833,No citation given
-Birds,entire network,1374,176,12.8093158660844,Opinion claim
-Birds,entire network,1374,206,14.9927219796215,No claim
-Birds,entire network,1374,434,31.5866084425036,Inaccessible
-Birds,entire network,1374,17,1.2372634643377,Not in English or Spanish
-Birds,entire network,1374,5,0.363901018922853,Core claim
-Birds,entire network,1374,9,0.655021834061135,Does not test claim
-Birds,entire network,1374,211,15.3566229985444,Predation in support without data
-Birds,entire network,1374,39,2.83842794759825,Predation not in support without data
-Birds,entire network,1374,12,0.873362445414847,Population in support without data
-Birds,entire network,1374,6,0.436681222707424,Population not in support without data
-Birds,entire network,1374,15,1.09170305676856,Population in support with data
-Birds,entire network,1374,24,1.74672489082969,Population not in support with data
-Birds,entire network,1374,13,0.946142649199418,Population in support with data of quality
-Birds,entire network,1374,5,0.363901018922853,Population not in support with data of quality
+Birds,claimant network,1167,912,78.1491002570694,Not primary data
+Birds,claimant network,1167,255,21.8508997429306,Primary data
+Birds,claimant network,1167,201,17.2236503856041,No citation given
+Birds,claimant network,1167,144,12.3393316195373,No claim
+Birds,claimant network,1167,421,36.0754070265638,Inaccessible
+Birds,claimant network,1167,146,12.5107112253642,Does not test claim
+Birds,claimant network,1167,164,14.0531276778063,Predation in support without data
+Birds,claimant network,1167,26,2.22793487574979,Predation not in support without data
+Birds,claimant network,1167,11,0.942587832047986,Population in support without data
+Birds,claimant network,1167,7,0.599828620394173,Population not in support without data
+Birds,claimant network,1167,13,1.11396743787489,Population in support with data
+Birds,claimant network,1167,23,1.97086546700943,Population not in support with data
+Birds,claimant network,1167,8,0.685518423307626,Population in support with data of quality
+Birds,claimant network,1167,3,0.25706940874036,Population not in support with data of quality
+Birds,entire network,1398,1047,74.892703862661,Not primary data
+Birds,entire network,1398,351,25.1072961373391,Primary data
+Birds,entire network,1398,202,14.4492131616595,No citation given
+Birds,entire network,1398,209,14.9499284692418,No claim
+Birds,entire network,1398,451,32.2603719599428,Inaccessible
+Birds,entire network,1398,185,13.2331902718169,Does not test claim
+Birds,entire network,1398,223,15.9513590844063,Predation in support without data
+Birds,entire network,1398,40,2.86123032904149,Predation not in support without data
+Birds,entire network,1398,14,1.00143061516452,Population in support without data
+Birds,entire network,1398,8,0.572246065808298,Population not in support without data
+Birds,entire network,1398,19,1.35908440629471,Population in support with data
+Birds,entire network,1398,29,2.07439198855508,Population not in support with data
+Birds,entire network,1398,13,0.929899856938484,Population in support with data of quality
+Birds,entire network,1398,5,0.357653791130186,Population not in support with data of quality
 Amphibians,Non-claimant network,1,1,100,Primary data
 Amphibians,Non-claimant network,1,1,100,Predation in support without data
 Amphibians,Web of Science network,1,1,100,Primary data
 Amphibians,Web of Science network,1,1,100,Predation in support without data
-Amphibians,claimant network,16,16,100,Not primary data
-Amphibians,claimant network,16,8,50,No citation given
-Amphibians,claimant network,16,2,12.5,Opinion claim
-Amphibians,claimant network,16,1,6.25,No claim
-Amphibians,claimant network,16,5,31.25,Inaccessible
-Amphibians,entire network,17,16,94.1176470588235,Not primary data
-Amphibians,entire network,17,1,5.88235294117647,Primary data
-Amphibians,entire network,17,8,47.0588235294118,No citation given
-Amphibians,entire network,17,2,11.7647058823529,Opinion claim
-Amphibians,entire network,17,1,5.88235294117647,No claim
-Amphibians,entire network,17,5,29.4117647058824,Inaccessible
-Amphibians,entire network,17,1,5.88235294117647,Predation in support without data
+Amphibians,claimant network,20,16,80,Not primary data
+Amphibians,claimant network,20,4,20,Primary data
+Amphibians,claimant network,20,8,40,No citation given
+Amphibians,claimant network,20,1,5,No claim
+Amphibians,claimant network,20,5,25,Inaccessible
+Amphibians,claimant network,20,2,10,Does not test claim
+Amphibians,claimant network,20,4,20,Predation in support without data
+Amphibians,entire network,21,16,76.1904761904762,Not primary data
+Amphibians,entire network,21,5,23.8095238095238,Primary data
+Amphibians,entire network,21,8,38.0952380952381,No citation given
+Amphibians,entire network,21,1,4.76190476190476,No claim
+Amphibians,entire network,21,5,23.8095238095238,Inaccessible
+Amphibians,entire network,21,2,9.52380952380952,Does not test claim
+Amphibians,entire network,21,5,23.8095238095238,Predation in support without data

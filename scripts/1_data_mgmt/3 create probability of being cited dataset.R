@@ -117,10 +117,6 @@ guide[cited_by_id == "Opportunistic_Systematic external review"]
 graph_list <- list()
 i <- 1
 
-grep("Pseudobulweria becki", guide$scientificName)
-guide[337, ]
-i <- 467
-
 edges[grepl("nothing", article_id, ignore.case = T)]
 
 for(i in 1:nrow(guide)){
@@ -142,7 +138,8 @@ for(i in 1:nrow(guide)){
   reachable_nodes <- subcomponent(g, guide$cited_by_id[i], mode = "out")
   
   # Find the node in the subcomponent with out-degree 0 (which means a terminus of a chain)
-  ultimate_nodes <- V(g)[reachable_nodes[degree(g, reachable_nodes, mode = "out") == 0]]
+  ultimate_nodes <- V(g)[reachable_nodes[igraph::degree(g, reachable_nodes, mode = "out") == 0]]
+  
   # Get any other nodes that are population or predation studies
   ultimate_nodes <- union(ultimate_nodes,
                           reachable_nodes[(grepl("Predation", name) | grepl("Population", name) | 
@@ -307,6 +304,11 @@ setnames(evidence_years.mrg, "value", "potential_node")
 setnames(evidence_years.mrg, "node_id", "potential_evidence")
 
 evidence_years.mrg
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
+# Expand for all potential citable studies ------------------------------
+# E.g., whether a published article was cited or not
 
 # >>> Then do a explosion merge by species, so all combinations of articles are present --------
 terminus_simple

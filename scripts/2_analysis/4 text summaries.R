@@ -9,6 +9,7 @@ library("data.table")
 library("gt")
 library("dplyr")
 
+#' [Total number of species should be 728. Check Prosobonia splits]
 # Claims -------------------------------------------------------
 claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 
@@ -16,9 +17,9 @@ claims
 claims <- claims[exclude_species == "included_species"]
 claims
 
-length(unique(claims$spp_name_corrected))
+length(unique(claims$scientificName))
 
-claims[, .(n = uniqueN(spp_name_corrected)),
+claims[, .(n = uniqueN(scientificName)),
        by = .(class)]
 
 # Systematic review -------------------------------------------------------
@@ -41,7 +42,6 @@ unique(sys_rev$synth_fill)
 sys_rev[,  .(n_studies = uniqueN(study_id),
                        n_articles = uniqueN(Article_simple),
                        n_species = uniqueN(scientificName))]
-
 
 x <- sys_rev[,
         .(n_studies = uniqueN(study_id)),
@@ -110,16 +110,16 @@ length(unique(claims$spp_name_corrected))
 claims[duplicated(spp_name_corrected)]
 
 # We have class for this one so let's use the other name:
-claims[spp_name_corrected == "Prosobonia parvirostris", ]
-claims[spp_name_corrected == "Prosobonia parvirostris", spp_name_corrected := scientificName]
-length(unique(claims$spp_name_corrected))
+# claims[spp_name_corrected == "Prosobonia parvirostris", ]
+# claims[spp_name_corrected == "Prosobonia parvirostris", spp_name_corrected := scientificName]
+# length(unique(claims$spp_name_corrected))
 
 # claims[spp_name_corrected == "Coenocorypha pusilla", Synonyms_or_previous_lump := "Coenocorypha aucklandica"]
 claims[duplicated(spp_name_corrected)]
 
 #
 ranking <- copy(sys_rev)
-ranking <- ranking[, .(spp_name_corrected,scientificName,
+ranking <- ranking[, .(scientificName, 
                        of_quality, evidence_type, has_data)]
 
 # ranking[spp_name_corrected == "Prosobonia parvirostris", ]
@@ -149,29 +149,28 @@ ranking[rank == 0, has_data := NA]
 ranking[rank == 0, of_quality := NA]
 
 ranking <- ranking[, max_rank := max(rank),
-                   by = .(spp_name_corrected)]
-ranking[, no_evidence := .N, by = .(spp_name_corrected)]
+                   by = .(scientificName)]
+ranking[, no_evidence := .N, by = .(scientificName)]
 ranking[no_evidence > 1, ]
 ranking <- ranking[rank == max_rank, ] |> unique()
-ranking[duplicated(spp_name_corrected), ]
+ranking[duplicated(scientificName), ]
 
-ranking[spp_name_corrected == "Procellaria cinerea"]
 # Must be 0 rows....
 
 ranking
 
 best_evidence <- merge(claims,
-                       ranking[, .(spp_name_corrected, evidence_type, of_quality,
+                       ranking[, .(scientificName, evidence_type, of_quality,
                                    has_data)],
-                       by = "spp_name_corrected",
+                       by = "scientificName",
                        all.x = T,
                        all.y = T)
 nrow(best_evidence)
 nrow(claims)
-best_evidence[!spp_name_corrected %in% claims$spp_name_corrected]
+best_evidence[!scientificName %in% claims$scientificName]
 
 #
-best_evidence[duplicated(spp_name_corrected)]
+best_evidence[duplicated(scientificName)]
 
 
 best_evidence[is.na(redlistCategory)] # Must be 0 rows
@@ -183,7 +182,6 @@ best_evidence[is.na(evidence_type), evidence_type := "No evidence found"]
 # >>> Summarize -----------------------------------------------------------
 best_evidence
 
-length(unique(best_evidence$spp_name_corrected))
 length(unique(best_evidence$scientificName))
 
 best_evidence[, .(n_species = uniqueN(scientificName)),
@@ -200,7 +198,6 @@ best_evidence[class == "Mammals", .(n_species = uniqueN(scientificName)),
 
 best_evidence[class == "Reptiles", .(n_species = uniqueN(scientificName)),
               by = .(evidence_type, has_data, of_quality)]
-
 
 best_evidence[class == "Amphibians", .(n_species = uniqueN(scientificName)),
               by = .(evidence_type, has_data, of_quality)]
@@ -265,7 +262,6 @@ sys_tally.wide[class == "Reptiles", .(avg_not_support = mean(percent_not_in_supp
 
 sys_tally.wide[class == "Amphibians", .(avg_not_support = mean(percent_not_in_support), sd = sd(percent_not_in_support)),
                by = .(Evidence_category)]
-
 
 # Citations ---------------------------------------------------------------
 
