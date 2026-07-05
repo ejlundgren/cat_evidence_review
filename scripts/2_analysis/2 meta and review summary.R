@@ -2289,3 +2289,300 @@ sys.map <- ggplot()+
         panel.grid = element_blank())
 sys.map
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
+# Best evidence per class + maps -----------------------------------------------------------
+# >>> build df ----
+spp_evidence_claims <- merge(claims[, .(scientificName)],
+                             sys_rev[, .(class, scientificName, evidence_type, has_data, of_quality, Study_long, Study_lat)],
+                             all.x = TRUE)
+
+spp_evidence_claims[is.na(evidence_type), evidence_type := "No evidence found"]
+
+spp_evidence_claims[, synth_fill := fcase(
+  grepl("Population", evidence_type) & has_data == "yes", paste(evidence_type, "with data"),
+  grepl("Population", evidence_type) & has_data == "no",  paste(evidence_type, "without data")
+)]
+spp_evidence_claims[is.na(synth_fill), synth_fill := evidence_type]
+spp_evidence_claims[of_quality == "yes", synth_fill := paste(synth_fill, "and qualities")]
+
+spp_evidence_claims <- merge(spp_evidence_claims[, class := NULL],
+                             best_evidence[, .(class, scientificName)])
+
+# >>> Define levels and rankings ----
+not_support <- c("Predation not in support",
+                 "Population not in support without data",
+                 "Population not in support with data",
+                 "Population not in support with data and qualities")
+
+quality_rank <- c(
+  "Population in support with data and qualities"     = 1,
+  "Population not in support with data and qualities" = 2,
+  "Population in support with data"                   = 3,
+  "Population in support without data"                = 4,
+  "Predation in support"                              = 5,
+  "Population not in support with data"               = 6,
+  "Population not in support without data"            = 7,
+  "Predation not in support"                          = 8,
+  "No evidence found"                                 = 9
+)
+
+synth_levels <- c(
+  "Population in support with data and qualities",
+  "Population in support with data",
+  "Population in support without data",
+  "Predation in support",
+  "Population not in support with data and qualities",
+  "Population not in support with data",
+  "Population not in support without data",
+  "Predation not in support",
+  "No evidence found"
+)
+
+spp_evidence_claims[, n := fcase(
+  synth_fill %in% not_support,  -1,
+  !synth_fill %in% not_support,  1
+)]
+spp_evidence_claims[synth_fill == "No evidence found", n := NA]
+spp_evidence_claims[, quality_key := quality_rank[synth_fill]]
+spp_evidence_claims$synth_fill <- factor(spp_evidence_claims$synth_fill, levels = rev(synth_levels))
+
+#  >>> order + column split functions ----
+make_order <- function(dt) {
+  o <- dt[, .(
+    has_support_qual   = any(as.character(synth_fill) == "Population in support with data and qualities",     na.rm = TRUE),
+    has_nosupport_qual = any(as.character(synth_fill) == "Population not in support with data and qualities", na.rm = TRUE),
+    has_support        = any(n == 1,  na.rm = TRUE),
+    has_no_support     = any(n == -1, na.rm = TRUE),
+    best_key           = min(quality_key, na.rm = TRUE),
+    n_studies          = sum(!is.na(n))
+  ), by = scientificName]
+  
+  o[, group := fcase(
+    has_support_qual,                     1L,
+    has_nosupport_qual,                   2L,
+    has_support & !has_support_qual,      3L,
+    has_no_support & !has_nosupport_qual, 4L,
+    default =                             5L
+  )]
+  
+  o[order(group, -n_studies, best_key, scientificName)]
+}
+
+make_cols <- function(dt, n_breaks = 3) {
+  ord <- make_order(dt)
+  ordered_spp <- data.table(scientificName = rev(ord$scientificName))
+  
+  if (n_breaks == 1) {
+    ordered_spp[, col := 1L]
+  } else {
+    ordered_spp[, col := cut(seq_len(.N), breaks = n_breaks, labels = 1:n_breaks) |> as.integer()]
+  }
+  
+  result <- merge(dt, ordered_spp, by = "scientificName")
+  result$scientificName <- factor(result$scientificName, levels = rev(ord$scientificName))
+  result
+}
+
+# >>> Apply function per class ----
+rep_N_reptiles   <- make_cols(spp_evidence_claims[class == "Reptiles"])
+rep_N_mammals    <- make_cols(spp_evidence_claims[class == "Mammals"])
+rep_N_birds      <- make_cols(spp_evidence_claims[class == "Birds"])
+rep_N_amphibians <- make_cols(spp_evidence_claims[class == "Amphibians"], n_breaks = 1)
+
+# >>> Plots ----
+#Amphibians (single panel)
+study_amphi <- ggplot(data = rep_N_amphibians,
+                      aes(x = n, y = scientificName, fill = synth_fill, color = of_quality)) +
+  geom_col(lwd = 1, position = "stack") +
+  geom_vline(xintercept = 0) +
+  xlab("Number of studies") + 
+  labs(title = "Amphibians") +
+  ylab(NULL) +
+  coord_cartesian(xlim = c(-2, 2), ylim = c(0, 17)) +
+  scale_fill_manual(values = fill_pal) +
+  scale_color_manual(values = c("no" = "transparent", "yes" = "gold")) +
+  theme_bw() +
+  theme(panel.grid = element_blank(), axis.ticks.x = element_blank(),
+        legend.position = "none", strip.background = element_blank(),
+        panel.border = element_blank(), title = element_text(size = 15),
+        axis.text.y = element_text(size = 12), axis.text.x = element_text(size = 12)) +
+  annotate("text", x = -1.5, y = 16.5, label = "No",  size = 4) +
+  annotate("text", x =  2,   y = 16.5, label = "Yes", size = 4)
+
+#multi-panel plot function
+make_panel <- function(dt, col_id, title = " ", xlim_val = c(-3, 3), ylim_val = c(0, 87), show_annot = FALSE) {
+  p <- ggplot(data = dt[col == col_id],
+              aes(x = n, y = scientificName, fill = synth_fill, color = of_quality)) +
+    geom_col(lwd = 1, position = "stack") +
+    geom_vline(xintercept = 0) +
+    xlab(if (col_id == 2) "Number of studies" else " ") +
+    labs(title = title) + ylab(NULL) +
+    coord_cartesian(xlim = xlim_val, ylim = ylim_val, clip = if (col_id == 1) "off" else "on") +
+    scale_fill_manual(values = fill_pal) +
+    scale_color_manual(values = c("no" = "transparent", "yes" = "gold")) +
+    theme_bw() +
+    theme(panel.grid = element_blank(), axis.ticks.x = element_blank(),
+          legend.position = "none", strip.background = element_blank(),
+          panel.border = element_blank(), title = element_text(size = 15),
+          axis.text.y = element_text(size = 12), axis.text.x = element_text(size = 12),
+          axis.title.x = element_text(size = 13))
+  if (show_annot) {
+    p <- p +
+      annotate("text", x = xlim_val[1] / 2, y = ylim_val[2] - 0.5, label = "No",  size = 4) +
+      annotate("text", x = xlim_val[2],      y = ylim_val[2] - 0.5, label = "Yes", size = 4)
+  }
+  p
+}
+
+#Reptiles
+study_rept <- cowplot::plot_grid(
+  make_panel(rep_N_reptiles, 3, title = "Reptiles", xlim_val = c(-3,3), ylim_val = c(0,87), show_annot = TRUE),
+  make_panel(rep_N_reptiles, 2, xlim_val = c(-3,3), ylim_val = c(0,87)),
+  make_panel(rep_N_reptiles, 1, xlim_val = c(-3,3), ylim_val = c(0,87)),
+  nrow = 1)
+
+#Mammals
+study_mamm <- cowplot::plot_grid(
+  make_panel(rep_N_mammals, 3, title = "Mammals", xlim_val = c(-11,11), ylim_val = c(0,51), show_annot = TRUE),
+  make_panel(rep_N_mammals, 2, xlim_val = c(-11,11), ylim_val = c(0,51)),
+  make_panel(rep_N_mammals, 1, xlim_val = c(-11,11), ylim_val = c(0,51)),
+  nrow = 1)
+
+#Birds
+study_bird <- cowplot::plot_grid(
+  make_panel(rep_N_birds, 3, title = "Birds", xlim_val = c(-6,6), ylim_val = c(0,106), show_annot = TRUE),
+  make_panel(rep_N_birds, 2, xlim_val = c(-6,6), ylim_val = c(0,106)),
+  make_panel(rep_N_birds, 1, xlim_val = c(-6,6), ylim_val = c(0,106)),
+  nrow = 1)
+
+#World map
+spp_evidence_claims_map <- spp_evidence_claims[!is.na(Study_long), ]
+str(spp_evidence_claims_map)
+spp_evidence_claims_map <-st_as_sf(spp_evidence_claims_map, coords = c("Study_long", "Study_lat"), crs = 4326)
+unique(spp_evidence_claims_map$scientificName) #223 species
+setdiff(spp_evidence_claims$scientificName, spp_evidence_claims_map$scientificName) #505 species
+
+library(rnaturalearth)
+world_sf <- st_as_sf(ne_countries(scale = "medium", returnclass = "sf"))
+world_sf <- st_as_sf(world_sf, crs = 4326)
+
+#Overall
+ggplot() +
+  geom_sf(data = world_sf, fill = "gray90", color = "black", size = 0.1) +
+  geom_sf(data = spp_evidence_claims_map,
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 0, color = "transparent") +
+  geom_sf(data = spp_evidence_claims_map[spp_evidence_claims_map$of_quality == "yes", ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 1, color = "gold") +
+  scale_fill_manual(values = fill_pal) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank()) +
+  coord_sf(crs = "+proj=moll")
+
+#Amphibians
+map_amphi <-ggplot() +
+  geom_sf(data = world_sf, fill = "gray90", color = "black", size = 0.1) +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Amphibians"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 0, color = "transparent") +
+  # geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Amphibians" & 
+  #                                                spp_evidence_claims_map$of_quality == "yes"), ],
+  #         aes(fill = synth_fill),
+  #         shape = 21, size = 3, stroke = 1, color = "gold") +
+  scale_fill_manual(values = fill_pal) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = margin(0, 0, 0, 0),
+        panel.spacing = unit(0, "lines")
+  )+
+  coord_sf(crs = "+proj=moll")+ #, expand = FALSE
+  labs(#title="Amphibians",
+    fill=" ")
+
+#Reptiles
+map_repti <-ggplot() +
+  geom_sf(data = world_sf, fill = "gray90", color = "black", size = 0.1) +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Reptiles"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 0, color = "transparent") +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Reptiles" & 
+                                                 spp_evidence_claims_map$of_quality == "yes"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 1, color = "gold") +
+  scale_fill_manual(values = fill_pal) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = margin(0, 0, 0, 0),
+        panel.spacing = unit(0, "lines")
+  ) +
+  coord_sf(crs = "+proj=moll")+#, expand = FALSE
+  labs(#title="Reptiles",
+    fill=" ")
+
+#Birds
+map_birds <-ggplot() +
+  geom_sf(data = world_sf, fill = "gray90", color = "black", size = 0.1) +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Birds"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 0, color = "transparent") +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Birds" & 
+                                                 spp_evidence_claims_map$of_quality == "yes"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 1, color = "gold") +
+  scale_fill_manual(values = fill_pal) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = margin(0, 0, 0, 0),
+        panel.spacing = unit(0, "lines")) +
+  coord_sf(crs = "+proj=moll")+#, expand = FALSE
+  labs(#title="Birds",
+    fill=" ")
+
+#Mammals
+map_mammals <-ggplot() +
+  geom_sf(data = world_sf, fill = "gray90", color = "black", size = 0.1) +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Mammals"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 0, color = "transparent") +
+  geom_sf(data = spp_evidence_claims_map[which(spp_evidence_claims_map$class == "Mammals" & 
+                                                 spp_evidence_claims_map$of_quality == "yes"), ],
+          aes(fill = synth_fill),
+          shape = 21, size = 3, stroke = 1, color = "gold") +
+  scale_fill_manual(values = fill_pal) +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.title = element_blank(),
+        axis.text  = element_blank(),
+        axis.ticks = element_blank(),
+        plot.margin = margin(0, 0, 0, 0),
+        panel.spacing = unit(0, "lines")) +
+  coord_sf(crs = "+proj=moll")+#, expand = FALSE
+  labs(#title="Mammals",
+    fill=" ")
+
+# >>> final figures ----
+#Save and add evidence legend on Inkscape
+cowplot::plot_grid(study_amphi, map_amphi, ncol=1, labels = "AUTO")
+ggsave("figures/SI/best_evidence_amphi.pdf", width = 16, height = 14)
+
+cowplot::plot_grid(study_rept, map_repti, ncol=1, labels = "AUTO", rel_heights = c(1,.5))
+ggsave("figures/SI/best_evidence_rept.pdf", width = 16, height = 20)
+
+cowplot::plot_grid(study_mamm, map_mammals, ncol=1, labels = "AUTO", rel_heights = c(1,.5))
+ggsave("figures/SI/best_evidence_mamm.pdf", width = 16, height = 20)
+
+cowplot::plot_grid(study_bird, map_birds, ncol=1, labels = "AUTO", rel_heights = c(1,.5))
+ggsave("figures/SI/best_evidence_bird.pdf", width = 16, height = 22)
