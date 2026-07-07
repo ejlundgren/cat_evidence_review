@@ -636,9 +636,13 @@ tidy_models
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Plot -----------------------------------------------------------------
+
+
+# > Overall effects -----------------------------------------------------
+
+
 tidy_models[moderator == "1" & only_dominant_effect_size == "no", ]
 
-# >>> Main text figures----------------------
 predictions[analysis_group == "Abundance with/without cats" &
               moderator == "1" &
               class == "All"]
@@ -652,6 +656,28 @@ unique(intercepts$analysis_group)
 
 dat.plot <- dat.long[analysis_group %in% unique(intercepts$analysis_group), ] # Drop analysis groups for which models didn't converge.
 intercepts
+
+
+# >>> Effect size conversion table ----------------------------------------
+
+intercepts
+original_es <- dat.plot[, .(original_effect_size = paste(unique(original_effect_size),
+                                                         collapse = "; ")),
+                        by = .(analysis_group, analysis_effect_size)]
+original_es
+
+tab <- merge(intercepts[, .(analysis_group, n_articles, n_obs)],
+             original_es, 
+             by = "analysis_group")
+tab
+fwrite(tab, "builds/meta_analysis/sample_size_table.csv")
+
+dat.plot[Effect_size_ID == "ES_49"]
+unique(dat.plot$analysis_group)
+
+dat.long[!Effect_size_ID %in% dat.plot$Effect_size_ID]$Effect_size_ID
+
+# >>> Main text figures----------------------
 
 intercepts$analysis_effect_size
 
