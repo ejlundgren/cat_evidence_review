@@ -45,6 +45,8 @@ edges[grepl("Opportunistic", cited_by_id) | grepl("Web of Science", cited_by_id)
 # >>> Check that core sources in evidence is treated as the same node as cited_by unless it presents novel data --------
 edges[grepl("core source", article_id), ]
 
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 
 # Plot ----------------------------------------------------
@@ -171,6 +173,11 @@ edges[grepl("NOTHING", article_id)]
 edges.sub <- edges[edge_type == "citation", ]
 nodes.sub <- nodes[node_id %in% c(edges.sub$cited_by_id, edges.sub$article_id)]
 
+
+# /\/\/\ Save for website -------------------------------------------------
+fwrite(edges.sub, "builds/citation_network/edges_tidied.csv")
+fwrite(nodes.sub, "builds/citation_network/nodes_tidied.csv")
+
 edges.sub[scientificName == "Nannoscincus hanchisteus"]
 
 igraph.gr <- igraph::graph_from_data_frame(d = edges.sub, 
@@ -244,35 +251,18 @@ p1 <- ggraph(graph, layout = "kk")+
   theme(legend.position = 'bottom')
 p1
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------
 
-# Possible to structure this at all? --------------------------------------
-graph <- create_notable('meredith')
-
-# Add x and y columns to the node data, fixing the first node at (0, 0)
-# and leaving others as NA
-graph <- graph |>
-  activate(nodes) |>
-  #   mutate(x = c(0, rep(NA, graph_order() - 1)),
-  #          y = c(0, rep(NA, graph_order() - 1))) |>
-  mutate(col = c("central", rep("non-central", graph_order()-1)))
-#
-# graph
-# The stress layout automatically uses existing x/y columns if present
-ggraph(graph, layout = 'stress',
-       x = c(0, rep(NA, 69)),
-       y = c(0, rep(NA, 69))) +
-  geom_edge_link() +
-  geom_node_point(aes(color = col, size = col)) #+
-# geom_node_label(aes(label = seq_len(graph_order(graph))), repel = TRUE)
-
-ggraph(graph, layout = 'stress',
-       x = c(10, rep(NA, 69)),
-       y = c(0, rep(NA, 69))) +
-  geom_edge_link() +
-  geom_node_point(aes(color = col, size = col)) #+
-
-# Unfortunately that didn't work for some reason with full network
+# >>> Number of claimants per species -------------------------------------
+claimants <- edges[grepl("_claim", cited_by_id) ]
+claimant_freq <- claimants[, .(n_claimants = uniqueN(cited_by_id)),
+          by = .(scientificName)]
+hist(claimant_freq$n_claimants)
+range(claimant_freq$n_claimants)
+median(claimant_freq$n_claimants)
+claimant_freq[, cat := ifelse(n_claimants == 1, "one_claimant", "more_than_one")]
+claimant_freq[, .(n = .N),
+              by = .(cat)]
+333/(333+393)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -----------------------------------------
 # Probability of a population study being cited by support/not support ---------------------------
@@ -290,10 +280,7 @@ terminus_exploded_filtered <- fread("builds/citation_network/citation_probabilit
 
 terminus_exploded_filtered[grepl("Wallach", cited_by_id)]
 
-
-
 # >>> Model -----------------------------------------------------------------
-#' [Only look at the sources making a claim]
 terminus_exploded_filtered[, making_claim := ifelse(grepl("_claim", cited_by_id), "CLAIM", "NO_CLAIM")]
 terminus_exploded_filtered <- terminus_exploded_filtered[making_claim == "CLAIM", ]
 

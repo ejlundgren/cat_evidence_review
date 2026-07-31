@@ -1,0 +1,31 @@
+project:
+  type: website
+  output-dir: docs
+  
+editor: 
+  mode: source
+
+website:
+  title: "When consensus procedes the evidence"
+  sidebar:
+    title: "Supplementary codebook"
+    style: "docked"
+    search: true
+    contents:
+      - href: index.qmd
+        text: Introduction
+      - href: 1-citation-network.qmd
+        text: Citation network 
+      - href: 2-systematic-review.qmd
+        text: Systematic review
+      - href: 3-meta-analysis.qmd
+        text: Meta-analysis
+      - href: 4-timeline-analysis.qmd
+        text: Timeline analysis
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
