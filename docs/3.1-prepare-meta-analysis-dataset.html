@@ -84,6 +84,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href=".//icons/cat head.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -192,13 +193,13 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3-publication-bias.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.3-publication-bias.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Publication bias tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3-meta-analysis.qmd.html" class="sidebar-item-text sidebar-link">
+  <a href="./3.4-effect-size-conversions.qmd.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Effect size conversions</span></a>
   </div>
 </li>
@@ -206,7 +207,13 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4-timeline-analysis.qmd.html" class="sidebar-item-text sidebar-link">
+  <a href="./4-map.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Where does the evidence come from?</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-timeline-analysis.qmd.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Timeline analysis</span></a>
   </div>
 </li>
@@ -685,7 +692,7 @@ div.csl-indent {
 <span><span class="va">to_convert</span><span class="op">[</span>, <span class="va">key</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">original_effect_size</span>, <span class="va">analysis_effect_size</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>We’ll now loop over this dataset based on the unique combinations of original effect size (<code>original_effect_size</code>) and destination effect size (<code>analysis_effect_size</code>). The effect size formulas we use here are given <a href="./3-meta-analysis.qmd.html">here</a>.</p>
+<p>We’ll now loop over this dataset based on the unique combinations of original effect size (<code>original_effect_size</code>) and destination effect size (<code>analysis_effect_size</code>). The effect size formulas we use here are given <a href="./3.4-effect-size-conversions.qmd.html">here</a>.</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">combos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">to_convert</span><span class="op">$</span><span class="va">key</span><span class="op">)</span></span>
 <span><span class="va">combos</span></span>
