@@ -51,7 +51,7 @@ bibliography: references.bib
 ## How to use
 This tutorial walks readers through the analyses associated with:
 
->Wallach et al 2026. 'When consensus procedes the evidence.' In Submission.
+>Wallach, A.D., Pereyra, P., Cuervo, L.M.V., Nakagawa, S., Lundgren, E.J. et al. 'When consensus procedes the evidence.' In Submission.
 
 This tutorial assumes a basic understanding of R. 
 

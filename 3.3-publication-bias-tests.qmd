@@ -9,7 +9,7 @@ format:
     toc-float: true
     toc-expand: true
     toc-title: "**CONTENTS**"
-    output-file: "3-publication-bias.html"
+    output-file: "3.3-publication-bias.html"
     # embed-resources: true
     code-fold: show
     code-link: true

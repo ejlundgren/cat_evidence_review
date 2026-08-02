@@ -9,7 +9,7 @@ format:
     toc-float: true
     toc-expand: true
     toc-title: "**CONTENTS**"
-    output-file: "3-meta-analysis.qmd"
+    output-file: "3.4-effect-size-conversions.qmd"
     # embed-resources: true
     code-fold: show
     code-link: true

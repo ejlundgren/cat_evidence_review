@@ -29,7 +29,9 @@ website:
           text: Publication bias tests
         - href: 3.4-effect-size-conversions.qmd
           text: Effect size conversions
-      - href: 4-timeline-analysis.qmd
+      - href: 4-map.qmd
+        text: Where does the evidence come from?
+      - href: 5-timeline-analysis.qmd
         text: Timeline analysis
       - text: "<br>"
       - text: "<b>Funded by</b>"
