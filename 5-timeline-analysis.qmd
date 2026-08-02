@@ -428,3 +428,4 @@ mapview(cat_ex_map,
         col.regions = rev(plot_col))
 
 ```
+

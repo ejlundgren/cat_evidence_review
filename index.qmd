@@ -55,6 +55,10 @@ This tutorial walks readers through the analyses associated with:
 
 This tutorial assumes a basic understanding of R. 
 
-Feel free to clone or download the [repo](www.github.com/ejlundgren/cat_evidence_review.git) to interact with the code and data directly or to simply follow along in this webpage.
+Feel free to clone or download the [repo](www.github.com/ejlundgren/cat_evidence_review) to interact with the code and data directly or to simply follow along in this webpage.
 
-Note that all analyses were conducted in .R scripts in the `scripts/` folder of the repo. Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts. The interactive material on this webpage focuses on the core analyses and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead, if that is preferred.
+Note that all analyses were conducted in .R scripts in the `scripts/` folder of the repo. 
+
+Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts, especially in the `scripts/1_data_mgmt/` directory. 
+
+The interactive material on this webpage focuses on the core analyses (mostly in `scripts/2_analysis/`) and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead if that is preferred.

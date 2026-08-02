@@ -147,6 +147,8 @@ sys_rev.spat <- sys_rev %>%
   st_as_sf(coords = c("Study_long", "Study_lat"),
            crs = 4326)
 
+sys_rev.spat$synth_fill <- factor(sys_rev.spat$synth_fill,
+                                  levels = names(fill_pal))
 ```
 
 
@@ -171,12 +173,11 @@ m <- sys_rev.spat %>%
          `point size` = in_meta_num) %>%
   mapview(.,
         zcol = "Evidence type",
-        col.regions = rev(fill_pal),
+        col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
 
 ```
-
 
 **For all species:**
 
@@ -186,6 +187,7 @@ m <- sys_rev.spat %>%
 #| output: true
 #| code-fold: false
 m
+
 ```
 
 
@@ -194,8 +196,9 @@ m
 #| echo: true
 #| output: true
 #| code-fold: true
+# PREPARE MAMMALS
 
-m <- sys_rev.spat %>% 
+sub_dat <- sys_rev.spat %>% 
   filter(class == "Mammals") %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
@@ -206,10 +209,13 @@ m <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num) %>%
-  mapview(.,
+         `point size` = in_meta_num)
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$`Evidence type`)]
+
+m <- mapview(sub_dat,
         zcol = "Evidence type",
-        col.regions = rev(fill_pal),
+        col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
 
@@ -222,6 +228,7 @@ Here is where all evidence concerning **mammal prey** came from:
 #| output: true
 #| code-fold: false
 m
+
 ```
 
 
@@ -230,8 +237,8 @@ m
 #| echo: true
 #| output: true
 #| code-fold: true
-
-m <- sys_rev.spat %>% 
+# PREPARE BIRDS
+sub_dat <- sys_rev.spat %>% 
   filter(class == "Birds") %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
@@ -242,10 +249,13 @@ m <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num) %>%
-  mapview(.,
+         `point size` = in_meta_num)
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$`Evidence type`)]
+
+m <- mapview(sub_dat,
         zcol = "Evidence type",
-        col.regions = rev(fill_pal),
+        col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
 
@@ -267,8 +277,8 @@ m
 #| echo: true
 #| output: true
 #| code-fold: true
-
-m <- sys_rev.spat %>% 
+# REPTILES
+sub_dat <- sys_rev.spat %>% 
   filter(class == "Reptiles") %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
@@ -279,10 +289,13 @@ m <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num) %>%
-  mapview(.,
+         `point size` = in_meta_num)
+
+sub_fill <- fill_pal[names(fill_pal) %in% unique(droplevels(sub_dat$`Evidence type`))]
+
+m <- mapview(sub_dat,
         zcol = "Evidence type",
-        col.regions = rev(fill_pal),
+        col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
 
@@ -302,8 +315,8 @@ m
 #| echo: true
 #| output: true
 #| code-fold: true
-
-m <- sys_rev.spat %>% 
+# AMPHIBIANS
+sub_dat <- sys_rev.spat %>% 
   filter(class == "Amphibians") %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
@@ -314,10 +327,13 @@ m <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num) %>%
-  mapview(.,
+         `point size` = in_meta_num)
+
+sub_fill <- fill_pal[names(fill_pal) %in% unique(droplevels(sub_dat$`Evidence type`))]
+
+m <- mapview(sub_dat,
         zcol = "Evidence type",
-        col.regions = rev(fill_pal),
+        col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
 

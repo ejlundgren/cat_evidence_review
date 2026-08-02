@@ -42,7 +42,11 @@ execute:
 bibliography: references.bib
 ---
 
-In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review [@Wallach2025-ta]. This workflow is derived from a full R script in `scripts/2_analysis/1 citation networks and bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
+In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. 
+
+Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review [@Wallach2025-ta]. 
+
+This workflow is derived from a full R script in `scripts/2_analysis/1 citation networks and bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
 
 # Prepare environment & load data {#sec-prep}
 ```{r}
