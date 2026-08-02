@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2026-08-01">
 <title>Systematic review – When consensus procedes the evidence</title>
 <style>
 /* Default styles provided by pandoc.
@@ -117,7 +118,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./icons/cat.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./icons/cat.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Supplementary codebook</a> 
     </div>
@@ -188,6 +191,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Timeline analysis</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text"><b>Funded by</b></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.arc.gov.au/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/ARC.png" class="img-fluid"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://nserc-crsng.canada.ca/en" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/Natural_Sciences_and_Engineering_Research_Council_Logo.png" class="img-fluid"></span></a>
+  </div>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -203,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Systematic review</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Systematic review</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -211,16 +235,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 1, 2026</p>
+    </div>
+  </div>
   
     
   </div>
   
 
 
-</header><p>This section will tally the evidence types encountered. It corresponds to code in <code>scripts/2 meta and review summary.R</code>.</p>
+</header><p>This section will tally the evidence types encountered. This workflow is derived from a full R script in <code>scripts/2_analysis/2 meta and review summary.R</code> that includes additional checks and tests and is fully interactive if you clone the repo.</p>
 <section id="prepare-environment-load-data" class="level1"><h1>Prepare environment &amp; load data:</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://r-datatable.com">"data.table"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://www.metafor-project.org">"metafor"</a></span><span class="op">)</span></span>
@@ -243,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span></span>
 <span><span class="va">sys_rev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/systematic_review/systematic_review_tidy.csv"</span><span class="op">)</span></span>
 <span><span class="va">sys_rev</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>               scientificName       spp_name_corrected
                        &lt;char&gt;                   &lt;char&gt;
   1:      Amazona barbadensis      Amazona barbadensis
@@ -337,19 +367,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 483: Phylacine 1.2  Mammals</code></pre>
 </div>
 </div>
+<p>This dataset was initially cleaned in <code>scripts/1_data_mgmt/4 clean systematic review and claim.R</code>.</p>
 </section><section id="plot-evidence-types-found" class="level1"><h1>Plot evidence types found</h1>
 <p>Now we’ll do some quality control checks, clean up factor levels, create color palettes and plot this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sys_rev</span><span class="op">[</span><span class="va">spp_name_corrected</span> <span class="op">==</span> <span class="st">"Dasyurus maculatus"</span><span class="op">]</span><span class="op">$</span><span class="va">exclude_species</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sys_rev</span><span class="op">[</span><span class="va">spp_name_corrected</span> <span class="op">==</span> <span class="st">"Dasyurus maculatus"</span><span class="op">]</span><span class="op">$</span><span class="va">exclude_species</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "excluded_species" "excluded_species" "excluded_species" "excluded_species"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sys_rev</span> <span class="op">&lt;-</span> <span class="va">sys_rev</span><span class="op">[</span><span class="va">exclude_species</span> <span class="op">==</span> <span class="st">"included_species"</span>,<span class="op">]</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sys_rev</span> <span class="op">&lt;-</span> <span class="va">sys_rev</span><span class="op">[</span><span class="va">exclude_species</span> <span class="op">==</span> <span class="st">"included_species"</span>,<span class="op">]</span></span>
 <span><span class="va">n_studies</span> <span class="op">&lt;-</span> <span class="va">sys_rev</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n_studies <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/duplicated.html">uniqueN</a></span><span class="op">(</span><span class="va">study_id</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                     by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">evidence_type</span>, <span class="va">has_data</span>, <span class="va">of_quality</span>, <span class="va">Hypothesis_supported</span>,</span>
 <span>                            <span class="va">class</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">n_studies</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>              evidence_type has_data of_quality Hypothesis_supported    class
                      &lt;char&gt;   &lt;char&gt;     &lt;char&gt;                &lt;int&gt;   &lt;char&gt;
 1:     Predation in support       no         no                    1    Birds
@@ -367,7 +398,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5:        35
 6:        11</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n_studies</span><span class="op">[</span>, <span class="va">synth_fill</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fcase.html">fcase</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">n_studies</span><span class="op">[</span>, <span class="va">synth_fill</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fcase.html">fcase</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type</span><span class="op">)</span> <span class="op">&amp;</span> </span>
 <span>                                  <span class="va">has_data</span> <span class="op">==</span> <span class="st">"yes"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">evidence_type</span>, <span class="st">"with data"</span><span class="op">)</span>,</span>
 <span>                                <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type</span><span class="op">)</span> <span class="op">&amp;</span> </span>
 <span>                                  <span class="va">has_data</span> <span class="op">==</span> <span class="st">"no"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">evidence_type</span>, <span class="st">"without data"</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span>
@@ -409,29 +440,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                              levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>, <span class="st">"Amphibians"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">n_studies</span><span class="op">$</span><span class="va">Hypothesis_supported</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">n_studies</span><span class="op">$</span><span class="va">Hypothesis_supported</span> ,</span>
 <span>                                             levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">p.sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">n_studies</span>, </span>
-<span>                <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">(</span><span class="va">Hypothesis_supported</span><span class="op">)</span>, </span>
+<span><span class="va">p.sys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">n_studies</span>, </span>
+<span>                <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="op">(</span><span class="va">Hypothesis_supported</span><span class="op">)</span>, </span>
 <span>                    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">n_studies</span><span class="op">)</span>, fill <span class="op">=</span> <span class="va">synth_fill</span>, color <span class="op">=</span> <span class="va">of_quality</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_bar.html">geom_col</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of studies"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">class</span>, scales <span class="op">=</span> <span class="st">"free_x"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of studies"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">class</span>, scales <span class="op">=</span> <span class="st">"free_x"</span>,</span>
 <span>             strip.position <span class="op">=</span> <span class="st">"bottom"</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                    values <span class="op">=</span> <span class="va">fill_pal</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"With qualities"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"With qualities"</span>,</span>
 <span>                     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span> <span class="op">=</span> <span class="st">"transparent"</span>,</span>
 <span>                                <span class="st">"yes"</span> <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        axis.ticks.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        axis.ticks.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
-<span>        strip.background <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>        panel.border <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>        strip.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>        panel.border <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">p.sys</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2-systematic-review_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
@@ -442,7 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section><section id="best-evidence" class="level1"><h1>Best evidence</h1>
 <p>Let’s now look at the best evidence available per species. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We’ll merge the evidence found into this dataset.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">claims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/claims/species_claims_tidy_populated.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">claims</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/claims/species_claims_tidy_populated.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Filter to only included species:</span></span>
 <span><span class="va">claims</span> <span class="op">&lt;-</span> <span class="va">claims</span><span class="op">[</span><span class="va">exclude_species</span> <span class="op">==</span> <span class="st">"included_species"</span>, <span class="fu">.</span><span class="op">(</span><span class="va">spp_name_corrected</span>, <span class="va">scientificName</span>, </span>
@@ -458,15 +489,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">ranking</span> <span class="op">&lt;-</span> <span class="va">ranking</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">spp_name_corrected</span>,</span>
 <span>                       <span class="va">of_quality</span>, <span class="va">evidence_type</span>, <span class="va">has_data</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ranking</span><span class="op">$</span><span class="va">has_data</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "no"  "yes"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ranking</span><span class="op">$</span><span class="va">evidence_type</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ranking</span><span class="op">$</span><span class="va">evidence_type</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Population in support"     "Population not in support"
 [3] "Predation in support"      "Predation not in support" </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span><span class="op">[</span><span class="va">of_quality</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span><span class="op">[</span><span class="va">of_quality</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span></span>
 <span>          <span class="va">evidence_type</span> <span class="op">==</span> <span class="st">"Population in support"</span>, <span class="va">rank</span> <span class="op">:=</span> <span class="fl">10</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">of_quality</span> <span class="op">==</span> <span class="st">"no"</span> <span class="op">&amp;</span></span>
 <span>          <span class="va">has_data</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span></span>
@@ -477,10 +508,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">evidence_type</span> <span class="op">==</span> <span class="st">"Predation in support"</span>, <span class="va">rank</span> <span class="op">:=</span> <span class="fl">7</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ranking</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span><span class="op">]</span><span class="op">$</span><span class="va">evidence_type</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Predation not in support"  "Population not in support"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span>, <span class="va">rank</span> <span class="op">:=</span> <span class="fl">0</span><span class="op">]</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span>, <span class="va">rank</span> <span class="op">:=</span> <span class="fl">0</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">rank</span> <span class="op">==</span> <span class="fl">0</span>, <span class="va">evidence_type</span> <span class="op">:=</span> <span class="st">"No evidence in support"</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">rank</span> <span class="op">==</span> <span class="fl">0</span>, <span class="va">has_data</span> <span class="op">:=</span> <span class="cn">NA</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">rank</span> <span class="op">==</span> <span class="fl">0</span>, <span class="va">of_quality</span> <span class="op">:=</span> <span class="cn">NA</span><span class="op">]</span></span>
@@ -489,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                   by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">spp_name_corrected</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span>, <span class="va">no_evidence</span> <span class="op">:=</span> <span class="va">.N</span>, by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">spp_name_corrected</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="va">no_evidence</span> <span class="op">&gt;</span> <span class="fl">1</span>, <span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>              spp_name_corrected of_quality          evidence_type has_data
                           &lt;char&gt;     &lt;char&gt;                 &lt;char&gt;   &lt;char&gt;
   1:              Anas chlorotis       &lt;NA&gt; No evidence in support     &lt;NA&gt;
@@ -517,13 +548,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 328:     7        8           2
 329:     8        8           2</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span> <span class="op">&lt;-</span> <span class="va">ranking</span><span class="op">[</span><span class="va">rank</span> <span class="op">==</span> <span class="va">max_rank</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ranking</span> <span class="op">&lt;-</span> <span class="va">ranking</span><span class="op">[</span><span class="va">rank</span> <span class="op">==</span> <span class="va">max_rank</span>, <span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ranking</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">spp_name_corrected</span><span class="op">)</span>, <span class="op">]</span> <span class="co"># Must be 0 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Empty data.table (0 rows and 7 cols): spp_name_corrected,of_quality,evidence_type,has_data,rank,max_rank...</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Now merge into the claims:</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Now merge into the claims:</span></span>
 <span><span class="va">best_evidence</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">claims</span>,</span>
 <span>                       <span class="va">ranking</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">spp_name_corrected</span>, <span class="va">evidence_type</span>, <span class="va">of_quality</span>,</span>
 <span>                                   <span class="va">has_data</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -532,21 +563,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>                       all.y <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="va">spp_name_corrected</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;spp_name_corrected&gt;
 Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,systems,redlistCategory,populationTrend...</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#</span></span>
 <span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">redlistCategory</span><span class="op">)</span><span class="op">]</span> <span class="co"># Must be 0 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;spp_name_corrected&gt;
 Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,systems,redlistCategory,populationTrend...</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Birds"      "Reptiles"   "Mammals"    "Amphibians"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">redlistCategory</span><span class="op">)</span>, <span class="va">class</span> <span class="op">:=</span> <span class="st">"Mammals"</span><span class="op">]</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">redlistCategory</span><span class="op">)</span>, <span class="va">class</span> <span class="op">:=</span> <span class="st">"Mammals"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Hmmm. Well let's let Arian figure that out.</span></span>
 <span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">evidence_type</span><span class="op">)</span>, <span class="va">evidence_type</span> <span class="op">:=</span> <span class="st">"No evidence found"</span><span class="op">]</span></span>
@@ -562,16 +593,16 @@ Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,s
 <span>              <span class="va">synth_fill</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">synth_fill</span>, </span>
 <span>                                    <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">of_quality</span> <span class="op">==</span> <span class="st">"yes"</span>,</span>
 <span>                                           <span class="st">"and qualities"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span><span class="op">(</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">synth_fill</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fill_pal</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">synth_fill</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fill_pal</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] NA</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">synth_fill</span><span class="op">)</span>, <span class="va">synth_fill</span> <span class="op">:=</span> <span class="va">evidence_type</span><span class="op">]</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/generics/man/setops.html">setdiff</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">synth_fill</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fill_pal</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">synth_fill</span><span class="op">)</span>, <span class="va">synth_fill</span> <span class="op">:=</span> <span class="va">evidence_type</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">synth_fill</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fill_pal</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "No evidence found"      "No evidence in support"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fill_pal2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Predation in support` <span class="op">=</span> <span class="st">"#a6d3a0"</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fill_pal2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Predation in support` <span class="op">=</span> <span class="st">"#a6d3a0"</span>, </span>
 <span>               `Population in support without data` <span class="op">=</span> <span class="st">"dodgerblue4"</span>, </span>
 <span>               `Population in support with data` <span class="op">=</span> <span class="st">"dodgerblue"</span>, </span>
 <span>               `Population in support with data and qualities` <span class="op">=</span> <span class="st">"dodgerblue"</span>,</span>
@@ -579,19 +610,19 @@ Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,s
 <span>               `No evidence found` <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Birds"      "Reptiles"   "Mammals"    "Amphibians"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span> <span class="op">&lt;-</span> <span class="va">best_evidence</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/duplicated.html">uniqueN</a></span><span class="op">(</span><span class="va">scientificName</span><span class="op">)</span><span class="op">)</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span> <span class="op">&lt;-</span> <span class="va">best_evidence</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n_species <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/duplicated.html">uniqueN</a></span><span class="op">(</span><span class="va">scientificName</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                                    by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">synth_fill</span>,</span>
 <span>                                           <span class="va">of_quality</span>, <span class="va">class</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#</span></span>
 <span><span class="va">best_evidence.freq</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">synth_fill</span>, <span class="va">class</span><span class="op">)</span><span class="op">)</span>,<span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>Empty data.table (0 rows and 4 cols): synth_fill,of_quality,class,n_species</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "No evidence found"                            
 [2] "Predation in support"                         
 [3] "No evidence in support"                       
@@ -599,7 +630,7 @@ Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,s
 [5] "Population in support with data"              
 [6] "Population in support with data and qualities"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">synth_fill</span>,</span>
 <span>                      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"No evidence found"</span>, </span>
 <span>                                     <span class="st">"No evidence in support"</span>, </span>
 <span>                                     <span class="st">"Predation in support"</span>,</span>
@@ -608,31 +639,31 @@ Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,s
 <span>                                     <span class="st">"Population in support with data and qualities"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Birds"      "Reptiles"   "Mammals"    "Amphibians"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">class</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">class</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">class</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">best_evidence.freq</span><span class="op">$</span><span class="va">class</span>,</span>
 <span>                                   levels <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>,  <span class="st">"Amphibians"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">best.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">best_evidence.freq</span>,</span>
-<span>       <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span>, y <span class="op">=</span> <span class="va">n_species</span>, fill <span class="op">=</span> <span class="va">synth_fill</span>,</span>
+<span><span class="va">best.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">best_evidence.freq</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">class</span>, y <span class="op">=</span> <span class="va">n_species</span>, fill <span class="op">=</span> <span class="va">synth_fill</span>,</span>
 <span>           color <span class="op">=</span> <span class="va">of_quality</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/position_stack.html">position_stack</a></span><span class="op">(</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">.75</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Best evidence"</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_stack.html">position_stack</a></span><span class="op">(</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">.75</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span><span class="st">"Best evidence"</span>,</span>
 <span>                    values <span class="op">=</span> <span class="va">fill_pal2</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/scale_manual.html">scale_color_manual</a></span><span class="op">(</span><span class="st">"Of quality"</span>, </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span><span class="st">"Of quality"</span>, </span>
 <span>                     values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span> <span class="op">=</span> <span class="st">"transparent"</span>,</span>
 <span>                                <span class="st">"yes"</span> <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/guide_legend.html">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html">guide_legend</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
 <span>         color <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of species"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/theme.html">theme</a></span><span class="op">(</span>panel.border <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Number of species"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>panel.border <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
-<span>        panel.grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>        panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">best.p</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="2-systematic-review_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
@@ -1096,300 +1127,303 @@ Empty data.table (0 rows and 10 cols): spp_name_corrected,scientificName,realm,s
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Systematic review"</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "2-systematic-review.html"</span></span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # code-fold: true</span></span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
-<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
-<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
-<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
-<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
-<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
-<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
-<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>This section will tally the evidence types encountered. It corresponds to code in <span class="in">`scripts/2 meta and review summary.R`</span>. </span>
-<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment &amp; load data:</span></span>
-<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
-<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"metafor"</span>)</span>
-<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
-<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"orchaRd"</span>)</span>
-<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"patchwork"</span>)</span>
-<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"readxl"</span>)</span>
-<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"stringr"</span>)</span>
-<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggstance"</span>)</span>
-<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"sf"</span>)</span>
-<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mapview"</span>)</span>
-<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyr"</span>)</span>
-<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom"</span>)</span>
-<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom.mixed"</span>)</span>
-<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rotl"</span>)</span>
-<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ape"</span>)</span>
-<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gt"</span>)</span>
-<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggtext"</span>)</span>
-<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a>sys_rev <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/systematic_review/systematic_review_tidy.csv"</span>)</span>
-<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a>sys_rev</span>
-<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a><span class="fu"># Plot evidence types found</span></span>
-<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a>Now we'll do some quality control checks, clean up factor levels, create color palettes and plot this:</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "2-systematic-review.html"</span></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>This section will tally the evidence types encountered. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/2 meta and review summary.R`</span> that includes additional checks and tests and is fully interactive if you clone the repo. </span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment &amp; load data:</span></span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"metafor"</span>)</span>
+<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"orchaRd"</span>)</span>
+<span id="cb37-60"><a href="#cb37-60" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb37-61"><a href="#cb37-61" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"readxl"</span>)</span>
+<span id="cb37-62"><a href="#cb37-62" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"stringr"</span>)</span>
+<span id="cb37-63"><a href="#cb37-63" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggstance"</span>)</span>
+<span id="cb37-64"><a href="#cb37-64" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"sf"</span>)</span>
+<span id="cb37-65"><a href="#cb37-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"mapview"</span>)</span>
+<span id="cb37-66"><a href="#cb37-66" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tidyr"</span>)</span>
+<span id="cb37-67"><a href="#cb37-67" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom"</span>)</span>
+<span id="cb37-68"><a href="#cb37-68" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom.mixed"</span>)</span>
+<span id="cb37-69"><a href="#cb37-69" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb37-70"><a href="#cb37-70" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rotl"</span>)</span>
+<span id="cb37-71"><a href="#cb37-71" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ape"</span>)</span>
+<span id="cb37-72"><a href="#cb37-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"gt"</span>)</span>
+<span id="cb37-73"><a href="#cb37-73" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"ggtext"</span>)</span>
+<span id="cb37-74"><a href="#cb37-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-75"><a href="#cb37-75" aria-hidden="true" tabindex="-1"></a>sys_rev <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/systematic_review/systematic_review_tidy.csv"</span>)</span>
+<span id="cb37-76"><a href="#cb37-76" aria-hidden="true" tabindex="-1"></a>sys_rev</span>
+<span id="cb37-77"><a href="#cb37-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-78"><a href="#cb37-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-79"><a href="#cb37-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-80"><a href="#cb37-80" aria-hidden="true" tabindex="-1"></a>This dataset was initially cleaned in <span class="in">`scripts/1_data_mgmt/4 clean systematic review and claim.R`</span>.</span>
 <span id="cb37-81"><a href="#cb37-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-85"><a href="#cb37-85" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb37-86"><a href="#cb37-86" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
-<span id="cb37-88"><a href="#cb37-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb37-89"><a href="#cb37-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a>sys_rev[spp_name_corrected <span class="sc">==</span> <span class="st">"Dasyurus maculatus"</span>]<span class="sc">$</span>exclude_species</span>
-<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a>sys_rev <span class="ot">&lt;-</span> sys_rev[exclude_species <span class="sc">==</span> <span class="st">"included_species"</span>,]</span>
-<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a>n_studies <span class="ot">&lt;-</span> sys_rev[, .(<span class="at">n_studies =</span> <span class="fu">uniqueN</span>(study_id)),</span>
-<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a>                     by <span class="ot">=</span> .(evidence_type, has_data, of_quality, Hypothesis_supported,</span>
-<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a>                            class)]</span>
-<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(n_studies)</span>
-<span id="cb37-96"><a href="#cb37-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a>n_studies[, synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type) <span class="sc">&amp;</span> </span>
-<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a>                                  has_data <span class="sc">==</span> <span class="st">"yes"</span>, <span class="fu">paste</span>(evidence_type, <span class="st">"with data"</span>),</span>
-<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type) <span class="sc">&amp;</span> </span>
-<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a>                                  has_data <span class="sc">==</span> <span class="st">"no"</span>, <span class="fu">paste</span>(evidence_type, <span class="st">"without data"</span>))]</span>
-<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a>n_studies[<span class="fu">is.na</span>(synth_fill), synth_fill <span class="sc">:</span><span class="er">=</span> evidence_type]</span>
-<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies[of_quality == "yes",]</span></span>
-<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a>n_studies[of_quality <span class="sc">==</span> <span class="st">"yes"</span>, synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(synth_fill, <span class="st">"and qualities"</span>)]</span>
-<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up color palettes</span></span>
-<span id="cb37-107"><a href="#cb37-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-108"><a href="#cb37-108" aria-hidden="true" tabindex="-1"></a>fill_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
-<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Predation not in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#40531b"</span>, </span>
-<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred4"</span>, </span>
-<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
-<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
-<span id="cb37-113"><a href="#cb37-113" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
-<span id="cb37-114"><a href="#cb37-114" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
-<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span></span>
-<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>synth_fill <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>synth_fill,</span>
-<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> (<span class="fu">c</span>(<span class="st">"Predation not in support"</span>, </span>
-<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Predation in support"</span>, </span>
-<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support without data"</span>,</span>
-<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support with data"</span>, </span>
-<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support with data and qualities"</span>,</span>
-<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support without data"</span>, </span>
-<span id="cb37-125"><a href="#cb37-125" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support with data"</span>, </span>
-<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support with data and qualities"</span> </span>
-<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a>            )))</span>
-<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-129"><a href="#cb37-129" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-130"><a href="#cb37-130" aria-hidden="true" tabindex="-1"></a>n_studies[, evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(<span class="fu">grepl</span>(<span class="st">"Predation"</span>, evidence_type), <span class="st">"Predation"</span>,</span>
-<span id="cb37-131"><a href="#cb37-131" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), <span class="st">"Population"</span>)]</span>
-<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies[evidence_simple %in% "Population" &amp; class == "Birds"]</span></span>
-<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies.alt[class %in% c("Reptiles", "Amphibians"), class := "Reptiles &amp; Amphibians"]</span></span>
-<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>class,</span>
-<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a>                              <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>, <span class="st">"Amphibians"</span>))</span>
-<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>Hypothesis_supported <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>Hypothesis_supported ,</span>
-<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</span>
-<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a>p.sys <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n_studies, </span>
-<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> (Hypothesis_supported), </span>
-<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">abs</span>(n_studies), <span class="at">fill =</span> synth_fill, <span class="at">color =</span> of_quality))<span class="sc">+</span></span>
-<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span>)<span class="sc">+</span> </span>
-<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of studies"</span>)<span class="sc">+</span></span>
-<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">scales =</span> <span class="st">"free_x"</span>,</span>
-<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a>             <span class="at">strip.position =</span> <span class="st">"bottom"</span>, <span class="at">nrow =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb37-146"><a href="#cb37-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb37-147"><a href="#cb37-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="cn">NULL</span>,</span>
-<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal)<span class="sc">+</span></span>
-<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"With qualities"</span>,</span>
-<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"no"</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
-<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"yes"</span> <span class="ot">=</span> <span class="st">"gold"</span>))<span class="sc">+</span></span>
-<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a>p.sys</span>
-<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-162"><a href="#cb37-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb37-163"><a href="#cb37-163" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
+<span id="cb37-82"><a href="#cb37-82" aria-hidden="true" tabindex="-1"></a><span class="fu"># Plot evidence types found</span></span>
+<span id="cb37-83"><a href="#cb37-83" aria-hidden="true" tabindex="-1"></a>Now we'll do some quality control checks, clean up factor levels, create color palettes and plot this:</span>
+<span id="cb37-84"><a href="#cb37-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-87"><a href="#cb37-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-88"><a href="#cb37-88" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb37-89"><a href="#cb37-89" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb37-90"><a href="#cb37-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb37-91"><a href="#cb37-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb37-92"><a href="#cb37-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-93"><a href="#cb37-93" aria-hidden="true" tabindex="-1"></a>sys_rev[spp_name_corrected <span class="sc">==</span> <span class="st">"Dasyurus maculatus"</span>]<span class="sc">$</span>exclude_species</span>
+<span id="cb37-94"><a href="#cb37-94" aria-hidden="true" tabindex="-1"></a>sys_rev <span class="ot">&lt;-</span> sys_rev[exclude_species <span class="sc">==</span> <span class="st">"included_species"</span>,]</span>
+<span id="cb37-95"><a href="#cb37-95" aria-hidden="true" tabindex="-1"></a>n_studies <span class="ot">&lt;-</span> sys_rev[, .(<span class="at">n_studies =</span> <span class="fu">uniqueN</span>(study_id)),</span>
+<span id="cb37-96"><a href="#cb37-96" aria-hidden="true" tabindex="-1"></a>                     by <span class="ot">=</span> .(evidence_type, has_data, of_quality, Hypothesis_supported,</span>
+<span id="cb37-97"><a href="#cb37-97" aria-hidden="true" tabindex="-1"></a>                            class)]</span>
+<span id="cb37-98"><a href="#cb37-98" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(n_studies)</span>
+<span id="cb37-99"><a href="#cb37-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-100"><a href="#cb37-100" aria-hidden="true" tabindex="-1"></a>n_studies[, synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type) <span class="sc">&amp;</span> </span>
+<span id="cb37-101"><a href="#cb37-101" aria-hidden="true" tabindex="-1"></a>                                  has_data <span class="sc">==</span> <span class="st">"yes"</span>, <span class="fu">paste</span>(evidence_type, <span class="st">"with data"</span>),</span>
+<span id="cb37-102"><a href="#cb37-102" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type) <span class="sc">&amp;</span> </span>
+<span id="cb37-103"><a href="#cb37-103" aria-hidden="true" tabindex="-1"></a>                                  has_data <span class="sc">==</span> <span class="st">"no"</span>, <span class="fu">paste</span>(evidence_type, <span class="st">"without data"</span>))]</span>
+<span id="cb37-104"><a href="#cb37-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-105"><a href="#cb37-105" aria-hidden="true" tabindex="-1"></a>n_studies[<span class="fu">is.na</span>(synth_fill), synth_fill <span class="sc">:</span><span class="er">=</span> evidence_type]</span>
+<span id="cb37-106"><a href="#cb37-106" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies[of_quality == "yes",]</span></span>
+<span id="cb37-107"><a href="#cb37-107" aria-hidden="true" tabindex="-1"></a>n_studies[of_quality <span class="sc">==</span> <span class="st">"yes"</span>, synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(synth_fill, <span class="st">"and qualities"</span>)]</span>
+<span id="cb37-108"><a href="#cb37-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-109"><a href="#cb37-109" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up color palettes</span></span>
+<span id="cb37-110"><a href="#cb37-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-111"><a href="#cb37-111" aria-hidden="true" tabindex="-1"></a>fill_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
+<span id="cb37-112"><a href="#cb37-112" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Predation not in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#40531b"</span>, </span>
+<span id="cb37-113"><a href="#cb37-113" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred4"</span>, </span>
+<span id="cb37-114"><a href="#cb37-114" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
+<span id="cb37-115"><a href="#cb37-115" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
+<span id="cb37-116"><a href="#cb37-116" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
+<span id="cb37-117"><a href="#cb37-117" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
+<span id="cb37-118"><a href="#cb37-118" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span></span>
+<span id="cb37-119"><a href="#cb37-119" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb37-120"><a href="#cb37-120" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb37-121"><a href="#cb37-121" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>synth_fill <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>synth_fill,</span>
+<span id="cb37-122"><a href="#cb37-122" aria-hidden="true" tabindex="-1"></a><span class="at">levels =</span> (<span class="fu">c</span>(<span class="st">"Predation not in support"</span>, </span>
+<span id="cb37-123"><a href="#cb37-123" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Predation in support"</span>, </span>
+<span id="cb37-124"><a href="#cb37-124" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support without data"</span>,</span>
+<span id="cb37-125"><a href="#cb37-125" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support with data"</span>, </span>
+<span id="cb37-126"><a href="#cb37-126" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population not in support with data and qualities"</span>,</span>
+<span id="cb37-127"><a href="#cb37-127" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support without data"</span>, </span>
+<span id="cb37-128"><a href="#cb37-128" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support with data"</span>, </span>
+<span id="cb37-129"><a href="#cb37-129" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Population in support with data and qualities"</span> </span>
+<span id="cb37-130"><a href="#cb37-130" aria-hidden="true" tabindex="-1"></a>            )))</span>
+<span id="cb37-131"><a href="#cb37-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-132"><a href="#cb37-132" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb37-133"><a href="#cb37-133" aria-hidden="true" tabindex="-1"></a>n_studies[, evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="fu">fcase</span>(<span class="fu">grepl</span>(<span class="st">"Predation"</span>, evidence_type), <span class="st">"Predation"</span>,</span>
+<span id="cb37-134"><a href="#cb37-134" aria-hidden="true" tabindex="-1"></a>                                     <span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), <span class="st">"Population"</span>)]</span>
+<span id="cb37-135"><a href="#cb37-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-136"><a href="#cb37-136" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies[evidence_simple %in% "Population" &amp; class == "Birds"]</span></span>
+<span id="cb37-137"><a href="#cb37-137" aria-hidden="true" tabindex="-1"></a><span class="co"># n_studies.alt[class %in% c("Reptiles", "Amphibians"), class := "Reptiles &amp; Amphibians"]</span></span>
+<span id="cb37-138"><a href="#cb37-138" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>class,</span>
+<span id="cb37-139"><a href="#cb37-139" aria-hidden="true" tabindex="-1"></a>                              <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>, <span class="st">"Amphibians"</span>))</span>
+<span id="cb37-140"><a href="#cb37-140" aria-hidden="true" tabindex="-1"></a>n_studies<span class="sc">$</span>Hypothesis_supported <span class="ot">&lt;-</span> <span class="fu">factor</span>(n_studies<span class="sc">$</span>Hypothesis_supported ,</span>
+<span id="cb37-141"><a href="#cb37-141" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>))</span>
+<span id="cb37-142"><a href="#cb37-142" aria-hidden="true" tabindex="-1"></a>p.sys <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> n_studies, </span>
+<span id="cb37-143"><a href="#cb37-143" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> (Hypothesis_supported), </span>
+<span id="cb37-144"><a href="#cb37-144" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">abs</span>(n_studies), <span class="at">fill =</span> synth_fill, <span class="at">color =</span> of_quality))<span class="sc">+</span></span>
+<span id="cb37-145"><a href="#cb37-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span>)<span class="sc">+</span> </span>
+<span id="cb37-146"><a href="#cb37-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of studies"</span>)<span class="sc">+</span></span>
+<span id="cb37-147"><a href="#cb37-147" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>class, <span class="at">scales =</span> <span class="st">"free_x"</span>,</span>
+<span id="cb37-148"><a href="#cb37-148" aria-hidden="true" tabindex="-1"></a>             <span class="at">strip.position =</span> <span class="st">"bottom"</span>, <span class="at">nrow =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb37-149"><a href="#cb37-149" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb37-150"><a href="#cb37-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="cn">NULL</span>,</span>
+<span id="cb37-151"><a href="#cb37-151" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal)<span class="sc">+</span></span>
+<span id="cb37-152"><a href="#cb37-152" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"With qualities"</span>,</span>
+<span id="cb37-153"><a href="#cb37-153" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"no"</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
+<span id="cb37-154"><a href="#cb37-154" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"yes"</span> <span class="ot">=</span> <span class="st">"gold"</span>))<span class="sc">+</span></span>
+<span id="cb37-155"><a href="#cb37-155" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb37-156"><a href="#cb37-156" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb37-157"><a href="#cb37-157" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb37-158"><a href="#cb37-158" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb37-159"><a href="#cb37-159" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb37-160"><a href="#cb37-160" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb37-161"><a href="#cb37-161" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb37-162"><a href="#cb37-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-163"><a href="#cb37-163" aria-hidden="true" tabindex="-1"></a>p.sys</span>
 <span id="cb37-164"><a href="#cb37-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a><span class="fu"># Best evidence</span></span>
-<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a>Let's now look at the best evidence available per species. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We'll merge the evidence found into this dataset.</span>
+<span id="cb37-165"><a href="#cb37-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-166"><a href="#cb37-166" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
 <span id="cb37-167"><a href="#cb37-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb37-171"><a href="#cb37-171" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb37-172"><a href="#cb37-172" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
-<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
-<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/claims/species_claims_tidy_populated.csv"</span>)</span>
-<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to only included species:</span></span>
-<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> claims[exclude_species <span class="sc">==</span> <span class="st">"included_species"</span>, .(spp_name_corrected, scientificName, </span>
-<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a>                                                          realm, systems, redlistCategory,</span>
-<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a>                                                          populationTrend, class)] <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-183"><a href="#cb37-183" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the one species that has been split since assessment:</span></span>
-<span id="cb37-184"><a href="#cb37-184" aria-hidden="true" tabindex="-1"></a>claims[spp_name_corrected <span class="sc">==</span> <span class="st">"Prosobonia parvirostris"</span>, spp_name_corrected <span class="sc">:</span><span class="er">=</span> scientificName]</span>
-<span id="cb37-185"><a href="#cb37-185" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the systematic review evidence file into a new data structure</span></span>
-<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">copy</span>(sys_rev)</span>
-<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[, .(spp_name_corrected,</span>
-<span id="cb37-190"><a href="#cb37-190" aria-hidden="true" tabindex="-1"></a>                       of_quality, evidence_type, has_data)]</span>
-<span id="cb37-191"><a href="#cb37-191" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(ranking<span class="sc">$</span>has_data)</span>
-<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">unique</span>(ranking<span class="sc">$</span>evidence_type))</span>
-<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-195"><a href="#cb37-195" aria-hidden="true" tabindex="-1"></a>ranking[of_quality <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
-<span id="cb37-196"><a href="#cb37-196" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">10</span>]</span>
-<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a>ranking[of_quality <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span></span>
-<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a>          has_data <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
-<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">9</span>]</span>
+<span id="cb37-168"><a href="#cb37-168" aria-hidden="true" tabindex="-1"></a><span class="fu"># Best evidence</span></span>
+<span id="cb37-169"><a href="#cb37-169" aria-hidden="true" tabindex="-1"></a>Let's now look at the best evidence available per species. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We'll merge the evidence found into this dataset.</span>
+<span id="cb37-170"><a href="#cb37-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-173"><a href="#cb37-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb37-174"><a href="#cb37-174" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb37-175"><a href="#cb37-175" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb37-176"><a href="#cb37-176" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
+<span id="cb37-177"><a href="#cb37-177" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb37-178"><a href="#cb37-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-179"><a href="#cb37-179" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/claims/species_claims_tidy_populated.csv"</span>)</span>
+<span id="cb37-180"><a href="#cb37-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-181"><a href="#cb37-181" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to only included species:</span></span>
+<span id="cb37-182"><a href="#cb37-182" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> claims[exclude_species <span class="sc">==</span> <span class="st">"included_species"</span>, .(spp_name_corrected, scientificName, </span>
+<span id="cb37-183"><a href="#cb37-183" aria-hidden="true" tabindex="-1"></a>                                                          realm, systems, redlistCategory,</span>
+<span id="cb37-184"><a href="#cb37-184" aria-hidden="true" tabindex="-1"></a>                                                          populationTrend, class)] <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<span id="cb37-185"><a href="#cb37-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-186"><a href="#cb37-186" aria-hidden="true" tabindex="-1"></a><span class="co"># Fix the one species that has been split since assessment:</span></span>
+<span id="cb37-187"><a href="#cb37-187" aria-hidden="true" tabindex="-1"></a>claims[spp_name_corrected <span class="sc">==</span> <span class="st">"Prosobonia parvirostris"</span>, spp_name_corrected <span class="sc">:</span><span class="er">=</span> scientificName]</span>
+<span id="cb37-188"><a href="#cb37-188" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb37-189"><a href="#cb37-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-190"><a href="#cb37-190" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the systematic review evidence file into a new data structure</span></span>
+<span id="cb37-191"><a href="#cb37-191" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> <span class="fu">copy</span>(sys_rev)</span>
+<span id="cb37-192"><a href="#cb37-192" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[, .(spp_name_corrected,</span>
+<span id="cb37-193"><a href="#cb37-193" aria-hidden="true" tabindex="-1"></a>                       of_quality, evidence_type, has_data)]</span>
+<span id="cb37-194"><a href="#cb37-194" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(ranking<span class="sc">$</span>has_data)</span>
+<span id="cb37-195"><a href="#cb37-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-196"><a href="#cb37-196" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">unique</span>(ranking<span class="sc">$</span>evidence_type))</span>
+<span id="cb37-197"><a href="#cb37-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-198"><a href="#cb37-198" aria-hidden="true" tabindex="-1"></a>ranking[of_quality <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
+<span id="cb37-199"><a href="#cb37-199" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">10</span>]</span>
 <span id="cb37-200"><a href="#cb37-200" aria-hidden="true" tabindex="-1"></a>ranking[of_quality <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span></span>
-<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a>          has_data <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span></span>
-<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">8</span>]</span>
-<span id="cb37-203"><a href="#cb37-203" aria-hidden="true" tabindex="-1"></a>ranking[evidence_type <span class="sc">==</span> <span class="st">"Predation in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">7</span>]</span>
-<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(ranking[<span class="fu">is.na</span>(rank)]<span class="sc">$</span>evidence_type)</span>
-<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a>ranking[<span class="fu">is.na</span>(rank), rank <span class="sc">:</span><span class="er">=</span> <span class="dv">0</span>]</span>
-<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, evidence_type <span class="sc">:</span><span class="er">=</span> <span class="st">"No evidence in support"</span>]</span>
-<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, has_data <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb37-210"><a href="#cb37-210" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, of_quality <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
-<span id="cb37-211"><a href="#cb37-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[, max_rank <span class="sc">:</span><span class="er">=</span> <span class="fu">max</span>(rank),</span>
-<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a>                   by <span class="ot">=</span> .(spp_name_corrected)]</span>
-<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a>ranking[, no_evidence <span class="sc">:</span><span class="er">=</span> .N, by <span class="ot">=</span> .(spp_name_corrected)]</span>
-<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a>ranking[no_evidence <span class="sc">&gt;</span> <span class="dv">1</span>, ]</span>
-<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[rank <span class="sc">==</span> max_rank, ] <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb37-217"><a href="#cb37-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-218"><a href="#cb37-218" aria-hidden="true" tabindex="-1"></a>ranking[<span class="fu">duplicated</span>(spp_name_corrected), ] <span class="co"># Must be 0 rows</span></span>
-<span id="cb37-219"><a href="#cb37-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a><span class="co"># Now merge into the claims:</span></span>
-<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a>best_evidence <span class="ot">&lt;-</span> <span class="fu">merge</span>(claims,</span>
-<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a>                       ranking[, .(spp_name_corrected, evidence_type, of_quality,</span>
-<span id="cb37-223"><a href="#cb37-223" aria-hidden="true" tabindex="-1"></a>                                   has_data)],</span>
-<span id="cb37-224"><a href="#cb37-224" aria-hidden="true" tabindex="-1"></a>                       <span class="at">by =</span> <span class="st">"spp_name_corrected"</span>,</span>
-<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a>                       <span class="at">all.x =</span> T,</span>
-<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a>                       <span class="at">all.y =</span> T)</span>
-<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">duplicated</span>(spp_name_corrected)]</span>
-<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(redlistCategory)] <span class="co"># Must be 0 rows</span></span>
-<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence<span class="sc">$</span>class)</span>
-<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(redlistCategory), class <span class="sc">:</span><span class="er">=</span> <span class="st">"Mammals"</span>]</span>
-<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Hmmm. Well let's let Arian figure that out.</span></span>
-<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(evidence_type), evidence_type <span class="sc">:</span><span class="er">=</span> <span class="st">"No evidence found"</span>]</span>
+<span id="cb37-201"><a href="#cb37-201" aria-hidden="true" tabindex="-1"></a>          has_data <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
+<span id="cb37-202"><a href="#cb37-202" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">9</span>]</span>
+<span id="cb37-203"><a href="#cb37-203" aria-hidden="true" tabindex="-1"></a>ranking[of_quality <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span></span>
+<span id="cb37-204"><a href="#cb37-204" aria-hidden="true" tabindex="-1"></a>          has_data <span class="sc">==</span> <span class="st">"no"</span> <span class="sc">&amp;</span></span>
+<span id="cb37-205"><a href="#cb37-205" aria-hidden="true" tabindex="-1"></a>          evidence_type <span class="sc">==</span> <span class="st">"Population in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">8</span>]</span>
+<span id="cb37-206"><a href="#cb37-206" aria-hidden="true" tabindex="-1"></a>ranking[evidence_type <span class="sc">==</span> <span class="st">"Predation in support"</span>, rank <span class="sc">:</span><span class="er">=</span> <span class="dv">7</span>]</span>
+<span id="cb37-207"><a href="#cb37-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-208"><a href="#cb37-208" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(ranking[<span class="fu">is.na</span>(rank)]<span class="sc">$</span>evidence_type)</span>
+<span id="cb37-209"><a href="#cb37-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-210"><a href="#cb37-210" aria-hidden="true" tabindex="-1"></a>ranking[<span class="fu">is.na</span>(rank), rank <span class="sc">:</span><span class="er">=</span> <span class="dv">0</span>]</span>
+<span id="cb37-211"><a href="#cb37-211" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, evidence_type <span class="sc">:</span><span class="er">=</span> <span class="st">"No evidence in support"</span>]</span>
+<span id="cb37-212"><a href="#cb37-212" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, has_data <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb37-213"><a href="#cb37-213" aria-hidden="true" tabindex="-1"></a>ranking[rank <span class="sc">==</span> <span class="dv">0</span>, of_quality <span class="sc">:</span><span class="er">=</span> <span class="cn">NA</span>]</span>
+<span id="cb37-214"><a href="#cb37-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-215"><a href="#cb37-215" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[, max_rank <span class="sc">:</span><span class="er">=</span> <span class="fu">max</span>(rank),</span>
+<span id="cb37-216"><a href="#cb37-216" aria-hidden="true" tabindex="-1"></a>                   by <span class="ot">=</span> .(spp_name_corrected)]</span>
+<span id="cb37-217"><a href="#cb37-217" aria-hidden="true" tabindex="-1"></a>ranking[, no_evidence <span class="sc">:</span><span class="er">=</span> .N, by <span class="ot">=</span> .(spp_name_corrected)]</span>
+<span id="cb37-218"><a href="#cb37-218" aria-hidden="true" tabindex="-1"></a>ranking[no_evidence <span class="sc">&gt;</span> <span class="dv">1</span>, ]</span>
+<span id="cb37-219"><a href="#cb37-219" aria-hidden="true" tabindex="-1"></a>ranking <span class="ot">&lt;-</span> ranking[rank <span class="sc">==</span> max_rank, ] <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
+<span id="cb37-220"><a href="#cb37-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-221"><a href="#cb37-221" aria-hidden="true" tabindex="-1"></a>ranking[<span class="fu">duplicated</span>(spp_name_corrected), ] <span class="co"># Must be 0 rows</span></span>
+<span id="cb37-222"><a href="#cb37-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-223"><a href="#cb37-223" aria-hidden="true" tabindex="-1"></a><span class="co"># Now merge into the claims:</span></span>
+<span id="cb37-224"><a href="#cb37-224" aria-hidden="true" tabindex="-1"></a>best_evidence <span class="ot">&lt;-</span> <span class="fu">merge</span>(claims,</span>
+<span id="cb37-225"><a href="#cb37-225" aria-hidden="true" tabindex="-1"></a>                       ranking[, .(spp_name_corrected, evidence_type, of_quality,</span>
+<span id="cb37-226"><a href="#cb37-226" aria-hidden="true" tabindex="-1"></a>                                   has_data)],</span>
+<span id="cb37-227"><a href="#cb37-227" aria-hidden="true" tabindex="-1"></a>                       <span class="at">by =</span> <span class="st">"spp_name_corrected"</span>,</span>
+<span id="cb37-228"><a href="#cb37-228" aria-hidden="true" tabindex="-1"></a>                       <span class="at">all.x =</span> T,</span>
+<span id="cb37-229"><a href="#cb37-229" aria-hidden="true" tabindex="-1"></a>                       <span class="at">all.y =</span> T)</span>
+<span id="cb37-230"><a href="#cb37-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-231"><a href="#cb37-231" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">duplicated</span>(spp_name_corrected)]</span>
+<span id="cb37-232"><a href="#cb37-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-233"><a href="#cb37-233" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb37-234"><a href="#cb37-234" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(redlistCategory)] <span class="co"># Must be 0 rows</span></span>
+<span id="cb37-235"><a href="#cb37-235" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence<span class="sc">$</span>class)</span>
+<span id="cb37-236"><a href="#cb37-236" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(redlistCategory), class <span class="sc">:</span><span class="er">=</span> <span class="st">"Mammals"</span>]</span>
 <span id="cb37-237"><a href="#cb37-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-238"><a href="#cb37-238" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(of_quality), of_quality <span class="sc">:</span><span class="er">=</span> <span class="st">"no"</span>]</span>
-<span id="cb37-239"><a href="#cb37-239" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(has_data), has_data <span class="sc">:</span><span class="er">=</span> <span class="st">"no"</span>]</span>
+<span id="cb37-238"><a href="#cb37-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Hmmm. Well let's let Arian figure that out.</span></span>
+<span id="cb37-239"><a href="#cb37-239" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(evidence_type), evidence_type <span class="sc">:</span><span class="er">=</span> <span class="st">"No evidence found"</span>]</span>
 <span id="cb37-240"><a href="#cb37-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), </span>
-<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a>              synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(evidence_type, </span>
-<span id="cb37-243"><a href="#cb37-243" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(has_data <span class="sc">==</span> <span class="st">"yes"</span>, </span>
-<span id="cb37-244"><a href="#cb37-244" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"with data"</span>, <span class="st">"without data"</span>)) <span class="sc">|&gt;</span> <span class="fu">trimws</span>()]</span>
-<span id="cb37-245"><a href="#cb37-245" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), </span>
-<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a>              synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(synth_fill, </span>
-<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(of_quality <span class="sc">==</span> <span class="st">"yes"</span>,</span>
-<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"and qualities"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span> <span class="fu">trimws</span>()]</span>
-<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(best_evidence<span class="sc">$</span>synth_fill, <span class="fu">names</span>(fill_pal))</span>
-<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(synth_fill), synth_fill <span class="sc">:</span><span class="er">=</span> evidence_type]</span>
-<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(best_evidence<span class="sc">$</span>synth_fill, <span class="fu">names</span>(fill_pal))</span>
-<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-253"><a href="#cb37-253" aria-hidden="true" tabindex="-1"></a>fill_pal2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
-<span id="cb37-254"><a href="#cb37-254" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
-<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>, </span>
-<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
-<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">No evidence in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey40"</span>,</span>
-<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">No evidence found</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>)</span>
-<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence<span class="sc">$</span>class)</span>
-<span id="cb37-261"><a href="#cb37-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-241"><a href="#cb37-241" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(of_quality), of_quality <span class="sc">:</span><span class="er">=</span> <span class="st">"no"</span>]</span>
+<span id="cb37-242"><a href="#cb37-242" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(has_data), has_data <span class="sc">:</span><span class="er">=</span> <span class="st">"no"</span>]</span>
+<span id="cb37-243"><a href="#cb37-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-244"><a href="#cb37-244" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), </span>
+<span id="cb37-245"><a href="#cb37-245" aria-hidden="true" tabindex="-1"></a>              synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(evidence_type, </span>
+<span id="cb37-246"><a href="#cb37-246" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(has_data <span class="sc">==</span> <span class="st">"yes"</span>, </span>
+<span id="cb37-247"><a href="#cb37-247" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"with data"</span>, <span class="st">"without data"</span>)) <span class="sc">|&gt;</span> <span class="fu">trimws</span>()]</span>
+<span id="cb37-248"><a href="#cb37-248" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type), </span>
+<span id="cb37-249"><a href="#cb37-249" aria-hidden="true" tabindex="-1"></a>              synth_fill <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(synth_fill, </span>
+<span id="cb37-250"><a href="#cb37-250" aria-hidden="true" tabindex="-1"></a>                                    <span class="fu">ifelse</span>(of_quality <span class="sc">==</span> <span class="st">"yes"</span>,</span>
+<span id="cb37-251"><a href="#cb37-251" aria-hidden="true" tabindex="-1"></a>                                           <span class="st">"and qualities"</span>, <span class="st">""</span>)) <span class="sc">|&gt;</span> <span class="fu">trimws</span>()]</span>
+<span id="cb37-252"><a href="#cb37-252" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(best_evidence<span class="sc">$</span>synth_fill, <span class="fu">names</span>(fill_pal))</span>
+<span id="cb37-253"><a href="#cb37-253" aria-hidden="true" tabindex="-1"></a>best_evidence[<span class="fu">is.na</span>(synth_fill), synth_fill <span class="sc">:</span><span class="er">=</span> evidence_type]</span>
+<span id="cb37-254"><a href="#cb37-254" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(best_evidence<span class="sc">$</span>synth_fill, <span class="fu">names</span>(fill_pal))</span>
+<span id="cb37-255"><a href="#cb37-255" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-256"><a href="#cb37-256" aria-hidden="true" tabindex="-1"></a>fill_pal2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
+<span id="cb37-257"><a href="#cb37-257" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
+<span id="cb37-258"><a href="#cb37-258" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>, </span>
+<span id="cb37-259"><a href="#cb37-259" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">Population in support with data and qualities</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
+<span id="cb37-260"><a href="#cb37-260" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">No evidence in support</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey40"</span>,</span>
+<span id="cb37-261"><a href="#cb37-261" aria-hidden="true" tabindex="-1"></a>               <span class="st">`</span><span class="at">No evidence found</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span>)</span>
 <span id="cb37-262"><a href="#cb37-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a>best_evidence.freq <span class="ot">&lt;-</span> best_evidence[, .(<span class="at">n_species =</span> <span class="fu">uniqueN</span>(scientificName)),</span>
-<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a>                                    by <span class="ot">=</span> .(synth_fill,</span>
-<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a>                                           of_quality, class)]</span>
-<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a>best_evidence.freq[<span class="fu">duplicated</span>(<span class="fu">paste</span>(synth_fill, class)),]</span>
-<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence.freq<span class="sc">$</span>synth_fill)</span>
-<span id="cb37-270"><a href="#cb37-270" aria-hidden="true" tabindex="-1"></a>best_evidence.freq<span class="sc">$</span>synth_fill <span class="ot">&lt;-</span> <span class="fu">factor</span>(best_evidence.freq<span class="sc">$</span>synth_fill,</span>
-<span id="cb37-271"><a href="#cb37-271" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"No evidence found"</span>, </span>
-<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"No evidence in support"</span>, </span>
-<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Predation in support"</span>,</span>
-<span id="cb37-274"><a href="#cb37-274" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support without data"</span>,</span>
-<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support with data"</span>,</span>
-<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support with data and qualities"</span>)))</span>
-<span id="cb37-277"><a href="#cb37-277" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-278"><a href="#cb37-278" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence.freq<span class="sc">$</span>class)</span>
-<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a>best_evidence.freq<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(best_evidence.freq<span class="sc">$</span>class,</span>
-<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> (<span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>,  <span class="st">"Amphibians"</span>)))</span>
+<span id="cb37-263"><a href="#cb37-263" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence<span class="sc">$</span>class)</span>
+<span id="cb37-264"><a href="#cb37-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-265"><a href="#cb37-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-266"><a href="#cb37-266" aria-hidden="true" tabindex="-1"></a>best_evidence.freq <span class="ot">&lt;-</span> best_evidence[, .(<span class="at">n_species =</span> <span class="fu">uniqueN</span>(scientificName)),</span>
+<span id="cb37-267"><a href="#cb37-267" aria-hidden="true" tabindex="-1"></a>                                    by <span class="ot">=</span> .(synth_fill,</span>
+<span id="cb37-268"><a href="#cb37-268" aria-hidden="true" tabindex="-1"></a>                                           of_quality, class)]</span>
+<span id="cb37-269"><a href="#cb37-269" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb37-270"><a href="#cb37-270" aria-hidden="true" tabindex="-1"></a>best_evidence.freq[<span class="fu">duplicated</span>(<span class="fu">paste</span>(synth_fill, class)),]</span>
+<span id="cb37-271"><a href="#cb37-271" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-272"><a href="#cb37-272" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence.freq<span class="sc">$</span>synth_fill)</span>
+<span id="cb37-273"><a href="#cb37-273" aria-hidden="true" tabindex="-1"></a>best_evidence.freq<span class="sc">$</span>synth_fill <span class="ot">&lt;-</span> <span class="fu">factor</span>(best_evidence.freq<span class="sc">$</span>synth_fill,</span>
+<span id="cb37-274"><a href="#cb37-274" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels =</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="st">"No evidence found"</span>, </span>
+<span id="cb37-275"><a href="#cb37-275" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"No evidence in support"</span>, </span>
+<span id="cb37-276"><a href="#cb37-276" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Predation in support"</span>,</span>
+<span id="cb37-277"><a href="#cb37-277" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support without data"</span>,</span>
+<span id="cb37-278"><a href="#cb37-278" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support with data"</span>,</span>
+<span id="cb37-279"><a href="#cb37-279" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"Population in support with data and qualities"</span>)))</span>
+<span id="cb37-280"><a href="#cb37-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-281"><a href="#cb37-281" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(best_evidence.freq<span class="sc">$</span>class)</span>
 <span id="cb37-282"><a href="#cb37-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-283"><a href="#cb37-283" aria-hidden="true" tabindex="-1"></a>best.p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> best_evidence.freq,</span>
-<span id="cb37-284"><a href="#cb37-284" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n_species, <span class="at">fill =</span> synth_fill,</span>
-<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> of_quality))<span class="sc">+</span></span>
-<span id="cb37-286"><a href="#cb37-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(), <span class="at">width =</span> .<span class="dv">75</span>)<span class="sc">+</span></span>
-<span id="cb37-287"><a href="#cb37-287" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"Best evidence"</span>,</span>
-<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal2)<span class="sc">+</span></span>
-<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">"Of quality"</span>, </span>
-<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"no"</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
-<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"yes"</span> <span class="ot">=</span> <span class="st">"gold"</span>))<span class="sc">+</span></span>
-<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
-<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of species"</span>)<span class="sc">+</span></span>
-<span id="cb37-295"><a href="#cb37-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb37-296"><a href="#cb37-296" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
-<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb37-300"><a href="#cb37-300" aria-hidden="true" tabindex="-1"></a>best.p</span>
-<span id="cb37-301"><a href="#cb37-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb37-283"><a href="#cb37-283" aria-hidden="true" tabindex="-1"></a>best_evidence.freq<span class="sc">$</span>class <span class="ot">&lt;-</span> <span class="fu">factor</span>(best_evidence.freq<span class="sc">$</span>class,</span>
+<span id="cb37-284"><a href="#cb37-284" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">levels =</span> (<span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Reptiles"</span>, <span class="st">"Mammals"</span>,  <span class="st">"Amphibians"</span>)))</span>
+<span id="cb37-285"><a href="#cb37-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-286"><a href="#cb37-286" aria-hidden="true" tabindex="-1"></a>best.p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> best_evidence.freq,</span>
+<span id="cb37-287"><a href="#cb37-287" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n_species, <span class="at">fill =</span> synth_fill,</span>
+<span id="cb37-288"><a href="#cb37-288" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> of_quality))<span class="sc">+</span></span>
+<span id="cb37-289"><a href="#cb37-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_stack</span>(), <span class="at">width =</span> .<span class="dv">75</span>)<span class="sc">+</span></span>
+<span id="cb37-290"><a href="#cb37-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"Best evidence"</span>,</span>
+<span id="cb37-291"><a href="#cb37-291" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal2)<span class="sc">+</span></span>
+<span id="cb37-292"><a href="#cb37-292" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="st">"Of quality"</span>, </span>
+<span id="cb37-293"><a href="#cb37-293" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"no"</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
+<span id="cb37-294"><a href="#cb37-294" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"yes"</span> <span class="ot">=</span> <span class="st">"gold"</span>))<span class="sc">+</span></span>
+<span id="cb37-295"><a href="#cb37-295" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">nrow =</span> <span class="dv">3</span>),</span>
+<span id="cb37-296"><a href="#cb37-296" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb37-297"><a href="#cb37-297" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Number of species"</span>)<span class="sc">+</span></span>
+<span id="cb37-298"><a href="#cb37-298" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb37-299"><a href="#cb37-299" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb37-300"><a href="#cb37-300" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb37-301"><a href="#cb37-301" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb37-302"><a href="#cb37-302" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb37-303"><a href="#cb37-303" aria-hidden="true" tabindex="-1"></a>best.p</span>
+<span id="cb37-304"><a href="#cb37-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-305"><a href="#cb37-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

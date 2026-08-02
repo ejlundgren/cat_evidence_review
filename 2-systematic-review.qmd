@@ -1,5 +1,6 @@
 ---
 title: "Systematic review"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "2-systematic-review.html"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false
@@ -41,7 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-This section will tally the evidence types encountered. It corresponds to code in `scripts/2 meta and review summary.R`. 
+This section will tally the evidence types encountered. This workflow is derived from a full R script in `scripts/2_analysis/2 meta and review summary.R` that includes additional checks and tests and is fully interactive if you clone the repo. 
 
 # Prepare environment & load data:
 ```{r}
@@ -73,6 +74,8 @@ sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 sys_rev
 
 ```
+
+This dataset was initially cleaned in `scripts/1_data_mgmt/4 clean systematic review and claim.R`.
 
 # Plot evidence types found
 Now we'll do some quality control checks, clean up factor levels, create color palettes and plot this:

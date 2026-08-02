@@ -9,6 +9,7 @@ website:
   title: "When consensus procedes the evidence"
   sidebar:
     title: "Supplementary codebook"
+    logo: /icons/cat.png
     style: "docked"
     search: true
     contents:
@@ -30,6 +31,13 @@ website:
           text: Effect size conversions
       - href: 4-timeline-analysis.qmd
         text: Timeline analysis
+      - text: "<br>"
+      - text: "<b>Funded by</b>"
+      - text: "![](icons/ARC.png)"
+        href: https://www.arc.gov.au/
+      - text: "<br>"
+      - text: "![](icons/Natural_Sciences_and_Engineering_Research_Council_Logo.png)"
+        href: https://nserc-crsng.canada.ca/en
 format:
   html:
     theme:

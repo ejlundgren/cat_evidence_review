@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="dcterms.date" content="2026-08-01">
 <title>Citation network – When consensus procedes the evidence</title>
 <style>
 /* Default styles provided by pandoc.
@@ -136,7 +137,9 @@ div.csl-indent {
     </div>
   </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./icons/cat.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none"><img src="./icons/cat.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none"></a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Supplementary codebook</a> 
     </div>
@@ -169,7 +172,7 @@ div.csl-indent {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Effect size assumptions &amp; interpretation</span></a>
+ <span class="menu-text">Meta-analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -207,6 +210,27 @@ div.csl-indent {
  <span class="menu-text">Timeline analysis</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text"><b>Funded by</b></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.arc.gov.au/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/ARC.png" class="img-fluid"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://nserc-crsng.canada.ca/en" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/Natural_Sciences_and_Engineering_Research_Council_Logo.png" class="img-fluid"></span></a>
+  </div>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
@@ -234,7 +258,7 @@ div.csl-indent {
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Citation network</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Citation network</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -242,16 +266,22 @@ div.csl-indent {
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 1, 2026</p>
+    </div>
+  </div>
   
     
   </div>
   
 
 
-</header><p>In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review <span class="citation" data-cites="Wallach2025-ta">(<a href="#ref-Wallach2025-ta" role="doc-biblioref">Wallach and Lundgren 2025</a>)</span></p>
+</header><p>In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review <span class="citation" data-cites="Wallach2025-ta">(<a href="#ref-Wallach2025-ta" role="doc-biblioref">Wallach and Lundgren 2025</a>)</span>. This workflow is derived from a full R script in <code>scripts/2_analysis/1 citation networks and bias.R</code> that includes additional checks and tests and is fully interactive if you clone the repo.</p>
 <section id="sec-prep" class="level1"><h1>Prepare environment &amp; load data</h1>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://r-datatable.com">"data.table"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://tidyr.tidyverse.org">"tidyr"</a></span><span class="op">)</span></span>
@@ -266,12 +296,13 @@ div.csl-indent {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://broom.tidymodels.org/">"broom"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/bbolker/broom.mixed">"broom.mixed"</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://wilkelab.org/cowplot/">"cowplot"</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
-<p>The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles).</p>
+<p>The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in <code>scripts/1_data_mgmt/2 create network formats.R</code></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/nodes_tidied.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/nodes_tidied.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>                                                 node_id
                                                   &lt;char&gt;
 1:          (ACAP 2009b)_EXCLUDE_NA_Expert opinion_NA_NA
@@ -313,9 +344,9 @@ div.csl-indent {
 5:                          Excluded
 6: Predation in support without data</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/edges_tidied.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/edges_tidied.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">edges</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>                               cited_by_id
                                     &lt;char&gt;
 1: (Doherty et al. 2016) core source_claim
@@ -345,30 +376,31 @@ div.csl-indent {
 <p>These files have been cleaned and pre-processed in <code>scripts/2_analysis/1 citation networks and bias.R</code> and are ready to be used to create a network.</p>
 <section id="create-citation-network" class="level2"><h2 class="anchored" data-anchor-id="create-citation-network">Create citation network</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">igraph.gr</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html">graph_from_data_frame</a></span><span class="op">(</span>d <span class="op">=</span> <span class="va">edges</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">igraph.gr</span> <span class="op">&lt;-</span> <span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/graph_from_data_frame.html">graph_from_data_frame</a></span><span class="op">(</span>d <span class="op">=</span> <span class="va">edges</span>, </span>
 <span>                                           vertices <span class="op">=</span> <span class="va">nodes</span>,</span>
 <span>                                           directed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">igraph.gr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 0e98313 DN-- 1793 3105 -- 
+</details><div class="cell-output cell-output-stdout">
+<pre><code>IGRAPH ff0dd9b DN-- 1793 3105 -- 
 + attr: name (v/c), article_node_name (v/c), evidence_inclusion (v/c),
 | Peer_reviewed_source (v/c), evidence_type (v/c), has_data (v/c),
 | of_quality (v/c), evidence_type_synthetic (v/c), evidence_type_fine
 | (v/c), evidence_type_simple (v/c), in_support (v/c),
 | evidence_type_synthetic_simple (v/c), edge_type (e/c), scientificName
 | (e/c), encounter_method (e/c)
-+ edges from 0e98313 (vertex names):
++ edges from ff0dd9b (vertex names):
 [1] (Doherty et al. 2016) core source_claim-&gt;(Alberts 2000) core source_EXCLUDE_NA_No claim       
 [2] (Doherty et al. 2016) core source_claim-&gt;(Garnett et al. 2011) core source_EXCLUDE_NA_No claim
 + ... omitted several edges</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/tbl_graph.html">as_tbl_graph</a></span><span class="op">(</span><span class="va">igraph.gr</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">graph</span> <span class="op">&lt;-</span> <span class="fu">tidygraph</span><span class="fu">::</span><span class="fu"><a href="https://tidygraph.data-imaginist.com/reference/tbl_graph.html">as_tbl_graph</a></span><span class="op">(</span><span class="va">igraph.gr</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 </section><section id="plot" class="level2"><h2 class="anchored" data-anchor-id="plot">Plot</h2>
 <p>Now, we’ll format factor levels, create color and size aesthetics and plot this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">$</span><span class="va">evidence_type_synthetic_simple</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">$</span><span class="va">evidence_type_synthetic_simple</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code> [1] "Excluded"                              
  [2] "Core claim"                            
  [3] "Predation in support without data"     
@@ -380,7 +412,7 @@ div.csl-indent {
  [9] "External review without claim"         
 [10] "Nothing cited"                         </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Core claim` <span class="op">=</span> <span class="st">"Core claim"</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Core claim` <span class="op">=</span> <span class="st">"Core claim"</span>, </span>
 <span>            `External review without claim` <span class="op">=</span> <span class="st">"External source without claim"</span>, </span>
 <span>            `Nothing cited` <span class="op">=</span> <span class="st">"Nothing cited"</span>,</span>
 <span>            `Excluded` <span class="op">=</span> <span class="st">"No primary data found"</span>, </span>
@@ -404,10 +436,10 @@ div.csl-indent {
 <span>               `Population without data` <span class="op">=</span> <span class="fl">3</span>, `Population with data` <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">$</span><span class="va">of_quality</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "no"  "yes"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stroke_color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span> <span class="op">=</span> <span class="st">"black"</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">stroke_color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span> <span class="op">=</span> <span class="st">"black"</span>, </span>
 <span>                  <span class="st">"yes"</span> <span class="op">=</span> <span class="st">"gold"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">stroke_width</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span> <span class="op">=</span> <span class="fl">.01</span>, </span>
@@ -415,15 +447,15 @@ div.csl-indent {
 <span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">$</span><span class="va">evidence_type_synthetic_simple</span><span class="op">)</span>,</span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">labels</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>character(0)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">labels</span><span class="op">)</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">labels</span><span class="op">)</span>,</span>
 <span>        <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">nodes</span><span class="op">$</span><span class="va">evidence_type_synthetic_simple</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>character(0)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html">ggraph</a></span><span class="op">(</span><span class="va">graph</span>, layout <span class="op">=</span> <span class="st">"kk"</span><span class="op">)</span><span class="op">+</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/ggraph.html">ggraph</a></span><span class="op">(</span><span class="va">graph</span>, layout <span class="op">=</span> <span class="st">"kk"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geom_edge_fan.html">geom_edge_fan</a></span><span class="op">(</span>arrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/arrow.html">arrow</a></span><span class="op">(</span>length <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grid/unit.html">unit</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'mm'</span><span class="op">)</span><span class="op">)</span>, </span>
 <span>                start_cap <span class="op">=</span> <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geometry.html">circle</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'mm'</span><span class="op">)</span>,</span>
 <span>                end_cap <span class="op">=</span> <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/geometry.html">circle</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">'mm'</span><span class="op">)</span>,</span>
@@ -454,7 +486,7 @@ div.csl-indent {
 <span>  <span class="fu"><a href="https://ggraph.data-imaginist.com/reference/theme_graph.html">theme_graph</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'bottom'</span><span class="op">)</span></span>
 <span><span class="va">p1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="1-citation-network_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
@@ -465,11 +497,11 @@ div.csl-indent {
 <p><img src="figures/main_text/network_legend.png" width="400"></p>
 </section></section><section id="probability-of-being-cited" class="level1"><h1>Probability of being cited</h1>
 <p>Now, let’s evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in <strong>population studies</strong>?</p>
-<p>We’ll load a separate data frame produced by <code>scripts/3 create probability of being cited dataset.R</code>. This dataset is organized as claimant-claimant-source article pairs. Each row is a <em>potential</em> citation. The colum <code>cited</code> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</p>
+<p>We’ll load a separate data frame produced by <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code>. This dataset is organized as claimant-claimant-source article pairs. Each row is a <em>potential</em> citation. The colum <code>cited</code> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</p>
 <p>This dataset allows us to evaluate whether claimants cited available evidence.</p>
 <p>Load data and filter to only claimant sources:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_exploded_filtered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/citation_probability.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_exploded_filtered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/citation_probability.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Filter to only claimant sources</span></span>
 <span><span class="va">terminus_exploded_filtered</span><span class="op">[</span>, <span class="va">making_claim</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"_claim"</span>, </span>
@@ -478,7 +510,7 @@ div.csl-indent {
 <span>                                                    <span class="st">"NO_CLAIM"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">terminus_exploded_filtered</span> <span class="op">&lt;-</span> <span class="va">terminus_exploded_filtered</span><span class="op">[</span><span class="va">making_claim</span> <span class="op">==</span> <span class="st">"CLAIM"</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">terminus_exploded_filtered</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>                scientificName                   cited_by_id source_year
                         &lt;char&gt;                        &lt;char&gt;       &lt;int&gt;
 1: Acrocephalus aequinoctialis (IUCN 2025) core source_claim        2018
@@ -523,7 +555,7 @@ div.csl-indent {
 </div>
 <p>Now we’ll do a binomial model on articles that are population studies with data. We’ll also manually calculate the percent of available population studies with data that were cited:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Model -----------------------------------------------------------------</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Model -----------------------------------------------------------------</span></span>
 <span><span class="co"># Overall:</span></span>
 <span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html">glmmTMB</a></span><span class="op">(</span><span class="va">cited</span> <span class="op">~</span> <span class="fl">1</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cited_by_id</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">scientificName</span><span class="op">)</span>,</span>
 <span>             family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>,</span>
@@ -531,7 +563,7 @@ div.csl-indent {
 <span>                                                 <span class="va">has_data</span> <span class="op">==</span> <span class="st">"yes"</span>, <span class="op">]</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code> Family: binomial  ( logit )
 Formula:          cited ~ 1 + (1 | cited_by_id) + (1 | scientificName)
 Data: 
@@ -558,13 +590,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Now let’s evaluate whether there was a difference in citations between evidence in support or not of the hypothesis and plot this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html">glmmTMB</a></span><span class="op">(</span><span class="va">cited</span> <span class="op">~</span> <span class="va">in_support</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cited_by_id</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">scientificName</span><span class="op">)</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html">glmmTMB</a></span><span class="op">(</span><span class="va">cited</span> <span class="op">~</span> <span class="va">in_support</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">cited_by_id</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">scientificName</span><span class="op">)</span>,</span>
 <span>             family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>,</span>
 <span>             data <span class="op">=</span> <span class="va">terminus_exploded_filtered</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>                                                 <span class="va">has_data</span> <span class="op">==</span> <span class="st">"yes"</span> <span class="op">&amp;</span></span>
 <span>                                                 <span class="va">making_claim</span> <span class="op">==</span> <span class="st">"CLAIM"</span>, <span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code> Family: binomial  ( logit )
 Formula:          cited ~ in_support + (1 | cited_by_id) + (1 | scientificName)
 Data: 
@@ -589,8 +621,8 @@ in_supportYes  -0.3763     0.4380  -0.859 0.390177
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 4 × 8
   effect   component group          term   estimate std.error statistic  p.value
   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
@@ -599,7 +631,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 3 ran_pars cond      cited_by_id    sd__(…    0.472    NA        NA     NA      
 4 ran_pars cond      scientificName sd__(…    1.61     NA        NA     NA      </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>in_support <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span><span class="op">)</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">m</span>, <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/data.table.html">data.table</a></span><span class="op">(</span>in_support <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>                re.form <span class="op">=</span> <span class="cn">NA</span>, se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># predict_response(m)</span></span>
@@ -615,13 +647,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span><span class="co">#</span></span>
 <span><span class="va">pred</span><span class="op">$</span><span class="va">in_support</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span></span>
 <span><span class="va">pred</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>         fit    se.fit   lower_ci  upper_ci in_support
        &lt;num&gt;     &lt;num&gt;      &lt;num&gt;     &lt;num&gt;     &lt;char&gt;
 1: 0.1096324 0.4859490 0.04534882 0.2419457        Yes
 2: 0.1521083 0.4624421 0.06757522 0.3075126         No</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Hmmm. </span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Hmmm. </span></span>
 <span><span class="va">citation.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pred</span>, </span>
 <span>                     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">in_support</span>, </span>
 <span>                         fill <span class="op">=</span> <span class="va">in_support</span>, y <span class="op">=</span> <span class="op">(</span><span class="va">fit</span><span class="op">)</span>, </span>
@@ -638,7 +670,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span>        panel.grid <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">citation.p</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="1-citation-network_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
 </figure>
@@ -647,7 +679,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>And let’s summarize the percent cited with descriptive statistics:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">terminus_exploded_filtered</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span> <span class="op">&amp;</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">terminus_exploded_filtered</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>                                    <span class="va">has_data</span> <span class="op">==</span> <span class="st">"yes"</span>, <span class="fu">.</span><span class="op">(</span>n <span class="op">=</span> <span class="va">.N</span><span class="op">)</span>,</span>
 <span>                                  by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">cited</span>, <span class="va">scientificName</span>, <span class="va">cited_by_id</span>, <span class="va">in_support</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/dcast.data.table.html">dcast</a></span><span class="op">(</span><span class="va">out</span>,</span>
@@ -658,7 +690,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span></span>
 <span><span class="va">out</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">perc_cited</span><span class="op">)</span>, sd<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">perc_cited</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>    by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">in_support</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>   in_support     mean       sd
        &lt;char&gt;    &lt;num&gt;    &lt;num&gt;
 1:        Yes 17.34694 36.75858
@@ -667,15 +699,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)</p>
 </section><section id="summaries-of-evidence-cited" class="level1"><h1>Summaries of evidence cited</h1>
-<p>Now let’s look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type.</p>
+<p>Now let’s look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code>.</p>
 <section id="sec-quantitative-evidence-freq" class="level2"><h2 class="anchored" data-anchor-id="sec-quantitative-evidence-freq">Quantitative articles</h2>
 <p>We’ll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="va">cited_by_id</span> <span class="op">!=</span> <span class="st">"Opportunistic_Systematic external review"</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">$</span><span class="va">evidence_type_fine</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code> [1] "Opinion claim"                                   
  [2] "No claim"                                        
  [3] "Failure to access or locate online full citation"
@@ -695,8 +727,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 [17] "Population not in support without data"          
 [18] "Modelling without data"                          </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">$</span><span class="va">evidence_type_synthetic</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">$</span><span class="va">evidence_type_synthetic</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code> [1] "No citation given"                             
  [2] "No claim"                                      
  [3] "Inaccessible"                                  
@@ -710,8 +742,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 [11] "Population in support with data of quality"    
 [12] "Population not in support without data"        </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"EXCLUDE"</span>, <span class="va">article_id</span><span class="op">)</span><span class="op">]</span><span class="op">$</span><span class="va">evidence_type_fine</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"EXCLUDE"</span>, <span class="va">article_id</span><span class="op">)</span><span class="op">]</span><span class="op">$</span><span class="va">evidence_type_fine</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code> [1] "Opinion claim"                                   
  [2] "No claim"                                        
  [3] "Failure to access or locate online full citation"
@@ -723,14 +755,15 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
  [9] "Personal communication"                          
 [10] "Modelling without data"                          </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span><span class="op">[</span>, <span class="va">making_claim</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"core source_claim"</span>, <span class="va">cited_by_id</span><span class="op">)</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span><span class="op">[</span>, <span class="va">making_claim</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"core source_claim"</span>, <span class="va">cited_by_id</span><span class="op">)</span>, </span>
 <span>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span>, <span class="va">evidence_simple</span> <span class="op">:=</span> <span class="st">"Population"</span><span class="op">]</span></span>
 <span><span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Predation"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span>, <span class="va">evidence_simple</span> <span class="op">:=</span> <span class="st">"Predation"</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 </div>
 <p>What percent of terminuses aren’t evidence?</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Calculate % that aren't evidence ------------------------------------</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Calculate % that aren't evidence ------------------------------------</span></span>
 <span><span class="va">sub_terminus</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="va">making_claim</span> <span class="op">==</span> <span class="st">"making claim"</span><span class="op">]</span></span>
 <span><span class="va">sub_terminus</span><span class="op">[</span>, <span class="va">evidence_simple</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">evidence_simple</span><span class="op">)</span>, <span class="st">"excluded"</span>, <span class="st">"included"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -738,7 +771,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span><span class="va">x</span><span class="op">[</span>, <span class="va">total</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">x</span><span class="op">[</span>, <span class="va">perc</span> <span class="op">:=</span> <span class="va">n</span> <span class="op">/</span> <span class="va">total</span><span class="op">]</span></span>
 <span><span class="va">x</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>   evidence_simple     n total      perc
             &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;num&gt;
 1:        excluded  1859  2304 0.8068576
@@ -747,20 +780,20 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Now, let’s plot the number of citation chains by terminus article type:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="va">evidence_simple</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="st">"Predation"</span><span class="op">)</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="va">evidence_simple</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Population"</span>, <span class="st">"Predation"</span><span class="op">)</span>, </span>
 <span>                                       <span class="fu">.</span><span class="op">(</span>n <span class="op">=</span> <span class="va">.N</span><span class="op">)</span>,</span>
 <span>            by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">evidence_type_synthetic</span>, <span class="va">evidence_simple</span>, <span class="va">making_claim</span>,</span>
 <span>                  <span class="va">has_data</span>, <span class="va">of_quality</span>, <span class="va">in_support</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">evidence_simple</span><span class="op">)</span><span class="op">]</span><span class="op">$</span><span class="va">evidence_type_synthetic</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>character(0)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_simple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_simple</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_simple</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_simple</span>,</span>
 <span>                                               levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Predation"</span>, <span class="st">"Population"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Predation in support without data"             
 [2] "Population in support without data"            
 [3] "Predation not in support without data"         
@@ -770,11 +803,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 [7] "Population in support with data of quality"    
 [8] "Population not in support without data"        </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">of_quality</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">of_quality</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "no"  "yes"</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span> <span class="op">&lt;-</span>   <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span>,</span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span> <span class="op">&lt;-</span>   <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span>,</span>
 <span>   levels <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> </span>
 <span>              <span class="st">"Predation in support without data"</span>, </span>
 <span>              <span class="st">"Predation not in support without data"</span>, </span>
@@ -787,7 +820,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span>              <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] Predation in support without data             
 [2] Population in support without data            
 [3] Predation not in support without data         
@@ -798,7 +831,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 [8] Population not in support without data        
 8 Levels: Predation in support without data ...</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fill_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Predation in support without data` <span class="op">=</span> <span class="st">"#a6d3a0"</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fill_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Predation in support without data` <span class="op">=</span> <span class="st">"#a6d3a0"</span>, </span>
 <span>              `Predation not in support without data` <span class="op">=</span> <span class="st">"#40531b"</span>, </span>
 <span>              `Population not in support without data` <span class="op">=</span> <span class="st">"indianred4"</span>, </span>
 <span>              `Population not in support with data` <span class="op">=</span> <span class="st">"indianred"</span>, </span>
@@ -807,10 +840,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span>              `Population in support with data` <span class="op">=</span> <span class="st">"dodgerblue"</span>,</span>
 <span>              `Population in support with data of quality` <span class="op">=</span> <span class="st">"dodgerblue"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="va">terminus_freq.simple</span><span class="op">$</span><span class="va">evidence_type_synthetic</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">fill_pal</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>character(0)</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">[</span><span class="va">in_support</span> <span class="op">==</span> <span class="st">"Not relevant"</span>, <span class="va">in_support</span> <span class="op">:=</span> <span class="st">"No"</span><span class="op">]</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_freq.simple</span><span class="op">[</span><span class="va">in_support</span> <span class="op">==</span> <span class="st">"Not relevant"</span>, <span class="va">in_support</span> <span class="op">:=</span> <span class="st">"No"</span><span class="op">]</span></span>
 <span></span>
 <span><span class="va">col_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`Predation in support without data` <span class="op">=</span> <span class="st">"transparent"</span>, </span>
 <span>             `Predation not in support without data` <span class="op">=</span> <span class="st">"transparent"</span>, </span>
@@ -850,7 +883,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span>        strip.placement <span class="op">=</span> <span class="st">"outside"</span>,</span>
 <span>        legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
 <span><span class="va">cites.p.included</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="1-citation-network_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
@@ -862,9 +895,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section><section id="sec-excluded-articles" class="level2"><h2 class="anchored" data-anchor-id="sec-excluded-articles">Excluded articles</h2>
 <p>Now let’s look at all the other terminus article types and why they do not constitute evidence. We’ll reload the same dataset we used <a href="#sec-quantitative-evidence-freq">above</a> and we’ll do some lumping and splitting of the categories used to classify the article types.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>                                                                     key
                                                                   &lt;char&gt;
 1:   Acrocephalus aequinoctialis (Doherty et al. 2016) core source_claim
@@ -922,14 +955,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 5:                  no        2023
 6:                  no        2023</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span><span class="op">[</span>, <span class="va">making_claim</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"core source_claim"</span>, <span class="va">cited_by_id</span><span class="op">)</span>, </span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span><span class="op">[</span>, <span class="va">making_claim</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"core source_claim"</span>, <span class="va">cited_by_id</span><span class="op">)</span>, </span>
 <span>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">excluded</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"EXCLUDE"</span>, <span class="va">article_id</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span></span>
 <span><span class="va">excluded</span><span class="op">[</span><span class="va">evidence_type_fine</span> <span class="op">==</span> <span class="st">"Failure to access or locate online full citation"</span>, <span class="fu">.</span><span class="op">(</span>n <span class="op">=</span> <span class="va">.N</span><span class="op">)</span>,</span>
 <span>         by <span class="op">=</span> <span class="va">Peer_reviewed_source</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
+</details><div class="cell-output cell-output-stdout">
 <pre><code>                Peer_reviewed_source     n
                               &lt;char&gt; &lt;int&gt;
 1:                            Thesis    14
@@ -941,7 +974,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 7:            Conference proceedings     9
 8:                  Journal pre-1975    24</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">excluded</span><span class="op">[</span><span class="va">evidence_type_fine</span> <span class="op">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="op">&amp;</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">excluded</span><span class="op">[</span><span class="va">evidence_type_fine</span> <span class="op">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="op">&amp;</span></span>
 <span>           <span class="va">Peer_reviewed_source</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Peer-reviewed journal article"</span>,</span>
 <span>                                       <span class="st">"Journal pre-1975"</span><span class="op">)</span> ,</span>
 <span>         <span class="va">evidence_type_fine</span> <span class="op">:=</span> <span class="st">"Inaccessible journal article"</span><span class="op">]</span></span>
@@ -1000,7 +1033,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span>        panel.border <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>        legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">cites.p.excluded</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="1-citation-network_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
@@ -1010,11 +1043,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>The majority of claimant citations ended with claims without citations give. Or ended with articles that made no claim about the hypothesis. Following this, expert opinion and inaccessible grey literature dominate the citation chain terminuses.</p>
 <p>To put these numbers in perspective, we’ll now patchwork the two plots:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cites.p.included</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cites.p.included</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">cites.p.excluded</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://patchwork.data-imaginist.com/reference/plot_layout.html">plot_layout</a></span><span class="op">(</span>heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span>,</span>
 <span>              nrow <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="1-citation-network_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
@@ -1484,49 +1517,49 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Citation network"</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "1-citation-network.html"</span></span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # code-fold: true</span></span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
-<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
-<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
-<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
-<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
-<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
-<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
-<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
-<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
-<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
-<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a>In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review <span class="co">[</span><span class="ot">@Wallach2025-ta</span><span class="co">]</span></span>
-<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "1-citation-network.html"</span></span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb57-43"><a href="#cb57-43" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb57-44"><a href="#cb57-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-45"><a href="#cb57-45" aria-hidden="true" tabindex="-1"></a>In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review <span class="co">[</span><span class="ot">@Wallach2025-ta</span><span class="co">]</span>. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/1 citation networks and bias.R`</span> that includes additional checks and tests and is fully interactive if you clone the repo.</span>
 <span id="cb57-46"><a href="#cb57-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-47"><a href="#cb57-47" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment &amp; load data {#sec-prep}</span></span>
 <span id="cb57-50"><a href="#cb57-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1551,7 +1584,7 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
 <span id="cb57-69"><a href="#cb57-69" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-70"><a href="#cb57-70" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb57-71"><a href="#cb57-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-72"><a href="#cb57-72" aria-hidden="true" tabindex="-1"></a>The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles).</span>
+<span id="cb57-72"><a href="#cb57-72" aria-hidden="true" tabindex="-1"></a>The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in <span class="in">`scripts/1_data_mgmt/2 create network formats.R`</span></span>
 <span id="cb57-73"><a href="#cb57-73" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-76"><a href="#cb57-76" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb57-77"><a href="#cb57-77" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
@@ -1666,7 +1699,7 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
 <span id="cb57-190"><a href="#cb57-190" aria-hidden="true" tabindex="-1"></a><span class="fu"># Probability of being cited</span></span>
 <span id="cb57-191"><a href="#cb57-191" aria-hidden="true" tabindex="-1"></a>Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in **population studies**?</span>
 <span id="cb57-192"><a href="#cb57-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-193"><a href="#cb57-193" aria-hidden="true" tabindex="-1"></a>We'll load a separate data frame produced by <span class="in">`scripts/3 create probability of being cited dataset.R`</span>. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum <span class="in">`cited`</span> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</span>
+<span id="cb57-193"><a href="#cb57-193" aria-hidden="true" tabindex="-1"></a>We'll load a separate data frame produced by <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span>. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum <span class="in">`cited`</span> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</span>
 <span id="cb57-194"><a href="#cb57-194" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-195"><a href="#cb57-195" aria-hidden="true" tabindex="-1"></a>This dataset allows us to evaluate whether claimants cited available evidence.</span>
 <span id="cb57-196"><a href="#cb57-196" aria-hidden="true" tabindex="-1"></a></span>
@@ -1776,7 +1809,7 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
 <span id="cb57-308"><a href="#cb57-308" aria-hidden="true" tabindex="-1"></a>On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)</span>
 <span id="cb57-309"><a href="#cb57-309" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-310"><a href="#cb57-310" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summaries of evidence cited</span></span>
-<span id="cb57-311"><a href="#cb57-311" aria-hidden="true" tabindex="-1"></a>Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. </span>
+<span id="cb57-311"><a href="#cb57-311" aria-hidden="true" tabindex="-1"></a>Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span>.</span>
 <span id="cb57-312"><a href="#cb57-312" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-313"><a href="#cb57-313" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quantitative articles {#sec-quantitative-evidence-freq}</span></span>
 <span id="cb57-314"><a href="#cb57-314" aria-hidden="true" tabindex="-1"></a>We'll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources. </span>

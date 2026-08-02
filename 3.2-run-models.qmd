@@ -1,5 +1,6 @@
 ---
 title: "Run models and plot results"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "3.2-run-models.html"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false
@@ -41,7 +42,9 @@ execute:
 bibliography: references.bib
 ---
 
-Now we'll fit multilevel meta-analytic models in the R package `metafor` [@Viechtbauer2010-uq]. Given the non-independence structures in this data we will fit a series of models with increasingly complex random effects, particularly to control for phylogenetic similarity between prey species and to also deal with non-phylogenetic components of species identity. We'll create a model guide to organize these models, as well as our subgroup analyses and sensitivity analyses. These analyses include:
+Now we'll fit multilevel meta-analytic models in the R package `metafor` [@Viechtbauer2010-uq]. This workflow is derived from a full R script in `scripts/2_analysis/2 meta and review summary.R` that includes additional checks and tests and is fully interactive if you clone the repo.
+
+Given the non-independence structures in this data we will fit a series of models with increasingly complex random effects, particularly to control for phylogenetic similarity between prey species and to also deal with non-phylogenetic components of species identity. We'll create a model guide to organize these models, as well as our subgroup analyses and sensitivity analyses. These analyses include:
 
 - Only prey inside of cat's prey range
 - Only dominant effect sizes (e.g., excluding minority converted effect sizes)

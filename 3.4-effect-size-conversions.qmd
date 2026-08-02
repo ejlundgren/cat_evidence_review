@@ -1,5 +1,6 @@
 ---
 title: "Appendix: effect size conversion formulas"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "3-meta-analysis.qmd"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false

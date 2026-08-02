@@ -1,5 +1,6 @@
 ---
 title: "Publication bias tests"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "3-publication-bias.html"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false
@@ -43,7 +44,7 @@ bibliography: references.bib
 
 Given that some of our analysis contain mixed effect sizes we elected to only conduct time-lag publication bias tests. Other publication bias tests (e.g., small sample size) require uniform measurements of effective sample size or variance and are not suitable for original effect size types. 
 
-Time lag publication bias tests asks if significant effects have declined (or increased) since initial discovery, which is common when strong initial findings spur the development of a field. We thus regress our effect sizes against publication year. We'll do a similar approach with a model guide as we did [above](#sec-run-models). Except we'll put all of the code into a single code block.
+Time lag publication bias tests asks if significant effects have declined (or increased) since initial discovery, which is common when strong initial findings spur the development of a field. We thus regress our effect sizes against publication year. We'll do a similar approach with a model guide as we did [above](#sec-run-models). Except we'll put all of the code into a single code block. This workflow is derived from a full R script in `scripts/2_analysis/3 publication bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
 
 ```{r}
 #| eval: true

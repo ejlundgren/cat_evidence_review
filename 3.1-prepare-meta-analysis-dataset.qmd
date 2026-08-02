@@ -1,5 +1,6 @@
 ---
 title: "Prepare meta-analysis dataset"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "3.1-prepare-meta-analysis-dataset.html"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false
@@ -41,11 +42,10 @@ execute:
 bibliography: references.bib
 ---
 
-Now we'll meta-analyze the quantitative articles that provided data usable for a meta-analysis. We'll start by calculating effect sizes and then converting effect sizes to a common type for analysis based on our analysis groups. 
+Now we'll meta-analyze the quantitative articles that provided data usable for a meta-analysis. We'll start by calculating effect sizes and then converting effect sizes to a common type for analysis based on our analysis groups. This workflow is derived from a full R script in `scripts/1_data_mgt/5 clean meta-analysis` that includes additional checks and tests and is fully interactive if you clone the repo.
 
 We'll then run a suite of models and choose the model with the best random effects. Finally, we'll plot the resulting model estimates and conduct publication bias tests.
 
-# Prepare dataset
 ## Prepare environment
 We'll start by loading packages and some helper functions. The `convert_effect_sizes` function contains formulas to convert between effect sizes. The formulas were originally provided by @borenstein2021. The `get_r` function is a simple helper function for extracting the correlation coefficient (`r`) from the `cor.test` output.
 

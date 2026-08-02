@@ -11,6 +11,7 @@
 <meta name="author" content="Luna M Valencia Cuervo">
 <meta name="author" content="Shinichi Nakagawa">
 <meta name="author" content="Erick J Lundgren">
+<meta name="dcterms.date" content="2026-08-01">
 
 <title>Introduction – When consensus procedes the evidence</title>
 <style>
@@ -137,7 +138,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./icons/cat.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="./icons/cat.png" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Supplementary codebook</a> 
     </div>
@@ -170,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Effect size assumptions &amp; interpretation</span></a>
+ <span class="menu-text">Meta-analysis</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -206,6 +211,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./4-timeline-analysis.qmd.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Timeline analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+ <span class="menu-text"><b>Funded by</b></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://www.arc.gov.au/" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/ARC.png" class="img-fluid"></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+ <span class="menu-text"><br></span>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="https://nserc-crsng.canada.ca/en" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><img src="icons/Natural_Sciences_and_Engineering_Research_Council_Logo.png" class="img-fluid"></span></a>
   </div>
 </li>
     </ul>
@@ -248,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">August 1, 2026</p>
     </div>
   </div>
   
@@ -263,9 +289,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-to-use" class="level2">
 <h2 class="anchored" data-anchor-id="how-to-use">How to use</h2>
 <p>This tutorial walks readers through the analyses associated with:</p>
+<blockquote class="blockquote">
 <p>Wallach et al 2026. ‘When consensus procedes the evidence.’ In Submission.</p>
-<p>This tutorial assumes a basic understanding of R. Feel free to clone or download the <a href="www.github.com/ejlundgren/cat_evidence_review.git">repo</a> to interact with the code and data directly or to simply follow along here.</p>
-<p>Note that all analyses were conducted in .R scripts in the scripts/ folder of the repo. Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts. The interactive material on this webpage focuses on the core analyses and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead, if that is preferred.</p>
+</blockquote>
+<p>This tutorial assumes a basic understanding of R.</p>
+<p>Feel free to clone or download the <a href="www.github.com/ejlundgren/cat_evidence_review.git">repo</a> to interact with the code and data directly or to simply follow along in this webpage.</p>
+<p>Note that all analyses were conducted in .R scripts in the <code>scripts/</code> folder of the repo. Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts. The interactive material on this webpage focuses on the core analyses and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead, if that is preferred.</p>
 
 
 <!-- -->
@@ -726,7 +755,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Introduction"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "`r Sys.Date()`"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Arian D Wallach</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  - name: Patricio Pereyra</span></span>
@@ -777,11 +806,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to use</span></span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>This tutorial walks readers through the analyses associated with:</span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>Wallach et al 2026. 'When consensus procedes the evidence.' In Submission.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="at">&gt;Wallach et al 2026. 'When consensus procedes the evidence.' In Submission.</span></span>
 <span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>This tutorial assumes a basic understanding of R. Feel free to clone or download the <span class="co">[</span><span class="ot">repo</span><span class="co">](www.github.com/ejlundgren/cat_evidence_review.git)</span> to interact with the code and data directly or to simply follow along here.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>This tutorial assumes a basic understanding of R. </span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>Note that all analyses were conducted in .R scripts in the scripts/ folder of the repo. Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts. The interactive material on this webpage focuses on the core analyses and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead, if that is preferred.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>Feel free to clone or download the <span class="co">[</span><span class="ot">repo</span><span class="co">](www.github.com/ejlundgren/cat_evidence_review.git)</span> to interact with the code and data directly or to simply follow along in this webpage.</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>Note that all analyses were conducted in .R scripts in the <span class="in">`scripts/`</span> folder of the repo. Some of the messier data-munging steps (e.g., standardizing text, collapsing or expanding categories) is conducted in these scripts. The interactive material on this webpage focuses on the core analyses and has been copied from these scripts for clearer communication but the original scripts remain in the repo and can be evaluated instead, if that is preferred.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

@@ -1,5 +1,6 @@
 ---
 title: "Citation network"
+date: today
 format: 
   html:
     toc: true
@@ -10,7 +11,7 @@ format:
     toc-title: "**CONTENTS**"
     output-file: "1-citation-network.html"
     # embed-resources: true
-    # code-fold: true
+    code-fold: show
     code-link: true
     code-tools: true
     # number-sections: false
@@ -41,8 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review [@Wallach2025-ta]
-
+In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review [@Wallach2025-ta]. This workflow is derived from a full R script in `scripts/2_analysis/1 citation networks and bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
 
 # Prepare environment & load data {#sec-prep}
 ```{r}
@@ -67,7 +67,7 @@ library("cowplot")
 
 ```
 
-The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles).
+The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in `scripts/1_data_mgmt/2 create network formats.R`
 
 ```{r}
 #| eval: true
@@ -182,7 +182,7 @@ And the formatted legend:
 # Probability of being cited
 Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in **population studies**?
 
-We'll load a separate data frame produced by `scripts/3 create probability of being cited dataset.R`. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum `cited` (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).
+We'll load a separate data frame produced by `scripts/1_data_mgmt/3 create probability of being cited dataset.R`. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum `cited` (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).
 
 This dataset allows us to evaluate whether claimants cited available evidence.
 
@@ -292,7 +292,7 @@ out[, .(mean = mean(perc_cited), sd=sd(perc_cited)),
 On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)
 
 # Summaries of evidence cited
-Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. 
+Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in `scripts/1_data_mgmt/3 create probability of being cited dataset.R`.
 
 ## Quantitative articles {#sec-quantitative-evidence-freq}
 We'll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources. 
