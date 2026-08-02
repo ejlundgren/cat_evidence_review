@@ -423,9 +423,14 @@ Now let's explore the spatial dimensions of this with more granularity by at thi
 cat_ex_map <- st_as_sf(ex_records, coords = c("Longitude", "Latitude"), crs= 4326)
 cat_ex_map$cat_arrival <- factor(cat_ex_map$cat_arrival, levels = arrival_levels)
 
-mapview(cat_ex_map, 
-        zcol = "cat_arrival",
-        col.regions = rev(plot_col))
+cat_ex_map %>%
+  select(Class, Order, `Scientific name`, Extinction_extirpation, `Redlist category`,
+         Prey_extirpation_year_earliest, Prey_extirpation_year_latest,
+         Cat_arrival_year_earliest, Cat_arrival_year_latest, cat_arrival,
+         Prey_quote) %>%
+  mapview(zcol = "cat_arrival",
+        col.regions = rev(plot_col),
+        layer.name = "Extinction relative to arrival")
 
 ```
 

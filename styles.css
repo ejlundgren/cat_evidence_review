@@ -36,6 +36,11 @@ div.cell-output-stdout pre {
     max-height: 400px !important;
     overflow-y: auto !important; /* Adds a scrollbar if content overflows */
 }
+
+/* Grey text on figure captions */
+.figure-caption, figcaption {
+  color: gray;
+}
 /*
 code.sourceCode, pre.sourceCode {
   font-size: 5px !important;

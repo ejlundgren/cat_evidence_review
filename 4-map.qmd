@@ -149,10 +149,14 @@ sys_rev.spat <- sys_rev %>%
 
 sys_rev.spat$synth_fill <- factor(sys_rev.spat$synth_fill,
                                   levels = names(fill_pal))
+
+sys_rev.spat <- sys_rev.spat %>%
+  mutate(of_quality_color = ifelse(of_quality == "yes", "gold", "black"))
+
+
 ```
 
-
-Otherwise, here are interactive map of all locations where quantitative evidence was found. The larger points indicate studies with data that could be meta-analyzed. 
+Otherwise, here are interactive maps of all locations where quantitative evidence was found. 
 
 ```{r}
 #| eval: true
@@ -174,6 +178,7 @@ m <- sys_rev.spat %>%
   mapview(.,
         zcol = "Evidence type",
         col.regions = (fill_pal),
+        color = sys_rev.spat$of_quality_color,
         cex = "point size",
         layer.name = "Evidence type")
 
@@ -186,6 +191,9 @@ m <- sys_rev.spat %>%
 #| echo: false
 #| output: true
 #| code-fold: false
+#| label: Figure 1
+#| fig-cap: "Quantitative studies linking cats to the endangerment of vertebrate species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+
 m
 
 ```
@@ -196,10 +204,16 @@ m
 #| echo: true
 #| output: true
 #| code-fold: true
+
+
 # PREPARE MAMMALS
 
 sub_dat <- sys_rev.spat %>% 
-  filter(class == "Mammals") %>%
+  filter(class == "Mammals")
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$synth_fill)]
+
+m <- sub_dat %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
          of_quality, in_meta, in_meta_num) %>%
@@ -209,12 +223,9 @@ sub_dat <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num)
-
-sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$`Evidence type`)]
-
-m <- mapview(sub_dat,
-        zcol = "Evidence type",
+         `point size` = in_meta_num) %>%
+  mapview(zcol = "Evidence type",
+        color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
@@ -227,6 +238,8 @@ Here is where all evidence concerning **mammal prey** came from:
 #| echo: false
 #| output: true
 #| code-fold: false
+#| label: Figure 2
+#| fig-cap: "Quantitative studies linking cats to the endangerment of mammal species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 
 ```
@@ -239,7 +252,11 @@ m
 #| code-fold: true
 # PREPARE BIRDS
 sub_dat <- sys_rev.spat %>% 
-  filter(class == "Birds") %>%
+  filter(class == "Birds")
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$synth_fill)]
+
+m <- sub_dat %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
          of_quality, in_meta, in_meta_num) %>%
@@ -249,12 +266,9 @@ sub_dat <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num)
-
-sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$`Evidence type`)]
-
-m <- mapview(sub_dat,
-        zcol = "Evidence type",
+         `point size` = in_meta_num) %>%
+  mapview(zcol = "Evidence type",
+        color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
@@ -268,6 +282,8 @@ And here are **birds:**
 #| echo: false
 #| output: true
 #| code-fold: false
+#| label: Figure 3
+#| fig-cap: "Quantitative studies linking cats to the endangerment of bird species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 ```
 
@@ -279,7 +295,11 @@ m
 #| code-fold: true
 # REPTILES
 sub_dat <- sys_rev.spat %>% 
-  filter(class == "Reptiles") %>%
+  filter(class == "Reptiles")
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$synth_fill)]
+
+m <- sub_dat %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
          of_quality, in_meta, in_meta_num) %>%
@@ -289,12 +309,9 @@ sub_dat <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num)
-
-sub_fill <- fill_pal[names(fill_pal) %in% unique(droplevels(sub_dat$`Evidence type`))]
-
-m <- mapview(sub_dat,
-        zcol = "Evidence type",
+         `point size` = in_meta_num) %>%
+  mapview(zcol = "Evidence type",
+        color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
@@ -307,6 +324,8 @@ m <- mapview(sub_dat,
 #| echo: false
 #| output: true
 #| code-fold: false
+#| label: Figure 4
+#| fig-cap: "Quantitative studies linking cats to the endangerment of reptile species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 ```
 
@@ -317,7 +336,11 @@ m
 #| code-fold: true
 # AMPHIBIANS
 sub_dat <- sys_rev.spat %>% 
-  filter(class == "Amphibians") %>%
+  filter(class == "Amphibians")
+
+sub_fill <- fill_pal[names(fill_pal) %in% droplevels(sub_dat$synth_fill)]
+
+m <- sub_dat %>%
   select(scientificName, class, Article_simple, 
          Study_location, synth_fill,
          of_quality, in_meta, in_meta_num) %>%
@@ -327,12 +350,9 @@ sub_dat <- sys_rev.spat %>%
          `Species` = scientificName,
          `Article` = Article_simple,
          Location = Study_location,
-         `point size` = in_meta_num)
-
-sub_fill <- fill_pal[names(fill_pal) %in% unique(droplevels(sub_dat$`Evidence type`))]
-
-m <- mapview(sub_dat,
-        zcol = "Evidence type",
+         `point size` = in_meta_num) %>%
+  mapview(zcol = "Evidence type",
+        color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
         layer.name = "Evidence type")
@@ -345,6 +365,8 @@ And, last but not least, **Amphibians:**
 #| echo: false
 #| output: true
 #| code-fold: false
+#| label: Figure 5
+#| fig-cap: "Quantitative studies linking cats to the endangerment of amphibian species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 ```
 
