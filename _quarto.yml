@@ -18,8 +18,16 @@ website:
         text: Citation network 
       - href: 2-systematic-review.qmd
         text: Systematic review
-      - href: 3-meta-analysis.qmd
-        text: Meta-analysis
+      - section: "Meta-analysis"
+        contents:
+        - href: 3.1-prepare-meta-analysis-dataset.qmd
+          text: Prepare meta-analysis dataset
+        - href: 3.2-run-models.qmd
+          text: Run models and plot
+        - href: 3.3-publication-bias-tests.qmd
+          text: Publication bias tests
+        - href: 3.4-effect-size-conversions.qmd
+          text: Effect size conversions
       - href: 4-timeline-analysis.qmd
         text: Timeline analysis
 format:

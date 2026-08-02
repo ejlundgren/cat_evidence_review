@@ -1,4 +1,7 @@
+# Reviewed July 31st, 2026
 
+
+# Prepare environment -----------------------------------------------------
 
 rm(list = ls())
 
@@ -12,14 +15,15 @@ library("stringr")
 library("sf")
 library("mapview")
 library("dplyr")
-# Functions
 
+
+# Functions
 get_r <- function(x, y){
   out <- cor.test(x, y)
   return(out$estimate)
 }
 
-# Copying from separate directory:
+# Copy convert_effect_sizes() from separate directory:
 run <- FALSE
 if(run){
   file.copy("../../Meta_Methods_UAlberta/package_development/metatools_dev/scripts/1_functions/convert_effect_sizes.R",
@@ -30,27 +34,28 @@ if(run){
 
 source("scripts/functions/convert_effect_sizes.R")
 
-#0. Load data ---------------------------------------------------------------
+# 0. Load data ---------------------------------------------------------------
 
-files <- list.files("data/meta_analysis", full.names = T, pattern = ".xlsx")
-files <- files[!grepl("~$", files, fixed = T)]
+
+files <- c("data/meta_analysis/Cat meta-analysis - SMDs.xlsx",
+           "data/meta_analysis/Cat meta-analysis ORs.xlsx",
+           "data/meta_analysis/Cat meta-analysis - correlations.xlsx")
 dat_list <- lapply(files, read_excel)
-names(dat_list) <- word(files, -1, sep = " ")
-dat_list
+names(dat_list) <- c("SMDs", "ORs", "Zrs")
 
 # >>> Number of articles by analysis group and effect size -------------------------------------
 
-n.cor <- dat_list[["correlations.xlsx"]] %>%
+n.cor <- dat_list[["Zrs"]] %>%
   group_by(analysis_group, Description) %>%
   summarize(n_articles = n_distinct(Article)) %>%
   mutate(native_effect_type = "Zr")
 
-n.smd <- dat_list[["SMDs.xlsx"]] %>%
+n.smd <- dat_list[["SMDs"]] %>%
   group_by(analysis_group, Description) %>%
   summarize(n_articles = n_distinct(Article)) %>%
   mutate(native_effect_type = "SMD")
 
-n.or <- dat_list[["ORs.xlsx"]] %>%
+n.or <- dat_list[["ORs"]] %>%
   group_by(analysis_group, Description) %>%
   summarize(n_articles = n_distinct(Article)) %>%
   mutate(native_effect_type = "OR")
@@ -60,18 +65,10 @@ ns <- rbind(n.cor, n.smd, n.or)
 ns
 setDT(ns)
 
-# Gah this is very challenging...
-# Groups (split by reproduction vs abundance)
-# All Long-term-abundance 
-# Spatial correlations
-# Temporal correlations
-# 
-
 # Going to determine in an excel file and merge in:
 fwrite(ns, "builds/temp/determine analysis groups.csv")
 
 # >>> Assign analysis groups & effect size types ----------------------------------------
-#' [I deleted 'options' that were duplicated (e.g., same keys in that option)]
 analysis_groups <- read_excel("data/meta_analysis/analysis groups.xlsx",
                               skip = 0) |> setDT()
 analysis_groups
@@ -82,7 +79,7 @@ unique(analysis_groups[, .(Description, final_analysis_group1, final_analysis_gr
 
 # 1. Zr ---------------------------------------------------------
 
-cor <- dat_list[["correlations.xlsx"]] |> setDT()
+cor <- dat_list[["Zrs"]] |> setDT()
 cor
 
 sort(unique(cor$Effect_size_ID))
@@ -110,7 +107,6 @@ cor[is.na(as.numeric(cat_presence))]$cat_presence
 # The other can be Zr with 0/1 predictor.
 cor[Effect_size_ID == "ES_47b", Cat_correlation_data := cat_presence]
 cor[Effect_size_ID == "ES_47b"]
-
 
 cor.smd <- cor[is.na(Cat_correlation_data), ]
 cor.smd$cat_presence
@@ -142,7 +138,6 @@ cor.sum <- escalc(measure = "ZCOR",
 length(unique(cor.sum$Effect_size_ID))
 length(unique(cor.sum$Article))
 
-
 names(cor.sum)
 
 unique(cor.sum$analysis_group)
@@ -160,7 +155,7 @@ cor.smd[analysis_group == "Short-term reproduction", .(n = .N), by = .(cat_prese
 
 # OK. 
 
-cor.smd <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
+cor.smd.sum <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
                                              sd_prey = sd(Prey_correlation_data),
                                              n = .N),
                                          by = .(Effect_size_ID, scientificName, Article, Article_secondary_same_data,
@@ -173,32 +168,30 @@ cor.smd <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
                                                 )]
 
 #' [Transform percent data]
-unique(cor.smd$Effect_size_ID)
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"),]
+#' 
+unique(cor.smd.sum$Effect_size_ID)
+cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"),]
 
-cor.smd[Effect_size_ID %in% c("ES_43"), `:=` (sd_prey = sd_prey/100,
-                                         mean_prey = mean_prey/100)]
+cor.smd.sum[Effect_size_ID %in% c("ES_43"), `:=` (sd_prey = sd_prey/100,
+                                              mean_prey = mean_prey/100)]
 
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), `:=` (sd_prey = sqrt( sd_prey^2 / 
-                                ((4*mean_prey) * (1-mean_prey)) 
-                              )
+cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"), `:=` 
+        (sd_prey = sqrt( sd_prey^2 / 
+         ((4*mean_prey) * (1-mean_prey)))
                 )]
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), mean_prey := asin(sqrt(mean_prey))]
-cor.smd
-
+cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"), mean_prey := asin(sqrt(mean_prey))]
+cor.smd.sum
 
 #
-cor.smd.wide <- dcast(cor.smd,
+cor.smd.wide <- dcast(cor.smd.sum,
                      ... ~ cat_presence,
                      value.var = c("mean_prey", "sd_prey", "n"))
 
 cor.smd.wide
 setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
 
-#' [ZPB for for the one with n < 2 and SMD for the rest]
 cor.smd.wide
-
-cor.smd.out <- escalc(measure = "ZPB", 
+cor.smd.out <- escalc(measure = "SMD", 
                  m1i = mean_prey_1, m2i = mean_prey_0,
                  sd1i = sd_prey_1, sd2i = sd_prey_1,
                  n1i = n1, n2i = n2,
@@ -226,11 +219,10 @@ cor.final[Effect_size_ID == "ES_37", ]
 
 # 2. SMD ---------------------------------------------------------
 names(dat_list)
-smd <- dat_list[["SMDs.xlsx"]] |> setDT()
+smd <- dat_list[["SMDs"]] |> setDT()
 smd
 
 smd[is.na(analysis_group), ]
-
 
 # >>> Clean -------------------------------------------------------------------
 smd
@@ -241,6 +233,7 @@ smd[is.na(as.numeric(Prey_error_cats_Absent))]
 smd[is.na(as.numeric(Prey_error_cats_Present))]
 smd[is.na(as.numeric(Sample_size_overall_cats_Absent))]
 smd[is.na(as.numeric(Sample_size_overall_cats_Present))]
+
 smd[, `:=` (Prey_mean_cats_Absent = as.numeric(Prey_mean_cats_Absent),
             Prey_mean_cats_Present = as.numeric(Prey_mean_cats_Present),
             Prey_error_cats_Absent = as.numeric(Prey_error_cats_Absent),
@@ -273,17 +266,19 @@ smd.final <- copy(smd)
 
 smd.final[Effect_size_ID == "ES_37", ]
 smd.final[Effect_size_ID == "ES_ARM", ]
-cor.final <- cor.final[Effect_size_ID != "ES_ARM", ]
 
+# Drop this effect size that is in SMD dataset
+cor.final <- cor.final[Effect_size_ID != "ES_ARM", ]
 cor.final
 
 # 3. OR ---------------------------------------------------------
 names(dat_list)
 
-or <- dat_list[["ORs.xlsx"]] |> setDT()
+or <- dat_list[["ORs"]] |> setDT()
 or
 
 ns
+
 # >>> Clean -------------------------------------------------------------------
 
 # This looks good.
@@ -326,23 +321,23 @@ meta_combined[duplicated(Effect_size_ID)]
 meta_combined[, key := paste(Abundance_reproduction, Description)]
 analysis_groups[, key := paste(Abundance_reproduction, Description)]
 
-analysis_groups <- melt(analysis_groups,
+analysis_groups.mlt <- melt(analysis_groups,
                         id.vars = c("key"),
                         measure.vars = c("final_analysis_group1", "final_analysis_group2"),
                         variable.name = "analysis_group_level",
                         value.name = "final_analysis_group")
-analysis_groups <- analysis_groups[!is.na(final_analysis_group)]
-analysis_groups[, analysis_group_level := ifelse(analysis_group_level == "final_analysis_group1",
+analysis_groups.mlt <- analysis_groups.mlt[!is.na(final_analysis_group)]
+analysis_groups.mlt[, analysis_group_level := ifelse(analysis_group_level == "final_analysis_group1",
                                                  "fine_scale", "lumped")]
 
-setdiff(meta_combined$key, analysis_groups$key)
-setdiff(analysis_groups$key, meta_combined$key)
+setdiff(meta_combined$key, analysis_groups.mlt$key)
+setdiff(analysis_groups.mlt$key, meta_combined$key)
 
-analysis_groups[, .(n = uniqueN(final_analysis_group)), by = .(key)]
+analysis_groups.mlt[, .(n = uniqueN(final_analysis_group)), by = .(key)]
 # 
 
 meta_combined.mrg <- merge(meta_combined[, !c("analysis_group")],
-                           unique(analysis_groups[, .(key, analysis_group_level, final_analysis_group)]),
+                           unique(analysis_groups.mlt[, .(key, analysis_group_level, final_analysis_group)]),
                            by = "key",
                            allow.cartesian = TRUE,
                            all.x = T)
@@ -358,7 +353,6 @@ meta_combined.mrg[n_effect_types == 1, ]
 setnames(meta_combined.mrg, "final_analysis_group", "analysis_group")
 
 meta_combined.mrg[duplicated(Effect_size_ID)]
-
 
 # >>> Check unit of replication -------------------------------------------
 meta_combined.mrg[, .(n_units = uniqueN(unit_of_replication),
@@ -401,7 +395,6 @@ mixed_types
 #
 # For lnOR and Zr groups, instead of 2 conversions, just convert to SMD. OTherwise, go by most populous entity
 #
-
 mixed_types[analysis_group %in% c( "Reproduction spatial association"),
             analysis_effect_size := "SMD"]
 
@@ -443,15 +436,6 @@ for(i in 1:length(combos)){
 i
 sub_dat
 
-# #
-# convert_effect_sizes(yi = yi, vi = vi,
-#                      n = n,
-#                      from = unique(sub_dat$original_effect_size),
-#                      to = unique(sub_dat$analysis_effect_size),
-#                      data = sub_dat,
-#                      bind = TRUE,
-#                      formula_path = "scripts/functions/conversion_formulas.csv")
-
 
 converted <- rbindlist(out)
 setnames(converted, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
@@ -466,14 +450,17 @@ meta.final
 
 length(unique(meta.final$Effect_size_ID))
 
-meta.final[duplicated(Effect_size_ID)] # Must be 0 rows
-
 meta.final
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------
-# Merge in species body mass / class ------------------------------
+# Merge in covariates ------------------------------
 # Copy phylacine over:
 #
+
+
+# >>> Body mass -----------------------------------------------------------
+
+
 species <- data.table(scientificName = unique(c(meta.final$scientificName)))
 
 species[, spp_name_corrected := scientificName]
@@ -538,7 +525,6 @@ species.m2[spp_name_corrected == "Gallicolumba erythroptera", `:=` (Order_final 
 
 species.m2[is.na(class), ]
 
-# 8. Merge traits and locations into dataset ---------------------------------
 meta.final.mrg <- merge(meta.final,
                            species.m2[, .(scientificName, Order_final, Mass_g_final, class)],
                            by = "scientificName",
@@ -546,17 +532,17 @@ meta.final.mrg <- merge(meta.final,
 
 nrow(meta.final.mrg) == nrow(meta.final)
 # Must be TRUE
-meta.final.mrg[duplicated(Effect_size_ID)]
-# Must be 0 rows
 
 meta.final.mrg[is.na(class), ]
 meta.final.mrg[scientificName == "Prosobonia cancellata",
                `:=` (class = "Birds",
                      Mass_g_final = 33)]
-meta.final.mrg[class == "", ]
+meta.final.mrg[class == "" | is.na(class), ]
 meta.final.mrg
 unique(meta.final.mrg$class)
 
+
+meta.final.mrg[, log_mass := log10(Mass_g_final)]
 
 # >>> Filter out excluded_species -----------------------------------------
 sort(unique(meta.final.mrg$scientificName))
@@ -581,19 +567,19 @@ habitat
 
 setdiff(meta.final.mrg$scientificName, habitat$scientificName)
 
-meta.final.mrg <- merge(meta.final.mrg,
+meta.final.mrg2 <- merge(meta.final.mrg,
                         habitat,
                         by = "scientificName")
 
-nrow(meta.final.mrg)
-
+nrow(meta.final.mrg2) == nrow(meta.final.mrg)
+# MUST BE TRUE
 
 # >>> Inside prey range ---------------------------------------------------
 
-meta.final.mrg[, prey_range_primary := ifelse(Mass_g_final >= 17 & Mass_g_final <= 2000, "inside", "outside")]
-meta.final.mrg[, prey_range_secondary := ifelse(Mass_g_final >= 8 & Mass_g_final <= 2000, "inside", "outside")]
-meta.final.mrg[, prey_range_tertiary := ifelse(Mass_g_final >= 6 & Mass_g_final <= 2650, "inside", "outside")]
-meta.final.mrg
+meta.final.mrg2[, prey_range_primary := ifelse(Mass_g_final >= 17 & Mass_g_final <= 2000, "inside", "outside")]
+meta.final.mrg2[, prey_range_secondary := ifelse(Mass_g_final >= 8 & Mass_g_final <= 2000, "inside", "outside")]
+meta.final.mrg2[, prey_range_tertiary := ifelse(Mass_g_final >= 6 & Mass_g_final <= 2650, "inside", "outside")]
+meta.final.mrg2
 
 # >>> Continents vs islands -----------------------------------------------
 continents <- st_read("data/spatial/4a7d27e1-84a3-4d6a-b4c2-6b6919f3cf4b202034-1-2zg7ul.ht5ut.shp")
@@ -633,11 +619,11 @@ continents <- continents %>%
                                    "mainland", continent_island))
 
 # Well we'll manually adjust studies that are on big islands...
-meta.final.mrg$Longitude
-meta.final.mrg[is.na(as.numeric(Longitude))]
-meta.final.mrg[is.na(as.numeric(Latitude))]
+meta.final.mrg2$Longitude
+meta.final.mrg2[is.na(as.numeric(Longitude))]
+meta.final.mrg2[is.na(as.numeric(Latitude))]
 
-meta.spat <- meta.final.mrg %>%
+meta.spat <- meta.final.mrg2 %>%
   select(Effect_size_ID, Longitude, Latitude) %>%
   st_as_sf(coords = c("Longitude", "Latitude"),
            crs = 4326)
@@ -663,7 +649,6 @@ meta.spat.jnd %>%
   mapview(zcol = "continent_island")
 
 
-
 meta.spat.jnd %>%
   filter(continent_island == "mainland") %>% 
   mapview(zcol = "continent_island")
@@ -672,49 +657,34 @@ meta.spat.jnd %>%
 meta.spat.jnd <- meta.spat.jnd %>%
   as.data.frame() %>%
   mutate(geometry = NULL) %>% 
-  setDT()
+  setDT() %>%
+  unique()
 meta.spat.jnd
 
-meta.final.mrg <- merge(meta.final.mrg,
+meta.final.mrg3 <- merge(meta.final.mrg2,
                         meta.spat.jnd,
                         by = "Effect_size_ID")
 
-meta.final.mrg
+nrow(meta.final.mrg3) == nrow(meta.final.mrg2)
+# MUST BE TRUE
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ --------------------------------------------
 
 # Analysis groups & final prep ---------------------------------------------------------
-# 
-# # Let's create some collapsed categories.
-# meta.final.mrg[, analysis_group_collapsed := ifelse(grepl("abundance", analysis_group), "abundance", "reproduction")]
-# meta.final.mrg[, analysis_group_collapsed := paste(analysis_group_collapsed, analysis_effect_size, sep = "_")]
-# meta.final.mrg[, .(n = uniqueN(Article)), by = .(analysis_group, analysis_effect_size)]
-# 
-# meta.final.mrg
-# # meta.final.mrg[!is.na(yi_smd), .(yi_smd, yi_analysis)]
-# 
 
-meta.final.mrg[, .(n_effects = uniqueN(analysis_effect_size)), by = .(analysis_group)]
+meta.final.mrg3[, .(n_effects = uniqueN(analysis_effect_size)), by = .(analysis_group)]
 # All should be 1
 
 # >>> Check for duplicates by ID ------------------------------------------
-meta.final.mrg <- unique(meta.final.mrg)
-meta.final.mrg
-meta.final.mrg[duplicated(paste(Effect_size_ID, analysis_group))]
+meta.final.mrg3 <- unique(meta.final.mrg3)
+meta.final.mrg3
+meta.final.mrg3[duplicated(paste(Effect_size_ID, analysis_group))]
 # Must be 0 rows
 
+nrow(meta.final.mrg3) == nrow(meta.final.mrg)
+# Must be TRUE
+
 # 10 Save --------------------------------------------------------------------
-# Let's have arian check the labels:
-# 
-# meta.final.mrg[, analysis_group_label := fcase(analysis_group_collapsed == "abundance_Zr", "Abundance (across surveys)",
-#                                                   analysis_group_collapsed == "abundance_lnOR", "Abundance (across sites)",
-#                                                   analysis_group_collapsed == "reproduction_SMD", "Reproductive success (across surveys)")]
 
-fwrite(meta.final.mrg, "builds/meta_analysis/analysis_ready_dataset.csv")
-
-# saveRDS(meta.final.mrg, "builds/meta_analysis/analysis_ready_dataset.Rds")
-
-
-meta.final.mrg[is.na(yi_analysis)]
-meta.final.mrg[is.na(class)]
+fwrite(meta.final.mrg3, "builds/meta_analysis/analysis_ready_dataset.csv")
 

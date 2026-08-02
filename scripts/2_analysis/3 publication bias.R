@@ -1,4 +1,10 @@
-
+# July 31st, 2026
+#
+#
+# Conduct time lag publication bias tests
+#
+#
+#
 
 rm(list = ls())
 
@@ -83,12 +89,12 @@ nrow(dat[duplicated(Article)])
 
 unique(dat[, .(analysis_group, analysis_effect_size)])
 
-# Let's lump abundance and reproduction by effect size type
 
-dat.long <- copy(dat)#melt(dat, measure.vars = c("class", "log_mass", "continent_island"),#   value.name = "predictor")
+dat.long <- copy(dat)
 
 # >>> Extract publicaiton years ------------------------------------------
 library("readr")
+
 # parse_number(x = "Gerber, G.P. and Iverson, J.B., 2000. Turks and Caicos iguana, Cyclura carinata carinata. West Indian Iguanas: Status Survey and Conservation Action Plan. IUCN the World Conservation Union, Gland, Switzerland, pp.15-18.")
 str_extract("Gerber, G.P. and Iverson, J.B., 2000. Turks and Caicos iguana, Cyclura carinata carinata. West Indian Iguanas: Status Survey and Conservation Action Plan. IUCN the World Conservation Union, Gland, Switzerland, pp.15-18.", 
             "\\d+")
@@ -119,53 +125,6 @@ dat.long[, year := as.numeric(year)]
 # Because of mixed effect size types, let's just do time-lag publication bias?
 
 dat.long[, year_scaled := scale(year)]
-
-# >>> DEPREC Calculate effective sample size ---------------------
-#' [This is tricky for conversions. No published method. No way to calculate effective N for Zr that has been converted to SMD...]
-
-# dat.long[, n_effect_types := uniqueN(original_effect_size), by = .(analysis_group)]
-# unique(dat.long[n_effect_types == 1, ]$analysis_group)
-# 
-# 
-# 
-# unique(dat.long$analysis_effect_size)
-# dat.long[analysis_effect_size == "SMD", ]$original_effect_size
-# # I think we should use vi for this one
-# 
-# dat.long[analysis_effect_size == "lnOR", ]$original_effect_size
-# # I think we should use effective n for this one
-# 
-# dat.long[analysis_effect_size == "Zr", ]$original_effect_size
-# # I think we should use vi for this one
-# 
-# #
-# # n2i = Sample_size_overall_cats_Absent, n1i = Sample_size_overall_cats_Present,
-# 
-# dat.long[analysis_effect_size == "lnOR", ]
-# dat.long[original_effect_size == "SMD",]$n1
-# dat.long[original_effect_size == "lnOR",]$n1
-# 
-# dat.long[analysis_effect_size %in% c("lnOR", "SMD"), .(n1, n2)]
-# dat.long[analysis_effect_size %in% c("lnOR", "SMD") &
-#            is.na(n1), ]
-# 
-# # dat.long[analysis_effect_size == "lnOR" &
-# #            original_effect_size == "SMD", `:=` (n2 = Sample_size_overall_cats_Absent,
-# #                                                 n1 = Sample_size_overall_cats_Present)]
-# 
-# dat.long[analysis_effect_size %in% c("lnOR"), 
-#          effective_N := (4*n1*n2)/(n1+n2)]
-# dat.long[analysis_effect_size %in% c("lnOR"), ]
-# # 
-# # 
-# # dat.long[analysis_effect_size %in% c("lnOR"), correction := 1/effective_N]
-# # dat.long[analysis_effect_size %in% c("lnOR"), bias_test := sqrt(1/effective_N)]
-# # 
-# # #
-# # dat.long[analysis_effect_size %in% c("SMD","Zr"), correction := vi_analysis]
-# # dat.long[analysis_effect_size %in% c("SMD","Zr"), bias_test := sqrt(vi_analysis)]
-
-
 
 # Set up model guide -----------------------------------------------------------------
 
@@ -287,6 +246,5 @@ class(model.gt)
 
 print(model.gt)
 
-gtsave(model.gt, "figures/SI/publication bias models.pdf")
+gtsave(model.gt, "figures/SI_Tables/publication bias models.pdf")
 
-# gt()

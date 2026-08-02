@@ -1,0 +1,784 @@
+---
+title: "Prepare meta-analysis dataset"
+format: 
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 6
+    toc-float: true
+    toc-expand: true
+    toc-title: "**CONTENTS**"
+    output-file: "3.1-prepare-meta-analysis-dataset.html"
+    # embed-resources: true
+    # code-fold: true
+    code-link: true
+    code-tools: true
+    # number-sections: false
+    # bibliography: ./bib/ref.bib
+    fontsize: "10"
+    mainfont: "Helvetica"
+    monofont: "Fira Code"
+    # fontcolor: ""
+    page-layout: article
+    code-overflow: wrap
+    df_print: paged
+    theme: cosmo
+    code-line-numbers: false
+    grid:
+      margin-width: 250px
+crossref:
+  fig-title: Figure     # (default is "Figure")
+  tbl-title: Table     # (default is "Table")
+  title-delim: "—"     # (default is ":")
+  fig-prefix: Fig.     # (default is "Figure")
+  tbl-prefix: Table.   # (default is "Table")
+editor_options: 
+  chunk_output_type: console
+execute:
+  warning: false
+  message: false
+  tidy: true
+bibliography: references.bib
+---
+
+Now we'll meta-analyze the quantitative articles that provided data usable for a meta-analysis. We'll start by calculating effect sizes and then converting effect sizes to a common type for analysis based on our analysis groups. 
+
+We'll then run a suite of models and choose the model with the best random effects. Finally, we'll plot the resulting model estimates and conduct publication bias tests.
+
+# Prepare dataset
+## Prepare environment
+We'll start by loading packages and some helper functions. The `convert_effect_sizes` function contains formulas to convert between effect sizes. The formulas were originally provided by @borenstein2021. The `get_r` function is a simple helper function for extracting the correlation coefficient (`r`) from the `cor.test` output.
+
+```{r}
+rm(list = ls())
+
+library("data.table")
+library("metafor")
+library("ggplot2")
+library("ggstance")
+library("orchaRd")
+library("patchwork")
+library("readxl")
+library("stringr")
+library("sf")
+library("mapview")
+library("dplyr")
+library("rotl")
+library("broom.mixed")
+library("here")
+
+source("scripts/functions/convert_effect_sizes.R") # This function converts between effect sizes
+
+get_r <- function(x, y){
+  out <- cor.test(x, y)
+  return(out$estimate)
+}
+
+```
+
+## Calculate effect sizes {#sec-calc-effect-sizes}
+We'll start by loading the raw extracted data. Given the heterogeneity in experimental designs, the raw data was collected in 3 separate spreadsheets based on the data structure required for each effect size type. We'll load these into a list object:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+files <- c("data/meta_analysis/Cat meta-analysis - SMDs.xlsx",
+           "data/meta_analysis/Cat meta-analysis ORs.xlsx",
+           "data/meta_analysis/Cat meta-analysis - correlations.xlsx")
+dat_list <- lapply(files, read_excel)
+names(dat_list) <- c("SMDs", "ORs", "Zrs")
+
+```
+
+We also have a separate file that gives analysis groups for each effect size---e.g., how to group effect sizes for each model. These groupings are also the scaffold for some of our sensitivity analyses (e.g., different degrees of lumping across different experimental treatment types).
+
+The analysis groups include:
+
+- Abundance with/without cats
+- Abundance before-after eradication
+- Abundance on islands with/without cats
+- Abundance spatial association
+- Abundance temporal association
+- Reproduction with/without cats
+- Reproduction before-after eradication
+- Reproduction temporal association
+
+The 'with/without cats' is a broader analysis group that includes the data in 'before-after eradication' and 'islands with/without cats'. 
+
+```{r}
+#| eval: true
+#| echo: true
+
+analysis_groups <- read_excel("data/meta_analysis/analysis groups.xlsx",
+                              skip = 0) |> setDT()
+
+unique(analysis_groups[, .(Description, final_analysis_group1, final_analysis_group2)])
+
+```
+
+
+### z-to-r-transformed correlation coefficients (Zr) effect sizes {#sec-calc-Zr}
+We'll start with the correlation coefficient (Zr) effect sizes. 
+
+Note that several effect sizes in this dataset can be analyzed either as Zr effect sizes (with binary predictor) or SMD. We've decided that they would best be analyzed as SMD effect sizes, which we handle in the code below.
+
+Because the variance of proportion data increases closer to 0/1 boundaries, we stabilized variance with arc-sin square root transformation and the delta method following @Macartney2022-ik.
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+cor <- dat_list[["Zrs"]] |> setDT()
+
+sort(unique(cor$Effect_size_ID))
+
+# >>> Clean -------------------------------------------------------------------
+unique(cor$Description)
+
+cor[Description == "Spatial correlation" & Effect_size_ID == "ES_3", ]
+
+# Make variables numeric:
+cor[is.na(as.numeric(Prey_correlation_data))]$Prey_correlation_data
+cor[, Prey_correlation_data := str_trim(Prey_correlation_data)]
+cor[is.na(as.numeric(Prey_correlation_data))]$Prey_correlation_data
+
+cor[, Prey_correlation_data := as.numeric(Prey_correlation_data)]
+cor[is.na(as.numeric(Cat_correlation_data))]$Cat_correlation_data
+cor[, Cat_correlation_data := as.numeric(Cat_correlation_data)]
+
+class(cor$cat_presence)
+cor[is.na(as.numeric(cat_presence))]$cat_presence
+
+# So these are binary predictor. ALl of these except one can be SMD
+# The other can be Zr with 0/1 predictor.
+cor[Effect_size_ID == "ES_47b", Cat_correlation_data := cat_presence]
+cor[Effect_size_ID == "ES_47b"]
+
+cor.smd <- cor[is.na(Cat_correlation_data), ]
+cor.smd$cat_presence
+cor.smd[, .(n_points = .N), by = .(cat_presence, Effect_size_ID)]
+
+# >>> Calculate ZCOR --------------------------------------------------
+(cor)
+
+cor.sum <- cor[!is.na(Cat_correlation_data), 
+               .(r = get_r(x = Cat_correlation_data,
+                           y = Prey_correlation_data),
+                   n = .N),
+               by = .(Effect_size_ID, scientificName,  Description,
+                      unit_of_replication,
+                      Article, Article_secondary_same_data, 
+                      analysis_group, effect_size_type, Abundance_reproduction,
+                      Prey_units, Cat_units, Source, Analysis_comment, 
+                      Latitude, Longitude, Study_location)]
+
+cor.sum[duplicated(Effect_size_ID)]
+cor.sum[Effect_size_ID == "ES_32", 
+        Effect_size_ID := paste0(Effect_size_ID, "_", .GRP), 
+        by = .(scientificName)]
+cor.sum[Effect_size_ID == "ES_47b"]
+cor[Effect_size_ID == "ES_47b"]
+
+cor.sum <- escalc(measure = "ZCOR",
+                     ri = r, ni = n,
+                     data = cor.sum) |> setDT()
+
+length(unique(cor.sum$Effect_size_ID))
+length(unique(cor.sum$Article))
+
+names(cor.sum)
+
+unique(cor.sum$analysis_group)
+
+cor.sum[, original_effect_size := "Zr"]
+
+# > Convert groups that can actually be SMD --------------------------------------------
+unique(cor.smd$analysis_group)
+
+cor.smd[analysis_group == "Short-term reproduction", .(n = .N), by = .(cat_presence)]
+
+cor.smd <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
+                       sd_prey = sd(Prey_correlation_data),
+                       n = .N),
+                   by = .(Effect_size_ID, scientificName, Article, Article_secondary_same_data,
+                          analysis_group,effect_size_type, Description,
+                          unit_of_replication,
+                          Abundance_reproduction, Prey_units, Cat_units, Source,
+                          Latitude, Longitude, Study_location,
+                          cat_presence
+                          )]
+
+# Transform 0-1 bounded data following Macartney et al 2022 Neurosci Biobehav Rev:
+unique(cor.smd$Effect_size_ID)
+cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"),]
+
+cor.smd[Effect_size_ID %in% c("ES_43"), `:=` (sd_prey = sd_prey/100,
+                                              mean_prey = mean_prey/100)]
+cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), 
+        `:=` (sd_prey = sqrt( sd_prey^2 / ((4*mean_prey) * (1-mean_prey)) ))]
+cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), mean_prey := asin(sqrt(mean_prey))]
+cor.smd
+
+# Make wide by cat presence/absence
+cor.smd.wide <- dcast(cor.smd,
+                     ... ~ cat_presence,
+                     value.var = c("mean_prey", "sd_prey", "n"))
+
+cor.smd.wide
+setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
+
+cor.smd.wide
+cor.smd.out <- escalc(measure = "SMD", 
+                 m1i = mean_prey_1, m2i = mean_prey_0,
+                 sd1i = sd_prey_1, sd2i = sd_prey_1,
+                 n1i = n1, n2i = n2,
+                 data = cor.smd.wide) |> 
+  setDT()
+cor.smd.out[, n := n1 + n2] # for conversions, later
+
+cor.smd.out
+cor.smd.out[, original_effect_size := "SMD"]
+
+# >>> Bind ----------------------------------------------------------------
+
+cor.sum
+cor.final <- rbind(cor.sum, 
+                   cor.smd.out,
+                   fill = T)
+
+cor.final[duplicated(Effect_size_ID)]
+
+# Must be 0 rows
+cor.final[Effect_size_ID == "ES_37", ]
+cor.final[Effect_size_ID == "ES_37", ]
+
+# This one is in SMD dataset:
+cor.final <- cor.final[Effect_size_ID != "ES_ARM", ]
+
+```
+
+### Standardized Mean Difference (SMD) effect sizes {#sec-calc-smd}
+
+Now let's calculate SMD for the effect sizes in the SMD file. This data reflects two discrete treatments (cats present, cats absent) with a continuous response variable summarized as mean±SD.
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+smd <- dat_list[["SMDs"]] |> setDT()
+head(smd)
+
+# >>> Clean -------------------------------------------------------------------
+# setnames(smd, "...30", "analysis_group_notes")
+smd[is.na(as.numeric(Prey_mean_cats_Absent))]
+smd[is.na(as.numeric(Prey_mean_cats_Present))]
+smd[is.na(as.numeric(Prey_error_cats_Absent))]
+smd[is.na(as.numeric(Prey_error_cats_Present))]
+smd[is.na(as.numeric(Sample_size_overall_cats_Absent))]
+smd[is.na(as.numeric(Sample_size_overall_cats_Present))]
+smd[, `:=` (Prey_mean_cats_Absent = as.numeric(Prey_mean_cats_Absent),
+            Prey_mean_cats_Present = as.numeric(Prey_mean_cats_Present),
+            Prey_error_cats_Absent = as.numeric(Prey_error_cats_Absent),
+            Prey_error_cats_Present = as.numeric(Prey_error_cats_Present),
+            Sample_size_overall_cats_Absent = as.numeric(Sample_size_overall_cats_Absent),
+            Sample_size_overall_cats_Present = as.numeric(Sample_size_overall_cats_Present))]
+
+unique(smd$Effect_size_ID)
+
+# >>> Calculate effect sizes --------------------------------------------------
+setnames(smd, c("Sample_size_overall_cats_Absent", "Sample_size_overall_cats_Present"),
+                c("n2", "n1")) # This is to prevent later confusion while converting
+
+smd <- escalc(measure = "SMD",
+              m2i = Prey_mean_cats_Absent, m1i = Prey_mean_cats_Present,
+              sd2i = Prey_error_cats_Absent, sd1i = Prey_error_cats_Present,
+              n2i = n2, n1i = n1,
+              data = smd) |> setDT()
+smd[, .(Prey_mean_cats_Absent, Prey_mean_cats_Present, yi)]
+
+smd[, original_effect_size := "SMD"]
+
+# smd <- rbind(smd)
+smd$analysis_group
+
+# smd[converted_to == "Zr"]
+smd.final <- copy(smd)
+
+```
+
+### log Odds Ratio (lnOR) effect sizes {#sec-calc-lnOR}
+
+Now we'll calculate our odds ratio effect. This data has two discrete predictors (cats present / absent) and a binary outcome variable (present versus absent or nest fledged versus failed).
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+or <- dat_list[["ORs"]] |> setDT()
+or
+
+#
+or <- escalc(measure = "OR",
+             ai = Prey_and_cat_positive,
+             bi = Prey_negative_cat_positive,
+             ci = Prey_positive_cat_negative,
+             di = Prey_and_cat_negative,
+             data = or) |> setDT()
+or
+
+or[, n1 := Prey_and_cat_positive + Prey_negative_cat_positive]
+or[, n2 := Prey_positive_cat_negative + Prey_and_cat_negative]
+or[, original_effect_size := "lnOR"]
+or.final <- copy(or)
+
+```
+
+### Bind effect size datasets together and prepare analysis groups
+
+Now we bind these datasets together:
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+
+meta_combined <- rbind(cor.final, smd.final, or.final, fill = T)
+
+# Make sure there are no duplicated effect sizes
+meta_combined[duplicated(Effect_size_ID)]
+
+```
+
+Now we're going to merge in the analysis groups, for which there are multiple effect size ID. This merge will increase the number of rows of the dataset (but each effect size will only be in each model once because the analysis group variable will be unique for each model).
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+meta_combined[, key := paste(Abundance_reproduction, Description)]
+analysis_groups[, key := paste(Abundance_reproduction, Description)]
+
+analysis_groups <- melt(analysis_groups,
+                        id.vars = c("key"),
+                        measure.vars = c("final_analysis_group1", "final_analysis_group2"),
+                        variable.name = "analysis_group_level",
+                        value.name = "final_analysis_group")
+analysis_groups <- analysis_groups[!is.na(final_analysis_group)]
+analysis_groups[, analysis_group_level := ifelse(analysis_group_level=="final_analysis_group1",
+                                                 "fine_scale", "lumped")]
+
+setdiff(meta_combined$key, analysis_groups$key)
+setdiff(analysis_groups$key, meta_combined$key)
+
+analysis_groups[, .(n = uniqueN(final_analysis_group)), by = .(key)]
+# 
+
+meta_combined.mrg <- merge(meta_combined[, !c("analysis_group")],
+                           unique(analysis_groups[, .(key, analysis_group_level, final_analysis_group)]),
+                           by = "key",
+                           allow.cartesian = TRUE,
+                           all.x = T)
+
+meta_combined.mrg[is.na(final_analysis_group)]
+
+meta_combined.mrg[, n_effect_types := uniqueN(original_effect_size),
+                  by = .(final_analysis_group)]
+meta_combined.mrg[n_effect_types == 1, ]
+
+setnames(meta_combined.mrg, "final_analysis_group", "analysis_group")
+
+```
+
+Let's check that the units of replication are not too different per analysis group:
+```{r}
+meta_combined.mrg[, .(n_units = uniqueN(unit_of_replication),
+                      units = paste(unique(unit_of_replication), collapse = "; ")),
+                  by = .(analysis_group)]
+```
+
+We think that these are close enough to be acceptable. What we really don't want are analysis groups that mix individuals (or nests) with surveys/plots/islands/sites.
+
+## Convert effect sizes {#sec-convert-effect-sizes}
+Now we'll begin to convert effect sizes. We'll start by splitting out analysis groups that are a single effect size type (i.e., don't require conversion).
+
+```{r}
+#| eval: true
+#| echo: true
+one_type <- meta_combined.mrg[n_effect_types == 1, ]
+
+one_type[n_effect_types == 1, `:=` (yi_analysis = yi,
+                                    vi_analysis = vi,
+                                    analysis_effect_size = original_effect_size)]
+nrow(one_type)
+length(unique(one_type$analysis_group))
+```
+
+Now we'll deal with mixed groups. First we'll determine what the dominant group is and use this to designate the analysis effect size for each analysis group. 
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+mixed_types <- meta_combined.mrg[n_effect_types > 1, ]
+
+# Determine dominant effect size type per analysis group
+mixed_types[, .(paste(sort(unique(original_effect_size)), 
+                      collapse = "; ")),
+                by = .(analysis_group)]
+
+type_freq <- mixed_types[, .(n = .N),
+                 by = .(analysis_group, original_effect_size)]
+setorder(type_freq, analysis_group)
+
+type_freq <- type_freq[, .SD[which.max(n)], by = .(analysis_group)]
+
+setnames(type_freq, "original_effect_size", "analysis_effect_size")
+
+mixed_types <- merge(mixed_types,
+                     type_freq[, .(analysis_group, analysis_effect_size)], 
+                     by = "analysis_group",
+                     all.x = T)
+
+mixed_types[analysis_group %in% c( "Reproduction spatial association"),
+            analysis_effect_size := "SMD"]
+
+mixed_types[is.na(analysis_effect_size), ]
+
+already_converted <- mixed_types[analysis_effect_size == original_effect_size, ]
+to_convert <- mixed_types[analysis_effect_size != original_effect_size, ]
+
+#
+to_convert[, key := paste(original_effect_size, analysis_effect_size)]
+
+```
+
+We'll now loop over this dataset based on the unique combinations of original effect size (`original_effect_size`) and destination effect size (`analysis_effect_size`). The effect size formulas we use here are given [here](3.4-effect-size-conversions.qmd).
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+combos <- unique(to_convert$key)
+combos
+out <- list()
+
+convert_effect_sizes(formula_path = "scripts/functions/conversion_formulas.csv")
+
+for(i in 1:length(combos)){
+  sub_dat <- to_convert[key == combos[i]]
+  
+  out[[i]] <- convert_effect_sizes(n = n, 
+                                   n1 = n1, n2 = n2,
+                                   yi = yi, vi = vi, 
+                                   r = r,
+                                   from = unique(sub_dat$original_effect_size),
+                                   to = unique(sub_dat$analysis_effect_size),
+                                   data = sub_dat,
+                                   bind = TRUE,
+                                   formula_path = "scripts/functions/conversion_formulas.csv")
+}
+
+converted <- rbindlist(out)
+setnames(converted, c("yi_trans", "vi_trans"), c("yi_analysis", "vi_analysis"))
+already_converted[, `:=` (yi_analysis = yi, vi_analysis = vi)]
+
+```
+Now we'll bind the dataset back together:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+
+mixed_type <- rbind(converted, already_converted)
+mixed_type[is.na(yi_analysis), ]
+
+meta.final <- rbind(one_type, mixed_type)
+```
+
+
+## Merge in covariates {#sec-merge-in-covariates}
+
+### Body mass
+Now we'll merge in covariates. We'll start with body mass. Body mass for mammals was derived from PHYLACINE [Faurby2018-wu] and is available for download [here](https://github.com/MegaPast2Future/PHYLACINE_1.2). Body mass for birds was derived from Avonet [@Tobias2022-eu] and is available for download [here](https://figshare.com/s/b990722d72a26b5bfead). Body mass for reptiles and species absent from the other datasets include [@San-Diego-Zoo-Wildlife-Alliance-Library2015-qi; @Iucn2018-qz; @Gibbs2001-st].
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+species <- data.table(scientificName = unique(c(meta.final$scientificName)))
+
+species[, spp_name_corrected := scientificName]
+species[scientificName == "Pampusana erythroptera", 
+        spp_name_corrected := "Gallicolumba erythroptera"]
+
+# Mammals:
+phyl <- fread("data/trait_databases/phylacine_traits.csv")
+
+phyl[, Binomial.1.2 := gsub("_", " ", Binomial.1.2)]
+
+species.m1 <- merge(species, phyl[, .(Binomial.1.2, Order.1.2, 
+                                      Mass.g)],
+                    by.x = "spp_name_corrected", by.y = "Binomial.1.2",
+                    all.x = T, all.y = F)
+
+# Birds:
+avonet <- read_excel("data/trait_databases/AVONET Supplementary dataset 1.xlsx",
+                     "AVONET1_BirdLife") |> setDT()
+unique(avonet$Species1)
+
+species.m1[scientificName %in% avonet$Species1]
+
+species.m2 <- merge(species.m1,
+                    avonet[, .(Species1, Order1, Mass)],
+                    by.x = "spp_name_corrected", by.y = "Species1",
+                    all.x = T, all.y = F)
+
+species.m2
+
+species.m2[, Mass_g_final := ifelse(is.na(Mass.g), Mass, Mass.g)]
+species.m2[, Order_final := ifelse(is.na(Order.1.2), Order1, Order.1.2)]
+species.m2[is.na(Mass_g_final)]
+
+species.m2[, source := fcase(!is.na(Order.1.2), "Phylacine 1.2",
+                             !is.na(Order1), "Avonet",
+                             is.na(Order.1.2) & is.na(Order1), NA)]
+
+species.m2[, class := fcase(!is.na(Order.1.2), "Mammals",
+                             !is.na(Order1), "Birds",
+                             is.na(Order.1.2) & is.na(Order1), NA)]
+
+
+species.m2[is.na(Mass_g_final)]
+species.m2[spp_name_corrected == "Chelonoidis niger", `:=` (Order_final = "Testudines",
+                                                            Mass_g_final = 80,# weight at birth
+                                                            class = "Reptiles",
+                                                            source = "IUCN Red List; https://ielc.libguides.com/sdzg/factsheets/galapagostortoises/summary")]
+species.m2[spp_name_corrected == "Cyclura carinata", `:=` (Order_final = "Squamata",
+                                                            Mass_g_final = 355,
+                                                           class = "Reptiles",
+                                                            source = "IUCN Red List;  ⁠Alberts, A. (1999) West Indian Iguanas: Status Survey and Conservation Action Plan. IUCN/SSC West Indian Iguana Specialist Group. IUCN, Gland, Switzerland and Cambridge ")]
+
+species.m2[spp_name_corrected == "Gallicolumba erythroptera", `:=` (Order_final = "Columbiformes",
+                                                           Mass_g_final = 113.5,
+                                                           class = "Birds",
+                                                           source = "Gibbs, David; Barnes, Eustace; Cox, John (2001). Pigeons and Doves: A Guide to the Pigeons and Doves of the World. Sussex: Pica Press. ISBN 1-873403-60-7.")]
+
+species.m2[is.na(class), ]
+
+meta.final.mrg <- merge(meta.final,
+                           species.m2[, .(scientificName, Order_final, Mass_g_final, class)],
+                           by = "scientificName",
+                           all.x = T)
+
+nrow(meta.final.mrg) == nrow(meta.final)
+# Must be TRUE
+
+meta.final.mrg[is.na(class), ]
+meta.final.mrg[scientificName == "Prosobonia cancellata",
+               `:=` (class = "Birds",
+                     Mass_g_final = 33)]
+meta.final.mrg[class == "", ]
+meta.final.mrg
+unique(meta.final.mrg$class)
+
+# Now let's log the body mass:
+meta.final.mrg[, log_mass := log10(Mass_g_final)]
+
+```
+
+We'll also be sure to filter out species that we are excluding (because cat impacts were claimed to be via competition not predation, which is outside the scope of our study).
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+
+sort(unique(meta.final.mrg$scientificName))
+meta.final.mrg <- meta.final.mrg[!scientificName %in% c("Dasyurus maculatus", 
+                                                        "Fossa fossana",
+                                                        "Cryptoprocta ferox")]
+
+nrow(meta.final.mrg)
+
+```
+
+### Habitat use
+Now we'll merge in habitat classifications:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+habitat <- read_excel("data/meta_analysis/Habitat_use.xlsx") |> setDT()
+head(habitat)
+
+names(habitat)
+habitat <- habitat[, .(scientificName, locomotion_volant,
+                       ground_or_burrow_resting_or_nesting, 
+                       Foraging_habitat_ground)]
+habitat[, `:=` (locomotion_volant = ifelse(locomotion_volant == 0, 
+                                           "non_volant", "volant"))]
+habitat[, `:=` (ground_or_burrow_resting_or_nesting = 
+                  ifelse(ground_or_burrow_resting_or_nesting == 0, 
+                         "ground", 
+                         "other"))]
+habitat[, `:=` (Foraging_habitat_ground = ifelse(Foraging_habitat_ground == 0, 
+                                                 "ground", 
+                                                 "other"))]
+habitat
+
+setdiff(meta.final.mrg$scientificName, habitat$scientificName)
+
+meta.final.mrg2 <- merge(meta.final.mrg,
+                        habitat,
+                        by = "scientificName")
+
+nrow(meta.final.mrg2) == nrow(meta.final.mrg)
+# Must be TRUE
+```
+
+### Inside prey range
+Now let's designate whether they are inside of cat prey range based on @Wooster2024-gc:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+
+meta.final.mrg2[, prey_range_primary := ifelse(Mass_g_final >= 17 & 
+                                                Mass_g_final <= 2000, "inside", "outside")]
+meta.final.mrg2[, prey_range_secondary := ifelse(Mass_g_final >= 8 & 
+                                                  Mass_g_final <= 2000, "inside", "outside")]
+meta.final.mrg2[, prey_range_tertiary := ifelse(Mass_g_final >= 6 & 
+                                                 Mass_g_final <= 2650, "inside", "outside")]
+nrow(meta.final.mrg2)
+
+```
+### Continents versus islands
+Now we'll use the study latitude and longitude to determine if it occurred on a continent or island. Note that the only continental studies found come from Australia.
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+continents <- st_read("data/spatial/4a7d27e1-84a3-4d6a-b4c2-6b6919f3cf4b202034-1-2zg7ul.ht5ut.shp")
+# The largest of each is the continent and the rest are islands...
+
+# Split into single part polygons and identify the largest polygon of each continent:
+continents <- continents %>%
+  st_cast("POLYGON") %>%
+  mutate(area = st_area(.)) %>%
+  arrange(CONTINENT, -area) %>%
+  group_by(CONTINENT) %>%
+  mutate(continent_island = c("mainland", rep("island", (n()-1))))
+continents
+
+continents %>%
+  filter(continent_island == "mainland") %>%
+  mapview()
+
+continents %>%
+  filter(continent_island != "mainland") %>%
+  mapview()
+
+continents %>% filter(CONTINENT == "Oceania")
+continents <- continents %>%
+  mutate(continent_island = ifelse(CONTINENT == "Oceania", 
+                                   "island", 
+                                   continent_island))
+
+# A few other places aren't really islands...the UK for instance...
+continents <- continents %>%
+  mutate(poly_id = seq(1:n()))
+
+continents %>%
+  filter(continent_island != "mainland") %>%
+  mapview()
+
+continents <- continents %>%
+  mutate(continent_island = ifelse(poly_id %in% c(),
+                                   "mainland", continent_island))
+
+meta.final.mrg$Longitude
+meta.final.mrg[is.na(as.numeric(Longitude))]
+meta.final.mrg[is.na(as.numeric(Latitude))]
+
+meta.spat <- meta.final.mrg %>%
+  unique() %>%
+  select(Effect_size_ID, Longitude, Latitude) %>%
+  st_as_sf(coords = c("Longitude", "Latitude"),
+           crs = 4326)
+meta.spat
+
+meta.spat.jnd <- st_join(meta.spat,
+                         continents %>% select(continent_island))
+nrow(meta.spat.jnd) == nrow(meta.spat)
+
+meta.spat.jnd
+meta.spat.jnd %>%
+  filter(is.na(continent_island)) %>% 
+  mapview(zcol = "continent_island")
+# ALl of these NAs are on islands
+
+meta.spat.jnd <- meta.spat.jnd %>%
+  mutate(continent_island = ifelse(is.na(continent_island), "island", continent_island))
+
+meta.spat.jnd
+
+meta.spat.jnd %>%
+  filter(continent_island == "island") %>% 
+  mapview(zcol = "continent_island")
+
+meta.spat.jnd %>%
+  filter(continent_island == "mainland") %>% 
+  mapview(zcol = "continent_island")
+# Only australia
+
+meta.spat.jnd <- meta.spat.jnd %>%
+  as.data.frame() %>%
+  mutate(geometry = NULL) %>% 
+  setDT() %>%
+  unique()
+meta.spat.jnd
+
+meta.spat.jnd[duplicated(Effect_size_ID), ]
+
+nrow(meta.final.mrg)
+meta.final.mrg3 <- merge(meta.final.mrg2,
+                        meta.spat.jnd,
+                        by = "Effect_size_ID")
+
+nrow(meta.final.mrg3) == nrow(meta.final.mrg2)
+# Must be TRUE
+```
+
+### Final checks
+Now we'll do some final checks before proceding to analysis
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+
+meta.final.mrg3[, .(n_effects = uniqueN(analysis_effect_size)), by = .(analysis_group)]
+# All should be 1
+
+# >>> Check for duplicates by ID ------------------------------------------
+meta.final.mrg3[duplicated(paste(Effect_size_ID, analysis_group))]
+# Must be 0 rows
+
+# Save final meta-analysis dataset
+fwrite(meta.final.mrg3, "builds/meta_analysis/analysis_ready_dataset.csv")
+
+```

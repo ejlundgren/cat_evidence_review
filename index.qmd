@@ -49,7 +49,9 @@ bibliography: references.bib
 ---
 
 ## How to use
-This tutorial walks readers through the analyses associated with Wallach et al 2026. 'When consensus procedes the evidence.' In Submission.
+This tutorial walks readers through the analyses associated with:
+
+Wallach et al 2026. 'When consensus procedes the evidence.' In Submission.
 
 This tutorial assumes a basic understanding of R. Feel free to clone or download the [repo](www.github.com/ejlundgren/cat_evidence_review.git) to interact with the code and data directly or to simply follow along here.
 

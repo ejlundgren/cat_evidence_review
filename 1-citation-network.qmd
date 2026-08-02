@@ -41,6 +41,9 @@ execute:
 bibliography: references.bib
 ---
 
+In this page we will plot and analyze the citation network uncovered by following all claimant and non-claimant sources regarding the effects of cats on threatened wildlife. Claimant sources are reviews that claimed that cats were a driver of endangerment and are treated separately than non-claimants, which included a systematic search in Web of Science along with opportunistic records found and a published systematic review [@Wallach2025-ta]
+
+
 # Prepare environment & load data {#sec-prep}
 ```{r}
 #| eval: true
@@ -270,6 +273,9 @@ citation.p
 
 And let's summarize the percent cited with descriptive statistics:
 ```{r}
+#| eval: true
+#| echo: true
+
 out <- terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
                                     has_data == "yes", .(n = .N),
                                   by = .(cited, scientificName, cited_by_id, in_support)]
@@ -286,5 +292,224 @@ out[, .(mean = mean(perc_cited), sd=sd(perc_cited)),
 On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)
 
 # Summaries of evidence cited
+Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. 
 
+## Quantitative articles {#sec-quantitative-evidence-freq}
+We'll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources. 
+
+```{r}
+#| eval: true
+#| echo: true
+
+terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
+
+terminus_edges <- terminus_edges[cited_by_id != "Opportunistic_Systematic external review"]
+unique(terminus_edges$evidence_type_fine)
+
+unique(terminus_edges$evidence_type_synthetic)
+
+unique(terminus_edges[grepl("EXCLUDE", article_id)]$evidence_type_fine)
+
+terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id), 
+                                        "making claim", "no claim")]
+terminus_edges[grepl("Population", evidence_type_synthetic), evidence_simple := "Population"]
+terminus_edges[grepl("Predation", evidence_type_synthetic), evidence_simple := "Predation"]
+```
+
+What percent of terminuses aren't evidence?
+```{r}
+#| eval: true
+#| echo: true
+# >>> Calculate % that aren't evidence ------------------------------------
+sub_terminus <- terminus_edges[making_claim == "making claim"]
+sub_terminus[, evidence_simple := ifelse(is.na(evidence_simple), "excluded", "included")]
+
+x <- sub_terminus[, .(n = .N), by = evidence_simple]
+x[, total := sum(n)]
+x[, perc := n / total]
+x
+
+```
+
+Now, let's plot the number of citation chains by terminus article type:
+```{r}
+#| eval: true
+#| echo: true
+terminus_freq.simple <- terminus_edges[evidence_simple %in% c("Population", "Predation"), 
+                                       .(n = .N),
+            by = .(evidence_type_synthetic, evidence_simple, making_claim,
+                  has_data, of_quality, in_support)]
+
+unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_synthetic)
+
+terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
+                                               levels = c("Predation", "Population"))
+
+unique(terminus_freq.simple$evidence_type_synthetic)
+
+unique(terminus_freq.simple$of_quality)
+
+terminus_freq.simple$evidence_type_synthetic <-   factor(terminus_freq.simple$evidence_type_synthetic,
+   levels = (c( 
+              "Predation in support without data", 
+              "Predation not in support without data", 
+              "Population not in support with data of quality",
+              "Population not in support with data",
+              "Population not in support without data",
+              "Population in support with data of quality",
+              "Population in support with data", 
+              "Population in support without data"
+              )))
+
+unique(terminus_freq.simple$evidence_type_synthetic)
+
+fill_pal <- c(`Predation in support without data` = "#a6d3a0", 
+              `Predation not in support without data` = "#40531b", 
+              `Population not in support without data` = "indianred4", 
+              `Population not in support with data` = "indianred", 
+              `Population not in support with data of quality` = "indianred", 
+              `Population in support without data` = "dodgerblue4", 
+              `Population in support with data` = "dodgerblue",
+              `Population in support with data of quality` = "dodgerblue")
+setdiff(terminus_freq.simple$evidence_type_synthetic, names(fill_pal))
+
+terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
+
+col_pal <- c(`Predation in support without data` = "transparent", 
+             `Predation not in support without data` = "transparent", 
+             `Population not in support without data` = "transparent", 
+             `Population not in support with data` = "transparent", 
+             `Population not in support with data of quality` = "gold", 
+             `Population in support without data` = "transparent", 
+             `Population in support with data` = "transparent",
+             `Population in support with data of quality` = "gold")
+
+
+#' position_dodge leads to strange incorrect plotting, which I can't debug. So manually dodging in Inkscape
+cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making claim"], 
+       aes(y = evidence_simple, fill = evidence_type_synthetic, 
+           color = evidence_type_synthetic, x = n, #group = in_support
+       ))+
+  geom_col(lwd = 1#, 
+           #position = position_dodge()
+           ) +
+  scale_y_discrete(breaks = c("Population", "Predation", "Excluded"),
+                   labels = c("Population", "Predation", "No primary data found"))+
+  scale_color_manual(name = "Of quality",
+                     values = col_pal)+
+  scale_fill_manual(name = "Evidence type",
+                    values = fill_pal,
+                    labels = labs)+
+  xlab("Terminus of citation chains\n(total number of citations)")+
+  guides(stroke = "none",
+         color = "none",
+         fill = "none")+
+  ylab(NULL)+
+  coord_cartesian(xlim = c(0, 527))+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
+        strip.background = element_blank(),
+        strip.placement = "outside",
+        legend.position = "bottom")
+cites.p.included
+
+```
+<img src="figures/main_text/network_legend_2.png" width="200">
+
+The majority of evidence are predation records.
+
+## Excluded articles {#sec-excluded-articles}
+
+Now let's look at all the other terminus article types and why they do not constitute evidence. We'll reload the same dataset we used [above](#sec-quantitative-evidence-freq) and we'll do some lumping and splitting of the categories used to classify the article types.
+
+```{r}
+#| eval: true
+#| echo: true
+terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
+head(terminus_edges)
+
+terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id), 
+                                        "making claim", "no claim")]
+excluded <- terminus_edges[grepl("EXCLUDE", article_id)]
+
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation", .(n = .N),
+         by = Peer_reviewed_source]
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           Peer_reviewed_source %in% c("Peer-reviewed journal article",
+                                       "Journal pre-1975") ,
+         evidence_type_fine := "Inaccessible journal article"]
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           Peer_reviewed_source %in% c("Book or chapter") ,
+         evidence_type_fine := "Inaccessible book"]
+
+excluded[evidence_type_fine == "Failure to access or locate online full citation" &
+           !Peer_reviewed_source %in% c("Peer-reviewed journal article",
+                                       "Journal pre-1975") ,
+         evidence_type_fine := "Inaccessible grey literature"]
+
+excluded[evidence_type_fine == "Modelling without data", 
+         evidence_type_fine := "Modelling without data"]
+
+#
+excluded_freq <- excluded[, .(n = .N), by = .(evidence_type_fine, making_claim)]
+
+excluded_freq[evidence_type_fine == "Opinion claim", evidence_type_fine := "No citation given"]
+lvls <- c( "No citation given", 
+           "No claim",
+           "Expert opinion",
+           "Inaccessible grey literature",
+           "Inaccessible book",
+           "Unpublished data or article",
+           "Personal communication",
+           "Inaccessible journal article",
+           "Missing reference",
+           "Does not test claim", 
+           "Not in English or Spanish", 
+           "Modelling without data")
+
+#
+excluded_freq$evidence_type_fine <- factor(excluded_freq$evidence_type_fine,
+                                                       levels = rev(lvls))
+
+pal <- c(`Modelling without data` = "grey", `Not in English or Spanish` = "grey", 
+         `Does not test claim` = "grey", `Missing reference` = "grey", 
+         `Personal communication` = "grey", 
+         `Unpublished data or article` = "grey", `Inaccessible book` = "grey", 
+         `Expert opinion` = "grey", `Modelling without data` = "grey",
+         `No claim` = "grey", `Inaccessible journal article` = "grey", 
+         `Inaccessible grey literature` = "grey", `No citation given` = "black"
+)
+
+cites.p.excluded <- ggplot(data = excluded_freq[making_claim == "making claim", ], 
+                  aes(y = evidence_type_fine, x = n, fill = evidence_type_fine))+
+  geom_col(lwd = 1) +
+  scale_fill_manual(values = pal)+
+  xlab("Terminus of citation chains\n(total number of citations)")+
+  ylab(NULL)+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        strip.background = element_blank(),
+        panel.border = element_blank(),
+        legend.position = "none")
+cites.p.excluded
+
+
+```
+The majority of claimant citations ended with claims without citations give. Or ended with articles that made no claim about the hypothesis. Following this, expert opinion and inaccessible grey literature dominate the citation chain terminuses.
+
+To put these numbers in perspective, we'll now patchwork the two plots:
+
+```{r}
+#| eval: true
+#| echo: true
+cites.p.included + xlab(NULL) +
+  cites.p.excluded +
+  plot_layout(heights = c(.25, .75),
+              nrow = 2)
+```
+<img src="figures/main_text/network_legend_2.png" width="200">
 

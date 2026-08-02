@@ -1,0 +1,217 @@
+---
+title: "Appendix: effect size conversion formulas"
+format: 
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 6
+    toc-float: true
+    toc-expand: true
+    toc-title: "**CONTENTS**"
+    output-file: "3-meta-analysis.qmd"
+    # embed-resources: true
+    # code-fold: true
+    code-link: true
+    code-tools: true
+    # number-sections: false
+    # bibliography: ./bib/ref.bib
+    fontsize: "10"
+    mainfont: "Helvetica"
+    monofont: "Fira Code"
+    # fontcolor: ""
+    page-layout: article
+    code-overflow: wrap
+    df_print: paged
+    theme: cosmo
+    code-line-numbers: false
+    grid:
+      margin-width: 250px
+crossref:
+  fig-title: Figure     # (default is "Figure")
+  tbl-title: Table     # (default is "Table")
+  title-delim: "—"     # (default is ":")
+  fig-prefix: Fig.     # (default is "Figure")
+  tbl-prefix: Table.   # (default is "Table")
+editor_options: 
+  chunk_output_type: console
+execute:
+  warning: false
+  message: false
+  tidy: true
+bibliography: references.bib
+---
+```{r}
+#| eval: true
+#| echo: false
+#| output: false
+
+# Clean environment:
+rm(list = ls())
+
+# Load packages
+library("data.table")
+library("metafor")
+library("ggplot2")
+library("ggstance")
+library("orchaRd")
+library("patchwork")
+library("readxl")
+library("stringr")
+library("sf")
+library("mapview")
+library("dplyr")
+library("rotl")
+library("broom.mixed")
+library("here")
+```
+
+These effect size formulas are digitized in the function `convert_effect_sizes` which has them scripted into R code. The formulas are in a side car csv file in the repo located at 'scripts/functions/conversion_formulas.csv'
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+
+source("scripts/functions/convert_effect_sizes.R")
+
+formulas <- fread("scripts/functions/conversion_formulas.csv")
+
+```
+
+We'll show the formulas below and demonstrate the use of the function. Note in all cases we will demonstrate with Cohen's d (an uncorrected estimator of SMD). The function automatically converts Cohen's d to Hedges' g, which is the effect size estimator used in our analyses and returned by default from `escalc`.
+
+# SMD ↔ lnOR 
+
+## SMD → lnOR {#sec-smd-lnOR}
+
+Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances:
+
+$$
+\begin{aligned}
+&yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} \\
+&vi_{lnOR} = vi_{d} * \frac{\pi^2}{3} \\
+\end{aligned}
+$$
+
+In R:
+
+```{r}
+#| eval: true
+#| echo: true
+#| out-width: "70%"
+convert_effect_sizes(from = "SMD",
+                     to = "lnOR",
+                     yi = 0.9,
+                     vi = 0.01,
+                     n1 = 15,
+                     n2 = 15)
+
+```
+
+
+## lnOR → SMD {#sec-lnOR-smd}
+To convert from lnOR ($yi_{lnOR}$) to Cohen's $d$:
+
+$$
+\begin{aligned}
+&yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} \\
+&vi_d = vi_{lnOR} * \frac{3}{\pi^2} \\
+\end{aligned}
+$$
+
+In R:
+```{r}
+#| eval: true
+#| echo: true
+#| out-width: "70%"
+convert_effect_sizes(from = "lnOR",
+                     to = "SMD",
+                     yi = 0.9,
+                     vi = 0.01,
+                     n1 = 15,
+                     n2 = 15)
+```
+
+# SMD ↔ Zr
+## SMD → Zr {#sec-smd-zr}
+
+To convert from SMD to Zr, we first convert $d$ to the correlation coefficient $r$ and then to Zr, using a correction factor $a$ for cases where $n_1 \neq n_2$. Let $yi_{Zr}$ and $yi_d$ be the point estimate for Zr and Cohen's d:
+
+$$
+\begin{aligned}
+&a = \frac{(n_1 + n_2)^2}{n_1*n_2} \\
+&r = \frac{yi_d}{\sqrt{yi_d^2 + a}} \\
+&r \leftarrow \min(1, \max(-1, r_i))\\
+&yi_{Zr} = atanh(r)\\
+\end{aligned}
+$$
+
+And the sampling variance of Zr ($vi_{Zr}$):
+$$
+\begin{aligned}
+&n = n1 + n2 \\
+&vi_{Zr} = \frac{1}{(n - 3)} \\
+\end{aligned}
+$$
+
+In R:
+```{r}
+#| eval: true
+#| echo: true
+#| out-width: "70%"
+convert_effect_sizes(from = "SMD",
+                     to = "Zr",
+                     yi = 0.9,
+                     vi = 0.01,
+                     n1 = 15,
+                     n2 = 15)
+```
+
+
+## Zr → SMD {#sec-zr-smd}
+First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$:
+$$
+\begin{aligned}
+&r = tanh(yi_{Zr}) \\
+&vi_r = \frac{(1-r^2)^2}{(n-1)}
+\end{aligned}
+$$
+
+Then calculate the point estimate ($yi_d$) and variance ($vi_d$) of Cohen's d:
+
+$$
+\begin{aligned}
+&yi_d = \frac{2*r}{\sqrt{1-r^2}} \\
+&vi_d = \frac{4*vi_r}{(1-r^2)^3} \\
+\end{aligned}
+$$
+
+In R:
+```{r}
+#| eval: true
+#| echo: true
+#| out-width: "70%"
+convert_effect_sizes(from = "Zr",
+                     to = "SMD",
+                     yi = 0.9,
+                     vi = 0.01,
+                     n = 50)
+
+```
+
+Note you can also calculate this directly from $r$ if preferred:
+
+```{r}
+#| eval: true
+#| echo: true
+#| out-width: "70%"
+convert_effect_sizes(from = "r",
+                     to = "SMD",
+                     r = 0.5,
+                     vi = 0.1,
+                     n = 50)
+
+```
+
+
+
