@@ -42,7 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-Let's see you where the evidence collected about cats comes from. The code block is below but we've hidden it by default to simplify readability. Click the `Code` button if you want to take a look.  
+Let's see you where the evidence about the effects of cats on threatened species comes from. The code block is below but we've hidden it by default to simplify readability. Click the `Code` button if you want to take a look.  
 
 ```{r}
 #| eval: true
@@ -119,23 +119,30 @@ sys_rev[, synth_fill := fcase(grepl("Population", evidence_type) & has_data == "
 
 sys_rev[is.na(synth_fill), synth_fill := evidence_type]
 sys_rev[of_quality == "yes",]
-sys_rev[of_quality == "yes", synth_fill := paste(synth_fill, "with qualities")]
+# sys_rev[of_quality == "yes", synth_fill := paste(synth_fill, "with qualities")]
 
 unique(sys_rev$synth_fill)
 
-sys_rev[, synth_fill := fcase(synth_fill == "Population study not in support with qualities", "Population study with qualities not in support",
-                              synth_fill == "Population study in support with qualities", "Population study with qualities in support",
-                              default = synth_fill)]
+# sys_rev[, synth_fill := fcase(synth_fill == "Population study not in support with qualities", "Population study with qualities not in support",
+#                               synth_fill == "Population study in support with qualities", "Population study with qualities in support",
+#                               default = synth_fill)]
+# # 
+# fill_pal <- c(`Predation in support` = "#a6d3a0", 
+#               `Predation not in support` = "#40531b", 
+#               `Population description not in support` = "indianred4", 
+#               `Population description in support` = "dodgerblue4", 
+#               `Population study not in support` = "indianred", 
+#               `Population study with qualities not in support` = "indianred", 
+#               `Population study in support` = "dodgerblue",
+#               `Population study with qualities in support` = "dodgerblue"
+# )
 
-
-fill_pal <- c(`Predation in support` = "#a6d3a0", 
-              `Predation not in support` = "#40531b", 
-              `Population description not in support` = "indianred4", 
-              `Population study not in support` = "indianred", 
-              `Population study with qualities not in support` = "indianred", 
-              `Population description in support` = "dodgerblue4", 
-              `Population study in support` = "dodgerblue",
-              `Population study with qualities in support` = "dodgerblue"
+fill_pal <- c(`Predation in support` = "#a6d3a0",
+              `Predation not in support` = "#40531b",
+              `Population description not in support` = "indianred4",
+              `Population description in support` = "dodgerblue4",
+              `Population study not in support` = "indianred",
+              `Population study in support` = "dodgerblue"
 )
 
 setdiff(names(fill_pal), unique(sys_rev$synth_fill))
@@ -145,6 +152,10 @@ unique(sys_rev[is.na(in_meta)]$synth_fill)
 sys_rev[is.na(in_meta), in_meta := "no"]
 sys_rev$in_meta <- factor(sys_rev$in_meta,
                           levels = c('no', 'yes'))
+
+
+sys_rev$synth_fill <- factor(sys_rev$synth_fill,
+                             levels = names(fill_pal))
 
 sys_rev[, in_meta_num := as.numeric(in_meta)]
 sys_rev[, in_meta_num := fcase(in_meta_num == 1, 2,
@@ -162,17 +173,6 @@ sys_rev.spat$synth_fill <- factor(sys_rev.spat$synth_fill,
 
 sys_rev.spat <- sys_rev.spat %>%
   mutate(of_quality_color = ifelse(of_quality == "yes", "gold", "black")) 
-
-
-```
-
-Otherwise, here are interactive maps of all locations where quantitative evidence was found. 
-
-```{r}
-#| eval: true
-#| echo: true
-#| output: true
-#| code-fold: true
 
 m <- sys_rev.spat %>% 
   select(scientificName, class, Article_simple, 
@@ -256,7 +256,7 @@ m <- sub_dat %>%
 
 ```
 
-Here is where all evidence concerning **mammal prey** came from:
+Here is where the evidence concerning **mammal prey** came from:
 ```{r}
 #| eval: true
 #| echo: false
