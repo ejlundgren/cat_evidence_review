@@ -151,7 +151,7 @@ sys_rev.spat$synth_fill <- factor(sys_rev.spat$synth_fill,
                                   levels = names(fill_pal))
 
 sys_rev.spat <- sys_rev.spat %>%
-  mutate(of_quality_color = ifelse(of_quality == "yes", "gold", "black"))
+  mutate(of_quality_color = ifelse(of_quality == "yes", "gold", "black")) 
 
 
 ```
@@ -180,7 +180,7 @@ m <- sys_rev.spat %>%
         col.regions = (fill_pal),
         color = sys_rev.spat$of_quality_color,
         cex = "point size",
-        layer.name = "Evidence type")
+        layer.name = "Evidence type") 
 
 ```
 

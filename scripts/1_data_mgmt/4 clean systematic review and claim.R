@@ -304,6 +304,9 @@ dat.m2[class == "Amphibians"]
 setdiff(dat.m2$scientificName, dat$scientificName)
 setdiff(dat$scientificName, dat.m2$scientificName)
 
+# >>> Fix messed up lat/longs --------------------------------------------
+"Sauromalus klauberi"
+dat.m2[scientificName == "Sauromalus klauberi", Study_long := paste0("-", Study_long)]
 
 # >>> Filter and save ---------------------------------------------------------
 
