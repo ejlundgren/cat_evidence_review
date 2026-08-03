@@ -35,9 +35,8 @@ website:
         text: Where does the evidence come from?
       - href: 5-timeline-analysis.qmd
         text: Timeline analysis
-      - href: https://github.com/ejlundgren/cat_evidence_review
-        icon: github
-        aria-label: GitHub
+      - icon: github
+        href: https://github.com/ejlundgren/cat_evidence_review
       - text: "<br>"
       - text: "<b>Funded by</b>"
       - text: "![](icons/ARC.png)"
