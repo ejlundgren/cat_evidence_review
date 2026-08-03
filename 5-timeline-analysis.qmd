@@ -68,6 +68,7 @@ library("ggplot2")
 library("dplyr")
 library("plotly")
 library("writexl")
+library("leafpop")
 
 theme_lundy <- theme_bw()+
   theme(panel.border = element_blank(),
@@ -328,8 +329,6 @@ Now let's look at all individual species:
 #| eval: true
 #| echo: true
 #| output: true
-#| fig-width: 12
-#| fig-height: 8
 
 #Forest plot - species extinction and cat arrival times
 plot_dt <- copy(full_data[`Redlist category`== "Extinct" | `Redlist category` == "Extinct in the Wild", ])
@@ -362,56 +361,153 @@ class_labels <- plot_dt[, .(
 #To fix it add in the plot a tiny segment for these cases.
 issue <- plot_dt[`Scientific name` %in% c("Todiramphus cinnamominus", "Cryptoblepharus egeriae", "Lepidodactylus listeri"), ]
 
+# Let's break this up by class:
+```
+
+First, mammals:
+```{r}
+#| eval: true
+#| echo: false
+#| output: true
+#| fig-width: 5
+#| fig-height: 8
+
+plot_dt[min_difference == max_difference,
+        `:=` (min_difference = min_difference - 1,
+              max_difference = max_difference + 1)]
+
+sub_plot <- plot_dt[Class == "Mammals", ]
+sub_plot[, x_id := x_id - min(x_id)+1]
+
 ggplot() +
+  geom_vline(xintercept = 0)+
   # stripes
   geom_rect(
-    data = plot_dt[, .(
+    data = unique(sub_plot[, .(
       xmin = x_id - 0.5,
       xmax = x_id + 0.5,
-      stripe = x_id %% 2)],
-    aes(xmin = xmin, xmax = xmax,
-        ymin = -Inf, ymax = Inf,
+      stripe = x_id %% 2)]),
+    aes(ymin = xmin, ymax = xmax,
+        xmin = -Inf, xmax = Inf,
         fill = factor(stripe)),
-    alpha = 0.4) +
+    alpha = 0.6) +
   scale_fill_manual(values = c("white", "grey90"), guide = "none") +
-  # class separators
-  geom_vline(
-    data = class_bounds,
-    aes(xintercept = xmax),
-    linetype = "dashed",
-    colour = "grey30") +
-  # uncertainty bars
   geom_segment(
-    data = plot_dt,
-    aes(x = sci_label,
-        xend = sci_label,
-        y = min_difference,
-        yend = max_difference),
+    data = sub_plot,
+    aes(y = sci_label,
+        yend = sci_label,
+        color = cat_arrival,
+        x = min_difference,
+        xend = max_difference),
     linewidth = 1) +
-  geom_hline(yintercept = 0) +
-  geom_text(
-    data = class_labels,
-    aes(x = x, y = max(plot_dt$max_difference, na.rm = TRUE) + 40,
-        label = Class),
-    fontface = "bold",
-    size = 8)+
-  geom_segment(
-    data = plot_dt[min_difference == max_difference],
-    aes(x = sci_label, xend = sci_label,
-        y = min_difference - 1, yend = max_difference + 1),
-    linewidth = 1) +
+  scale_color_manual(values = plot_col)+
   labs(
-    y = "Years between cat arrival and last record",
-    x = NULL) +
+    x = "Years between cat arrival and last record",
+    y = NULL) +
+  ggtitle("Mammals")+
   theme_lundy +
   theme(
     legend.position = "none",
-    axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.3, face = "italic"),
-    axis.text = element_text(size=12),
+    axis.text.y = element_text(face = "italic"),
+    title = element_text(hjust = 0.5),
     axis.title.y = element_text(size = 16))
 
+```
+
+
+Now birds:
+```{r}
+#| eval: true
+#| echo: false
+#| output: true
+#| fig-width: 5
+#| fig-height: 9
+
+sub_plot <- plot_dt[Class == "Birds", ]
+sub_plot[, x_id := x_id - min(x_id)+1]
+
+ggplot() +
+  geom_vline(xintercept = 0)+
+  # stripes
+  geom_rect(
+    data = unique(sub_plot[, .(
+      xmin = x_id - 0.5,
+      xmax = x_id + 0.5,
+      stripe = x_id %% 2)]),
+    aes(ymin = xmin, ymax = xmax,
+        xmin = -Inf, xmax = Inf,
+        fill = factor(stripe)),
+    alpha = 0.6) +
+  scale_fill_manual(values = c("white", "grey90"), guide = "none") +
+  geom_segment(
+    data = sub_plot,
+    aes(y = sci_label,
+        yend = sci_label,
+        color = cat_arrival,
+        x = min_difference,
+        xend = max_difference),
+    linewidth = 1) +
+  scale_color_manual(values = plot_col)+
+  labs(
+    x = "Years between cat arrival and last record",
+    y = NULL) +
+  ggtitle("Birds")+
+  theme_lundy +
+  theme(
+    legend.position = "none",
+    axis.text.y = element_text(face = "italic"),
+    title = element_text(hjust = 0.5),
+    axis.title.y = element_text(size = 16))
 
 ```
+
+
+Now reptiles:
+```{r}
+#| eval: true
+#| echo: false
+#| output: true
+#| fig-width: 5
+#| fig-height: 6
+
+sub_plot <- plot_dt[Class == "Reptiles", ]
+sub_plot[, x_id := x_id - min(x_id)+1]
+
+ggplot() +
+  geom_vline(xintercept = 0)+
+  # stripes
+  geom_rect(
+    data = unique(sub_plot[, .(
+      xmin = x_id - 0.5,
+      xmax = x_id + 0.5,
+      stripe = x_id %% 2)]),
+    aes(ymin = xmin, ymax = xmax,
+        xmin = -Inf, xmax = Inf,
+        fill = factor(stripe)),
+    alpha = 0.6) +
+  scale_fill_manual(values = c("white", "grey90"), guide = "none") +
+  geom_segment(
+    data = sub_plot,
+    aes(y = sci_label,
+        yend = sci_label,
+        color = cat_arrival,
+        x = min_difference,
+        xend = max_difference),
+    linewidth = 1) +
+  scale_color_manual(values = plot_col)+
+  labs(
+    x = "Years between cat arrival and last record",
+    y = NULL) +
+  ggtitle("Reptiles")+
+  theme_lundy +
+  theme(
+    legend.position = "none",
+    axis.text.y = element_text(face = "italic"),
+    title = element_text(hjust = 0.5),
+    axis.title.y = element_text(size = 16))
+
+```
+
 
 Now let's explore the spatial dimensions of this with more granularity by at this on an interactive map:
 
@@ -424,13 +520,31 @@ cat_ex_map <- st_as_sf(ex_records, coords = c("Longitude", "Latitude"), crs= 432
 cat_ex_map$cat_arrival <- factor(cat_ex_map$cat_arrival, levels = arrival_levels)
 
 cat_ex_map %>%
-  select(Class, Order, `Scientific name`, Extinction_extirpation, `Redlist category`,
-         Prey_extirpation_year_earliest, Prey_extirpation_year_latest,
-         Cat_arrival_year_earliest, Cat_arrival_year_latest, cat_arrival,
+ mutate(`Prey extirpation year range` = paste(Prey_extirpation_year_earliest, 
+                                               "-", Prey_extirpation_year_latest),
+         `Cat arrival year range` = paste(Cat_arrival_year_earliest, 
+                                               "-", Cat_arrival_year_latest)) %>%
+  select(Class, Order, `Scientific name`, 
+         Extinction_extirpation, `Redlist category`, cat_arrival,
+         `Prey extirpation year range`,
+         `Cat arrival year range`, 
          Prey_quote) %>%
-  mapview(zcol = "cat_arrival",
+  rename("Extinction or extirpation" = "Extinction_extirpation",
+          "Extinction relative to arrival" = "cat_arrival",
+         "Prey quote" = Prey_quote) %>%
+  mapview(zcol = "Extinction relative to arrival",
         col.regions = rev(plot_col),
-        layer.name = "Extinction relative to arrival")
+        layer.name = "Extinction relative to arrival",
+        popup = popupTable(., zcol = c("Class",
+                                     "Order",
+                                     "Scientific name",
+                                     "Redlist category",
+                                     "Extinction relative to arrival",
+                                     "Extinction or extirpation",
+                                     "Prey extirpation year range",
+                                     "Cat arrival year range",
+                                     "Prey quote"),
+                           feature.id = FALSE))
 
 ```
 

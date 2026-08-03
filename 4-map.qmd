@@ -58,6 +58,7 @@ library("mapview")
 library("ggplot2")
 library("stringr")
 library("dplyr")
+library("leafpop")
 
 # Load the datasets this needs:
 sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
@@ -113,22 +114,31 @@ sys_rev
 unique(sys_rev$Evidence_category)
 sys_rev[Evidence_category == "Control program", Evidence_category := "Population"]
 #
-sys_rev
-sys_rev[, synth_fill := fcase(grepl("Population", evidence_type) & has_data == "yes", paste(evidence_type, "with data"),
-                                grepl("Population", evidence_type) & has_data == "no", paste(evidence_type, "without data"))]
+sys_rev[, synth_fill := fcase(grepl("Population", evidence_type) & has_data == "yes", gsub("Population", "Population study", evidence_type),
+                                grepl("Population", evidence_type) & has_data == "no", gsub("Population", "Population description", evidence_type))]
 
 sys_rev[is.na(synth_fill), synth_fill := evidence_type]
 sys_rev[of_quality == "yes",]
-sys_rev[of_quality == "yes", synth_fill := paste(synth_fill, "and qualities")]
+sys_rev[of_quality == "yes", synth_fill := paste(synth_fill, "with qualities")]
 
 unique(sys_rev$synth_fill)
 
-fill_pal <- c(`Predation in support` = "#a6d3a0", `Predation not in support` = "#40531b", 
-              `Population not in support without data` = "indianred4", `Population not in support with data` = "indianred", 
-              `Population not in support with data and qualities` = "indianred", 
-              `Population in support without data` = "dodgerblue4", `Population in support with data` = "dodgerblue",
-              `Population in support with data and qualities` = "dodgerblue"
+sys_rev[, synth_fill := fcase(synth_fill == "Population study not in support with qualities", "Population study with qualities not in support",
+                              synth_fill == "Population study in support with qualities", "Population study with qualities in support",
+                              default = synth_fill)]
+
+
+fill_pal <- c(`Predation in support` = "#a6d3a0", 
+              `Predation not in support` = "#40531b", 
+              `Population description not in support` = "indianred4", 
+              `Population study not in support` = "indianred", 
+              `Population study with qualities not in support` = "indianred", 
+              `Population description in support` = "dodgerblue4", 
+              `Population study in support` = "dodgerblue",
+              `Population study with qualities in support` = "dodgerblue"
 )
+
+setdiff(names(fill_pal), unique(sys_rev$synth_fill))
 
 unique(sys_rev$in_meta)
 unique(sys_rev[is.na(in_meta)]$synth_fill)
@@ -180,7 +190,14 @@ m <- sys_rev.spat %>%
         col.regions = (fill_pal),
         color = sys_rev.spat$of_quality_color,
         cex = "point size",
-        layer.name = "Evidence type") 
+        layer.name = "Evidence type",
+        popup = popupTable(., zcol = c("Species",
+                                     "Location",
+                                     "Article",
+                                     "Evidence type",
+                                     "In meta-analysis",
+                                      "Has qualities"),
+                           feature.id = FALSE)) 
 
 ```
 
@@ -228,7 +245,14 @@ m <- sub_dat %>%
         color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
-        layer.name = "Evidence type")
+        layer.name = "Evidence type",
+        popup = popupTable(., zcol = c("Species",
+                                     "Location",
+                                     "Article",
+                                     "Evidence type",
+                                     "In meta-analysis",
+                                      "Has qualities"),
+                           feature.id = FALSE)) 
 
 ```
 
@@ -271,7 +295,15 @@ m <- sub_dat %>%
         color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
-        layer.name = "Evidence type")
+        layer.name = "Evidence type",
+        popup = popupTable(., zcol = c("Species",
+                                     "Location",
+                                     "Article",
+                                     "Evidence type",
+                                     "In meta-analysis",
+                                      "Has qualities"),
+                           feature.id = FALSE)) 
+
 
 ```
 
@@ -314,7 +346,15 @@ m <- sub_dat %>%
         color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
-        layer.name = "Evidence type")
+        layer.name = "Evidence type",
+        popup = popupTable(., zcol = c("Species",
+                                     "Location",
+                                     "Article",
+                                     "Evidence type",
+                                     "In meta-analysis",
+                                      "Has qualities"),
+                           feature.id = FALSE)) 
+
 
 ```
 
@@ -355,7 +395,15 @@ m <- sub_dat %>%
         color = sub_dat$of_quality_color,
         col.regions = (fill_pal),
         cex = "point size",
-        layer.name = "Evidence type")
+        layer.name = "Evidence type",
+        popup = popupTable(., zcol = c("Species",
+                                     "Location",
+                                     "Article",
+                                     "Evidence type",
+                                     "In meta-analysis",
+                                      "Has qualities"),
+                           feature.id = FALSE)) 
+
 
 ```
 And, last but not least, **Amphibians:**
