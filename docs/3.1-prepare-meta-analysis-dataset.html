@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2026-08-03">
+<meta name="dcterms.date" content="2026-08-04">
 <title>Prepare meta-analysis dataset – When consensus procedes the evidence</title>
 <style>
 /* Default styles provided by pandoc.
@@ -288,7 +288,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 3, 2026</p>
+      <p class="date">August 4, 2026</p>
     </div>
   </div>
   
@@ -489,7 +489,7 @@ div.csl-indent {
 <span><span class="va">cor.smd.wide</span></span>
 <span><span class="va">cor.smd.out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://wviechtb.github.io/metafor/reference/escalc.html">escalc</a></span><span class="op">(</span>measure <span class="op">=</span> <span class="st">"SMD"</span>, </span>
 <span>                 m1i <span class="op">=</span> <span class="va">mean_prey_1</span>, m2i <span class="op">=</span> <span class="va">mean_prey_0</span>,</span>
-<span>                 sd1i <span class="op">=</span> <span class="va">sd_prey_1</span>, sd2i <span class="op">=</span> <span class="va">sd_prey_1</span>,</span>
+<span>                 sd1i <span class="op">=</span> <span class="va">sd_prey_1</span>, sd2i <span class="op">=</span> <span class="va">sd_prey_0</span>,</span>
 <span>                 n1i <span class="op">=</span> <span class="va">n1</span>, n2i <span class="op">=</span> <span class="va">n2</span>,</span>
 <span>                 data <span class="op">=</span> <span class="va">cor.smd.wide</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -1735,7 +1735,7 @@ Wooster, Eamonn I F, Owen S Middleton, Arian D Wallach, et al. 2024. <span>“Au
 <span id="cb36-241"><a href="#cb36-241" aria-hidden="true" tabindex="-1"></a>cor.smd.wide</span>
 <span id="cb36-242"><a href="#cb36-242" aria-hidden="true" tabindex="-1"></a>cor.smd.out <span class="ot">&lt;-</span> <span class="fu">escalc</span>(<span class="at">measure =</span> <span class="st">"SMD"</span>, </span>
 <span id="cb36-243"><a href="#cb36-243" aria-hidden="true" tabindex="-1"></a>                 <span class="at">m1i =</span> mean_prey_1, <span class="at">m2i =</span> mean_prey_0,</span>
-<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd1i =</span> sd_prey_1, <span class="at">sd2i =</span> sd_prey_1,</span>
+<span id="cb36-244"><a href="#cb36-244" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd1i =</span> sd_prey_1, <span class="at">sd2i =</span> sd_prey_0,</span>
 <span id="cb36-245"><a href="#cb36-245" aria-hidden="true" tabindex="-1"></a>                 <span class="at">n1i =</span> n1, <span class="at">n2i =</span> n2,</span>
 <span id="cb36-246"><a href="#cb36-246" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> cor.smd.wide) <span class="sc">|&gt;</span> </span>
 <span id="cb36-247"><a href="#cb36-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setDT</span>()</span>

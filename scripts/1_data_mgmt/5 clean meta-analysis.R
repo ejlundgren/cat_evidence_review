@@ -148,6 +148,10 @@ cor.sum$unit_of_replication
 
 # > Convert groups that can actually be SMD --------------------------------------------
 unique(cor.smd$analysis_group)
+unique(cor.smd$Effect_size_ID)
+unique(cor.smd$unit_of_replication)
+
+cor.smd
 ns
 #' [Short-term abundance gets converted to Zr using point-biserial]
 #' [Short-term reproduction gets converted to SMD directly ]
@@ -193,7 +197,7 @@ setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
 cor.smd.wide
 cor.smd.out <- escalc(measure = "SMD", 
                  m1i = mean_prey_1, m2i = mean_prey_0,
-                 sd1i = sd_prey_1, sd2i = sd_prey_1, # Shinichi sd2i = sd_prey_0????
+                 sd1i = sd_prey_1, sd2i = sd_prey_0, 
                  n1i = n1, n2i = n2,
                  data = cor.smd.wide) |> 
   setDT()

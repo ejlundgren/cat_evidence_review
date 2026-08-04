@@ -79,22 +79,30 @@ formulas <- fread("scripts/functions/conversion_formulas.csv")
 
 ```
 
-We'll show the formulas below and demonstrate the use of the function. Note in all cases we will demonstrate with Cohen's d (an uncorrected estimator of SMD). The function automatically converts Cohen's d to Hedges' g, which is the effect size estimator used in our analyses and returned by default from `escalc`.
+We'll show the formulas below and demonstrate the use of the function. Note in all cases we first need to convert to and from Hedges' g and Cohen's d (the uncorrected estimator of SMD). Hedges' g is the effect size estimator used in our analyses and is returned by default from `escalc`. This conversion looks like this:
+
+$$
+\begin{aligned}
+&J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1} \\
+&yi_d = yi_g * J \\
+\end{aligned}
+$${#eq-1}
 
 # SMD ↔ lnOR 
 
 ## SMD → lnOR {#sec-smd-lnOR}
 
-Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances:
+Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances. The resulting estimate of Cohen's d was then converted using @eq-1 to Hedges' g. Note that the estimator of sampling variance for SMD follows `escalc` and uses the sampling variance of Cohen's d instead of Hedges' g, thus no further conversion is necessary.
+
 
 $$
 \begin{aligned}
 &yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} \\
-&vi_{lnOR} = vi_{d} * \frac{\pi^2}{3} \\
+&vi_{lnOR} = vi_d * \frac{\pi^2}{3} \\
 \end{aligned}
-$$
+$${#eq-2}
 
-In R:
+In `R`:
 
 ```{r}
 #| eval: true
@@ -110,6 +118,27 @@ convert_effect_sizes(from = "SMD",
 ```
 
 
+Now let's look at the transcribed formula for the point estimate conversion. `yi` and `vi` refer to the original effect size and sampling variance estimates (in this case of lnOR) and `yi_trans` and `vi_trans` refer to the converted estimates (in this case of SMD), `n1` and `n2` = $n_{1, 2}$, and `d` = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:
+
+```{r}
+#| echo: false
+#| eval: true
+
+sub_f <- formulas[from_effect == "SMD" & to_effect == "lnOR"]$formula
+sub_f <- strsplit(sub_f, split = "; ")
+
+print(sub_f[[1]])
+```
+
+And for sampling variance:
+
+```{r}
+#| echo: false
+#| eval: true
+
+print(sub_f[[2]])
+```
+
 ## lnOR → SMD {#sec-lnOR-smd}
 To convert from lnOR ($yi_{lnOR}$) to Cohen's $d$:
 
@@ -118,9 +147,9 @@ $$
 &yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} \\
 &vi_d = vi_{lnOR} * \frac{3}{\pi^2} \\
 \end{aligned}
-$$
+$${#eq-3}
 
-In R:
+In `R`:
 ```{r}
 #| eval: true
 #| echo: true
@@ -132,6 +161,29 @@ convert_effect_sizes(from = "lnOR",
                      n1 = 15,
                      n2 = 15)
 ```
+
+And the transcribed formulas in `R`:
+
+```{r}
+#| echo: false
+#| eval: true
+
+sub_f <- formulas[from_effect == "lnOR" & to_effect == "SMD"]$formula
+sub_f <- strsplit(sub_f, split = "; ")
+
+print(sub_f[[1]])
+```
+
+And for sampling variance:
+
+```{r}
+#| echo: false
+#| eval: true
+
+print(sub_f[[2]])
+```
+
+The variable names are the same as [above](#sec-smd-lnOR).
 
 # SMD ↔ Zr
 ## SMD → Zr {#sec-smd-zr}
@@ -145,7 +197,7 @@ $$
 &r \leftarrow \min(1, \max(-1, r_i))\\
 &yi_{Zr} = atanh(r)\\
 \end{aligned}
-$$
+$${#eq-4}
 
 And the sampling variance of Zr ($vi_{Zr}$):
 $$
@@ -153,7 +205,7 @@ $$
 &n = n1 + n2 \\
 &vi_{Zr} = \frac{1}{(n - 3)} \\
 \end{aligned}
-$$
+$${#eq-5}
 
 In R:
 ```{r}
@@ -168,6 +220,26 @@ convert_effect_sizes(from = "SMD",
                      n2 = 15)
 ```
 
+And let's look at the `R` formulas. `yi` and `vi` refer to the original effect size and sampling variance estimates (in this case of SMD) and `yi_trans` and `vi_trans` refer to the converted estimates (in this case of Zr), `n1` and `n2` = $n_{1, 2}$, `a` = the correction factor $a$, and `d` = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:
+
+```{r}
+#| echo: false
+#| eval: true
+
+sub_f <- formulas[from_effect == "SMD" & to_effect == "Zr"]$formula
+sub_f <- strsplit(sub_f, split = "; ")
+
+print(sub_f[[1]])
+```
+
+And for sampling variance:
+
+```{r}
+#| echo: false
+#| eval: true
+
+print(sub_f[[2]])
+```
 
 ## Zr → SMD {#sec-zr-smd}
 First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$:
@@ -176,7 +248,7 @@ $$
 &r = tanh(yi_{Zr}) \\
 &vi_r = \frac{(1-r^2)^2}{(n-1)}
 \end{aligned}
-$$
+$${#eq-6}
 
 Then calculate the point estimate ($yi_d$) and variance ($vi_d$) of Cohen's d:
 
@@ -185,7 +257,7 @@ $$
 &yi_d = \frac{2*r}{\sqrt{1-r^2}} \\
 &vi_d = \frac{4*vi_r}{(1-r^2)^3} \\
 \end{aligned}
-$$
+$${#eq-7}
 
 In R:
 ```{r}
@@ -200,19 +272,24 @@ convert_effect_sizes(from = "Zr",
 
 ```
 
-Note you can also calculate this directly from $r$ if preferred:
-
+And here are the transcribed formulas used:
 ```{r}
+#| echo: false
 #| eval: true
-#| echo: true
-#| out-width: "70%"
-convert_effect_sizes(from = "r",
-                     to = "SMD",
-                     r = 0.5,
-                     vi = 0.1,
-                     n = 50)
+
+sub_f <- formulas[from_effect == "Zr" & to_effect == "SMD"]$formula
+sub_f <- strsplit(sub_f, split = "; ")
+
+print(sub_f[[1]])
 
 ```
 
+And for sampling variance:
 
+```{r}
+#| echo: false
+#| eval: true
 
+print(sub_f[[2]])
+```
+The variable names are the same as [above](#sec-smd-zr).
