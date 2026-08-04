@@ -56,7 +56,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
@@ -296,29 +315,52 @@ window.Quarto = {
   
 
 
-</header><p>These effect size formulas are digitized in the function <code>convert_effect_sizes</code> which has them scripted into R code. The formulas are in a side car csv file in the repo located at ‘scripts/functions/conversion_formulas.csv’</p>
+</header><p>We converted the effect sizes into common types based on the formulas in <span class="citation" data-cites="borenstein2021">(<a href="#ref-borenstein2021" role="doc-biblioref">Borenstein et al. 2021</a>)</span>, which we digitized in our function <code>convert_effect_sizes</code>. The formulas are in an executable sidecar csv file in the repo located at ‘scripts/functions/conversion_formulas.csv’</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">"scripts/functions/convert_effect_sizes.R"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">formulas</span> <span class="op">&lt;-</span> <span class="fu">fread</span><span class="op">(</span><span class="st">"scripts/functions/conversion_formulas.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>We’ll show the formulas below and demonstrate the use of the function. Note in all cases we first need to convert to and from Hedges’ g and Cohen’s d (the uncorrected estimator of SMD). Hedges’ g is the effect size estimator used in our analyses and is returned by default from <code>escalc</code>. This conversion looks like this:</p>
+<p>We’ll show the formulas below, demonstrate the use of the function, and the digitized <code>R</code> formulas.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that in all cases, the conversion formulas below are based on conversions from Cohen’s d (the uncorrected estimator of SMD). As such, SMD estimates had to first be transformed to Cohen’s d, and the outputs of conversions had to be transformed to Hedges’ g. Converting from Hedges’ g (the default estimator returned from <code>escalc</code>) is done as follows, with <span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span> equivalent to the sample sizes of groups 1 and 2, <span class="math inline">\(yi_g\)</span> and <span class="math inline">\(yi_d\)</span> the effect size point estimate sfor Hedges’ g and Cohen’s d, and <span class="math inline">\(J\)</span> a small-sample bias correction factor.</p>
 <p><span id="eq-1"><span class="math display">\[
 \begin{aligned}
 &amp;J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1} \\
-&amp;yi_d = yi_g * J \\
 \end{aligned}
 \tag{1}\]</span></span></p>
+<p><span id="eq-2"><span class="math display">\[
+\begin{aligned}
+&amp;yi_d = \frac{yi_g}{J} \\
+\end{aligned}
+\tag{2}\]</span></span></p>
+<p><span id="eq-3"><span class="math display">\[
+\begin{aligned}
+&amp;yi_g = J * yi_d \\
+\end{aligned}
+\tag{3}\]</span></span></p>
+<p>Note that the estimator of sampling variance for SMD, following <code>escalc</code>, is Cohen’s d’s sampling variance estimator and thus did not need to be converted with <span class="math inline">\(J\)</span>.</p>
+</div>
+</div>
 <section id="smd-lnor" class="level1"><h1>SMD ↔︎ lnOR</h1>
 <section id="sec-smd-lnOR" class="level2"><h2 class="anchored" data-anchor-id="sec-smd-lnOR">SMD → lnOR</h2>
-<p>Let <span class="math inline">\(yi_{lnOR}\)</span> and <span class="math inline">\(yi_{d}\)</span> be the point estimate for the lnOR and Cohen’s d effect sizes and <span class="math inline">\(vi_{lnOR}\)</span> and <span class="math inline">\(vi_{d}\)</span> be their sampling variances. The resulting estimate of Cohen’s d was then converted using <a href="#eq-1" class="quarto-xref">Equation&nbsp;1</a> to Hedges’ g. Note that the estimator of sampling variance for SMD follows <code>escalc</code> and uses the sampling variance of Cohen’s d instead of Hedges’ g, thus no further conversion is necessary.</p>
-<p><span id="eq-2"><span class="math display">\[
+<p>Let <span class="math inline">\(yi_{lnOR}\)</span> and <span class="math inline">\(yi_{d}\)</span> be the point estimate for the lnOR and Cohen’s d effect sizes and <span class="math inline">\(vi_{lnOR}\)</span> and <span class="math inline">\(vi_{d}\)</span> be their sampling variances. The resulting estimate of Cohen’s d was then converted using <a href="#eq-3" class="quarto-xref">Equation&nbsp;3</a> to Hedges’ g.</p>
+<p><span id="eq-4"><span class="math display">\[
 \begin{aligned}
 &amp;yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} \\
 &amp;vi_{lnOR} = vi_d * \frac{\pi^2}{3} \\
 \end{aligned}
-\tag{2}\]</span></span></p>
+\tag{4}\]</span></span></p>
 <p>In <code>R</code>:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">convert_effect_sizes</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"SMD"</span>,</span>
@@ -354,12 +396,13 @@ Note that the 'vi' is assumed to have been calculated with `metafor::escalc` pac
 </div>
 </section><section id="sec-lnOR-smd" class="level2"><h2 class="anchored" data-anchor-id="sec-lnOR-smd">lnOR → SMD</h2>
 <p>To convert from lnOR (<span class="math inline">\(yi_{lnOR}\)</span>) to Cohen’s <span class="math inline">\(d\)</span>:</p>
-<p><span id="eq-3"><span class="math display">\[
+<p><span id="eq-5"><span class="math display">\[
 \begin{aligned}
 &amp;yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} \\
 &amp;vi_d = vi_{lnOR} * \frac{3}{\pi^2} \\
 \end{aligned}
-\tag{3}\]</span></span></p>
+\tag{5}\]</span></span></p>
+<p><span class="math inline">\(yi_d\)</span> was then converted to Hedges’ g using <a href="#eq-3" class="quarto-xref">Equation&nbsp;3</a>.</p>
 <p>In <code>R</code>:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">convert_effect_sizes</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"lnOR"</span>,</span>
@@ -396,21 +439,21 @@ Please use conversions carefully and conduct sensitivity analyses with and witho
 <p>The variable names are the same as <a href="#sec-smd-lnOR">above</a>.</p>
 </section></section><section id="smd-zr" class="level1"><h1>SMD ↔︎ Zr</h1>
 <section id="sec-smd-zr" class="level2"><h2 class="anchored" data-anchor-id="sec-smd-zr">SMD → Zr</h2>
-<p>To convert from SMD to Zr, we first convert <span class="math inline">\(d\)</span> to the correlation coefficient <span class="math inline">\(r\)</span> and then to Zr, using a correction factor <span class="math inline">\(a\)</span> for cases where <span class="math inline">\(n_1 \neq n_2\)</span>. Let <span class="math inline">\(yi_{Zr}\)</span> and <span class="math inline">\(yi_d\)</span> be the point estimate for Zr and Cohen’s d:</p>
-<p><span id="eq-4"><span class="math display">\[
+<p>To convert from SMD to Zr, we used <a href="#eq-2" class="quarto-xref">Equation&nbsp;2</a> to convert Hedges’ g to Cohen’s d.&nbsp;We then converted <span class="math inline">\(yi_d\)</span> to the correlation coefficient <span class="math inline">\(r\)</span> and then to Zr, using a correction factor <span class="math inline">\(a\)</span>, to account for cases where <span class="math inline">\(n_1 \neq n_2\)</span>. Let <span class="math inline">\(yi_{Zr}\)</span> and <span class="math inline">\(yi_d\)</span> be the point estimate for Zr and Cohen’s d:</p>
+<p><span id="eq-6"><span class="math display">\[
 \begin{aligned}
 &amp;a = \frac{(n_1 + n_2)^2}{n_1*n_2} \\
 &amp;r = \frac{yi_d}{\sqrt{yi_d^2 + a}} \\
 &amp;r \leftarrow \min(1, \max(-1, r_i))\\
 &amp;yi_{Zr} = atanh(r)\\
 \end{aligned}
-\tag{4}\]</span></span></p>
-<p>And the sampling variance of Zr (<span class="math inline">\(vi_{Zr}\)</span>): <span id="eq-5"><span class="math display">\[
+\tag{6}\]</span></span></p>
+<p>And the sampling variance of Zr (<span class="math inline">\(vi_{Zr}\)</span>): <span id="eq-7"><span class="math display">\[
 \begin{aligned}
 &amp;n = n1 + n2 \\
 &amp;vi_{Zr} = \frac{1}{(n - 3)} \\
 \end{aligned}
-\tag{5}\]</span></span></p>
+\tag{7}\]</span></span></p>
 <p>In R:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">convert_effect_sizes</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"SMD"</span>,</span>
@@ -447,19 +490,20 @@ Like usual, be careful :) </code></pre>
 </div>
 </div>
 </section><section id="sec-zr-smd" class="level2"><h2 class="anchored" data-anchor-id="sec-zr-smd">Zr → SMD</h2>
-<p>First, convert the point estimate of Zr (<span class="math inline">\(yi_{Zr}\)</span>) to the correlation coefficient <span class="math inline">\(r\)</span> and calculate the variance of <span class="math inline">\(r\)</span> (<span class="math inline">\(vi_r\)</span>: <span id="eq-6"><span class="math display">\[
+<p>First, convert the point estimate of Zr (<span class="math inline">\(yi_{Zr}\)</span>) to the correlation coefficient <span class="math inline">\(r\)</span> and calculate the variance of <span class="math inline">\(r\)</span> (<span class="math inline">\(vi_r\)</span>): <span id="eq-8"><span class="math display">\[
 \begin{aligned}
 &amp;r = tanh(yi_{Zr}) \\
 &amp;vi_r = \frac{(1-r^2)^2}{(n-1)}
 \end{aligned}
-\tag{6}\]</span></span></p>
+\tag{8}\]</span></span></p>
 <p>Then calculate the point estimate (<span class="math inline">\(yi_d\)</span>) and variance (<span class="math inline">\(vi_d\)</span>) of Cohen’s d:</p>
-<p><span id="eq-7"><span class="math display">\[
+<p><span id="eq-9"><span class="math display">\[
 \begin{aligned}
 &amp;yi_d = \frac{2*r}{\sqrt{1-r^2}} \\
 &amp;vi_d = \frac{4*vi_r}{(1-r^2)^3} \\
 \end{aligned}
-\tag{7}\]</span></span></p>
+\tag{9}\]</span></span></p>
+<p>Cohen’s d (<span class="math inline">\(yi_d\)</span>) was then converted to Hedges’ g following <a href="#eq-3" class="quarto-xref">Equation&nbsp;3</a>.</p>
 <p>In R:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">convert_effect_sizes</span><span class="op">(</span>from <span class="op">=</span> <span class="st">"Zr"</span>,</span>
@@ -500,7 +544,12 @@ Please use conversions carefully and conduct sensitivity analyses </code></pre>
 
 <!-- -->
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-borenstein2021" class="csl-entry" role="listitem">
+Borenstein, Michael, Larry V Hedges, Julian Higgins, and Hannah R Rothstein. 2021. <em>Introduction to Meta-Analysis</em>. 2nd ed. John Wiley &amp; Sons.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1019,7 +1068,7 @@ Please use conversions carefully and conduct sensitivity analyses </code></pre>
 <span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"here"</span>)</span>
 <span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>These effect size formulas are digitized in the function <span class="in">`convert_effect_sizes`</span> which has them scripted into R code. The formulas are in a side car csv file in the repo located at 'scripts/functions/conversion_formulas.csv'</span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>We converted the effect sizes into common types based on the formulas in <span class="co">[</span><span class="ot">@borenstein2021</span><span class="co">]</span>, which we digitized in our function <span class="in">`convert_effect_sizes`</span>. The formulas are in an executable sidecar csv file in the repo located at 'scripts/functions/conversion_formulas.csv'</span>
 <span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
@@ -1032,220 +1081,241 @@ Please use conversions carefully and conduct sensitivity analyses </code></pre>
 <span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a>We'll show the formulas below and demonstrate the use of the function. Note in all cases we first need to convert to and from Hedges' g and Cohen's d (the uncorrected estimator of SMD). Hedges' g is the effect size estimator used in our analyses and is returned by default from <span class="in">`escalc`</span>. This conversion looks like this:</span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a>We'll show the formulas below, demonstrate the use of the function, and the digitized <span class="in">`R`</span> formulas. </span>
 <span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>&amp;J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1} <span class="sc">\\</span></span>
-<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = yi_g * J <span class="sc">\\</span></span>
-<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a>$${#eq-1}</span>
-<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a><span class="fu"># SMD ↔ lnOR </span></span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a>:::callout-important</span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a>Note that in all cases, the conversion formulas below are based on conversions from Cohen's d (the uncorrected estimator of SMD). As such, SMD estimates had to first be transformed to Cohen's d, and the outputs of conversions had to be transformed to Hedges' g. Converting from Hedges' g (the default estimator returned from <span class="in">`escalc`</span>) is done as follows, with $n_1$, $n_2$ equivalent to the sample sizes of groups 1 and 2, $yi_g$ and $yi_d$ the effect size point estimate sfor Hedges' g and Cohen's d, and $J$ a small-sample bias correction factor. </span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a>&amp;J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1} <span class="sc">\\</span></span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a>$${#eq-1}</span>
 <span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## SMD → lnOR {#sec-smd-lnOR}</span></span>
-<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a>Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances. The resulting estimate of Cohen's d was then converted using @eq-1 to Hedges' g. Note that the estimator of sampling variance for SMD follows <span class="in">`escalc`</span> and uses the sampling variance of Cohen's d instead of Hedges' g, thus no further conversion is necessary.</span>
-<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>&amp;yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} <span class="sc">\\</span></span>
-<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a>&amp;vi_{lnOR} = vi_d * \frac{\pi^2}{3} <span class="sc">\\</span></span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = \frac{yi_g}{J} <span class="sc">\\</span></span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a>$${#eq-2}</span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a>&amp;yi_g = J * yi_d <span class="sc">\\</span></span>
 <span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>$${#eq-2}</span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>$${#eq-3}</span>
 <span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>:</span>
-<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
-<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"SMD"</span>,</span>
-<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"lnOR"</span>,</span>
-<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
-<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
-<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
-<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
-<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a>Note that the estimator of sampling variance for SMD, following <span class="in">`escalc`</span>, is Cohen's d's sampling variance estimator and thus did not need to be converted with $J$.</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a><span class="fu"># SMD ↔ lnOR </span></span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="fu">## SMD → lnOR {#sec-smd-lnOR}</span></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a>Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances. The resulting estimate of Cohen's d was then converted using @eq-3 to Hedges' g. </span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a>&amp;yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} <span class="sc">\\</span></span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a>&amp;vi_{lnOR} = vi_d * \frac{\pi^2}{3} <span class="sc">\\</span></span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a>$${#eq-4}</span>
 <span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a>Now let's look at the transcribed formula for the point estimate conversion. <span class="in">`yi`</span> and <span class="in">`vi`</span> refer to the original effect size and sampling variance estimates (in this case of lnOR) and <span class="in">`yi_trans`</span> and <span class="in">`vi_trans`</span> refer to the converted estimates (in this case of SMD), <span class="in">`n1`</span> and <span class="in">`n2`</span> = $n_{1, 2}$, and <span class="in">`d`</span> = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:</span>
-<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"SMD"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"lnOR"</span>]<span class="sc">$</span>formula</span>
-<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
-<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
-<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>:</span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"SMD"</span>,</span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"lnOR"</span>,</span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
 <span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
-<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a>Now let's look at the transcribed formula for the point estimate conversion. <span class="in">`yi`</span> and <span class="in">`vi`</span> refer to the original effect size and sampling variance estimates (in this case of lnOR) and <span class="in">`yi_trans`</span> and <span class="in">`vi_trans`</span> refer to the converted estimates (in this case of SMD), <span class="in">`n1`</span> and <span class="in">`n2`</span> = $n_{1, 2}$, and <span class="in">`d`</span> = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:</span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
 <span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## lnOR → SMD {#sec-lnOR-smd}</span></span>
-<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a>To convert from lnOR ($yi_{lnOR}$) to Cohen's $d$:</span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"SMD"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"lnOR"</span>]<span class="sc">$</span>formula</span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
 <span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} <span class="sc">\\</span></span>
-<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>&amp;vi_d = vi_{lnOR} * \frac{3}{\pi^2} <span class="sc">\\</span></span>
-<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a>$${#eq-3}</span>
-<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>:</span>
-<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
-<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"lnOR"</span>,</span>
-<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"SMD"</span>,</span>
-<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
-<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
-<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
-<span id="cb22-174"><a href="#cb22-174" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
-<span id="cb22-175"><a href="#cb22-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-176"><a href="#cb22-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-177"><a href="#cb22-177" aria-hidden="true" tabindex="-1"></a>And the transcribed formulas in <span class="in">`R`</span>:</span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a><span class="fu">## lnOR → SMD {#sec-lnOR-smd}</span></span>
+<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a>To convert from lnOR ($yi_{lnOR}$) to Cohen's $d$:</span>
+<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-174"><a href="#cb22-174" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} <span class="sc">\\</span></span>
+<span id="cb22-175"><a href="#cb22-175" aria-hidden="true" tabindex="-1"></a>&amp;vi_d = vi_{lnOR} * \frac{3}{\pi^2} <span class="sc">\\</span></span>
+<span id="cb22-176"><a href="#cb22-176" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-177"><a href="#cb22-177" aria-hidden="true" tabindex="-1"></a>$${#eq-5}</span>
 <span id="cb22-178"><a href="#cb22-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-181"><a href="#cb22-181" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-182"><a href="#cb22-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-183"><a href="#cb22-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-184"><a href="#cb22-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-185"><a href="#cb22-185" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"lnOR"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"SMD"</span>]<span class="sc">$</span>formula</span>
-<span id="cb22-186"><a href="#cb22-186" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
-<span id="cb22-187"><a href="#cb22-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-188"><a href="#cb22-188" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
-<span id="cb22-189"><a href="#cb22-189" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-190"><a href="#cb22-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-191"><a href="#cb22-191" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
-<span id="cb22-192"><a href="#cb22-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-195"><a href="#cb22-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-196"><a href="#cb22-196" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-197"><a href="#cb22-197" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-198"><a href="#cb22-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-199"><a href="#cb22-199" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
-<span id="cb22-200"><a href="#cb22-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-201"><a href="#cb22-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-202"><a href="#cb22-202" aria-hidden="true" tabindex="-1"></a>The variable names are the same as <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-smd-lnOR)</span>.</span>
+<span id="cb22-179"><a href="#cb22-179" aria-hidden="true" tabindex="-1"></a>$yi_d$ was then converted to Hedges' g using @eq-3.</span>
+<span id="cb22-180"><a href="#cb22-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-181"><a href="#cb22-181" aria-hidden="true" tabindex="-1"></a>In <span class="in">`R`</span>:</span>
+<span id="cb22-184"><a href="#cb22-184" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-185"><a href="#cb22-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-186"><a href="#cb22-186" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb22-187"><a href="#cb22-187" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
+<span id="cb22-188"><a href="#cb22-188" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"lnOR"</span>,</span>
+<span id="cb22-189"><a href="#cb22-189" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"SMD"</span>,</span>
+<span id="cb22-190"><a href="#cb22-190" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
+<span id="cb22-191"><a href="#cb22-191" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
+<span id="cb22-192"><a href="#cb22-192" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
+<span id="cb22-193"><a href="#cb22-193" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
+<span id="cb22-194"><a href="#cb22-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-195"><a href="#cb22-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-196"><a href="#cb22-196" aria-hidden="true" tabindex="-1"></a>And the transcribed formulas in <span class="in">`R`</span>:</span>
+<span id="cb22-197"><a href="#cb22-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-200"><a href="#cb22-200" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-201"><a href="#cb22-201" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-202"><a href="#cb22-202" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
 <span id="cb22-203"><a href="#cb22-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-204"><a href="#cb22-204" aria-hidden="true" tabindex="-1"></a><span class="fu"># SMD ↔ Zr</span></span>
-<span id="cb22-205"><a href="#cb22-205" aria-hidden="true" tabindex="-1"></a><span class="fu">## SMD → Zr {#sec-smd-zr}</span></span>
+<span id="cb22-204"><a href="#cb22-204" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"lnOR"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"SMD"</span>]<span class="sc">$</span>formula</span>
+<span id="cb22-205"><a href="#cb22-205" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
 <span id="cb22-206"><a href="#cb22-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-207"><a href="#cb22-207" aria-hidden="true" tabindex="-1"></a>To convert from SMD to Zr, we first convert $d$ to the correlation coefficient $r$ and then to Zr, using a correction factor $a$ for cases where $n_1 \neq n_2$. Let $yi_{Zr}$ and $yi_d$ be the point estimate for Zr and Cohen's d:</span>
-<span id="cb22-208"><a href="#cb22-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-209"><a href="#cb22-209" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-210"><a href="#cb22-210" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-211"><a href="#cb22-211" aria-hidden="true" tabindex="-1"></a>&amp;a = \frac{(n_1 + n_2)^2}{n_1*n_2} <span class="sc">\\</span></span>
-<span id="cb22-212"><a href="#cb22-212" aria-hidden="true" tabindex="-1"></a>&amp;r = \frac{yi_d}{\sqrt{yi_d^2 + a}} <span class="sc">\\</span></span>
-<span id="cb22-213"><a href="#cb22-213" aria-hidden="true" tabindex="-1"></a>&amp;r \leftarrow \min(1, \max(-1, r_i))<span class="sc">\\</span></span>
-<span id="cb22-214"><a href="#cb22-214" aria-hidden="true" tabindex="-1"></a>&amp;yi_{Zr} = atanh(r)<span class="sc">\\</span></span>
-<span id="cb22-215"><a href="#cb22-215" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-216"><a href="#cb22-216" aria-hidden="true" tabindex="-1"></a>$${#eq-4}</span>
+<span id="cb22-207"><a href="#cb22-207" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
+<span id="cb22-208"><a href="#cb22-208" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-209"><a href="#cb22-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-210"><a href="#cb22-210" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
+<span id="cb22-211"><a href="#cb22-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-214"><a href="#cb22-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-215"><a href="#cb22-215" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-216"><a href="#cb22-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
 <span id="cb22-217"><a href="#cb22-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-218"><a href="#cb22-218" aria-hidden="true" tabindex="-1"></a>And the sampling variance of Zr ($vi_{Zr}$):</span>
-<span id="cb22-219"><a href="#cb22-219" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-220"><a href="#cb22-220" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-221"><a href="#cb22-221" aria-hidden="true" tabindex="-1"></a>&amp;n = n1 + n2 <span class="sc">\\</span></span>
-<span id="cb22-222"><a href="#cb22-222" aria-hidden="true" tabindex="-1"></a>&amp;vi_{Zr} = \frac{1}{(n - 3)} <span class="sc">\\</span></span>
-<span id="cb22-223"><a href="#cb22-223" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-224"><a href="#cb22-224" aria-hidden="true" tabindex="-1"></a>$${#eq-5}</span>
+<span id="cb22-218"><a href="#cb22-218" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
+<span id="cb22-219"><a href="#cb22-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-220"><a href="#cb22-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-221"><a href="#cb22-221" aria-hidden="true" tabindex="-1"></a>The variable names are the same as <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-smd-lnOR)</span>.</span>
+<span id="cb22-222"><a href="#cb22-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-223"><a href="#cb22-223" aria-hidden="true" tabindex="-1"></a><span class="fu"># SMD ↔ Zr</span></span>
+<span id="cb22-224"><a href="#cb22-224" aria-hidden="true" tabindex="-1"></a><span class="fu">## SMD → Zr {#sec-smd-zr}</span></span>
 <span id="cb22-225"><a href="#cb22-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-226"><a href="#cb22-226" aria-hidden="true" tabindex="-1"></a>In R:</span>
-<span id="cb22-229"><a href="#cb22-229" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-230"><a href="#cb22-230" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-231"><a href="#cb22-231" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb22-232"><a href="#cb22-232" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
-<span id="cb22-233"><a href="#cb22-233" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"SMD"</span>,</span>
-<span id="cb22-234"><a href="#cb22-234" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"Zr"</span>,</span>
-<span id="cb22-235"><a href="#cb22-235" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
-<span id="cb22-236"><a href="#cb22-236" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
-<span id="cb22-237"><a href="#cb22-237" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
-<span id="cb22-238"><a href="#cb22-238" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
-<span id="cb22-239"><a href="#cb22-239" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-240"><a href="#cb22-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-241"><a href="#cb22-241" aria-hidden="true" tabindex="-1"></a>And let's look at the <span class="in">`R`</span> formulas. <span class="in">`yi`</span> and <span class="in">`vi`</span> refer to the original effect size and sampling variance estimates (in this case of SMD) and <span class="in">`yi_trans`</span> and <span class="in">`vi_trans`</span> refer to the converted estimates (in this case of Zr), <span class="in">`n1`</span> and <span class="in">`n2`</span> = $n_{1, 2}$, <span class="in">`a`</span> = the correction factor $a$, and <span class="in">`d`</span> = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:</span>
-<span id="cb22-242"><a href="#cb22-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-245"><a href="#cb22-245" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-246"><a href="#cb22-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-247"><a href="#cb22-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-248"><a href="#cb22-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-249"><a href="#cb22-249" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"SMD"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"Zr"</span>]<span class="sc">$</span>formula</span>
-<span id="cb22-250"><a href="#cb22-250" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
-<span id="cb22-251"><a href="#cb22-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-252"><a href="#cb22-252" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
-<span id="cb22-253"><a href="#cb22-253" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-254"><a href="#cb22-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-255"><a href="#cb22-255" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
-<span id="cb22-256"><a href="#cb22-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-259"><a href="#cb22-259" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-260"><a href="#cb22-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-261"><a href="#cb22-261" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-262"><a href="#cb22-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-263"><a href="#cb22-263" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
-<span id="cb22-264"><a href="#cb22-264" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-265"><a href="#cb22-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-266"><a href="#cb22-266" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zr → SMD {#sec-zr-smd}</span></span>
-<span id="cb22-267"><a href="#cb22-267" aria-hidden="true" tabindex="-1"></a>First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$:</span>
-<span id="cb22-268"><a href="#cb22-268" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-269"><a href="#cb22-269" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-270"><a href="#cb22-270" aria-hidden="true" tabindex="-1"></a>&amp;r = tanh(yi_{Zr}) <span class="sc">\\</span></span>
-<span id="cb22-271"><a href="#cb22-271" aria-hidden="true" tabindex="-1"></a>&amp;vi_r = \frac{(1-r^2)^2}{(n-1)}</span>
-<span id="cb22-272"><a href="#cb22-272" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-273"><a href="#cb22-273" aria-hidden="true" tabindex="-1"></a>$${#eq-6}</span>
-<span id="cb22-274"><a href="#cb22-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-275"><a href="#cb22-275" aria-hidden="true" tabindex="-1"></a>Then calculate the point estimate ($yi_d$) and variance ($vi_d$) of Cohen's d:</span>
-<span id="cb22-276"><a href="#cb22-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-277"><a href="#cb22-277" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb22-278"><a href="#cb22-278" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
-<span id="cb22-279"><a href="#cb22-279" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = \frac{2*r}{\sqrt{1-r^2}} <span class="sc">\\</span></span>
-<span id="cb22-280"><a href="#cb22-280" aria-hidden="true" tabindex="-1"></a>&amp;vi_d = \frac{4*vi_r}{(1-r^2)^3} <span class="sc">\\</span></span>
-<span id="cb22-281"><a href="#cb22-281" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
-<span id="cb22-282"><a href="#cb22-282" aria-hidden="true" tabindex="-1"></a>$${#eq-7}</span>
-<span id="cb22-283"><a href="#cb22-283" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-284"><a href="#cb22-284" aria-hidden="true" tabindex="-1"></a>In R:</span>
-<span id="cb22-287"><a href="#cb22-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-288"><a href="#cb22-288" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-289"><a href="#cb22-289" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb22-290"><a href="#cb22-290" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
-<span id="cb22-291"><a href="#cb22-291" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"Zr"</span>,</span>
-<span id="cb22-292"><a href="#cb22-292" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"SMD"</span>,</span>
-<span id="cb22-293"><a href="#cb22-293" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
-<span id="cb22-294"><a href="#cb22-294" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
-<span id="cb22-295"><a href="#cb22-295" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n =</span> <span class="dv">50</span>)</span>
-<span id="cb22-296"><a href="#cb22-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-297"><a href="#cb22-297" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-298"><a href="#cb22-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-299"><a href="#cb22-299" aria-hidden="true" tabindex="-1"></a>And here are the transcribed formulas used:</span>
-<span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-306"><a href="#cb22-306" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"Zr"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"SMD"</span>]<span class="sc">$</span>formula</span>
-<span id="cb22-307"><a href="#cb22-307" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
-<span id="cb22-308"><a href="#cb22-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-309"><a href="#cb22-309" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
-<span id="cb22-310"><a href="#cb22-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-311"><a href="#cb22-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-312"><a href="#cb22-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-313"><a href="#cb22-313" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
-<span id="cb22-314"><a href="#cb22-314" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-317"><a href="#cb22-317" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb22-318"><a href="#cb22-318" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb22-319"><a href="#cb22-319" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb22-320"><a href="#cb22-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-321"><a href="#cb22-321" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
-<span id="cb22-322"><a href="#cb22-322" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb22-323"><a href="#cb22-323" aria-hidden="true" tabindex="-1"></a>The variable names are the same as <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-smd-zr)</span>.</span>
+<span id="cb22-226"><a href="#cb22-226" aria-hidden="true" tabindex="-1"></a>To convert from SMD to Zr, we used @eq-2 to convert Hedges' g to Cohen's d. We then converted $yi_d$ to the correlation coefficient $r$ and then to Zr, using a correction factor $a$, to account for cases where $n_1 \neq n_2$. Let $yi_{Zr}$ and $yi_d$ be the point estimate for Zr and Cohen's d:</span>
+<span id="cb22-227"><a href="#cb22-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-228"><a href="#cb22-228" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-229"><a href="#cb22-229" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-230"><a href="#cb22-230" aria-hidden="true" tabindex="-1"></a>&amp;a = \frac{(n_1 + n_2)^2}{n_1*n_2} <span class="sc">\\</span></span>
+<span id="cb22-231"><a href="#cb22-231" aria-hidden="true" tabindex="-1"></a>&amp;r = \frac{yi_d}{\sqrt{yi_d^2 + a}} <span class="sc">\\</span></span>
+<span id="cb22-232"><a href="#cb22-232" aria-hidden="true" tabindex="-1"></a>&amp;r \leftarrow \min(1, \max(-1, r_i))<span class="sc">\\</span></span>
+<span id="cb22-233"><a href="#cb22-233" aria-hidden="true" tabindex="-1"></a>&amp;yi_{Zr} = atanh(r)<span class="sc">\\</span></span>
+<span id="cb22-234"><a href="#cb22-234" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-235"><a href="#cb22-235" aria-hidden="true" tabindex="-1"></a>$${#eq-6}</span>
+<span id="cb22-236"><a href="#cb22-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-237"><a href="#cb22-237" aria-hidden="true" tabindex="-1"></a>And the sampling variance of Zr ($vi_{Zr}$):</span>
+<span id="cb22-238"><a href="#cb22-238" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-239"><a href="#cb22-239" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-240"><a href="#cb22-240" aria-hidden="true" tabindex="-1"></a>&amp;n = n1 + n2 <span class="sc">\\</span></span>
+<span id="cb22-241"><a href="#cb22-241" aria-hidden="true" tabindex="-1"></a>&amp;vi_{Zr} = \frac{1}{(n - 3)} <span class="sc">\\</span></span>
+<span id="cb22-242"><a href="#cb22-242" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-243"><a href="#cb22-243" aria-hidden="true" tabindex="-1"></a>$${#eq-7}</span>
+<span id="cb22-244"><a href="#cb22-244" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-245"><a href="#cb22-245" aria-hidden="true" tabindex="-1"></a>In R:</span>
+<span id="cb22-248"><a href="#cb22-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-249"><a href="#cb22-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-250"><a href="#cb22-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb22-251"><a href="#cb22-251" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
+<span id="cb22-252"><a href="#cb22-252" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"SMD"</span>,</span>
+<span id="cb22-253"><a href="#cb22-253" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"Zr"</span>,</span>
+<span id="cb22-254"><a href="#cb22-254" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
+<span id="cb22-255"><a href="#cb22-255" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
+<span id="cb22-256"><a href="#cb22-256" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n1 =</span> <span class="dv">15</span>,</span>
+<span id="cb22-257"><a href="#cb22-257" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n2 =</span> <span class="dv">15</span>)</span>
+<span id="cb22-258"><a href="#cb22-258" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-259"><a href="#cb22-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-260"><a href="#cb22-260" aria-hidden="true" tabindex="-1"></a>And let's look at the <span class="in">`R`</span> formulas. <span class="in">`yi`</span> and <span class="in">`vi`</span> refer to the original effect size and sampling variance estimates (in this case of SMD) and <span class="in">`yi_trans`</span> and <span class="in">`vi_trans`</span> refer to the converted estimates (in this case of Zr), <span class="in">`n1`</span> and <span class="in">`n2`</span> = $n_{1, 2}$, <span class="in">`a`</span> = the correction factor $a$, and <span class="in">`d`</span> = $yi_d$. Note that our formula for $J$ uses the gamma distribution instead of $J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1}$:</span>
+<span id="cb22-261"><a href="#cb22-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-264"><a href="#cb22-264" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-265"><a href="#cb22-265" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-266"><a href="#cb22-266" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-267"><a href="#cb22-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-268"><a href="#cb22-268" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"SMD"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"Zr"</span>]<span class="sc">$</span>formula</span>
+<span id="cb22-269"><a href="#cb22-269" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
+<span id="cb22-270"><a href="#cb22-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-271"><a href="#cb22-271" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
+<span id="cb22-272"><a href="#cb22-272" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-273"><a href="#cb22-273" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-274"><a href="#cb22-274" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
+<span id="cb22-275"><a href="#cb22-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-278"><a href="#cb22-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-279"><a href="#cb22-279" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-280"><a href="#cb22-280" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-281"><a href="#cb22-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-282"><a href="#cb22-282" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
+<span id="cb22-283"><a href="#cb22-283" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-284"><a href="#cb22-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-285"><a href="#cb22-285" aria-hidden="true" tabindex="-1"></a><span class="fu">## Zr → SMD {#sec-zr-smd}</span></span>
+<span id="cb22-286"><a href="#cb22-286" aria-hidden="true" tabindex="-1"></a>First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$):</span>
+<span id="cb22-287"><a href="#cb22-287" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-288"><a href="#cb22-288" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-289"><a href="#cb22-289" aria-hidden="true" tabindex="-1"></a>&amp;r = tanh(yi_{Zr}) <span class="sc">\\</span></span>
+<span id="cb22-290"><a href="#cb22-290" aria-hidden="true" tabindex="-1"></a>&amp;vi_r = \frac{(1-r^2)^2}{(n-1)}</span>
+<span id="cb22-291"><a href="#cb22-291" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-292"><a href="#cb22-292" aria-hidden="true" tabindex="-1"></a>$${#eq-8}</span>
+<span id="cb22-293"><a href="#cb22-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-294"><a href="#cb22-294" aria-hidden="true" tabindex="-1"></a>Then calculate the point estimate ($yi_d$) and variance ($vi_d$) of Cohen's d:</span>
+<span id="cb22-295"><a href="#cb22-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-296"><a href="#cb22-296" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-297"><a href="#cb22-297" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb22-298"><a href="#cb22-298" aria-hidden="true" tabindex="-1"></a>&amp;yi_d = \frac{2*r}{\sqrt{1-r^2}} <span class="sc">\\</span></span>
+<span id="cb22-299"><a href="#cb22-299" aria-hidden="true" tabindex="-1"></a>&amp;vi_d = \frac{4*vi_r}{(1-r^2)^3} <span class="sc">\\</span></span>
+<span id="cb22-300"><a href="#cb22-300" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb22-301"><a href="#cb22-301" aria-hidden="true" tabindex="-1"></a>$${#eq-9}</span>
+<span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a>Cohen's d ($yi_d$) was then converted to Hedges' g following @eq-3.</span>
+<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a>In R:</span>
+<span id="cb22-308"><a href="#cb22-308" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-309"><a href="#cb22-309" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-310"><a href="#cb22-310" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb22-311"><a href="#cb22-311" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "70%"</span></span>
+<span id="cb22-312"><a href="#cb22-312" aria-hidden="true" tabindex="-1"></a><span class="fu">convert_effect_sizes</span>(<span class="at">from =</span> <span class="st">"Zr"</span>,</span>
+<span id="cb22-313"><a href="#cb22-313" aria-hidden="true" tabindex="-1"></a>                     <span class="at">to =</span> <span class="st">"SMD"</span>,</span>
+<span id="cb22-314"><a href="#cb22-314" aria-hidden="true" tabindex="-1"></a>                     <span class="at">yi =</span> <span class="fl">0.9</span>,</span>
+<span id="cb22-315"><a href="#cb22-315" aria-hidden="true" tabindex="-1"></a>                     <span class="at">vi =</span> <span class="fl">0.01</span>,</span>
+<span id="cb22-316"><a href="#cb22-316" aria-hidden="true" tabindex="-1"></a>                     <span class="at">n =</span> <span class="dv">50</span>)</span>
+<span id="cb22-317"><a href="#cb22-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-318"><a href="#cb22-318" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-319"><a href="#cb22-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-320"><a href="#cb22-320" aria-hidden="true" tabindex="-1"></a>And here are the transcribed formulas used:</span>
+<span id="cb22-323"><a href="#cb22-323" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-324"><a href="#cb22-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-325"><a href="#cb22-325" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-326"><a href="#cb22-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-327"><a href="#cb22-327" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> formulas[from_effect <span class="sc">==</span> <span class="st">"Zr"</span> <span class="sc">&amp;</span> to_effect <span class="sc">==</span> <span class="st">"SMD"</span>]<span class="sc">$</span>formula</span>
+<span id="cb22-328"><a href="#cb22-328" aria-hidden="true" tabindex="-1"></a>sub_f <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(sub_f, <span class="at">split =</span> <span class="st">"; "</span>)</span>
+<span id="cb22-329"><a href="#cb22-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-330"><a href="#cb22-330" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">1</span>]])</span>
+<span id="cb22-331"><a href="#cb22-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-332"><a href="#cb22-332" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-333"><a href="#cb22-333" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-334"><a href="#cb22-334" aria-hidden="true" tabindex="-1"></a>And for sampling variance:</span>
+<span id="cb22-335"><a href="#cb22-335" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-338"><a href="#cb22-338" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-339"><a href="#cb22-339" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb22-340"><a href="#cb22-340" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb22-341"><a href="#cb22-341" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-342"><a href="#cb22-342" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sub_f[[<span class="dv">2</span>]])</span>
+<span id="cb22-343"><a href="#cb22-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-344"><a href="#cb22-344" aria-hidden="true" tabindex="-1"></a>The variable names are the same as <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-smd-zr)</span>.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

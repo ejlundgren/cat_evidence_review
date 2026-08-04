@@ -66,7 +66,7 @@ library("broom.mixed")
 library("here")
 ```
 
-These effect size formulas are digitized in the function `convert_effect_sizes` which has them scripted into R code. The formulas are in a side car csv file in the repo located at 'scripts/functions/conversion_formulas.csv'
+We converted the effect sizes into common types based on the formulas in [@borenstein2021], which we digitized in our function `convert_effect_sizes`. The formulas are in an executable sidecar csv file in the repo located at 'scripts/functions/conversion_formulas.csv'
 
 ```{r}
 #| eval: true
@@ -79,20 +79,37 @@ formulas <- fread("scripts/functions/conversion_formulas.csv")
 
 ```
 
-We'll show the formulas below and demonstrate the use of the function. Note in all cases we first need to convert to and from Hedges' g and Cohen's d (the uncorrected estimator of SMD). Hedges' g is the effect size estimator used in our analyses and is returned by default from `escalc`. This conversion looks like this:
+We'll show the formulas below, demonstrate the use of the function, and the digitized `R` formulas. 
+
+:::callout-important
+Note that in all cases, the conversion formulas below are based on conversions from Cohen's d (the uncorrected estimator of SMD). As such, SMD estimates had to first be transformed to Cohen's d, and the outputs of conversions had to be transformed to Hedges' g. Converting from Hedges' g (the default estimator returned from `escalc`) is done as follows, with $n_1$, $n_2$ equivalent to the sample sizes of groups 1 and 2, $yi_g$ and $yi_d$ the effect size point estimate sfor Hedges' g and Cohen's d, and $J$ a small-sample bias correction factor. 
 
 $$
 \begin{aligned}
 &J = 1 - \frac{3}{4 * (n_1 + n_2 - 2) - 1} \\
-&yi_d = yi_g * J \\
 \end{aligned}
 $${#eq-1}
+
+$$
+\begin{aligned}
+&yi_d = \frac{yi_g}{J} \\
+\end{aligned}
+$${#eq-2}
+
+$$
+\begin{aligned}
+&yi_g = J * yi_d \\
+\end{aligned}
+$${#eq-3}
+
+Note that the estimator of sampling variance for SMD, following `escalc`, is Cohen's d's sampling variance estimator and thus did not need to be converted with $J$.
+:::
 
 # SMD ↔ lnOR 
 
 ## SMD → lnOR {#sec-smd-lnOR}
 
-Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances. The resulting estimate of Cohen's d was then converted using @eq-1 to Hedges' g. Note that the estimator of sampling variance for SMD follows `escalc` and uses the sampling variance of Cohen's d instead of Hedges' g, thus no further conversion is necessary.
+Let $yi_{lnOR}$ and $yi_{d}$ be the point estimate for the lnOR and Cohen's d effect sizes and $vi_{lnOR}$ and $vi_{d}$ be their sampling variances. The resulting estimate of Cohen's d was then converted using @eq-3 to Hedges' g. 
 
 
 $$
@@ -100,7 +117,7 @@ $$
 &yi_{lnOR} = yi_d * \frac{\pi}{\sqrt{3}} \\
 &vi_{lnOR} = vi_d * \frac{\pi^2}{3} \\
 \end{aligned}
-$${#eq-2}
+$${#eq-4}
 
 In `R`:
 
@@ -147,7 +164,9 @@ $$
 &yi_d = yi_{lnOR} * \frac{\sqrt{3}}{\pi} \\
 &vi_d = vi_{lnOR} * \frac{3}{\pi^2} \\
 \end{aligned}
-$${#eq-3}
+$${#eq-5}
+
+$yi_d$ was then converted to Hedges' g using @eq-3.
 
 In `R`:
 ```{r}
@@ -188,7 +207,7 @@ The variable names are the same as [above](#sec-smd-lnOR).
 # SMD ↔ Zr
 ## SMD → Zr {#sec-smd-zr}
 
-To convert from SMD to Zr, we first convert $d$ to the correlation coefficient $r$ and then to Zr, using a correction factor $a$ for cases where $n_1 \neq n_2$. Let $yi_{Zr}$ and $yi_d$ be the point estimate for Zr and Cohen's d:
+To convert from SMD to Zr, we used @eq-2 to convert Hedges' g to Cohen's d. We then converted $yi_d$ to the correlation coefficient $r$ and then to Zr, using a correction factor $a$, to account for cases where $n_1 \neq n_2$. Let $yi_{Zr}$ and $yi_d$ be the point estimate for Zr and Cohen's d:
 
 $$
 \begin{aligned}
@@ -197,7 +216,7 @@ $$
 &r \leftarrow \min(1, \max(-1, r_i))\\
 &yi_{Zr} = atanh(r)\\
 \end{aligned}
-$${#eq-4}
+$${#eq-6}
 
 And the sampling variance of Zr ($vi_{Zr}$):
 $$
@@ -205,7 +224,7 @@ $$
 &n = n1 + n2 \\
 &vi_{Zr} = \frac{1}{(n - 3)} \\
 \end{aligned}
-$${#eq-5}
+$${#eq-7}
 
 In R:
 ```{r}
@@ -242,13 +261,13 @@ print(sub_f[[2]])
 ```
 
 ## Zr → SMD {#sec-zr-smd}
-First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$:
+First, convert the point estimate of Zr ($yi_{Zr}$) to the correlation coefficient $r$ and calculate the variance of $r$ ($vi_r$):
 $$
 \begin{aligned}
 &r = tanh(yi_{Zr}) \\
 &vi_r = \frac{(1-r^2)^2}{(n-1)}
 \end{aligned}
-$${#eq-6}
+$${#eq-8}
 
 Then calculate the point estimate ($yi_d$) and variance ($vi_d$) of Cohen's d:
 
@@ -257,7 +276,9 @@ $$
 &yi_d = \frac{2*r}{\sqrt{1-r^2}} \\
 &vi_d = \frac{4*vi_r}{(1-r^2)^3} \\
 \end{aligned}
-$${#eq-7}
+$${#eq-9}
+
+Cohen's d ($yi_d$) was then converted to Hedges' g following @eq-3.
 
 In R:
 ```{r}
