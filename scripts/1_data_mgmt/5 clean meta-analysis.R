@@ -193,7 +193,7 @@ setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
 cor.smd.wide
 cor.smd.out <- escalc(measure = "SMD", 
                  m1i = mean_prey_1, m2i = mean_prey_0,
-                 sd1i = sd_prey_1, sd2i = sd_prey_1,
+                 sd1i = sd_prey_1, sd2i = sd_prey_1, # Shinichi sd2i = sd_prey_0????
                  n1i = n1, n2i = n2,
                  data = cor.smd.wide) |> 
   setDT()
