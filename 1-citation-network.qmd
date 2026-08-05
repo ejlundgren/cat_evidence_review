@@ -256,7 +256,7 @@ pred[, upper_ci := plogis(upper_ci)]
 pred$in_support <- c("Yes", "No")
 pred
 
-# Hmmm. 
+# Plot
 citation.p <- ggplot(data = pred, 
                      aes(x = in_support, 
                          fill = in_support, y = (fit), 

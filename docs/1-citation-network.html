@@ -396,14 +396,14 @@ div.csl-indent {
 <span>                                           directed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">igraph.gr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH 554265a DN-- 1793 3105 -- 
+<pre><code>IGRAPH bc6fb79 DN-- 1793 3105 -- 
 + attr: name (v/c), article_node_name (v/c), evidence_inclusion (v/c),
 | Peer_reviewed_source (v/c), evidence_type (v/c), has_data (v/c),
 | of_quality (v/c), evidence_type_synthetic (v/c), evidence_type_fine
 | (v/c), evidence_type_simple (v/c), in_support (v/c),
 | evidence_type_synthetic_simple (v/c), edge_type (e/c), scientificName
 | (e/c), encounter_method (e/c)
-+ edges from 554265a (vertex names):
++ edges from bc6fb79 (vertex names):
 [1] (Doherty et al. 2016) core source_claim-&gt;(Alberts 2000) core source_EXCLUDE_NA_No claim       
 [2] (Doherty et al. 2016) core source_claim-&gt;(Garnett et al. 2011) core source_EXCLUDE_NA_No claim
 + ... omitted several edges</code></pre>
@@ -668,7 +668,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 1: 0.1096324 0.4859490 0.04534882 0.2419457        Yes
 2: 0.1521083 0.4624421 0.06757522 0.3075126         No</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Hmmm. </span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot</span></span>
 <span><span class="va">citation.p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">pred</span>, </span>
 <span>                     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">in_support</span>, </span>
 <span>                         fill <span class="op">=</span> <span class="va">in_support</span>, y <span class="op">=</span> <span class="op">(</span><span class="va">fit</span><span class="op">)</span>, </span>
@@ -1788,7 +1788,7 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
 <span id="cb57-270"><a href="#cb57-270" aria-hidden="true" tabindex="-1"></a>pred<span class="sc">$</span>in_support <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
 <span id="cb57-271"><a href="#cb57-271" aria-hidden="true" tabindex="-1"></a>pred</span>
 <span id="cb57-272"><a href="#cb57-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-273"><a href="#cb57-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Hmmm. </span></span>
+<span id="cb57-273"><a href="#cb57-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
 <span id="cb57-274"><a href="#cb57-274" aria-hidden="true" tabindex="-1"></a>citation.p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pred, </span>
 <span id="cb57-275"><a href="#cb57-275" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">aes</span>(<span class="at">x =</span> in_support, </span>
 <span id="cb57-276"><a href="#cb57-276" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fill =</span> in_support, <span class="at">y =</span> (fit), </span>

@@ -229,7 +229,7 @@ best_evidence[is.na(redlistCategory)] # Must be 0 rows
 unique(best_evidence$class)
 best_evidence[is.na(redlistCategory), class := "Mammals"]
 
-# Hmmm. Well let's let Arian figure that out.
+# 
 best_evidence[is.na(evidence_type), evidence_type := "No evidence found"]
 
 best_evidence[is.na(of_quality), of_quality := "no"]
