@@ -65,9 +65,6 @@ ns <- rbind(n.cor, n.smd, n.or)
 ns
 setDT(ns)
 
-# Going to determine in an excel file and merge in:
-fwrite(ns, "builds/temp/determine analysis groups.csv")
-
 # >>> Assign analysis groups & effect size types ----------------------------------------
 analysis_groups <- read_excel("data/meta_analysis/analysis groups.xlsx",
                               skip = 0) |> setDT()
@@ -101,19 +98,6 @@ cor[, Prey_correlation_data := as.numeric(Prey_correlation_data)]
 cor[is.na(as.numeric(Cat_correlation_data))]$Cat_correlation_data
 cor[, Cat_correlation_data := as.numeric(Cat_correlation_data)]
 
-class(cor$cat_presence)
-cor[is.na(as.numeric(cat_presence))]$cat_presence
-# So these are binary predictor. ALl of these except one can be SMD
-# The other can be Zr with 0/1 predictor.
-cor[Effect_size_ID == "ES_47b", Cat_correlation_data := cat_presence]
-cor[Effect_size_ID == "ES_47b"]
-
-cor.smd <- cor[is.na(Cat_correlation_data), ]
-cor.smd$cat_presence
-cor.smd[, .(n_points = .N), by = .(cat_presence, Effect_size_ID)]
-#' [Might actually do SMD with these.]
-
-
 # >>> Calculate ZCOR --------------------------------------------------
 (cor)
 
@@ -146,80 +130,7 @@ ns
 cor.sum[, original_effect_size := "Zr"]
 cor.sum$unit_of_replication
 
-# > Convert groups that can actually be SMD --------------------------------------------
-unique(cor.smd$analysis_group)
-unique(cor.smd$Effect_size_ID)
-unique(cor.smd$unit_of_replication)
-
-cor.smd
-ns
-#' [Short-term abundance gets converted to Zr using point-biserial]
-#' [Short-term reproduction gets converted to SMD directly ]
-cor.smd[analysis_group == "Short-term reproduction", .(n = .N), by = .(cat_presence)]
-
-# OK. 
-
-cor.smd.sum <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
-                                             sd_prey = sd(Prey_correlation_data),
-                                             n = .N),
-                                         by = .(Effect_size_ID, scientificName, Article, Article_secondary_same_data,
-                                                analysis_group,effect_size_type, Description,
-                                                unit_of_replication,
-                                                Abundance_reproduction, Prey_units, Cat_units, Source,
-                                                # Analysis_comment, 
-                                                Latitude, Longitude, Study_location,
-                                                cat_presence
-                                                )]
-
-#' [Transform percent data]
-#' 
-unique(cor.smd.sum$Effect_size_ID)
-cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"),]
-
-cor.smd.sum[Effect_size_ID %in% c("ES_43"), `:=` (sd_prey = sd_prey/100,
-                                              mean_prey = mean_prey/100)]
-
-cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"), `:=` 
-        (sd_prey = sqrt( sd_prey^2 / 
-         ((4*mean_prey) * (1-mean_prey)))
-                )]
-cor.smd.sum[Effect_size_ID %in% c("ES_43", "ES_37"), mean_prey := asin(sqrt(mean_prey))]
-cor.smd.sum
-
-#
-cor.smd.wide <- dcast(cor.smd.sum,
-                     ... ~ cat_presence,
-                     value.var = c("mean_prey", "sd_prey", "n"))
-
-cor.smd.wide
-setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
-
-cor.smd.wide
-cor.smd.out <- escalc(measure = "SMD", 
-                 m1i = mean_prey_1, m2i = mean_prey_0,
-                 sd1i = sd_prey_1, sd2i = sd_prey_0, 
-                 n1i = n1, n2i = n2,
-                 data = cor.smd.wide) |> 
-  setDT()
-cor.smd.out[, n := n1 + n2] # for conversions, later
-
-cor.smd.out
-cor.smd.out[, original_effect_size := "SMD"]
-
-cor.smd.out
-
-# >>> Bind ----------------------------------------------------------------
-
-cor.sum
-cor.final <- rbind(cor.sum, 
-                   cor.smd.out,
-                   fill = T)
-
-cor.final[duplicated(Effect_size_ID)]
-
-# Must be 0 rows
-cor.final[Effect_size_ID == "ES_37", ]
-cor.final[Effect_size_ID == "ES_37", ]
+cor.final <- copy(cor.sum)
 
 # 2. SMD ---------------------------------------------------------
 names(dat_list)
@@ -270,10 +181,6 @@ smd.final <- copy(smd)
 
 smd.final[Effect_size_ID == "ES_37", ]
 smd.final[Effect_size_ID == "ES_ARM", ]
-
-# Drop this effect size that is in SMD dataset
-cor.final <- cor.final[Effect_size_ID != "ES_ARM", ]
-cor.final
 
 # 3. OR ---------------------------------------------------------
 names(dat_list)

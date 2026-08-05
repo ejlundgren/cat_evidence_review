@@ -229,7 +229,7 @@ model.gt <- bias_tidy %>%
   gt() %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table S13**. We found no evidence for time-lag effects, where initially strong results decline through time. Table includes test statistics and model estimates ± 95% CIs for the intercept and publication year.")) |>
+    md("**Table S15**. We found no evidence for time-lag effects, where initially strong results decline through time. Table includes test statistics and model estimates ± 95% CIs for the intercept and publication year.")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),

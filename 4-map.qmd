@@ -121,28 +121,17 @@ sys_rev[is.na(synth_fill), synth_fill := evidence_type]
 sys_rev[of_quality == "yes",]
 # sys_rev[of_quality == "yes", synth_fill := paste(synth_fill, "with qualities")]
 
+
+sys_rev[, synth_fill := gsub(" not in support", ": no negative association", synth_fill)]
+sys_rev[, synth_fill := gsub(" in support", ": negative association", synth_fill)]
 unique(sys_rev$synth_fill)
 
-# sys_rev[, synth_fill := fcase(synth_fill == "Population study not in support with qualities", "Population study with qualities not in support",
-#                               synth_fill == "Population study in support with qualities", "Population study with qualities in support",
-#                               default = synth_fill)]
-# # 
-# fill_pal <- c(`Predation in support` = "#a6d3a0", 
-#               `Predation not in support` = "#40531b", 
-#               `Population description not in support` = "indianred4", 
-#               `Population description in support` = "dodgerblue4", 
-#               `Population study not in support` = "indianred", 
-#               `Population study with qualities not in support` = "indianred", 
-#               `Population study in support` = "dodgerblue",
-#               `Population study with qualities in support` = "dodgerblue"
-# )
-
-fill_pal <- c(`Predation in support` = "#a6d3a0",
-              `Predation not in support` = "#40531b",
-              `Population description not in support` = "indianred4",
-              `Population description in support` = "dodgerblue4",
-              `Population study not in support` = "indianred",
-              `Population study in support` = "dodgerblue"
+fill_pal <- c(`Predation: negative association` = "#a6d3a0",
+              `Predation: no negative association` = "#40531b",
+              `Population description: no negative association` = "indianred4",
+              `Population description: negative association` = "dodgerblue4",
+              `Population study: no negative association` = "indianred",
+              `Population study: negative association` = "dodgerblue"
 )
 
 setdiff(names(fill_pal), unique(sys_rev$synth_fill))
@@ -317,6 +306,7 @@ And here are **birds:**
 #| label: Figure 3
 #| fig-cap: "Quantitative studies linking cats to the endangerment of bird species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
+
 ```
 
 
@@ -367,6 +357,7 @@ m <- sub_dat %>%
 #| label: Figure 4
 #| fig-cap: "Quantitative studies linking cats to the endangerment of reptile species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
+
 ```
 
 ```{r}

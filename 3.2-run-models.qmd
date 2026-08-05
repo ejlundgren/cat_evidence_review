@@ -245,6 +245,7 @@ guide2 <- CJ(analysis_group = unique(dat.final$analysis_group),
              )
 
 guide <- rbind(guide, guide2)
+
 ```
 
 Now we'll add a unique ID that we'll use to compare alternative random effects per model series (`model_comparison_id`). And we'll formulate strings which we'll evaluate as R code for our random effects (`random_effect`), to filter our dataset (`exclusion`) and for our fixed effect formula (`formula`):
@@ -299,7 +300,7 @@ guide.m1[, model_id := paste0("model_", seq(1:.N))]
 
 ```
 
-The resulting guide will execute 1,232 models and looks like this. `exclusion`, `random_effect`, and `formula` are text strings that we will evaluate to filter dataset and run models. 
+The resulting guide will execute 1,232 models and looks like this: 
 
 ```{r}
 #| eval: true
@@ -308,6 +309,8 @@ The resulting guide will execute 1,232 models and looks like this. `exclusion`, 
 
 head(guide.m1)
 ```
+The columns `exclusion`, `random_effect`, and `formula` are text strings that we will evaluate to filter the dataset and run models. 
+
 
 Now we'll filter out models for which we have insufficient sample size. We'll do this by evaluating the exclusion strings as a subsetting operation on the dataset. We'll be very generous with sample size inclusion criteria and will fit models if there are at least 2 observations for lnOR and SMD effect size analysis groups and 5 observations for models with a continuous moderator (body mass).
 
@@ -320,7 +323,7 @@ Ns <- list()
 sub.dat <- c()
 
 for(i in 1:nrow(guide.m1)){
-  sub.dat <- dat.final[eval(parse(text = guide.m1[i, ]$exclusion))]
+  sub.dat <- dat.final[eval(parse(text = guide.m1[i, ]$exclusion)), ] # Evaluate `esclusion` string
   
   Ns[[i]] <- sub.dat[, .(n_species = uniqueN(scientificName),
                     n_articles = uniqueN(Article),
@@ -397,12 +400,7 @@ setDT(nms_res)
 nms_res[, label := paste0(gsub(" ", "_", unique_name),
                           "_ott", ott_id)]
 
-setdiff(nms_res$label, tree$tip.label)
-setdiff(tree$tip.label, nms_res$label)
-
 nms_res[, search_string := str_to_sentence(search_string)]
-setdiff(nms_res$search_string, dat$spp_name_corrected)
-setdiff(dat.final$spp_name_corrected, nms_res$search_string)
 
 dat.final.m <- merge(dat.final,
                  nms_res[, .(search_string, label)],
@@ -440,7 +438,6 @@ for(i in 1:nrow(guide)){
   dat.sub <- dat[eval(parse(text = sub_guide$exclusion))]
   dat.sub
   #
-  #
   models[[i]] <- try({
       if(sub_guide$phylo_species == "yes"){
         
@@ -454,15 +451,15 @@ for(i in 1:nrow(guide)){
                 R =  list(phylo_species = createPhyloCorr(dat.sub$phylo_species, tree)),
                 data = dat.sub) 
         
-      } else{
+      }else{
         rma.mv(yi_analysis, 
-                              V = vi_analysis,
-                              mods = as.formula(sub_guide$formula),
-                              random = eval(parse(text = sub_guide$random_effect)),
-                              dfs = "contain",
-                              test = "t",
-                              method = "REML",
-                              data = dat.sub) 
+                V = vi_analysis,
+                mods = as.formula(sub_guide$formula),
+                random = eval(parse(text = sub_guide$random_effect)),
+                dfs = "contain",
+                test = "t",
+                method = "REML",
+                data = dat.sub) 
       }
   })
 
@@ -512,7 +509,7 @@ for(i in 1:nrow(guide)){
 ```
 
 ## Model selection {#sec-model-selection}
-Now we'll select the best model per each analysis group, moderator, subgroup, and sensitivity analysis category (specified with `model_comparison_id`). We'll also filter out overfit models by removing any with a sigma equal to 0 (which has been designated with the column `overfit`.
+Now we'll filter out overfit models by removing any with a sigma equal to 0 (which has been designated with the column `overfit`). Then we'll select the best model per analysis group, moderator, subgroup, and sensitivity analysis category (specified with `model_comparison_id`). 
 
 ```{r}
 #| eval: true
@@ -540,6 +537,7 @@ tidy_models[overfit == "yes", ]
 
 predictions <- predictions[model_id %in% tidy_models$model_id]
 predictions
+
 ```
 
 # Plots {#sec-plots}
@@ -757,7 +755,6 @@ p.abund.inside <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.abund.inside
 
 p.reprod.inside <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -803,7 +800,6 @@ p.reprod.inside <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.reprod.inside
 
 p.inside <- p.abund.inside + p.reprod.inside + plot_layout(ncol = 1,
                                                            heights = c(5/8, 3/8)) +
@@ -824,7 +820,6 @@ class_pred <- predictions[moderator == "1" & class != "All" &
                             habitat_trait == "All" &
                             only_dominant_effect_size == "no" &
                             prey_range == "All"]
-unique(class_pred$class)
 dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
                   habitat_trait == "All" &
                    analysis_group %in% class_pred$analysis_group & 
@@ -897,7 +892,6 @@ mass <- predictions[moderator == "log_mass"  &
                       habitat_trait == "All" &
                       class == "All" & 
                       prey_range == "All", ]
-unique(mass$analysis_group_lab)
 
 # Back-transform mass.
 mass[, mass_g := 10^as.numeric(term)]
@@ -967,9 +961,7 @@ p.mass.abund
 habitat_pred <- predictions[habitat_trait != "All" & 
                               class == "All" &
                               prey_range == "All" &
-                              only_dominant_effect_size == "no"
-                            ]
-unique(habitat_pred$analysis_group)
+                              only_dominant_effect_size == "no", ]
 
 dat.plot <- dat[habitat_trait != "All" &
                   analysis_group %in% habitat_pred$analysis_group]
@@ -1139,7 +1131,6 @@ habitat.abund.2 <- ggplot()+
 habitat.final <- habitat.abund.1 + 
   habitat.abund.2 +
   plot_layout(nrow = 1)
-habitat.final
 ```
 
 ```{r}
@@ -1216,7 +1207,6 @@ p1.si <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p1.si
 
 p2.si <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -1266,7 +1256,6 @@ p2.si <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p2.si
 
 dominant.only <- p1.si + p2.si + plot_layout(guides = "collect", nrow = 2,
                             heights = c(3/5, 2/5)) +

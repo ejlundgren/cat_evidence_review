@@ -983,7 +983,8 @@ habitat.abund.1 <- ggplot()+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species")+
   ggtitle("Abundance")+
-  guides(size = "none", color = "none")+
+  guides(size = "none", color = "none",
+         fill = guide_legend(reverse = TRUE))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -1049,16 +1050,24 @@ habitat.abund.2 <- ggplot()+
                      values = c("Non-volant" = "#565554",
                                 "Volant" = "#2E86AB",
                                 "Island" = "#F7B538",
-                                "Mainland" = "#F24236"))+
+                                "Mainland" = "#F24236"),
+                     labels = c("Non-volant" = "Flightless",
+                                "Volant" = "Volant",
+                                "Island" = "Island",
+                                "Mainland" = "Mainland (Australia)"))+
   scale_fill_manual(name = NULL,
                     values = c("Non-volant" = "#565554",
                                "Volant" = "#2E86AB",
                                "Island" = "#F7B538",
-                               "Mainland" = "#F24236"))+
+                               "Mainland" = "#F24236"),
+                    labels = c("Non-volant" = "Flightless",
+                               "Volant" = "Volant",
+                               "Island" = "Island",
+                               "Mainland" = "Mainland (Australia)"))+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species")+
-  ggtitle("Abundance")+
-  guides(size = "none", color = "none")+
+  guides(size = "none", color = "none",
+         fill = guide_legend(reverse = TRUE))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -1068,9 +1077,9 @@ habitat.abund.2 <- ggplot()+
         panel.border = element_blank())
 habitat.abund.2
 
-habitat.final <- habitat.abund.1 + 
+habitat.final <- habitat.abund.1 + xlab(NULL) +
   habitat.abund.2 +
-  plot_layout(nrow = 1)
+  plot_layout(nrow = 2)
 habitat.final
 
 
@@ -1219,9 +1228,9 @@ ggsave("figures/SI/meta effects by mass.png",
 
 habitat.final
 ggsave("figures/SI/meta effects by habitat.pdf",
-       width = 13, height = 7)
+       width = 9, height = 9)
 ggsave("figures/SI/meta effects by habitat.png",
-       width = 13, height = 7)
+       width = 10, height = 10)
 
 p.inside # Only species inside prey range
 ggsave("figures/SI/meta effects inside prey range only.pdf",
@@ -1374,7 +1383,7 @@ sub_models[, group := paste0(analysis_group," | ", analysis_effect_size, "<br>",
 unique(sub_models$group)
 dput(unique(sub_models$group))
 
-lvls <- c("Abundance with/without cats | SMD<br>$N_{articles}=10$; $N_{species}=13$; $N_{observations}=15$<br>$I^2_{total}=59.2$; $I^2_{article}=59.2$; $I^2_{obs}=0$",
+lvls <- c("Abundance with/without cats | SMD<br>$N_{articles}=10$; $N_{species}=13$; $N_{observations}=15$<br>$I^2_{total}=54.2$; $I^2_{article}=54.2$; $I^2_{obs}=0$",
           "Abundance on islands with/without cats | lnOR<br>$N_{articles}=7$; $N_{species}=11$; $N_{observations}=11$<br>$I^2_{total}=42.1$; $I^2_{article}=42.1$; $I^2_{obs}=0$", 
           "Abundance temporal association | Zr<br>$N_{articles}=11$; $N_{species}=13$; $N_{observations}=19$<br>$I^2_{total}=86.4$; $I^2_{article}=62.3$; $I^2_{obs}=24$"
 )
@@ -1405,7 +1414,7 @@ body_mass <- sub_models %>%
   # fmt_markdown(columns = `Sample size`) %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table SX**. Model summaries for the relationship between body mass and cat effects on prey abundance. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
+    md("**Table S9**. Model summaries for the relationship between body mass and cat effects on prey abundance. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),
@@ -1658,7 +1667,7 @@ habitat <- sub_models %>%
   fmt_markdown(columns = `Sample size`) %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table SX**. Model summaries for habitat specific groupings, including foraging habitat (ground versus other), nesting habitat (ground versus other), locomotion (volant versus non-volant) and landform (continent vs island). Each habitat factor level was run indepenendently in a subgroup intercept-only model. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
+    md("**Table S10**. Model summaries for habitat specific groupings, including foraging habitat (ground versus other), nesting habitat (ground versus other), locomotion (volant versus non-volant) and landform (continent vs island). Each habitat factor level was run indepenendently in a subgroup intercept-only model. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),

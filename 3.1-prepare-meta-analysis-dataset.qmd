@@ -149,21 +149,7 @@ cor[, Prey_correlation_data := as.numeric(Prey_correlation_data)]
 cor[is.na(as.numeric(Cat_correlation_data))]$Cat_correlation_data
 cor[, Cat_correlation_data := as.numeric(Cat_correlation_data)]
 
-class(cor$cat_presence)
-cor[is.na(as.numeric(cat_presence))]$cat_presence
-
-# So these are binary predictor. ALl of these except one can be SMD
-# The other can be Zr with 0/1 predictor.
-cor[Effect_size_ID == "ES_47b", Cat_correlation_data := cat_presence]
-cor[Effect_size_ID == "ES_47b"]
-
-cor.smd <- cor[is.na(Cat_correlation_data), ]
-cor.smd$cat_presence
-cor.smd[, .(n_points = .N), by = .(cat_presence, Effect_size_ID)]
-
 # >>> Calculate ZCOR --------------------------------------------------
-(cor)
-
 cor.sum <- cor[!is.na(Cat_correlation_data), 
                .(r = get_r(x = Cat_correlation_data,
                            y = Prey_correlation_data),
@@ -179,8 +165,6 @@ cor.sum[duplicated(Effect_size_ID)]
 cor.sum[Effect_size_ID == "ES_32", 
         Effect_size_ID := paste0(Effect_size_ID, "_", .GRP), 
         by = .(scientificName)]
-cor.sum[Effect_size_ID == "ES_47b"]
-cor[Effect_size_ID == "ES_47b"]
 
 cor.sum <- escalc(measure = "ZCOR",
                      ri = r, ni = n,
@@ -189,74 +173,10 @@ cor.sum <- escalc(measure = "ZCOR",
 length(unique(cor.sum$Effect_size_ID))
 length(unique(cor.sum$Article))
 
-names(cor.sum)
-
-unique(cor.sum$analysis_group)
-
 cor.sum[, original_effect_size := "Zr"]
 
-# > Convert groups that can actually be SMD --------------------------------------------
-unique(cor.smd$analysis_group)
-
-cor.smd[analysis_group == "Short-term reproduction", .(n = .N), by = .(cat_presence)]
-
-cor.smd <- cor.smd[, .(mean_prey = mean(Prey_correlation_data),
-                       sd_prey = sd(Prey_correlation_data),
-                       n = .N),
-                   by = .(Effect_size_ID, scientificName, Article, Article_secondary_same_data,
-                          analysis_group,effect_size_type, Description,
-                          unit_of_replication,
-                          Abundance_reproduction, Prey_units, Cat_units, Source,
-                          Latitude, Longitude, Study_location,
-                          cat_presence
-                          )]
-
-# Transform 0-1 bounded data following Macartney et al 2022 Neurosci Biobehav Rev:
-unique(cor.smd$Effect_size_ID)
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"),]
-
-cor.smd[Effect_size_ID %in% c("ES_43"), `:=` (sd_prey = sd_prey/100,
-                                              mean_prey = mean_prey/100)]
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), 
-        `:=` (sd_prey = sqrt( sd_prey^2 / ((4*mean_prey) * (1-mean_prey)) ))]
-cor.smd[Effect_size_ID %in% c("ES_43", "ES_37"), mean_prey := asin(sqrt(mean_prey))]
-cor.smd
-
-# Make wide by cat presence/absence
-cor.smd.wide <- dcast(cor.smd,
-                     ... ~ cat_presence,
-                     value.var = c("mean_prey", "sd_prey", "n"))
-
-cor.smd.wide
-setnames(cor.smd.wide, c("n_1", "n_0"), c("n1", "n2"))
-
-cor.smd.wide
-cor.smd.out <- escalc(measure = "SMD", 
-                 m1i = mean_prey_1, m2i = mean_prey_0,
-                 sd1i = sd_prey_1, sd2i = sd_prey_0,
-                 n1i = n1, n2i = n2,
-                 data = cor.smd.wide) |> 
-  setDT()
-cor.smd.out[, n := n1 + n2] # for conversions, later
-
-cor.smd.out
-cor.smd.out[, original_effect_size := "SMD"]
-
-# >>> Bind ----------------------------------------------------------------
-
-cor.sum
-cor.final <- rbind(cor.sum, 
-                   cor.smd.out,
-                   fill = T)
-
-cor.final[duplicated(Effect_size_ID)]
-
-# Must be 0 rows
-cor.final[Effect_size_ID == "ES_37", ]
-cor.final[Effect_size_ID == "ES_37", ]
-
-# This one is in SMD dataset:
-cor.final <- cor.final[Effect_size_ID != "ES_ARM", ]
+# Final Zr dataset:
+cor.final <- copy(cor.sum)
 
 ```
 
@@ -401,7 +321,7 @@ meta_combined.mrg[, .(n_units = uniqueN(unit_of_replication),
                   by = .(analysis_group)]
 ```
 
-We think that these are close enough to be acceptable. What we really don't want are analysis groups that mix individuals (or nests) with surveys/plots/islands/sites.
+We think that these are close enough to be acceptable given the limited data available. 
 
 ## Convert effect sizes {#sec-convert-effect-sizes}
 Now we'll begin to convert effect sizes. We'll start by splitting out analysis groups that are a single effect size type (i.e., don't require conversion).
@@ -501,6 +421,7 @@ mixed_type <- rbind(converted, already_converted)
 mixed_type[is.na(yi_analysis), ]
 
 meta.final <- rbind(one_type, mixed_type)
+
 ```
 
 

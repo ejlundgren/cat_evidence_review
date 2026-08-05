@@ -1,12 +1,12 @@
 analysis_group,Description,n_articles,native_effect_type
-Short-term abundance,Before/after,1,Zr
 Short-term abundance,Spatial correlation,7,Zr
 Short-term abundance,Temporal correlation,12,Zr
-Short-term reproduction,Before/after,1,Zr
 Short-term reproduction,Spatial correlation,1,Zr
 Short-term reproduction,Temporal correlation,1,Zr
+Abundance before-after eradication,Before/after,1,SMD
 Inside-outside abundance,Inside-outside,1,SMD
 Long-term abundance,Presence-absence,2,SMD
+Reproduction before-after eradication,Before/after,1,SMD
 Short-term abundance,Before/after,1,SMD
 Before-after eradication reproduction,Before-after,1,OR
 Inside-outside reproduction,Inside-outside,1,OR
