@@ -396,14 +396,14 @@ div.csl-indent {
 <span>                                           directed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">igraph.gr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH bc6fb79 DN-- 1793 3105 -- 
+<pre><code>IGRAPH 6e7c240 DN-- 1793 3105 -- 
 + attr: name (v/c), article_node_name (v/c), evidence_inclusion (v/c),
 | Peer_reviewed_source (v/c), evidence_type (v/c), has_data (v/c),
 | of_quality (v/c), evidence_type_synthetic (v/c), evidence_type_fine
 | (v/c), evidence_type_simple (v/c), in_support (v/c),
 | evidence_type_synthetic_simple (v/c), edge_type (e/c), scientificName
 | (e/c), encounter_method (e/c)
-+ edges from bc6fb79 (vertex names):
++ edges from 6e7c240 (vertex names):
 [1] (Doherty et al. 2016) core source_claim-&gt;(Alberts 2000) core source_EXCLUDE_NA_No claim       
 [2] (Doherty et al. 2016) core source_claim-&gt;(Garnett et al. 2011) core source_EXCLUDE_NA_No claim
 + ... omitted several edges</code></pre>
@@ -511,9 +511,10 @@ div.csl-indent {
 <p>And the formatted legend:</p>
 <p><img src="figures/main_text/network_legend.png" width="400"></p>
 </section></section><section id="probability-of-being-cited" class="level1"><h1>Probability of being cited</h1>
-<p>Now, let’s evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in <strong>population studies</strong>?</p>
-<p>We’ll load a separate data frame produced by <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code>. This dataset is organized as claimant-claimant-source article pairs. Each row is a <em>potential</em> citation. The colum <code>cited</code> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</p>
-<p>This dataset allows us to evaluate whether claimants cited available evidence.</p>
+<p>Now, let’s evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). We used graph algorithms to identify the terminus of each citation chain, starting with the core sources (the large pink circles in the network figure above). See <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code> for this code.</p>
+<p>We then asked what proportion of those citation chains ended in <em>population studies</em>, e.g., empirical studies that link cats to bird abundance or reproduction ?</p>
+<p>To do so we’ll load a separate data frame produced by this that is organized as source - citation-terminus pairs. Each row is a <em>potential</em> citation. The colum <code>cited</code> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after ≤6 months after claimant reviews concluded were excluded).</p>
+<p>This dataset allows us to evaluate whether claimants cited the available evidence, and whether there was any bias in citation towards articles that found a negative association between cats and prey.</p>
 <p>Load data and filter to only claimant sources:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_exploded_filtered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/citation_probability.csv"</span><span class="op">)</span></span>
@@ -568,7 +569,7 @@ div.csl-indent {
 6:            Inaccessible Not relevant                  no     1        CLAIM</code></pre>
 </div>
 </div>
-<p>Now we’ll do a binomial model on articles that are population studies with data. We’ll also manually calculate the percent of available population studies with data that were cited:</p>
+<p>Now we’ll do a binomial model on articles that are population studies with data.</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Model -----------------------------------------------------------------</span></span>
 <span><span class="co"># Overall:</span></span>
@@ -712,11 +713,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 2:         No 23.00000 39.83552</code></pre>
 </div>
 </div>
-<p>On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)</p>
+<p>On average, claimants cited 17% of the available population studies that found a negative association between cats and prey and 23% of available populations studies that did not. All of these citations were made to make the claim that cats were the cause of prey decline.</p>
 </section><section id="summaries-of-evidence-cited" class="level1"><h1>Summaries of evidence cited</h1>
-<p>Now let’s look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code>.</p>
+<p>Now let’s look at the types of articles at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <code>scripts/1_data_mgmt/3 create probability of being cited dataset.R</code>.</p>
 <section id="sec-quantitative-evidence-freq" class="level2"><h2 class="anchored" data-anchor-id="sec-quantitative-evidence-freq">Quantitative articles</h2>
-<p>We’ll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources.</p>
+<p>We’ll start by looking at all quantitative evidence uncovered, focused only on the citation chains from claimant sources.</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
 <span></span>
@@ -776,16 +777,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span><span class="va">terminus_edges</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"Predation"</span>, <span class="va">evidence_type_synthetic</span><span class="op">)</span>, <span class="va">evidence_simple</span> <span class="op">:=</span> <span class="st">"Predation"</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>What percent of terminuses aren’t evidence?</p>
+<p>What percent of terminuses aren’t quantitative evidence?</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># &gt;&gt;&gt; Calculate % that aren't evidence ------------------------------------</span></span>
 <span><span class="va">sub_terminus</span> <span class="op">&lt;-</span> <span class="va">terminus_edges</span><span class="op">[</span><span class="va">making_claim</span> <span class="op">==</span> <span class="st">"making claim"</span><span class="op">]</span></span>
 <span><span class="va">sub_terminus</span><span class="op">[</span>, <span class="va">evidence_simple</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">evidence_simple</span><span class="op">)</span>, <span class="st">"excluded"</span>, <span class="st">"included"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">sub_terminus</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n <span class="op">=</span> <span class="va">.N</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">evidence_simple</span><span class="op">]</span></span>
-<span><span class="va">x</span><span class="op">[</span>, <span class="va">total</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">x</span><span class="op">[</span>, <span class="va">perc</span> <span class="op">:=</span> <span class="va">n</span> <span class="op">/</span> <span class="va">total</span><span class="op">]</span></span>
-<span><span class="va">x</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">out</span> <span class="op">&lt;-</span> <span class="va">sub_terminus</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n <span class="op">=</span> <span class="va">.N</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">evidence_simple</span><span class="op">]</span></span>
+<span><span class="va">out</span><span class="op">[</span>, <span class="va">total</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">out</span><span class="op">[</span>, <span class="va">perc</span> <span class="op">:=</span> <span class="va">n</span> <span class="op">/</span> <span class="va">total</span><span class="op">]</span></span>
+<span><span class="va">out</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>   evidence_simple     n total      perc
             &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;num&gt;
@@ -906,9 +907,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p><img src="figures/main_text/network_legend_2.png" width="200"></p>
-<p>The majority of evidence are predation records.</p>
+<p>The majority of evidence are predation records—that cats have been documented consuming or causing mortality to the prey species in question.</p>
 </section><section id="sec-excluded-articles" class="level2"><h2 class="anchored" data-anchor-id="sec-excluded-articles">Excluded articles</h2>
-<p>Now let’s look at all the other terminus article types and why they do not constitute evidence. We’ll reload the same dataset we used <a href="#sec-quantitative-evidence-freq">above</a> and we’ll do some lumping and splitting of the categories used to classify the article types.</p>
+<p>Now let’s look at all the other terminus article types that did not qualify as quantitative evidence. We’ll reload the same dataset we used <a href="#sec-quantitative-evidence-freq">above</a> and we’ll do some lumping and splitting of the categories used to classify the article types, simply to make the figure tractable.</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">terminus_edges</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fread.html">fread</a></span><span class="op">(</span><span class="st">"builds/citation_network/terminal_citation_chains.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">terminus_edges</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1055,7 +1056,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 </div>
-<p>The majority of claimant citations ended with claims without citations give. Or ended with articles that made no claim about the hypothesis. Following this, expert opinion and inaccessible grey literature dominate the citation chain terminuses.</p>
+<p>The majority of claims gave no citation, or ended with articles that made no claim about the hypothesis that cats caused endangerment of the prey species in question. Following this, expert opinion and inaccessible grey literature dominate the citation chain termini.</p>
 <p>To put these numbers in perspective, we’ll now patchwork the two plots:</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cites.p.included</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span></span>
@@ -1716,338 +1717,346 @@ Wallach, Arian D, and Erick J Lundgren. 2025. <span>“Review of Evidence That F
 <span id="cb57-192"><a href="#cb57-192" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-193"><a href="#cb57-193" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-194"><a href="#cb57-194" aria-hidden="true" tabindex="-1"></a><span class="fu"># Probability of being cited</span></span>
-<span id="cb57-195"><a href="#cb57-195" aria-hidden="true" tabindex="-1"></a>Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in **population studies**?</span>
+<span id="cb57-195"><a href="#cb57-195" aria-hidden="true" tabindex="-1"></a>Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). We used graph algorithms to identify the terminus of each citation chain, starting with the core sources (the large pink circles in the network figure above). See <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span> for this code.</span>
 <span id="cb57-196"><a href="#cb57-196" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-197"><a href="#cb57-197" aria-hidden="true" tabindex="-1"></a>We'll load a separate data frame produced by <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span>. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum <span class="in">`cited`</span> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).</span>
+<span id="cb57-197"><a href="#cb57-197" aria-hidden="true" tabindex="-1"></a>We then asked what proportion of those citation chains ended in *population studies*, e.g., empirical studies that link cats to bird abundance or reproduction ?</span>
 <span id="cb57-198"><a href="#cb57-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-199"><a href="#cb57-199" aria-hidden="true" tabindex="-1"></a>This dataset allows us to evaluate whether claimants cited available evidence.</span>
+<span id="cb57-199"><a href="#cb57-199" aria-hidden="true" tabindex="-1"></a>To do so we'll load a separate data frame produced by this that is organized as source - citation-terminus pairs. Each row is a *potential* citation. The colum <span class="in">`cited`</span> (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after ≤6 months after claimant reviews concluded were excluded).</span>
 <span id="cb57-200"><a href="#cb57-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-201"><a href="#cb57-201" aria-hidden="true" tabindex="-1"></a>Load data and filter to only claimant sources:</span>
-<span id="cb57-204"><a href="#cb57-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-205"><a href="#cb57-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-206"><a href="#cb57-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-207"><a href="#cb57-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-208"><a href="#cb57-208" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/citation_probability.csv"</span>)</span>
+<span id="cb57-201"><a href="#cb57-201" aria-hidden="true" tabindex="-1"></a>This dataset allows us to evaluate whether claimants cited the available evidence, and whether there was any bias in citation towards articles that found a negative association between cats and prey.</span>
+<span id="cb57-202"><a href="#cb57-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-203"><a href="#cb57-203" aria-hidden="true" tabindex="-1"></a>Load data and filter to only claimant sources:</span>
+<span id="cb57-206"><a href="#cb57-206" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-207"><a href="#cb57-207" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-208"><a href="#cb57-208" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
 <span id="cb57-209"><a href="#cb57-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-210"><a href="#cb57-210" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to only claimant sources</span></span>
-<span id="cb57-211"><a href="#cb57-211" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"_claim"</span>, </span>
-<span id="cb57-212"><a href="#cb57-212" aria-hidden="true" tabindex="-1"></a>                                                          cited_by_id), </span>
-<span id="cb57-213"><a href="#cb57-213" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"CLAIM"</span>, </span>
-<span id="cb57-214"><a href="#cb57-214" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"NO_CLAIM"</span>)]</span>
-<span id="cb57-215"><a href="#cb57-215" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered <span class="ot">&lt;-</span> terminus_exploded_filtered[making_claim <span class="sc">==</span> <span class="st">"CLAIM"</span>, ]</span>
-<span id="cb57-216"><a href="#cb57-216" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(terminus_exploded_filtered)</span>
-<span id="cb57-217"><a href="#cb57-217" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-218"><a href="#cb57-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-219"><a href="#cb57-219" aria-hidden="true" tabindex="-1"></a>Now we'll do a binomial model on articles that are population studies with data. We'll also manually calculate the percent of available population studies with data that were cited:</span>
-<span id="cb57-222"><a href="#cb57-222" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-223"><a href="#cb57-223" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-224"><a href="#cb57-224" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-225"><a href="#cb57-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
-<span id="cb57-226"><a href="#cb57-226" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
-<span id="cb57-227"><a href="#cb57-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-228"><a href="#cb57-228" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Model -----------------------------------------------------------------</span></span>
-<span id="cb57-229"><a href="#cb57-229" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall:</span></span>
-<span id="cb57-230"><a href="#cb57-230" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(cited <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>cited_by_id) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>scientificName),</span>
-<span id="cb57-231"><a href="#cb57-231" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
-<span id="cb57-232"><a href="#cb57-232" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
-<span id="cb57-233"><a href="#cb57-233" aria-hidden="true" tabindex="-1"></a>                                                 has_data <span class="sc">==</span> <span class="st">"yes"</span>, ])</span>
-<span id="cb57-234"><a href="#cb57-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-235"><a href="#cb57-235" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
-<span id="cb57-236"><a href="#cb57-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-237"><a href="#cb57-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-238"><a href="#cb57-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-239"><a href="#cb57-239" aria-hidden="true" tabindex="-1"></a>Now let's evaluate whether there was a difference in citations between evidence in support or not of the hypothesis and plot this:</span>
-<span id="cb57-242"><a href="#cb57-242" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-243"><a href="#cb57-243" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-244"><a href="#cb57-244" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-245"><a href="#cb57-245" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
-<span id="cb57-246"><a href="#cb57-246" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
-<span id="cb57-247"><a href="#cb57-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-248"><a href="#cb57-248" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(cited <span class="sc">~</span> in_support <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>cited_by_id) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>scientificName),</span>
-<span id="cb57-249"><a href="#cb57-249" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
-<span id="cb57-250"><a href="#cb57-250" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
-<span id="cb57-251"><a href="#cb57-251" aria-hidden="true" tabindex="-1"></a>                                                 has_data <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
-<span id="cb57-252"><a href="#cb57-252" aria-hidden="true" tabindex="-1"></a>                                                 making_claim <span class="sc">==</span> <span class="st">"CLAIM"</span>, ])</span>
-<span id="cb57-253"><a href="#cb57-253" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
-<span id="cb57-254"><a href="#cb57-254" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m)</span>
-<span id="cb57-255"><a href="#cb57-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-256"><a href="#cb57-256" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, <span class="fu">data.table</span>(<span class="at">in_support =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)),</span>
-<span id="cb57-257"><a href="#cb57-257" aria-hidden="true" tabindex="-1"></a>                <span class="at">re.form =</span> <span class="cn">NA</span>, <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb57-258"><a href="#cb57-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-259"><a href="#cb57-259" aria-hidden="true" tabindex="-1"></a><span class="co"># predict_response(m)</span></span>
-<span id="cb57-260"><a href="#cb57-260" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(m)</span></span>
-<span id="cb57-261"><a href="#cb57-261" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pred) <span class="sc">|&gt;</span> <span class="fu">setDT</span>()</span>
-<span id="cb57-262"><a href="#cb57-262" aria-hidden="true" tabindex="-1"></a>crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span>
-<span id="cb57-263"><a href="#cb57-263" aria-hidden="true" tabindex="-1"></a>pred[, lower_ci <span class="sc">:</span><span class="er">=</span> fit <span class="sc">-</span> (se.fit <span class="sc">*</span> <span class="fl">1.96</span>)]</span>
-<span id="cb57-264"><a href="#cb57-264" aria-hidden="true" tabindex="-1"></a>pred[, upper_ci <span class="sc">:</span><span class="er">=</span> fit <span class="sc">+</span> (se.fit <span class="sc">*</span> <span class="fl">1.96</span>)]</span>
-<span id="cb57-265"><a href="#cb57-265" aria-hidden="true" tabindex="-1"></a>pred[, fit <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(fit)]</span>
-<span id="cb57-266"><a href="#cb57-266" aria-hidden="true" tabindex="-1"></a>pred[, lower_ci <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(lower_ci)]</span>
-<span id="cb57-267"><a href="#cb57-267" aria-hidden="true" tabindex="-1"></a>pred[, upper_ci <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(upper_ci)]</span>
-<span id="cb57-268"><a href="#cb57-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-269"><a href="#cb57-269" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb57-270"><a href="#cb57-270" aria-hidden="true" tabindex="-1"></a>pred<span class="sc">$</span>in_support <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
-<span id="cb57-271"><a href="#cb57-271" aria-hidden="true" tabindex="-1"></a>pred</span>
+<span id="cb57-210"><a href="#cb57-210" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/citation_probability.csv"</span>)</span>
+<span id="cb57-211"><a href="#cb57-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-212"><a href="#cb57-212" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to only claimant sources</span></span>
+<span id="cb57-213"><a href="#cb57-213" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"_claim"</span>, </span>
+<span id="cb57-214"><a href="#cb57-214" aria-hidden="true" tabindex="-1"></a>                                                          cited_by_id), </span>
+<span id="cb57-215"><a href="#cb57-215" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"CLAIM"</span>, </span>
+<span id="cb57-216"><a href="#cb57-216" aria-hidden="true" tabindex="-1"></a>                                                    <span class="st">"NO_CLAIM"</span>)]</span>
+<span id="cb57-217"><a href="#cb57-217" aria-hidden="true" tabindex="-1"></a>terminus_exploded_filtered <span class="ot">&lt;-</span> terminus_exploded_filtered[making_claim <span class="sc">==</span> <span class="st">"CLAIM"</span>, ]</span>
+<span id="cb57-218"><a href="#cb57-218" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(terminus_exploded_filtered)</span>
+<span id="cb57-219"><a href="#cb57-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-220"><a href="#cb57-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-221"><a href="#cb57-221" aria-hidden="true" tabindex="-1"></a>Now we'll do a binomial model on articles that are population studies with data.</span>
+<span id="cb57-222"><a href="#cb57-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-225"><a href="#cb57-225" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-226"><a href="#cb57-226" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-227"><a href="#cb57-227" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-228"><a href="#cb57-228" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb57-229"><a href="#cb57-229" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
+<span id="cb57-230"><a href="#cb57-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-231"><a href="#cb57-231" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Model -----------------------------------------------------------------</span></span>
+<span id="cb57-232"><a href="#cb57-232" aria-hidden="true" tabindex="-1"></a><span class="co"># Overall:</span></span>
+<span id="cb57-233"><a href="#cb57-233" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(cited <span class="sc">~</span> <span class="dv">1</span> <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>cited_by_id) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>scientificName),</span>
+<span id="cb57-234"><a href="#cb57-234" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb57-235"><a href="#cb57-235" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
+<span id="cb57-236"><a href="#cb57-236" aria-hidden="true" tabindex="-1"></a>                                                 has_data <span class="sc">==</span> <span class="st">"yes"</span>, ])</span>
+<span id="cb57-237"><a href="#cb57-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-238"><a href="#cb57-238" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
+<span id="cb57-239"><a href="#cb57-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-240"><a href="#cb57-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-241"><a href="#cb57-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-242"><a href="#cb57-242" aria-hidden="true" tabindex="-1"></a>Now let's evaluate whether there was a difference in citations between evidence in support or not of the hypothesis and plot this:</span>
+<span id="cb57-243"><a href="#cb57-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-246"><a href="#cb57-246" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-247"><a href="#cb57-247" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-248"><a href="#cb57-248" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-249"><a href="#cb57-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 9</span></span>
+<span id="cb57-250"><a href="#cb57-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
+<span id="cb57-251"><a href="#cb57-251" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-252"><a href="#cb57-252" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">glmmTMB</span>(cited <span class="sc">~</span> in_support <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>cited_by_id) <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>scientificName),</span>
+<span id="cb57-253"><a href="#cb57-253" aria-hidden="true" tabindex="-1"></a>             <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>),</span>
+<span id="cb57-254"><a href="#cb57-254" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
+<span id="cb57-255"><a href="#cb57-255" aria-hidden="true" tabindex="-1"></a>                                                 has_data <span class="sc">==</span> <span class="st">"yes"</span> <span class="sc">&amp;</span></span>
+<span id="cb57-256"><a href="#cb57-256" aria-hidden="true" tabindex="-1"></a>                                                 making_claim <span class="sc">==</span> <span class="st">"CLAIM"</span>, ])</span>
+<span id="cb57-257"><a href="#cb57-257" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m)</span>
+<span id="cb57-258"><a href="#cb57-258" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(m)</span>
+<span id="cb57-259"><a href="#cb57-259" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-260"><a href="#cb57-260" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(m, <span class="fu">data.table</span>(<span class="at">in_support =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)),</span>
+<span id="cb57-261"><a href="#cb57-261" aria-hidden="true" tabindex="-1"></a>                <span class="at">re.form =</span> <span class="cn">NA</span>, <span class="at">se =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb57-262"><a href="#cb57-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-263"><a href="#cb57-263" aria-hidden="true" tabindex="-1"></a><span class="co"># predict_response(m)</span></span>
+<span id="cb57-264"><a href="#cb57-264" aria-hidden="true" tabindex="-1"></a><span class="co"># summary(m)</span></span>
+<span id="cb57-265"><a href="#cb57-265" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pred) <span class="sc">|&gt;</span> <span class="fu">setDT</span>()</span>
+<span id="cb57-266"><a href="#cb57-266" aria-hidden="true" tabindex="-1"></a>crit <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.975</span>)</span>
+<span id="cb57-267"><a href="#cb57-267" aria-hidden="true" tabindex="-1"></a>pred[, lower_ci <span class="sc">:</span><span class="er">=</span> fit <span class="sc">-</span> (se.fit <span class="sc">*</span> <span class="fl">1.96</span>)]</span>
+<span id="cb57-268"><a href="#cb57-268" aria-hidden="true" tabindex="-1"></a>pred[, upper_ci <span class="sc">:</span><span class="er">=</span> fit <span class="sc">+</span> (se.fit <span class="sc">*</span> <span class="fl">1.96</span>)]</span>
+<span id="cb57-269"><a href="#cb57-269" aria-hidden="true" tabindex="-1"></a>pred[, fit <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(fit)]</span>
+<span id="cb57-270"><a href="#cb57-270" aria-hidden="true" tabindex="-1"></a>pred[, lower_ci <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(lower_ci)]</span>
+<span id="cb57-271"><a href="#cb57-271" aria-hidden="true" tabindex="-1"></a>pred[, upper_ci <span class="sc">:</span><span class="er">=</span> <span class="fu">plogis</span>(upper_ci)]</span>
 <span id="cb57-272"><a href="#cb57-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-273"><a href="#cb57-273" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
-<span id="cb57-274"><a href="#cb57-274" aria-hidden="true" tabindex="-1"></a>citation.p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pred, </span>
-<span id="cb57-275"><a href="#cb57-275" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">aes</span>(<span class="at">x =</span> in_support, </span>
-<span id="cb57-276"><a href="#cb57-276" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fill =</span> in_support, <span class="at">y =</span> (fit), </span>
-<span id="cb57-277"><a href="#cb57-277" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ymin =</span> (lower_ci), <span class="at">ymax =</span> (upper_ci)))<span class="sc">+</span></span>
-<span id="cb57-278"><a href="#cb57-278" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">75</span>), <span class="at">width =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
-<span id="cb57-279"><a href="#cb57-279" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">75</span>),</span>
-<span id="cb57-280"><a href="#cb57-280" aria-hidden="true" tabindex="-1"></a>                  <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
-<span id="cb57-281"><a href="#cb57-281" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Probability (±95% CIs) of a claimant citing</span><span class="sc">\n</span><span class="st">an available population study with data"</span>)<span class="sc">+</span></span>
-<span id="cb57-282"><a href="#cb57-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"In support"</span>,</span>
-<span id="cb57-283"><a href="#cb57-283" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No"</span> <span class="ot">=</span> <span class="st">"indianred"</span>, <span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>))<span class="sc">+</span></span>
-<span id="cb57-284"><a href="#cb57-284" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Negative association</span><span class="sc">\n</span><span class="st">found"</span>)<span class="sc">+</span></span>
-<span id="cb57-285"><a href="#cb57-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb57-286"><a href="#cb57-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-287"><a href="#cb57-287" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-288"><a href="#cb57-288" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb57-289"><a href="#cb57-289" aria-hidden="true" tabindex="-1"></a>citation.p</span>
-<span id="cb57-290"><a href="#cb57-290" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-291"><a href="#cb57-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-292"><a href="#cb57-292" aria-hidden="true" tabindex="-1"></a>And let's summarize the percent cited with descriptive statistics:</span>
-<span id="cb57-295"><a href="#cb57-295" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-296"><a href="#cb57-296" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-297"><a href="#cb57-297" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-298"><a href="#cb57-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-299"><a href="#cb57-299" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
-<span id="cb57-300"><a href="#cb57-300" aria-hidden="true" tabindex="-1"></a>                                    has_data <span class="sc">==</span> <span class="st">"yes"</span>, .(<span class="at">n =</span> .N),</span>
-<span id="cb57-301"><a href="#cb57-301" aria-hidden="true" tabindex="-1"></a>                                  by <span class="ot">=</span> .(cited, scientificName, cited_by_id, in_support)]</span>
-<span id="cb57-302"><a href="#cb57-302" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">dcast</span>(out,</span>
-<span id="cb57-303"><a href="#cb57-303" aria-hidden="true" tabindex="-1"></a>             scientificName <span class="sc">+</span> in_support <span class="sc">+</span> cited_by_id <span class="sc">~</span> cited, <span class="at">value.var =</span> <span class="st">"n"</span>,</span>
-<span id="cb57-304"><a href="#cb57-304" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="dv">0</span>)</span>
-<span id="cb57-305"><a href="#cb57-305" aria-hidden="true" tabindex="-1"></a>out[, total <span class="sc">:</span><span class="er">=</span> <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>]</span>
-<span id="cb57-306"><a href="#cb57-306" aria-hidden="true" tabindex="-1"></a>out[, perc_cited <span class="sc">:</span><span class="er">=</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="sc">/</span> total <span class="sc">*</span> <span class="dv">100</span>]</span>
-<span id="cb57-307"><a href="#cb57-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-308"><a href="#cb57-308" aria-hidden="true" tabindex="-1"></a>out[, .(<span class="at">mean =</span> <span class="fu">mean</span>(perc_cited), <span class="at">sd=</span><span class="fu">sd</span>(perc_cited)),</span>
-<span id="cb57-309"><a href="#cb57-309" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> .(in_support)]</span>
-<span id="cb57-310"><a href="#cb57-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-311"><a href="#cb57-311" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-312"><a href="#cb57-312" aria-hidden="true" tabindex="-1"></a>On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)</span>
-<span id="cb57-313"><a href="#cb57-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-314"><a href="#cb57-314" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summaries of evidence cited</span></span>
-<span id="cb57-315"><a href="#cb57-315" aria-hidden="true" tabindex="-1"></a>Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span>.</span>
-<span id="cb57-316"><a href="#cb57-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-317"><a href="#cb57-317" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quantitative articles {#sec-quantitative-evidence-freq}</span></span>
-<span id="cb57-318"><a href="#cb57-318" aria-hidden="true" tabindex="-1"></a>We'll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources. </span>
-<span id="cb57-319"><a href="#cb57-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-322"><a href="#cb57-322" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-323"><a href="#cb57-323" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-324"><a href="#cb57-324" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-325"><a href="#cb57-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-326"><a href="#cb57-326" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/terminal_citation_chains.csv"</span>)</span>
-<span id="cb57-327"><a href="#cb57-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-328"><a href="#cb57-328" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> terminus_edges[cited_by_id <span class="sc">!=</span> <span class="st">"Opportunistic_Systematic external review"</span>]</span>
-<span id="cb57-329"><a href="#cb57-329" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges<span class="sc">$</span>evidence_type_fine)</span>
-<span id="cb57-330"><a href="#cb57-330" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-331"><a href="#cb57-331" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges<span class="sc">$</span>evidence_type_synthetic)</span>
-<span id="cb57-332"><a href="#cb57-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-333"><a href="#cb57-333" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges[<span class="fu">grepl</span>(<span class="st">"EXCLUDE"</span>, article_id)]<span class="sc">$</span>evidence_type_fine)</span>
+<span id="cb57-273"><a href="#cb57-273" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb57-274"><a href="#cb57-274" aria-hidden="true" tabindex="-1"></a>pred<span class="sc">$</span>in_support <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)</span>
+<span id="cb57-275"><a href="#cb57-275" aria-hidden="true" tabindex="-1"></a>pred</span>
+<span id="cb57-276"><a href="#cb57-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-277"><a href="#cb57-277" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot</span></span>
+<span id="cb57-278"><a href="#cb57-278" aria-hidden="true" tabindex="-1"></a>citation.p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> pred, </span>
+<span id="cb57-279"><a href="#cb57-279" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">aes</span>(<span class="at">x =</span> in_support, </span>
+<span id="cb57-280"><a href="#cb57-280" aria-hidden="true" tabindex="-1"></a>                         <span class="at">fill =</span> in_support, <span class="at">y =</span> (fit), </span>
+<span id="cb57-281"><a href="#cb57-281" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ymin =</span> (lower_ci), <span class="at">ymax =</span> (upper_ci)))<span class="sc">+</span></span>
+<span id="cb57-282"><a href="#cb57-282" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">75</span>), <span class="at">width =</span> .<span class="dv">25</span>)<span class="sc">+</span></span>
+<span id="cb57-283"><a href="#cb57-283" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">75</span>),</span>
+<span id="cb57-284"><a href="#cb57-284" aria-hidden="true" tabindex="-1"></a>                  <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb57-285"><a href="#cb57-285" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Probability (±95% CIs) of a claimant citing</span><span class="sc">\n</span><span class="st">an available population study with data"</span>)<span class="sc">+</span></span>
+<span id="cb57-286"><a href="#cb57-286" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"In support"</span>,</span>
+<span id="cb57-287"><a href="#cb57-287" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"No"</span> <span class="ot">=</span> <span class="st">"indianred"</span>, <span class="st">"Yes"</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>))<span class="sc">+</span></span>
+<span id="cb57-288"><a href="#cb57-288" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Negative association</span><span class="sc">\n</span><span class="st">found"</span>)<span class="sc">+</span></span>
+<span id="cb57-289"><a href="#cb57-289" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb57-290"><a href="#cb57-290" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-291"><a href="#cb57-291" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-292"><a href="#cb57-292" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb57-293"><a href="#cb57-293" aria-hidden="true" tabindex="-1"></a>citation.p</span>
+<span id="cb57-294"><a href="#cb57-294" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-295"><a href="#cb57-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-296"><a href="#cb57-296" aria-hidden="true" tabindex="-1"></a>And let's summarize the percent cited with descriptive statistics:</span>
+<span id="cb57-299"><a href="#cb57-299" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-300"><a href="#cb57-300" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-301"><a href="#cb57-301" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-302"><a href="#cb57-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-303"><a href="#cb57-303" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> terminus_exploded_filtered[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic) <span class="sc">&amp;</span></span>
+<span id="cb57-304"><a href="#cb57-304" aria-hidden="true" tabindex="-1"></a>                                    has_data <span class="sc">==</span> <span class="st">"yes"</span>, .(<span class="at">n =</span> .N),</span>
+<span id="cb57-305"><a href="#cb57-305" aria-hidden="true" tabindex="-1"></a>                                  by <span class="ot">=</span> .(cited, scientificName, cited_by_id, in_support)]</span>
+<span id="cb57-306"><a href="#cb57-306" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">dcast</span>(out,</span>
+<span id="cb57-307"><a href="#cb57-307" aria-hidden="true" tabindex="-1"></a>             scientificName <span class="sc">+</span> in_support <span class="sc">+</span> cited_by_id <span class="sc">~</span> cited, <span class="at">value.var =</span> <span class="st">"n"</span>,</span>
+<span id="cb57-308"><a href="#cb57-308" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill =</span> <span class="dv">0</span>)</span>
+<span id="cb57-309"><a href="#cb57-309" aria-hidden="true" tabindex="-1"></a>out[, total <span class="sc">:</span><span class="er">=</span> <span class="st">`</span><span class="at">0</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span>]</span>
+<span id="cb57-310"><a href="#cb57-310" aria-hidden="true" tabindex="-1"></a>out[, perc_cited <span class="sc">:</span><span class="er">=</span> <span class="st">`</span><span class="at">1</span><span class="st">`</span> <span class="sc">/</span> total <span class="sc">*</span> <span class="dv">100</span>]</span>
+<span id="cb57-311"><a href="#cb57-311" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-312"><a href="#cb57-312" aria-hidden="true" tabindex="-1"></a>out[, .(<span class="at">mean =</span> <span class="fu">mean</span>(perc_cited), <span class="at">sd=</span><span class="fu">sd</span>(perc_cited)),</span>
+<span id="cb57-313"><a href="#cb57-313" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> .(in_support)]</span>
+<span id="cb57-314"><a href="#cb57-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-315"><a href="#cb57-315" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-316"><a href="#cb57-316" aria-hidden="true" tabindex="-1"></a>On average, claimants cited 17% of the available population studies that found a negative association between cats and prey and 23% of available populations studies that did not. All of these citations were made to make the claim that cats were the cause of prey decline.</span>
+<span id="cb57-317"><a href="#cb57-317" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-318"><a href="#cb57-318" aria-hidden="true" tabindex="-1"></a><span class="fu"># Summaries of evidence cited</span></span>
+<span id="cb57-319"><a href="#cb57-319" aria-hidden="true" tabindex="-1"></a>Now let's look at the types of articles at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in <span class="in">`scripts/1_data_mgmt/3 create probability of being cited dataset.R`</span>.</span>
+<span id="cb57-320"><a href="#cb57-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-321"><a href="#cb57-321" aria-hidden="true" tabindex="-1"></a><span class="fu">## Quantitative articles {#sec-quantitative-evidence-freq}</span></span>
+<span id="cb57-322"><a href="#cb57-322" aria-hidden="true" tabindex="-1"></a>We'll start by looking at all quantitative evidence uncovered, focused only on the citation chains from claimant sources. </span>
+<span id="cb57-323"><a href="#cb57-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-326"><a href="#cb57-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-327"><a href="#cb57-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-328"><a href="#cb57-328" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-329"><a href="#cb57-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-330"><a href="#cb57-330" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/terminal_citation_chains.csv"</span>)</span>
+<span id="cb57-331"><a href="#cb57-331" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-332"><a href="#cb57-332" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> terminus_edges[cited_by_id <span class="sc">!=</span> <span class="st">"Opportunistic_Systematic external review"</span>]</span>
+<span id="cb57-333"><a href="#cb57-333" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges<span class="sc">$</span>evidence_type_fine)</span>
 <span id="cb57-334"><a href="#cb57-334" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-335"><a href="#cb57-335" aria-hidden="true" tabindex="-1"></a>terminus_edges[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"core source_claim"</span>, cited_by_id), </span>
-<span id="cb57-336"><a href="#cb57-336" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span>)]</span>
-<span id="cb57-337"><a href="#cb57-337" aria-hidden="true" tabindex="-1"></a>terminus_edges[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic), evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="st">"Population"</span>]</span>
-<span id="cb57-338"><a href="#cb57-338" aria-hidden="true" tabindex="-1"></a>terminus_edges[<span class="fu">grepl</span>(<span class="st">"Predation"</span>, evidence_type_synthetic), evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="st">"Predation"</span>]</span>
-<span id="cb57-339"><a href="#cb57-339" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-340"><a href="#cb57-340" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-341"><a href="#cb57-341" aria-hidden="true" tabindex="-1"></a>What percent of terminuses aren't evidence?</span>
-<span id="cb57-344"><a href="#cb57-344" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-345"><a href="#cb57-345" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-346"><a href="#cb57-346" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-347"><a href="#cb57-347" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Calculate % that aren't evidence ------------------------------------</span></span>
-<span id="cb57-348"><a href="#cb57-348" aria-hidden="true" tabindex="-1"></a>sub_terminus <span class="ot">&lt;-</span> terminus_edges[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>]</span>
-<span id="cb57-349"><a href="#cb57-349" aria-hidden="true" tabindex="-1"></a>sub_terminus[, evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(evidence_simple), <span class="st">"excluded"</span>, <span class="st">"included"</span>)]</span>
-<span id="cb57-350"><a href="#cb57-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-351"><a href="#cb57-351" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> sub_terminus[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> evidence_simple]</span>
-<span id="cb57-352"><a href="#cb57-352" aria-hidden="true" tabindex="-1"></a>x[, total <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(n)]</span>
-<span id="cb57-353"><a href="#cb57-353" aria-hidden="true" tabindex="-1"></a>x[, perc <span class="sc">:</span><span class="er">=</span> n <span class="sc">/</span> total]</span>
-<span id="cb57-354"><a href="#cb57-354" aria-hidden="true" tabindex="-1"></a>x</span>
-<span id="cb57-355"><a href="#cb57-355" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-356"><a href="#cb57-356" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-357"><a href="#cb57-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-358"><a href="#cb57-358" aria-hidden="true" tabindex="-1"></a>Now, let's plot the number of citation chains by terminus article type:</span>
-<span id="cb57-361"><a href="#cb57-361" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-362"><a href="#cb57-362" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-363"><a href="#cb57-363" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-364"><a href="#cb57-364" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple <span class="ot">&lt;-</span> terminus_edges[evidence_simple <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>), </span>
-<span id="cb57-365"><a href="#cb57-365" aria-hidden="true" tabindex="-1"></a>                                       .(<span class="at">n =</span> .N),</span>
-<span id="cb57-366"><a href="#cb57-366" aria-hidden="true" tabindex="-1"></a>            by <span class="ot">=</span> .(evidence_type_synthetic, evidence_simple, making_claim,</span>
-<span id="cb57-367"><a href="#cb57-367" aria-hidden="true" tabindex="-1"></a>                  has_data, of_quality, in_support)]</span>
-<span id="cb57-368"><a href="#cb57-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-369"><a href="#cb57-369" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple[<span class="fu">is.na</span>(evidence_simple)]<span class="sc">$</span>evidence_type_synthetic)</span>
+<span id="cb57-335"><a href="#cb57-335" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges<span class="sc">$</span>evidence_type_synthetic)</span>
+<span id="cb57-336"><a href="#cb57-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-337"><a href="#cb57-337" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_edges[<span class="fu">grepl</span>(<span class="st">"EXCLUDE"</span>, article_id)]<span class="sc">$</span>evidence_type_fine)</span>
+<span id="cb57-338"><a href="#cb57-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-339"><a href="#cb57-339" aria-hidden="true" tabindex="-1"></a>terminus_edges[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"core source_claim"</span>, cited_by_id), </span>
+<span id="cb57-340"><a href="#cb57-340" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span>)]</span>
+<span id="cb57-341"><a href="#cb57-341" aria-hidden="true" tabindex="-1"></a>terminus_edges[<span class="fu">grepl</span>(<span class="st">"Population"</span>, evidence_type_synthetic), evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="st">"Population"</span>]</span>
+<span id="cb57-342"><a href="#cb57-342" aria-hidden="true" tabindex="-1"></a>terminus_edges[<span class="fu">grepl</span>(<span class="st">"Predation"</span>, evidence_type_synthetic), evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="st">"Predation"</span>]</span>
+<span id="cb57-343"><a href="#cb57-343" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-344"><a href="#cb57-344" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-345"><a href="#cb57-345" aria-hidden="true" tabindex="-1"></a>What percent of terminuses aren't quantitative evidence?</span>
+<span id="cb57-346"><a href="#cb57-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-349"><a href="#cb57-349" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-350"><a href="#cb57-350" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-351"><a href="#cb57-351" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-352"><a href="#cb57-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-353"><a href="#cb57-353" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Calculate % that aren't evidence ------------------------------------</span></span>
+<span id="cb57-354"><a href="#cb57-354" aria-hidden="true" tabindex="-1"></a>sub_terminus <span class="ot">&lt;-</span> terminus_edges[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>]</span>
+<span id="cb57-355"><a href="#cb57-355" aria-hidden="true" tabindex="-1"></a>sub_terminus[, evidence_simple <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(evidence_simple), <span class="st">"excluded"</span>, <span class="st">"included"</span>)]</span>
+<span id="cb57-356"><a href="#cb57-356" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-357"><a href="#cb57-357" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> sub_terminus[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> evidence_simple]</span>
+<span id="cb57-358"><a href="#cb57-358" aria-hidden="true" tabindex="-1"></a>out[, total <span class="sc">:</span><span class="er">=</span> <span class="fu">sum</span>(n)]</span>
+<span id="cb57-359"><a href="#cb57-359" aria-hidden="true" tabindex="-1"></a>out[, perc <span class="sc">:</span><span class="er">=</span> n <span class="sc">/</span> total]</span>
+<span id="cb57-360"><a href="#cb57-360" aria-hidden="true" tabindex="-1"></a>out</span>
+<span id="cb57-361"><a href="#cb57-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-362"><a href="#cb57-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-363"><a href="#cb57-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-364"><a href="#cb57-364" aria-hidden="true" tabindex="-1"></a>Now, let's plot the number of citation chains by terminus article type:</span>
+<span id="cb57-367"><a href="#cb57-367" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-368"><a href="#cb57-368" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-369"><a href="#cb57-369" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
 <span id="cb57-370"><a href="#cb57-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-371"><a href="#cb57-371" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple<span class="sc">$</span>evidence_simple <span class="ot">&lt;-</span> <span class="fu">factor</span>(terminus_freq.simple<span class="sc">$</span>evidence_simple,</span>
-<span id="cb57-372"><a href="#cb57-372" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Predation"</span>, <span class="st">"Population"</span>))</span>
-<span id="cb57-373"><a href="#cb57-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-374"><a href="#cb57-374" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic)</span>
+<span id="cb57-371"><a href="#cb57-371" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple <span class="ot">&lt;-</span> terminus_edges[evidence_simple <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>), </span>
+<span id="cb57-372"><a href="#cb57-372" aria-hidden="true" tabindex="-1"></a>                                       .(<span class="at">n =</span> .N),</span>
+<span id="cb57-373"><a href="#cb57-373" aria-hidden="true" tabindex="-1"></a>            by <span class="ot">=</span> .(evidence_type_synthetic, evidence_simple, making_claim,</span>
+<span id="cb57-374"><a href="#cb57-374" aria-hidden="true" tabindex="-1"></a>                  has_data, of_quality, in_support)]</span>
 <span id="cb57-375"><a href="#cb57-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-376"><a href="#cb57-376" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>of_quality)</span>
+<span id="cb57-376"><a href="#cb57-376" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple[<span class="fu">is.na</span>(evidence_simple)]<span class="sc">$</span>evidence_type_synthetic)</span>
 <span id="cb57-377"><a href="#cb57-377" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-378"><a href="#cb57-378" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic <span class="ot">&lt;-</span>   <span class="fu">factor</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic,</span>
-<span id="cb57-379"><a href="#cb57-379" aria-hidden="true" tabindex="-1"></a>   <span class="at">levels =</span> (<span class="fu">c</span>( </span>
-<span id="cb57-380"><a href="#cb57-380" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Predation in support without data"</span>, </span>
-<span id="cb57-381"><a href="#cb57-381" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Predation not in support without data"</span>, </span>
-<span id="cb57-382"><a href="#cb57-382" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support with data of quality"</span>,</span>
-<span id="cb57-383"><a href="#cb57-383" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support with data"</span>,</span>
-<span id="cb57-384"><a href="#cb57-384" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support without data"</span>,</span>
-<span id="cb57-385"><a href="#cb57-385" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support with data of quality"</span>,</span>
-<span id="cb57-386"><a href="#cb57-386" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support with data"</span>, </span>
-<span id="cb57-387"><a href="#cb57-387" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support without data"</span></span>
-<span id="cb57-388"><a href="#cb57-388" aria-hidden="true" tabindex="-1"></a>              )))</span>
-<span id="cb57-389"><a href="#cb57-389" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-390"><a href="#cb57-390" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic)</span>
-<span id="cb57-391"><a href="#cb57-391" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-392"><a href="#cb57-392" aria-hidden="true" tabindex="-1"></a>fill_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
-<span id="cb57-393"><a href="#cb57-393" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Predation not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#40531b"</span>, </span>
-<span id="cb57-394"><a href="#cb57-394" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred4"</span>, </span>
-<span id="cb57-395"><a href="#cb57-395" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
-<span id="cb57-396"><a href="#cb57-396" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
-<span id="cb57-397"><a href="#cb57-397" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
-<span id="cb57-398"><a href="#cb57-398" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
-<span id="cb57-399"><a href="#cb57-399" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>)</span>
-<span id="cb57-400"><a href="#cb57-400" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic, <span class="fu">names</span>(fill_pal))</span>
-<span id="cb57-401"><a href="#cb57-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-402"><a href="#cb57-402" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple[in_support <span class="sc">==</span> <span class="st">"Not relevant"</span>, in_support <span class="sc">:</span><span class="er">=</span> <span class="st">"No"</span>]</span>
-<span id="cb57-403"><a href="#cb57-403" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-404"><a href="#cb57-404" aria-hidden="true" tabindex="-1"></a>col_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
-<span id="cb57-405"><a href="#cb57-405" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Predation not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
-<span id="cb57-406"><a href="#cb57-406" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
-<span id="cb57-407"><a href="#cb57-407" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
-<span id="cb57-408"><a href="#cb57-408" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"gold"</span>, </span>
-<span id="cb57-409"><a href="#cb57-409" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
-<span id="cb57-410"><a href="#cb57-410" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
-<span id="cb57-411"><a href="#cb57-411" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"gold"</span>)</span>
-<span id="cb57-412"><a href="#cb57-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-413"><a href="#cb57-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-414"><a href="#cb57-414" aria-hidden="true" tabindex="-1"></a><span class="co">#' position_dodge leads to strange incorrect plotting, which I can't debug. So manually dodging in Inkscape</span></span>
-<span id="cb57-415"><a href="#cb57-415" aria-hidden="true" tabindex="-1"></a>cites.p.included <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> terminus_freq.simple[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>], </span>
-<span id="cb57-416"><a href="#cb57-416" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> evidence_simple, <span class="at">fill =</span> evidence_type_synthetic, </span>
-<span id="cb57-417"><a href="#cb57-417" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> evidence_type_synthetic, <span class="at">x =</span> n, <span class="co">#group = in_support</span></span>
-<span id="cb57-418"><a href="#cb57-418" aria-hidden="true" tabindex="-1"></a>       ))<span class="sc">+</span></span>
-<span id="cb57-419"><a href="#cb57-419" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span><span class="co">#, </span></span>
-<span id="cb57-420"><a href="#cb57-420" aria-hidden="true" tabindex="-1"></a>           <span class="co">#position = position_dodge()</span></span>
-<span id="cb57-421"><a href="#cb57-421" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
-<span id="cb57-422"><a href="#cb57-422" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>, <span class="st">"Excluded"</span>),</span>
-<span id="cb57-423"><a href="#cb57-423" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>, <span class="st">"No primary data found"</span>))<span class="sc">+</span></span>
-<span id="cb57-424"><a href="#cb57-424" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Of quality"</span>,</span>
-<span id="cb57-425"><a href="#cb57-425" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> col_pal)<span class="sc">+</span></span>
-<span id="cb57-426"><a href="#cb57-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Evidence type"</span>,</span>
-<span id="cb57-427"><a href="#cb57-427" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal,</span>
-<span id="cb57-428"><a href="#cb57-428" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> labs)<span class="sc">+</span></span>
-<span id="cb57-429"><a href="#cb57-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Terminus of citation chains</span><span class="sc">\n</span><span class="st">(total number of citations)"</span>)<span class="sc">+</span></span>
-<span id="cb57-430"><a href="#cb57-430" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">stroke =</span> <span class="st">"none"</span>,</span>
-<span id="cb57-431"><a href="#cb57-431" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"none"</span>,</span>
-<span id="cb57-432"><a href="#cb57-432" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb57-433"><a href="#cb57-433" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb57-434"><a href="#cb57-434" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">527</span>))<span class="sc">+</span></span>
-<span id="cb57-435"><a href="#cb57-435" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb57-436"><a href="#cb57-436" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-437"><a href="#cb57-437" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-438"><a href="#cb57-438" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-439"><a href="#cb57-439" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
-<span id="cb57-440"><a href="#cb57-440" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb57-441"><a href="#cb57-441" aria-hidden="true" tabindex="-1"></a>cites.p.included</span>
-<span id="cb57-442"><a href="#cb57-442" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-443"><a href="#cb57-443" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-444"><a href="#cb57-444" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
-<span id="cb57-445"><a href="#cb57-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-446"><a href="#cb57-446" aria-hidden="true" tabindex="-1"></a>The majority of evidence are predation records.</span>
-<span id="cb57-447"><a href="#cb57-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-448"><a href="#cb57-448" aria-hidden="true" tabindex="-1"></a><span class="fu">## Excluded articles {#sec-excluded-articles}</span></span>
+<span id="cb57-378"><a href="#cb57-378" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple<span class="sc">$</span>evidence_simple <span class="ot">&lt;-</span> <span class="fu">factor</span>(terminus_freq.simple<span class="sc">$</span>evidence_simple,</span>
+<span id="cb57-379"><a href="#cb57-379" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Predation"</span>, <span class="st">"Population"</span>))</span>
+<span id="cb57-380"><a href="#cb57-380" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-381"><a href="#cb57-381" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic)</span>
+<span id="cb57-382"><a href="#cb57-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-383"><a href="#cb57-383" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>of_quality)</span>
+<span id="cb57-384"><a href="#cb57-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-385"><a href="#cb57-385" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic <span class="ot">&lt;-</span>   <span class="fu">factor</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic,</span>
+<span id="cb57-386"><a href="#cb57-386" aria-hidden="true" tabindex="-1"></a>   <span class="at">levels =</span> (<span class="fu">c</span>( </span>
+<span id="cb57-387"><a href="#cb57-387" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Predation in support without data"</span>, </span>
+<span id="cb57-388"><a href="#cb57-388" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Predation not in support without data"</span>, </span>
+<span id="cb57-389"><a href="#cb57-389" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support with data of quality"</span>,</span>
+<span id="cb57-390"><a href="#cb57-390" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support with data"</span>,</span>
+<span id="cb57-391"><a href="#cb57-391" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population not in support without data"</span>,</span>
+<span id="cb57-392"><a href="#cb57-392" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support with data of quality"</span>,</span>
+<span id="cb57-393"><a href="#cb57-393" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support with data"</span>, </span>
+<span id="cb57-394"><a href="#cb57-394" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Population in support without data"</span></span>
+<span id="cb57-395"><a href="#cb57-395" aria-hidden="true" tabindex="-1"></a>              )))</span>
+<span id="cb57-396"><a href="#cb57-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-397"><a href="#cb57-397" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic)</span>
+<span id="cb57-398"><a href="#cb57-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-399"><a href="#cb57-399" aria-hidden="true" tabindex="-1"></a>fill_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#a6d3a0"</span>, </span>
+<span id="cb57-400"><a href="#cb57-400" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Predation not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"#40531b"</span>, </span>
+<span id="cb57-401"><a href="#cb57-401" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred4"</span>, </span>
+<span id="cb57-402"><a href="#cb57-402" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
+<span id="cb57-403"><a href="#cb57-403" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population not in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"indianred"</span>, </span>
+<span id="cb57-404"><a href="#cb57-404" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue4"</span>, </span>
+<span id="cb57-405"><a href="#cb57-405" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>,</span>
+<span id="cb57-406"><a href="#cb57-406" aria-hidden="true" tabindex="-1"></a>              <span class="st">`</span><span class="at">Population in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"dodgerblue"</span>)</span>
+<span id="cb57-407"><a href="#cb57-407" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(terminus_freq.simple<span class="sc">$</span>evidence_type_synthetic, <span class="fu">names</span>(fill_pal))</span>
+<span id="cb57-408"><a href="#cb57-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-409"><a href="#cb57-409" aria-hidden="true" tabindex="-1"></a>terminus_freq.simple[in_support <span class="sc">==</span> <span class="st">"Not relevant"</span>, in_support <span class="sc">:</span><span class="er">=</span> <span class="st">"No"</span>]</span>
+<span id="cb57-410"><a href="#cb57-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-411"><a href="#cb57-411" aria-hidden="true" tabindex="-1"></a>col_pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Predation in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
+<span id="cb57-412"><a href="#cb57-412" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Predation not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
+<span id="cb57-413"><a href="#cb57-413" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
+<span id="cb57-414"><a href="#cb57-414" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
+<span id="cb57-415"><a href="#cb57-415" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population not in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"gold"</span>, </span>
+<span id="cb57-416"><a href="#cb57-416" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>, </span>
+<span id="cb57-417"><a href="#cb57-417" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support with data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"transparent"</span>,</span>
+<span id="cb57-418"><a href="#cb57-418" aria-hidden="true" tabindex="-1"></a>             <span class="st">`</span><span class="at">Population in support with data of quality</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"gold"</span>)</span>
+<span id="cb57-419"><a href="#cb57-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-420"><a href="#cb57-420" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-421"><a href="#cb57-421" aria-hidden="true" tabindex="-1"></a><span class="co">#' position_dodge leads to strange incorrect plotting, which I can't debug. So manually dodging in Inkscape</span></span>
+<span id="cb57-422"><a href="#cb57-422" aria-hidden="true" tabindex="-1"></a>cites.p.included <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> terminus_freq.simple[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>], </span>
+<span id="cb57-423"><a href="#cb57-423" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> evidence_simple, <span class="at">fill =</span> evidence_type_synthetic, </span>
+<span id="cb57-424"><a href="#cb57-424" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> evidence_type_synthetic, <span class="at">x =</span> n, <span class="co">#group = in_support</span></span>
+<span id="cb57-425"><a href="#cb57-425" aria-hidden="true" tabindex="-1"></a>       ))<span class="sc">+</span></span>
+<span id="cb57-426"><a href="#cb57-426" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span><span class="co">#, </span></span>
+<span id="cb57-427"><a href="#cb57-427" aria-hidden="true" tabindex="-1"></a>           <span class="co">#position = position_dodge()</span></span>
+<span id="cb57-428"><a href="#cb57-428" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span></span>
+<span id="cb57-429"><a href="#cb57-429" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_discrete</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>, <span class="st">"Excluded"</span>),</span>
+<span id="cb57-430"><a href="#cb57-430" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Population"</span>, <span class="st">"Predation"</span>, <span class="st">"No primary data found"</span>))<span class="sc">+</span></span>
+<span id="cb57-431"><a href="#cb57-431" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name =</span> <span class="st">"Of quality"</span>,</span>
+<span id="cb57-432"><a href="#cb57-432" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> col_pal)<span class="sc">+</span></span>
+<span id="cb57-433"><a href="#cb57-433" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">name =</span> <span class="st">"Evidence type"</span>,</span>
+<span id="cb57-434"><a href="#cb57-434" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> fill_pal,</span>
+<span id="cb57-435"><a href="#cb57-435" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> labs)<span class="sc">+</span></span>
+<span id="cb57-436"><a href="#cb57-436" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Terminus of citation chains</span><span class="sc">\n</span><span class="st">(total number of citations)"</span>)<span class="sc">+</span></span>
+<span id="cb57-437"><a href="#cb57-437" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">stroke =</span> <span class="st">"none"</span>,</span>
+<span id="cb57-438"><a href="#cb57-438" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="st">"none"</span>,</span>
+<span id="cb57-439"><a href="#cb57-439" aria-hidden="true" tabindex="-1"></a>         <span class="at">fill =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb57-440"><a href="#cb57-440" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb57-441"><a href="#cb57-441" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">527</span>))<span class="sc">+</span></span>
+<span id="cb57-442"><a href="#cb57-442" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb57-443"><a href="#cb57-443" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-444"><a href="#cb57-444" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-445"><a href="#cb57-445" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-446"><a href="#cb57-446" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.placement =</span> <span class="st">"outside"</span>,</span>
+<span id="cb57-447"><a href="#cb57-447" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb57-448"><a href="#cb57-448" aria-hidden="true" tabindex="-1"></a>cites.p.included</span>
 <span id="cb57-449"><a href="#cb57-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-450"><a href="#cb57-450" aria-hidden="true" tabindex="-1"></a>Now let's look at all the other terminus article types and why they do not constitute evidence. We'll reload the same dataset we used <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-quantitative-evidence-freq)</span> and we'll do some lumping and splitting of the categories used to classify the article types.</span>
-<span id="cb57-451"><a href="#cb57-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-454"><a href="#cb57-454" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-455"><a href="#cb57-455" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-456"><a href="#cb57-456" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-457"><a href="#cb57-457" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/terminal_citation_chains.csv"</span>)</span>
-<span id="cb57-458"><a href="#cb57-458" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(terminus_edges)</span>
-<span id="cb57-459"><a href="#cb57-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-460"><a href="#cb57-460" aria-hidden="true" tabindex="-1"></a>terminus_edges[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"core source_claim"</span>, cited_by_id), </span>
-<span id="cb57-461"><a href="#cb57-461" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span>)]</span>
-<span id="cb57-462"><a href="#cb57-462" aria-hidden="true" tabindex="-1"></a>excluded <span class="ot">&lt;-</span> terminus_edges[<span class="fu">grepl</span>(<span class="st">"EXCLUDE"</span>, article_id)]</span>
-<span id="cb57-463"><a href="#cb57-463" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-450"><a href="#cb57-450" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-451"><a href="#cb57-451" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
+<span id="cb57-452"><a href="#cb57-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-453"><a href="#cb57-453" aria-hidden="true" tabindex="-1"></a>The majority of evidence are predation records---that cats have been documented consuming or causing mortality to the prey species in question.</span>
+<span id="cb57-454"><a href="#cb57-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-455"><a href="#cb57-455" aria-hidden="true" tabindex="-1"></a><span class="fu">## Excluded articles {#sec-excluded-articles}</span></span>
+<span id="cb57-456"><a href="#cb57-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-457"><a href="#cb57-457" aria-hidden="true" tabindex="-1"></a>Now let's look at all the other terminus article types that did not qualify as quantitative evidence. We'll reload the same dataset we used <span class="co">[</span><span class="ot">above</span><span class="co">](#sec-quantitative-evidence-freq)</span> and we'll do some lumping and splitting of the categories used to classify the article types, simply to make the figure tractable.</span>
+<span id="cb57-458"><a href="#cb57-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-461"><a href="#cb57-461" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-462"><a href="#cb57-462" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-463"><a href="#cb57-463" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
 <span id="cb57-464"><a href="#cb57-464" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-465"><a href="#cb57-465" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span>, .(<span class="at">n =</span> .N),</span>
-<span id="cb57-466"><a href="#cb57-466" aria-hidden="true" tabindex="-1"></a>         by <span class="ot">=</span> Peer_reviewed_source]</span>
+<span id="cb57-465"><a href="#cb57-465" aria-hidden="true" tabindex="-1"></a>terminus_edges <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/citation_network/terminal_citation_chains.csv"</span>)</span>
+<span id="cb57-466"><a href="#cb57-466" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(terminus_edges)</span>
 <span id="cb57-467"><a href="#cb57-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-468"><a href="#cb57-468" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
-<span id="cb57-469"><a href="#cb57-469" aria-hidden="true" tabindex="-1"></a>           Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Peer-reviewed journal article"</span>,</span>
-<span id="cb57-470"><a href="#cb57-470" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Journal pre-1975"</span>) ,</span>
-<span id="cb57-471"><a href="#cb57-471" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible journal article"</span>]</span>
+<span id="cb57-468"><a href="#cb57-468" aria-hidden="true" tabindex="-1"></a>terminus_edges[, making_claim <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"core source_claim"</span>, cited_by_id), </span>
+<span id="cb57-469"><a href="#cb57-469" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"making claim"</span>, <span class="st">"no claim"</span>)]</span>
+<span id="cb57-470"><a href="#cb57-470" aria-hidden="true" tabindex="-1"></a>excluded <span class="ot">&lt;-</span> terminus_edges[<span class="fu">grepl</span>(<span class="st">"EXCLUDE"</span>, article_id)]</span>
+<span id="cb57-471"><a href="#cb57-471" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-472"><a href="#cb57-472" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-473"><a href="#cb57-473" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
-<span id="cb57-474"><a href="#cb57-474" aria-hidden="true" tabindex="-1"></a>           Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Book or chapter"</span>) ,</span>
-<span id="cb57-475"><a href="#cb57-475" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible book"</span>]</span>
-<span id="cb57-476"><a href="#cb57-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-477"><a href="#cb57-477" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
-<span id="cb57-478"><a href="#cb57-478" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span>Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Peer-reviewed journal article"</span>,</span>
-<span id="cb57-479"><a href="#cb57-479" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Journal pre-1975"</span>) ,</span>
-<span id="cb57-480"><a href="#cb57-480" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible grey literature"</span>]</span>
-<span id="cb57-481"><a href="#cb57-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-482"><a href="#cb57-482" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Modelling without data"</span>, </span>
-<span id="cb57-483"><a href="#cb57-483" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Modelling without data"</span>]</span>
+<span id="cb57-473"><a href="#cb57-473" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span>, .(<span class="at">n =</span> .N),</span>
+<span id="cb57-474"><a href="#cb57-474" aria-hidden="true" tabindex="-1"></a>         by <span class="ot">=</span> Peer_reviewed_source]</span>
+<span id="cb57-475"><a href="#cb57-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-476"><a href="#cb57-476" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
+<span id="cb57-477"><a href="#cb57-477" aria-hidden="true" tabindex="-1"></a>           Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Peer-reviewed journal article"</span>,</span>
+<span id="cb57-478"><a href="#cb57-478" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Journal pre-1975"</span>) ,</span>
+<span id="cb57-479"><a href="#cb57-479" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible journal article"</span>]</span>
+<span id="cb57-480"><a href="#cb57-480" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-481"><a href="#cb57-481" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
+<span id="cb57-482"><a href="#cb57-482" aria-hidden="true" tabindex="-1"></a>           Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Book or chapter"</span>) ,</span>
+<span id="cb57-483"><a href="#cb57-483" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible book"</span>]</span>
 <span id="cb57-484"><a href="#cb57-484" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-485"><a href="#cb57-485" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb57-486"><a href="#cb57-486" aria-hidden="true" tabindex="-1"></a>excluded_freq <span class="ot">&lt;-</span> excluded[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> .(evidence_type_fine, making_claim)]</span>
-<span id="cb57-487"><a href="#cb57-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-488"><a href="#cb57-488" aria-hidden="true" tabindex="-1"></a>excluded_freq[evidence_type_fine <span class="sc">==</span> <span class="st">"Opinion claim"</span>, evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"No citation given"</span>]</span>
-<span id="cb57-489"><a href="#cb57-489" aria-hidden="true" tabindex="-1"></a>lvls <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">"No citation given"</span>, </span>
-<span id="cb57-490"><a href="#cb57-490" aria-hidden="true" tabindex="-1"></a>           <span class="st">"No claim"</span>,</span>
-<span id="cb57-491"><a href="#cb57-491" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Expert opinion"</span>,</span>
-<span id="cb57-492"><a href="#cb57-492" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible grey literature"</span>,</span>
-<span id="cb57-493"><a href="#cb57-493" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible book"</span>,</span>
-<span id="cb57-494"><a href="#cb57-494" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Unpublished data or article"</span>,</span>
-<span id="cb57-495"><a href="#cb57-495" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Personal communication"</span>,</span>
-<span id="cb57-496"><a href="#cb57-496" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible journal article"</span>,</span>
-<span id="cb57-497"><a href="#cb57-497" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Missing reference"</span>,</span>
-<span id="cb57-498"><a href="#cb57-498" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Does not test claim"</span>, </span>
-<span id="cb57-499"><a href="#cb57-499" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Not in English or Spanish"</span>, </span>
-<span id="cb57-500"><a href="#cb57-500" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Modelling without data"</span>)</span>
-<span id="cb57-501"><a href="#cb57-501" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-502"><a href="#cb57-502" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb57-503"><a href="#cb57-503" aria-hidden="true" tabindex="-1"></a>excluded_freq<span class="sc">$</span>evidence_type_fine <span class="ot">&lt;-</span> <span class="fu">factor</span>(excluded_freq<span class="sc">$</span>evidence_type_fine,</span>
-<span id="cb57-504"><a href="#cb57-504" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">levels =</span> <span class="fu">rev</span>(lvls))</span>
-<span id="cb57-505"><a href="#cb57-505" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-506"><a href="#cb57-506" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Modelling without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Not in English or Spanish</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
-<span id="cb57-507"><a href="#cb57-507" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Does not test claim</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Missing reference</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
-<span id="cb57-508"><a href="#cb57-508" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Personal communication</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
-<span id="cb57-509"><a href="#cb57-509" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Unpublished data or article</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Inaccessible book</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
-<span id="cb57-510"><a href="#cb57-510" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Expert opinion</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Modelling without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>,</span>
-<span id="cb57-511"><a href="#cb57-511" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">No claim</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Inaccessible journal article</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
-<span id="cb57-512"><a href="#cb57-512" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Inaccessible grey literature</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">No citation given</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span></span>
-<span id="cb57-513"><a href="#cb57-513" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb57-514"><a href="#cb57-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-515"><a href="#cb57-515" aria-hidden="true" tabindex="-1"></a>cites.p.excluded <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> excluded_freq[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>, ], </span>
-<span id="cb57-516"><a href="#cb57-516" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">y =</span> evidence_type_fine, <span class="at">x =</span> n, <span class="at">fill =</span> evidence_type_fine))<span class="sc">+</span></span>
-<span id="cb57-517"><a href="#cb57-517" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb57-518"><a href="#cb57-518" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal)<span class="sc">+</span></span>
-<span id="cb57-519"><a href="#cb57-519" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Terminus of citation chains</span><span class="sc">\n</span><span class="st">(total number of citations)"</span>)<span class="sc">+</span></span>
-<span id="cb57-520"><a href="#cb57-520" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb57-521"><a href="#cb57-521" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb57-522"><a href="#cb57-522" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-523"><a href="#cb57-523" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-524"><a href="#cb57-524" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-525"><a href="#cb57-525" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
-<span id="cb57-526"><a href="#cb57-526" aria-hidden="true" tabindex="-1"></a>cites.p.excluded</span>
-<span id="cb57-527"><a href="#cb57-527" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-528"><a href="#cb57-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-529"><a href="#cb57-529" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-530"><a href="#cb57-530" aria-hidden="true" tabindex="-1"></a>The majority of claimant citations ended with claims without citations give. Or ended with articles that made no claim about the hypothesis. Following this, expert opinion and inaccessible grey literature dominate the citation chain terminuses.</span>
-<span id="cb57-531"><a href="#cb57-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-532"><a href="#cb57-532" aria-hidden="true" tabindex="-1"></a>To put these numbers in perspective, we'll now patchwork the two plots:</span>
-<span id="cb57-533"><a href="#cb57-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-536"><a href="#cb57-536" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb57-537"><a href="#cb57-537" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb57-538"><a href="#cb57-538" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb57-539"><a href="#cb57-539" aria-hidden="true" tabindex="-1"></a>cites.p.included <span class="sc">+</span> <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb57-540"><a href="#cb57-540" aria-hidden="true" tabindex="-1"></a>  cites.p.excluded <span class="sc">+</span></span>
-<span id="cb57-541"><a href="#cb57-541" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(.<span class="dv">25</span>, .<span class="dv">75</span>),</span>
-<span id="cb57-542"><a href="#cb57-542" aria-hidden="true" tabindex="-1"></a>              <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb57-543"><a href="#cb57-543" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb57-544"><a href="#cb57-544" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
+<span id="cb57-485"><a href="#cb57-485" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="sc">&amp;</span></span>
+<span id="cb57-486"><a href="#cb57-486" aria-hidden="true" tabindex="-1"></a>           <span class="sc">!</span>Peer_reviewed_source <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Peer-reviewed journal article"</span>,</span>
+<span id="cb57-487"><a href="#cb57-487" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Journal pre-1975"</span>) ,</span>
+<span id="cb57-488"><a href="#cb57-488" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Inaccessible grey literature"</span>]</span>
+<span id="cb57-489"><a href="#cb57-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-490"><a href="#cb57-490" aria-hidden="true" tabindex="-1"></a>excluded[evidence_type_fine <span class="sc">==</span> <span class="st">"Modelling without data"</span>, </span>
+<span id="cb57-491"><a href="#cb57-491" aria-hidden="true" tabindex="-1"></a>         evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"Modelling without data"</span>]</span>
+<span id="cb57-492"><a href="#cb57-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-493"><a href="#cb57-493" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb57-494"><a href="#cb57-494" aria-hidden="true" tabindex="-1"></a>excluded_freq <span class="ot">&lt;-</span> excluded[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> .(evidence_type_fine, making_claim)]</span>
+<span id="cb57-495"><a href="#cb57-495" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-496"><a href="#cb57-496" aria-hidden="true" tabindex="-1"></a>excluded_freq[evidence_type_fine <span class="sc">==</span> <span class="st">"Opinion claim"</span>, evidence_type_fine <span class="sc">:</span><span class="er">=</span> <span class="st">"No citation given"</span>]</span>
+<span id="cb57-497"><a href="#cb57-497" aria-hidden="true" tabindex="-1"></a>lvls <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">"No citation given"</span>, </span>
+<span id="cb57-498"><a href="#cb57-498" aria-hidden="true" tabindex="-1"></a>           <span class="st">"No claim"</span>,</span>
+<span id="cb57-499"><a href="#cb57-499" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Expert opinion"</span>,</span>
+<span id="cb57-500"><a href="#cb57-500" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible grey literature"</span>,</span>
+<span id="cb57-501"><a href="#cb57-501" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible book"</span>,</span>
+<span id="cb57-502"><a href="#cb57-502" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Unpublished data or article"</span>,</span>
+<span id="cb57-503"><a href="#cb57-503" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Personal communication"</span>,</span>
+<span id="cb57-504"><a href="#cb57-504" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Inaccessible journal article"</span>,</span>
+<span id="cb57-505"><a href="#cb57-505" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Missing reference"</span>,</span>
+<span id="cb57-506"><a href="#cb57-506" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Does not test claim"</span>, </span>
+<span id="cb57-507"><a href="#cb57-507" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Not in English or Spanish"</span>, </span>
+<span id="cb57-508"><a href="#cb57-508" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Modelling without data"</span>)</span>
+<span id="cb57-509"><a href="#cb57-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-510"><a href="#cb57-510" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb57-511"><a href="#cb57-511" aria-hidden="true" tabindex="-1"></a>excluded_freq<span class="sc">$</span>evidence_type_fine <span class="ot">&lt;-</span> <span class="fu">factor</span>(excluded_freq<span class="sc">$</span>evidence_type_fine,</span>
+<span id="cb57-512"><a href="#cb57-512" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">levels =</span> <span class="fu">rev</span>(lvls))</span>
+<span id="cb57-513"><a href="#cb57-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-514"><a href="#cb57-514" aria-hidden="true" tabindex="-1"></a>pal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">`</span><span class="at">Modelling without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Not in English or Spanish</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
+<span id="cb57-515"><a href="#cb57-515" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Does not test claim</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Missing reference</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
+<span id="cb57-516"><a href="#cb57-516" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Personal communication</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
+<span id="cb57-517"><a href="#cb57-517" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Unpublished data or article</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Inaccessible book</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
+<span id="cb57-518"><a href="#cb57-518" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Expert opinion</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Modelling without data</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>,</span>
+<span id="cb57-519"><a href="#cb57-519" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">No claim</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">Inaccessible journal article</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, </span>
+<span id="cb57-520"><a href="#cb57-520" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">Inaccessible grey literature</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"grey"</span>, <span class="st">`</span><span class="at">No citation given</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"black"</span></span>
+<span id="cb57-521"><a href="#cb57-521" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb57-522"><a href="#cb57-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-523"><a href="#cb57-523" aria-hidden="true" tabindex="-1"></a>cites.p.excluded <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> excluded_freq[making_claim <span class="sc">==</span> <span class="st">"making claim"</span>, ], </span>
+<span id="cb57-524"><a href="#cb57-524" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">y =</span> evidence_type_fine, <span class="at">x =</span> n, <span class="at">fill =</span> evidence_type_fine))<span class="sc">+</span></span>
+<span id="cb57-525"><a href="#cb57-525" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">lwd =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb57-526"><a href="#cb57-526" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> pal)<span class="sc">+</span></span>
+<span id="cb57-527"><a href="#cb57-527" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Terminus of citation chains</span><span class="sc">\n</span><span class="st">(total number of citations)"</span>)<span class="sc">+</span></span>
+<span id="cb57-528"><a href="#cb57-528" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb57-529"><a href="#cb57-529" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb57-530"><a href="#cb57-530" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-531"><a href="#cb57-531" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-532"><a href="#cb57-532" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-533"><a href="#cb57-533" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb57-534"><a href="#cb57-534" aria-hidden="true" tabindex="-1"></a>cites.p.excluded</span>
+<span id="cb57-535"><a href="#cb57-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-536"><a href="#cb57-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-537"><a href="#cb57-537" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-538"><a href="#cb57-538" aria-hidden="true" tabindex="-1"></a>The majority of claims gave no citation, or ended with articles that made no claim about the hypothesis that cats caused endangerment of the prey species in question. Following this, expert opinion and inaccessible grey literature dominate the citation chain termini.</span>
+<span id="cb57-539"><a href="#cb57-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-540"><a href="#cb57-540" aria-hidden="true" tabindex="-1"></a>To put these numbers in perspective, we'll now patchwork the two plots:</span>
+<span id="cb57-541"><a href="#cb57-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-544"><a href="#cb57-544" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb57-545"><a href="#cb57-545" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb57-546"><a href="#cb57-546" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb57-547"><a href="#cb57-547" aria-hidden="true" tabindex="-1"></a>cites.p.included <span class="sc">+</span> <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb57-548"><a href="#cb57-548" aria-hidden="true" tabindex="-1"></a>  cites.p.excluded <span class="sc">+</span></span>
+<span id="cb57-549"><a href="#cb57-549" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">heights =</span> <span class="fu">c</span>(.<span class="dv">25</span>, .<span class="dv">75</span>),</span>
+<span id="cb57-550"><a href="#cb57-550" aria-hidden="true" tabindex="-1"></a>              <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb57-551"><a href="#cb57-551" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb57-552"><a href="#cb57-552" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">img</span><span class="ot"> src</span><span class="op">=</span><span class="st">"figures/main_text/network_legend_2.png"</span><span class="ot"> width</span><span class="op">=</span><span class="st">"200"</span><span class="dt">&gt;</span></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

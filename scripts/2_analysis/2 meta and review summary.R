@@ -1489,7 +1489,7 @@ inside_prey_range <- sub_models %>%
   fmt_markdown(columns = `Sample size`) %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table SX**. Model summaries for intercept-only models for species within cat prey range. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
+    md("**Table S8**. Model summaries for intercept-only models for species within cat prey range. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),
@@ -1556,7 +1556,7 @@ only_dominant <- sub_models %>%
   fmt_markdown(columns = `Sample size`) %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table SX**. Model summaries for intercept-only models using only the dominant effect size (e.g., excluding minority converted effect sizes). Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
+    md("**Table S7**. Model summaries for intercept-only models using only the dominant effect size (e.g., excluding minority converted effect sizes). Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),

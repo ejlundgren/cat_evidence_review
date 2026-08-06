@@ -184,11 +184,13 @@ And the formatted legend:
 
 
 # Probability of being cited
-Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). What is the probability that those citation chains end in **population studies**?
+Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). We used graph algorithms to identify the terminus of each citation chain, starting with the core sources (the large pink circles in the network figure above). See `scripts/1_data_mgmt/3 create probability of being cited dataset.R` for this code.
 
-We'll load a separate data frame produced by `scripts/1_data_mgmt/3 create probability of being cited dataset.R`. This dataset is organized as claimant-claimant-source article pairs. Each row is a *potential* citation. The colum `cited` (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after claimant reviews were finished are excluded).
+We then asked what proportion of those citation chains ended in *population studies*, e.g., empirical studies that link cats to bird abundance or reproduction ?
 
-This dataset allows us to evaluate whether claimants cited available evidence.
+To do so we'll load a separate data frame produced by this that is organized as source - citation-terminus pairs. Each row is a *potential* citation. The colum `cited` (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after ≤6 months after claimant reviews concluded were excluded).
+
+This dataset allows us to evaluate whether claimants cited the available evidence, and whether there was any bias in citation towards articles that found a negative association between cats and prey.
 
 Load data and filter to only claimant sources:
 ```{r}
@@ -206,7 +208,8 @@ terminus_exploded_filtered <- terminus_exploded_filtered[making_claim == "CLAIM"
 head(terminus_exploded_filtered)
 ```
 
-Now we'll do a binomial model on articles that are population studies with data. We'll also manually calculate the percent of available population studies with data that were cited:
+Now we'll do a binomial model on articles that are population studies with data.
+
 ```{r}
 #| eval: true
 #| echo: true
@@ -225,6 +228,7 @@ summary(m)
 ```
 
 Now let's evaluate whether there was a difference in citations between evidence in support or not of the hypothesis and plot this:
+
 ```{r}
 #| eval: true
 #| echo: true
@@ -293,13 +297,13 @@ out[, .(mean = mean(perc_cited), sd=sd(perc_cited)),
     by = .(in_support)]
 
 ```
-On average, claimants cited between 17 and 23% of available population studies with data (sd=±36.8, 39.8)
+On average, claimants cited 17% of the available population studies that found a negative association between cats and prey and 23% of available populations studies that did not. All of these citations were made to make the claim that cats were the cause of prey decline.
 
 # Summaries of evidence cited
-Now let's look at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in `scripts/1_data_mgmt/3 create probability of being cited dataset.R`.
+Now let's look at the types of articles at the terminus of each citation chain. The y-axis on the following figures is the number of citation chains by terminus article type. This data was prepared in `scripts/1_data_mgmt/3 create probability of being cited dataset.R`.
 
 ## Quantitative articles {#sec-quantitative-evidence-freq}
-We'll start by looking at all quantitative evidence uncovered and we are focused only on the citation chains from claimant sources. 
+We'll start by looking at all quantitative evidence uncovered, focused only on the citation chains from claimant sources. 
 
 ```{r}
 #| eval: true
@@ -320,18 +324,20 @@ terminus_edges[grepl("Population", evidence_type_synthetic), evidence_simple := 
 terminus_edges[grepl("Predation", evidence_type_synthetic), evidence_simple := "Predation"]
 ```
 
-What percent of terminuses aren't evidence?
+What percent of terminuses aren't quantitative evidence?
+
 ```{r}
 #| eval: true
 #| echo: true
+
 # >>> Calculate % that aren't evidence ------------------------------------
 sub_terminus <- terminus_edges[making_claim == "making claim"]
 sub_terminus[, evidence_simple := ifelse(is.na(evidence_simple), "excluded", "included")]
 
-x <- sub_terminus[, .(n = .N), by = evidence_simple]
-x[, total := sum(n)]
-x[, perc := n / total]
-x
+out <- sub_terminus[, .(n = .N), by = evidence_simple]
+out[, total := sum(n)]
+out[, perc := n / total]
+out
 
 ```
 
@@ -339,6 +345,7 @@ Now, let's plot the number of citation chains by terminus article type:
 ```{r}
 #| eval: true
 #| echo: true
+
 terminus_freq.simple <- terminus_edges[evidence_simple %in% c("Population", "Predation"), 
                                        .(n = .N),
             by = .(evidence_type_synthetic, evidence_simple, making_claim,
@@ -421,15 +428,16 @@ cites.p.included
 ```
 <img src="figures/main_text/network_legend_2.png" width="200">
 
-The majority of evidence are predation records.
+The majority of evidence are predation records---that cats have been documented consuming or causing mortality to the prey species in question.
 
 ## Excluded articles {#sec-excluded-articles}
 
-Now let's look at all the other terminus article types and why they do not constitute evidence. We'll reload the same dataset we used [above](#sec-quantitative-evidence-freq) and we'll do some lumping and splitting of the categories used to classify the article types.
+Now let's look at all the other terminus article types that did not qualify as quantitative evidence. We'll reload the same dataset we used [above](#sec-quantitative-evidence-freq) and we'll do some lumping and splitting of the categories used to classify the article types, simply to make the figure tractable.
 
 ```{r}
 #| eval: true
 #| echo: true
+
 terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
 head(terminus_edges)
 
@@ -503,7 +511,7 @@ cites.p.excluded
 
 
 ```
-The majority of claimant citations ended with claims without citations give. Or ended with articles that made no claim about the hypothesis. Following this, expert opinion and inaccessible grey literature dominate the citation chain terminuses.
+The majority of claims gave no citation, or ended with articles that made no claim about the hypothesis that cats caused endangerment of the prey species in question. Following this, expert opinion and inaccessible grey literature dominate the citation chain termini.
 
 To put these numbers in perspective, we'll now patchwork the two plots:
 

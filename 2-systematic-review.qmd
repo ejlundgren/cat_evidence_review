@@ -161,8 +161,9 @@ p.sys
 ```
 <img src="figures/main_text/network_legend_2.png" width="200">
 
-# Best evidence
-Let's now look at the best evidence available per species. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We'll merge the evidence found into this dataset.
+# The best evidence per species
+Let's now look at the best evidence available per species that cats are associated with threatened prey declines. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We'll merge the evidence found into this dataset.
+
 
 ```{r}
 #| eval: true
@@ -298,3 +299,4 @@ best.p
 
 ```
 
+The best evidence linking prey species to cats was primarily nothing, followed by records of predation. 
