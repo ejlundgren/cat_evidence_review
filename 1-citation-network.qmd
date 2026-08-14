@@ -392,7 +392,7 @@ cites.p.included
 
 <figure>
   <img src="figures/main_text/network_legend_2.png" width="200">
-  <figcaption><b>Fig. 3.</b> All quantitative evidence cited found at the terminus of citation chains. </figcaption>
+  <figcaption><b>Fig. 3.</b> Quantitative evidence cited found at the terminus of citation chains. X-axis indicates number of citation chains per evidence type. </figcaption>
 </figure>
 
 The majority of evidence are predation records---that cats have been documented consuming or causing mortality to the prey species in question.
@@ -405,6 +405,7 @@ Now let's look at all the other terminus article types that did not qualify as q
 #| eval: true
 #| echo: true
 #| code-fold: true
+#| fig-cap: "**Fig. 4.** Excluded evidence found at the terminus of citation chains. X-axis indicates number of citation chains per evidence type."
 
 terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
 
@@ -495,5 +496,5 @@ cites.p.included + xlab(NULL) +
 
 <figure>
   <img src="figures/main_text/network_legend_2.png" width="200">
-  <figcaption><b>Fig. 4.</b> The terminus of citation chains across the citation network.</figcaption>
+  <figcaption><b>Fig. 5.</b> The terminus of citation chains across the citation network.</figcaption>
 </figure>

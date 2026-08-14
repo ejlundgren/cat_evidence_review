@@ -632,7 +632,7 @@ div.csl-indent {
 <span><span class="va">to_convert</span><span class="op">[</span>, <span class="va">key</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">original_effect_size</span>, <span class="va">analysis_effect_size</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<p>We’ll now loop over this dataset based on the unique combinations of original effect size (<code>original_effect_size</code>) and destination effect size (<code>analysis_effect_size</code>). The effect size formulas we use here are given <a href="3.4-effect-size-conversions.qmd">here</a>.</p>
+<p>We’ll now loop over this dataset based on the unique combinations of original effect size (<code>original_effect_size</code>) and destination effect size (<code>analysis_effect_size</code>). The effect size formulas we use here are given <a href="./3.4-effect-size-conversions.qmd.html">here</a>.</p>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">combos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">to_convert</span><span class="op">$</span><span class="va">key</span><span class="op">)</span></span>
 <span><span class="va">combos</span></span>
@@ -737,9 +737,9 @@ div.csl-indent {
 <span>                           <span class="va">species.m2</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">scientificName</span>, <span class="va">Order_final</span>, <span class="va">Mass_g_final</span>, <span class="va">class</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>                           by <span class="op">=</span> <span class="st">"scientificName"</span>,</span>
 <span>                           all.x <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
-<span></span>
+<span><span class="co"># Must be TRUE:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final</span><span class="op">)</span></span>
-<span><span class="co"># Must be TRUE</span></span>
+<span></span>
 <span></span>
 <span><span class="va">meta.final.mrg</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="va">meta.final.mrg</span><span class="op">[</span><span class="va">scientificName</span> <span class="op">==</span> <span class="st">"Prosobonia cancellata"</span>,</span>
@@ -810,8 +810,8 @@ div.csl-indent {
 <span>                        <span class="va">habitat</span>,</span>
 <span>                        by <span class="op">=</span> <span class="st">"scientificName"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg</span><span class="op">)</span></span>
-<span><span class="co"># Must be TRUE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Must be TRUE:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg2</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section><section id="inside-prey-range" class="level3"><h3 class="anchored" data-anchor-id="inside-prey-range">Inside prey range</h3>
@@ -917,15 +917,15 @@ div.csl-indent {
 <span><span class="va">meta.final.mrg3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">meta.final.mrg2</span>,</span>
 <span>                        <span class="va">meta.spat.jnd</span>,</span>
 <span>                        by <span class="op">=</span> <span class="st">"Effect_size_ID"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg3</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg2</span><span class="op">)</span></span>
-<span><span class="co"># Must be TRUE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="co"># Must be TRUE:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg3</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">meta.final.mrg2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section><section id="final-checks" class="level3"><h3 class="anchored" data-anchor-id="final-checks">Final checks</h3>
 <p>Now we’ll do some final checks before proceding to analysis</p>
 <div class="cell">
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">meta.final.mrg3</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n_effects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/duplicated.html">uniqueN</a></span><span class="op">(</span><span class="va">analysis_effect_size</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">analysis_group</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># All should be 1:</span></span>
+<span><span class="va">meta.final.mrg3</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>n_effects <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/duplicated.html">uniqueN</a></span><span class="op">(</span><span class="va">analysis_effect_size</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">analysis_group</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>                            analysis_group n_effects
                                     &lt;char&gt;     &lt;int&gt;
@@ -943,17 +943,13 @@ div.csl-indent {
 12:               Reproduction correlation         1
 13:      Reproduction temporal association         1</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># All should be 1</span></span>
-<span></span>
-<span><span class="co"># &gt;&gt;&gt; Check for duplicates by ID ------------------------------------------</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="co"># Must be 0 rows:</span></span>
 <span><span class="va">meta.final.mrg3</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">duplicated</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">Effect_size_ID</span>, <span class="va">analysis_group</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;Effect_size_ID&gt;
 Empty data.table (0 rows and 56 cols): Effect_size_ID,scientificName,key,Description,unit_of_replication,Article...</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Must be 0 rows</span></span>
-<span></span>
-<span><span class="co"># Save final meta-analysis dataset</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Save final meta-analysis dataset</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fwrite.html">fwrite</a></span><span class="op">(</span><span class="va">meta.final.mrg3</span>, <span class="st">"builds/meta_analysis/analysis_ready_dataset.csv"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
@@ -1821,7 +1817,7 @@ Wooster, Eamonn I F, Owen S Middleton, Arian D Wallach, et al. 2024. <span>“Au
 <span id="cb36-406"><a href="#cb36-406" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-407"><a href="#cb36-407" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb36-408"><a href="#cb36-408" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-409"><a href="#cb36-409" aria-hidden="true" tabindex="-1"></a>We'll now loop over this dataset based on the unique combinations of original effect size (<span class="in">`original_effect_size`</span>) and destination effect size (<span class="in">`analysis_effect_size`</span>). The effect size formulas we use here are given <span class="co">[</span><span class="ot">here</span><span class="co">](3.4-effect-size-conversions.qmd)</span>.</span>
+<span id="cb36-409"><a href="#cb36-409" aria-hidden="true" tabindex="-1"></a>We'll now loop over this dataset based on the unique combinations of original effect size (<span class="in">`original_effect_size`</span>) and destination effect size (<span class="in">`analysis_effect_size`</span>). The effect size formulas we use here are given <span class="co">[</span><span class="ot">here</span><span class="co">](3.5-effect-size-conversions.qmd)</span>.</span>
 <span id="cb36-410"><a href="#cb36-410" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-413"><a href="#cb36-413" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb36-414"><a href="#cb36-414" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
@@ -1942,9 +1938,9 @@ Wooster, Eamonn I F, Owen S Middleton, Arian D Wallach, et al. 2024. <span>“Au
 <span id="cb36-533"><a href="#cb36-533" aria-hidden="true" tabindex="-1"></a>                           species.m2[, .(scientificName, Order_final, Mass_g_final, class)],</span>
 <span id="cb36-534"><a href="#cb36-534" aria-hidden="true" tabindex="-1"></a>                           <span class="at">by =</span> <span class="st">"scientificName"</span>,</span>
 <span id="cb36-535"><a href="#cb36-535" aria-hidden="true" tabindex="-1"></a>                           <span class="at">all.x =</span> T)</span>
-<span id="cb36-536"><a href="#cb36-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-536"><a href="#cb36-536" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE:</span></span>
 <span id="cb36-537"><a href="#cb36-537" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg) <span class="sc">==</span> <span class="fu">nrow</span>(meta.final)</span>
-<span id="cb36-538"><a href="#cb36-538" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE</span></span>
+<span id="cb36-538"><a href="#cb36-538" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-539"><a href="#cb36-539" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-540"><a href="#cb36-540" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[<span class="fu">is.na</span>(class), ]</span>
 <span id="cb36-541"><a href="#cb36-541" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[scientificName <span class="sc">==</span> <span class="st">"Prosobonia cancellata"</span>,</span>
@@ -2007,140 +2003,140 @@ Wooster, Eamonn I F, Owen S Middleton, Arian D Wallach, et al. 2024. <span>“Au
 <span id="cb36-602"><a href="#cb36-602" aria-hidden="true" tabindex="-1"></a>                        habitat,</span>
 <span id="cb36-603"><a href="#cb36-603" aria-hidden="true" tabindex="-1"></a>                        <span class="at">by =</span> <span class="st">"scientificName"</span>)</span>
 <span id="cb36-604"><a href="#cb36-604" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-605"><a href="#cb36-605" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg2) <span class="sc">==</span> <span class="fu">nrow</span>(meta.final.mrg)</span>
-<span id="cb36-606"><a href="#cb36-606" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE</span></span>
-<span id="cb36-607"><a href="#cb36-607" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-608"><a href="#cb36-608" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-609"><a href="#cb36-609" aria-hidden="true" tabindex="-1"></a><span class="fu">### Inside prey range</span></span>
-<span id="cb36-610"><a href="#cb36-610" aria-hidden="true" tabindex="-1"></a>Now let's designate whether they are inside of cat prey range based on @Wooster2024-gc:</span>
-<span id="cb36-611"><a href="#cb36-611" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-614"><a href="#cb36-614" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-615"><a href="#cb36-615" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb36-616"><a href="#cb36-616" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb36-617"><a href="#cb36-617" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb36-618"><a href="#cb36-618" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-619"><a href="#cb36-619" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_primary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">17</span> <span class="sc">&amp;</span> </span>
-<span id="cb36-620"><a href="#cb36-620" aria-hidden="true" tabindex="-1"></a>                                                Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2000</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
-<span id="cb36-621"><a href="#cb36-621" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_secondary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> </span>
-<span id="cb36-622"><a href="#cb36-622" aria-hidden="true" tabindex="-1"></a>                                                  Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2000</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
-<span id="cb36-623"><a href="#cb36-623" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_tertiary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">6</span> <span class="sc">&amp;</span> </span>
-<span id="cb36-624"><a href="#cb36-624" aria-hidden="true" tabindex="-1"></a>                                                 Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2650</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
-<span id="cb36-625"><a href="#cb36-625" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg2)</span>
-<span id="cb36-626"><a href="#cb36-626" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-627"><a href="#cb36-627" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-628"><a href="#cb36-628" aria-hidden="true" tabindex="-1"></a><span class="fu">### Continents versus islands</span></span>
-<span id="cb36-629"><a href="#cb36-629" aria-hidden="true" tabindex="-1"></a>Now we'll use the study latitude and longitude to determine if it occurred on a continent or island. Note that the only continental studies found come from Australia.</span>
-<span id="cb36-630"><a href="#cb36-630" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-633"><a href="#cb36-633" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-634"><a href="#cb36-634" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb36-635"><a href="#cb36-635" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb36-636"><a href="#cb36-636" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb36-637"><a href="#cb36-637" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-638"><a href="#cb36-638" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/spatial/4a7d27e1-84a3-4d6a-b4c2-6b6919f3cf4b202034-1-2zg7ul.ht5ut.shp"</span>)</span>
-<span id="cb36-639"><a href="#cb36-639" aria-hidden="true" tabindex="-1"></a><span class="co"># The largest of each is the continent and the rest are islands...</span></span>
-<span id="cb36-640"><a href="#cb36-640" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-641"><a href="#cb36-641" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into single part polygons and identify the largest polygon of each continent:</span></span>
-<span id="cb36-642"><a href="#cb36-642" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-643"><a href="#cb36-643" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-644"><a href="#cb36-644" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="fu">st_area</span>(.)) <span class="sc">%&gt;%</span></span>
-<span id="cb36-645"><a href="#cb36-645" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(CONTINENT, <span class="sc">-</span>area) <span class="sc">%&gt;%</span></span>
-<span id="cb36-646"><a href="#cb36-646" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CONTINENT) <span class="sc">%&gt;%</span></span>
-<span id="cb36-647"><a href="#cb36-647" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">c</span>(<span class="st">"mainland"</span>, <span class="fu">rep</span>(<span class="st">"island"</span>, (<span class="fu">n</span>()<span class="sc">-</span><span class="dv">1</span>))))</span>
-<span id="cb36-648"><a href="#cb36-648" aria-hidden="true" tabindex="-1"></a>continents</span>
-<span id="cb36-649"><a href="#cb36-649" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-650"><a href="#cb36-650" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-651"><a href="#cb36-651" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-652"><a href="#cb36-652" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
-<span id="cb36-653"><a href="#cb36-653" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-654"><a href="#cb36-654" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-655"><a href="#cb36-655" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">!=</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-656"><a href="#cb36-656" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
-<span id="cb36-657"><a href="#cb36-657" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-658"><a href="#cb36-658" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span> <span class="fu">filter</span>(CONTINENT <span class="sc">==</span> <span class="st">"Oceania"</span>)</span>
-<span id="cb36-659"><a href="#cb36-659" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-660"><a href="#cb36-660" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(CONTINENT <span class="sc">==</span> <span class="st">"Oceania"</span>, </span>
-<span id="cb36-661"><a href="#cb36-661" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"island"</span>, </span>
-<span id="cb36-662"><a href="#cb36-662" aria-hidden="true" tabindex="-1"></a>                                   continent_island))</span>
-<span id="cb36-663"><a href="#cb36-663" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-664"><a href="#cb36-664" aria-hidden="true" tabindex="-1"></a><span class="co"># A few other places aren't really islands...the UK for instance...</span></span>
-<span id="cb36-665"><a href="#cb36-665" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-666"><a href="#cb36-666" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">poly_id =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()))</span>
-<span id="cb36-667"><a href="#cb36-667" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-668"><a href="#cb36-668" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-669"><a href="#cb36-669" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">!=</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb36-670"><a href="#cb36-670" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
-<span id="cb36-671"><a href="#cb36-671" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-672"><a href="#cb36-672" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
-<span id="cb36-673"><a href="#cb36-673" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(poly_id <span class="sc">%in%</span> <span class="fu">c</span>(),</span>
-<span id="cb36-674"><a href="#cb36-674" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"mainland"</span>, continent_island))</span>
-<span id="cb36-675"><a href="#cb36-675" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-676"><a href="#cb36-676" aria-hidden="true" tabindex="-1"></a>meta.final.mrg<span class="sc">$</span>Longitude</span>
-<span id="cb36-677"><a href="#cb36-677" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[<span class="fu">is.na</span>(<span class="fu">as.numeric</span>(Longitude))]</span>
-<span id="cb36-678"><a href="#cb36-678" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[<span class="fu">is.na</span>(<span class="fu">as.numeric</span>(Latitude))]</span>
-<span id="cb36-679"><a href="#cb36-679" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-680"><a href="#cb36-680" aria-hidden="true" tabindex="-1"></a>meta.spat <span class="ot">&lt;-</span> meta.final.mrg <span class="sc">%&gt;%</span></span>
-<span id="cb36-681"><a href="#cb36-681" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb36-682"><a href="#cb36-682" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Effect_size_ID, Longitude, Latitude) <span class="sc">%&gt;%</span></span>
-<span id="cb36-683"><a href="#cb36-683" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Longitude"</span>, <span class="st">"Latitude"</span>),</span>
-<span id="cb36-684"><a href="#cb36-684" aria-hidden="true" tabindex="-1"></a>           <span class="at">crs =</span> <span class="dv">4326</span>)</span>
-<span id="cb36-685"><a href="#cb36-685" aria-hidden="true" tabindex="-1"></a>meta.spat</span>
-<span id="cb36-686"><a href="#cb36-686" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-687"><a href="#cb36-687" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> <span class="fu">st_join</span>(meta.spat,</span>
-<span id="cb36-688"><a href="#cb36-688" aria-hidden="true" tabindex="-1"></a>                         continents <span class="sc">%&gt;%</span> <span class="fu">select</span>(continent_island))</span>
-<span id="cb36-689"><a href="#cb36-689" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.spat.jnd) <span class="sc">==</span> <span class="fu">nrow</span>(meta.spat)</span>
-<span id="cb36-690"><a href="#cb36-690" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-691"><a href="#cb36-691" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
-<span id="cb36-692"><a href="#cb36-692" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
-<span id="cb36-693"><a href="#cb36-693" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(continent_island)) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-694"><a href="#cb36-694" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
-<span id="cb36-695"><a href="#cb36-695" aria-hidden="true" tabindex="-1"></a><span class="co"># ALl of these NAs are on islands</span></span>
-<span id="cb36-696"><a href="#cb36-696" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-697"><a href="#cb36-697" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> meta.spat.jnd <span class="sc">%&gt;%</span></span>
-<span id="cb36-698"><a href="#cb36-698" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(continent_island), <span class="st">"island"</span>, continent_island))</span>
-<span id="cb36-699"><a href="#cb36-699" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-700"><a href="#cb36-700" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
-<span id="cb36-701"><a href="#cb36-701" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-702"><a href="#cb36-702" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
-<span id="cb36-703"><a href="#cb36-703" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"island"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-704"><a href="#cb36-704" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
-<span id="cb36-705"><a href="#cb36-705" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-706"><a href="#cb36-706" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
-<span id="cb36-707"><a href="#cb36-707" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-708"><a href="#cb36-708" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
-<span id="cb36-709"><a href="#cb36-709" aria-hidden="true" tabindex="-1"></a><span class="co"># Only australia</span></span>
-<span id="cb36-710"><a href="#cb36-710" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-711"><a href="#cb36-711" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> meta.spat.jnd <span class="sc">%&gt;%</span></span>
-<span id="cb36-712"><a href="#cb36-712" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb36-713"><a href="#cb36-713" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geometry =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb36-714"><a href="#cb36-714" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setDT</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb36-715"><a href="#cb36-715" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb36-716"><a href="#cb36-716" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
-<span id="cb36-717"><a href="#cb36-717" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-718"><a href="#cb36-718" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd[<span class="fu">duplicated</span>(Effect_size_ID), ]</span>
-<span id="cb36-719"><a href="#cb36-719" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-720"><a href="#cb36-720" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg)</span>
-<span id="cb36-721"><a href="#cb36-721" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3 <span class="ot">&lt;-</span> <span class="fu">merge</span>(meta.final.mrg2,</span>
-<span id="cb36-722"><a href="#cb36-722" aria-hidden="true" tabindex="-1"></a>                        meta.spat.jnd,</span>
-<span id="cb36-723"><a href="#cb36-723" aria-hidden="true" tabindex="-1"></a>                        <span class="at">by =</span> <span class="st">"Effect_size_ID"</span>)</span>
-<span id="cb36-724"><a href="#cb36-724" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-725"><a href="#cb36-725" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg3) <span class="sc">==</span> <span class="fu">nrow</span>(meta.final.mrg2)</span>
-<span id="cb36-726"><a href="#cb36-726" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE</span></span>
-<span id="cb36-727"><a href="#cb36-727" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb36-728"><a href="#cb36-728" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-729"><a href="#cb36-729" aria-hidden="true" tabindex="-1"></a><span class="fu">### Final checks</span></span>
-<span id="cb36-730"><a href="#cb36-730" aria-hidden="true" tabindex="-1"></a>Now we'll do some final checks before proceding to analysis</span>
-<span id="cb36-731"><a href="#cb36-731" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-734"><a href="#cb36-734" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb36-735"><a href="#cb36-735" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb36-736"><a href="#cb36-736" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb36-737"><a href="#cb36-737" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb36-738"><a href="#cb36-738" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-739"><a href="#cb36-739" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3[, .(<span class="at">n_effects =</span> <span class="fu">uniqueN</span>(analysis_effect_size)), by <span class="ot">=</span> .(analysis_group)]</span>
-<span id="cb36-740"><a href="#cb36-740" aria-hidden="true" tabindex="-1"></a><span class="co"># All should be 1</span></span>
-<span id="cb36-741"><a href="#cb36-741" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-742"><a href="#cb36-742" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Check for duplicates by ID ------------------------------------------</span></span>
-<span id="cb36-743"><a href="#cb36-743" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3[<span class="fu">duplicated</span>(<span class="fu">paste</span>(Effect_size_ID, analysis_group))]</span>
-<span id="cb36-744"><a href="#cb36-744" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be 0 rows</span></span>
+<span id="cb36-605"><a href="#cb36-605" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE:</span></span>
+<span id="cb36-606"><a href="#cb36-606" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg2) <span class="sc">==</span> <span class="fu">nrow</span>(meta.final.mrg)</span>
+<span id="cb36-607"><a href="#cb36-607" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-608"><a href="#cb36-608" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-609"><a href="#cb36-609" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-610"><a href="#cb36-610" aria-hidden="true" tabindex="-1"></a><span class="fu">### Inside prey range</span></span>
+<span id="cb36-611"><a href="#cb36-611" aria-hidden="true" tabindex="-1"></a>Now let's designate whether they are inside of cat prey range based on @Wooster2024-gc:</span>
+<span id="cb36-612"><a href="#cb36-612" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-615"><a href="#cb36-615" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-616"><a href="#cb36-616" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb36-617"><a href="#cb36-617" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb36-618"><a href="#cb36-618" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb36-619"><a href="#cb36-619" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-620"><a href="#cb36-620" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_primary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">17</span> <span class="sc">&amp;</span> </span>
+<span id="cb36-621"><a href="#cb36-621" aria-hidden="true" tabindex="-1"></a>                                                Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2000</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
+<span id="cb36-622"><a href="#cb36-622" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_secondary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">8</span> <span class="sc">&amp;</span> </span>
+<span id="cb36-623"><a href="#cb36-623" aria-hidden="true" tabindex="-1"></a>                                                  Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2000</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
+<span id="cb36-624"><a href="#cb36-624" aria-hidden="true" tabindex="-1"></a>meta.final.mrg2[, prey_range_tertiary <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(Mass_g_final <span class="sc">&gt;=</span> <span class="dv">6</span> <span class="sc">&amp;</span> </span>
+<span id="cb36-625"><a href="#cb36-625" aria-hidden="true" tabindex="-1"></a>                                                 Mass_g_final <span class="sc">&lt;=</span> <span class="dv">2650</span>, <span class="st">"inside"</span>, <span class="st">"outside"</span>)]</span>
+<span id="cb36-626"><a href="#cb36-626" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg2)</span>
+<span id="cb36-627"><a href="#cb36-627" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-628"><a href="#cb36-628" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-629"><a href="#cb36-629" aria-hidden="true" tabindex="-1"></a><span class="fu">### Continents versus islands</span></span>
+<span id="cb36-630"><a href="#cb36-630" aria-hidden="true" tabindex="-1"></a>Now we'll use the study latitude and longitude to determine if it occurred on a continent or island. Note that the only continental studies found come from Australia.</span>
+<span id="cb36-631"><a href="#cb36-631" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-634"><a href="#cb36-634" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-635"><a href="#cb36-635" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb36-636"><a href="#cb36-636" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb36-637"><a href="#cb36-637" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb36-638"><a href="#cb36-638" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-639"><a href="#cb36-639" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/spatial/4a7d27e1-84a3-4d6a-b4c2-6b6919f3cf4b202034-1-2zg7ul.ht5ut.shp"</span>)</span>
+<span id="cb36-640"><a href="#cb36-640" aria-hidden="true" tabindex="-1"></a><span class="co"># The largest of each is the continent and the rest are islands...</span></span>
+<span id="cb36-641"><a href="#cb36-641" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-642"><a href="#cb36-642" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into single part polygons and identify the largest polygon of each continent:</span></span>
+<span id="cb36-643"><a href="#cb36-643" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-644"><a href="#cb36-644" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_cast</span>(<span class="st">"POLYGON"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-645"><a href="#cb36-645" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="fu">st_area</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb36-646"><a href="#cb36-646" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(CONTINENT, <span class="sc">-</span>area) <span class="sc">%&gt;%</span></span>
+<span id="cb36-647"><a href="#cb36-647" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(CONTINENT) <span class="sc">%&gt;%</span></span>
+<span id="cb36-648"><a href="#cb36-648" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">c</span>(<span class="st">"mainland"</span>, <span class="fu">rep</span>(<span class="st">"island"</span>, (<span class="fu">n</span>()<span class="sc">-</span><span class="dv">1</span>))))</span>
+<span id="cb36-649"><a href="#cb36-649" aria-hidden="true" tabindex="-1"></a>continents</span>
+<span id="cb36-650"><a href="#cb36-650" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-651"><a href="#cb36-651" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-652"><a href="#cb36-652" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-653"><a href="#cb36-653" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
+<span id="cb36-654"><a href="#cb36-654" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-655"><a href="#cb36-655" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-656"><a href="#cb36-656" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">!=</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-657"><a href="#cb36-657" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
+<span id="cb36-658"><a href="#cb36-658" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-659"><a href="#cb36-659" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span> <span class="fu">filter</span>(CONTINENT <span class="sc">==</span> <span class="st">"Oceania"</span>)</span>
+<span id="cb36-660"><a href="#cb36-660" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-661"><a href="#cb36-661" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(CONTINENT <span class="sc">==</span> <span class="st">"Oceania"</span>, </span>
+<span id="cb36-662"><a href="#cb36-662" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"island"</span>, </span>
+<span id="cb36-663"><a href="#cb36-663" aria-hidden="true" tabindex="-1"></a>                                   continent_island))</span>
+<span id="cb36-664"><a href="#cb36-664" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-665"><a href="#cb36-665" aria-hidden="true" tabindex="-1"></a><span class="co"># A few other places aren't really islands...the UK for instance...</span></span>
+<span id="cb36-666"><a href="#cb36-666" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-667"><a href="#cb36-667" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">poly_id =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()))</span>
+<span id="cb36-668"><a href="#cb36-668" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-669"><a href="#cb36-669" aria-hidden="true" tabindex="-1"></a>continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-670"><a href="#cb36-670" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">!=</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-671"><a href="#cb36-671" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>()</span>
+<span id="cb36-672"><a href="#cb36-672" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-673"><a href="#cb36-673" aria-hidden="true" tabindex="-1"></a>continents <span class="ot">&lt;-</span> continents <span class="sc">%&gt;%</span></span>
+<span id="cb36-674"><a href="#cb36-674" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(poly_id <span class="sc">%in%</span> <span class="fu">c</span>(),</span>
+<span id="cb36-675"><a href="#cb36-675" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"mainland"</span>, continent_island))</span>
+<span id="cb36-676"><a href="#cb36-676" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-677"><a href="#cb36-677" aria-hidden="true" tabindex="-1"></a>meta.final.mrg<span class="sc">$</span>Longitude</span>
+<span id="cb36-678"><a href="#cb36-678" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[<span class="fu">is.na</span>(<span class="fu">as.numeric</span>(Longitude))]</span>
+<span id="cb36-679"><a href="#cb36-679" aria-hidden="true" tabindex="-1"></a>meta.final.mrg[<span class="fu">is.na</span>(<span class="fu">as.numeric</span>(Latitude))]</span>
+<span id="cb36-680"><a href="#cb36-680" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-681"><a href="#cb36-681" aria-hidden="true" tabindex="-1"></a>meta.spat <span class="ot">&lt;-</span> meta.final.mrg <span class="sc">%&gt;%</span></span>
+<span id="cb36-682"><a href="#cb36-682" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-683"><a href="#cb36-683" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Effect_size_ID, Longitude, Latitude) <span class="sc">%&gt;%</span></span>
+<span id="cb36-684"><a href="#cb36-684" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">"Longitude"</span>, <span class="st">"Latitude"</span>),</span>
+<span id="cb36-685"><a href="#cb36-685" aria-hidden="true" tabindex="-1"></a>           <span class="at">crs =</span> <span class="dv">4326</span>)</span>
+<span id="cb36-686"><a href="#cb36-686" aria-hidden="true" tabindex="-1"></a>meta.spat</span>
+<span id="cb36-687"><a href="#cb36-687" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-688"><a href="#cb36-688" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> <span class="fu">st_join</span>(meta.spat,</span>
+<span id="cb36-689"><a href="#cb36-689" aria-hidden="true" tabindex="-1"></a>                         continents <span class="sc">%&gt;%</span> <span class="fu">select</span>(continent_island))</span>
+<span id="cb36-690"><a href="#cb36-690" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.spat.jnd) <span class="sc">==</span> <span class="fu">nrow</span>(meta.spat)</span>
+<span id="cb36-691"><a href="#cb36-691" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-692"><a href="#cb36-692" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
+<span id="cb36-693"><a href="#cb36-693" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
+<span id="cb36-694"><a href="#cb36-694" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">is.na</span>(continent_island)) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-695"><a href="#cb36-695" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
+<span id="cb36-696"><a href="#cb36-696" aria-hidden="true" tabindex="-1"></a><span class="co"># ALl of these NAs are on islands</span></span>
+<span id="cb36-697"><a href="#cb36-697" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-698"><a href="#cb36-698" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> meta.spat.jnd <span class="sc">%&gt;%</span></span>
+<span id="cb36-699"><a href="#cb36-699" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent_island =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(continent_island), <span class="st">"island"</span>, continent_island))</span>
+<span id="cb36-700"><a href="#cb36-700" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-701"><a href="#cb36-701" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
+<span id="cb36-702"><a href="#cb36-702" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-703"><a href="#cb36-703" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
+<span id="cb36-704"><a href="#cb36-704" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"island"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-705"><a href="#cb36-705" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
+<span id="cb36-706"><a href="#cb36-706" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-707"><a href="#cb36-707" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="sc">%&gt;%</span></span>
+<span id="cb36-708"><a href="#cb36-708" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent_island <span class="sc">==</span> <span class="st">"mainland"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-709"><a href="#cb36-709" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mapview</span>(<span class="at">zcol =</span> <span class="st">"continent_island"</span>)</span>
+<span id="cb36-710"><a href="#cb36-710" aria-hidden="true" tabindex="-1"></a><span class="co"># Only australia</span></span>
+<span id="cb36-711"><a href="#cb36-711" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-712"><a href="#cb36-712" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd <span class="ot">&lt;-</span> meta.spat.jnd <span class="sc">%&gt;%</span></span>
+<span id="cb36-713"><a href="#cb36-713" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-714"><a href="#cb36-714" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">geometry =</span> <span class="cn">NULL</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb36-715"><a href="#cb36-715" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setDT</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb36-716"><a href="#cb36-716" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb36-717"><a href="#cb36-717" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd</span>
+<span id="cb36-718"><a href="#cb36-718" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-719"><a href="#cb36-719" aria-hidden="true" tabindex="-1"></a>meta.spat.jnd[<span class="fu">duplicated</span>(Effect_size_ID), ]</span>
+<span id="cb36-720"><a href="#cb36-720" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-721"><a href="#cb36-721" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg)</span>
+<span id="cb36-722"><a href="#cb36-722" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3 <span class="ot">&lt;-</span> <span class="fu">merge</span>(meta.final.mrg2,</span>
+<span id="cb36-723"><a href="#cb36-723" aria-hidden="true" tabindex="-1"></a>                        meta.spat.jnd,</span>
+<span id="cb36-724"><a href="#cb36-724" aria-hidden="true" tabindex="-1"></a>                        <span class="at">by =</span> <span class="st">"Effect_size_ID"</span>)</span>
+<span id="cb36-725"><a href="#cb36-725" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE:</span></span>
+<span id="cb36-726"><a href="#cb36-726" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(meta.final.mrg3) <span class="sc">==</span> <span class="fu">nrow</span>(meta.final.mrg2)</span>
+<span id="cb36-727"><a href="#cb36-727" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-728"><a href="#cb36-728" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb36-729"><a href="#cb36-729" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-730"><a href="#cb36-730" aria-hidden="true" tabindex="-1"></a><span class="fu">### Final checks</span></span>
+<span id="cb36-731"><a href="#cb36-731" aria-hidden="true" tabindex="-1"></a>Now we'll do some final checks before proceding to analysis</span>
+<span id="cb36-732"><a href="#cb36-732" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-735"><a href="#cb36-735" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb36-736"><a href="#cb36-736" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb36-737"><a href="#cb36-737" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb36-738"><a href="#cb36-738" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb36-739"><a href="#cb36-739" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-740"><a href="#cb36-740" aria-hidden="true" tabindex="-1"></a><span class="co"># All should be 1:</span></span>
+<span id="cb36-741"><a href="#cb36-741" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3[, .(<span class="at">n_effects =</span> <span class="fu">uniqueN</span>(analysis_effect_size)), by <span class="ot">=</span> .(analysis_group)]</span>
+<span id="cb36-742"><a href="#cb36-742" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-743"><a href="#cb36-743" aria-hidden="true" tabindex="-1"></a> <span class="co"># Must be 0 rows:</span></span>
+<span id="cb36-744"><a href="#cb36-744" aria-hidden="true" tabindex="-1"></a>meta.final.mrg3[<span class="fu">duplicated</span>(<span class="fu">paste</span>(Effect_size_ID, analysis_group))]</span>
 <span id="cb36-745"><a href="#cb36-745" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb36-746"><a href="#cb36-746" aria-hidden="true" tabindex="-1"></a><span class="co"># Save final meta-analysis dataset</span></span>
 <span id="cb36-747"><a href="#cb36-747" aria-hidden="true" tabindex="-1"></a><span class="fu">fwrite</span>(meta.final.mrg3, <span class="st">"builds/meta_analysis/analysis_ready_dataset.csv"</span>)</span>

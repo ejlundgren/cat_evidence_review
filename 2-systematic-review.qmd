@@ -42,7 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-This section will tally the evidence types encountered. This workflow is derived from a full R script in `scripts/2_analysis/2 meta and review summary.R`, which includes additional checks and tests and is fully interactive if you clone the repo. 
+This section will tally the evidence types encountered. This workflow is derived from a full R script in `scripts/2_analysis/3 meta and review summary.R`, which includes additional checks and tests and is fully interactive if you clone the repo. 
 
 # Prepare environment & load data:
 ```{r}
@@ -174,8 +174,8 @@ Let's now look at the best evidence available per species that cats are associat
 #| eval: true
 #| echo: true
 #| code-fold: true
-#| fig-width: 5
-#| fig-height: 5
+#| fig-width: 7
+#| fig-height: 7
 #| fig-cap: "**Fig. 2.** The best evidence found per species."
 
 claims <- fread("builds/claims/species_claims_tidy_populated.csv")

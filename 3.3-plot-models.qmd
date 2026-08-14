@@ -42,7 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-Now let's plot our meta-analysis results. The hidden code chunk below has all the boring details for data cleaning, organizing factor levels, and so on. 
+Now let's plot our meta-analysis results. This workflow corresponds to the fuller script at `scripts/2_analysis/3 meta and review summary.R`. The hidden code chunk below has all the boring details for data cleaning, organizing factor levels, and so on. 
 
 ```{r}
 #| eval: true

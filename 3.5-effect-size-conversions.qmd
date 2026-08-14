@@ -41,6 +41,7 @@ execute:
   tidy: true
 bibliography: references.bib
 ---
+
 ```{r}
 #| eval: true
 #| echo: false
@@ -66,7 +67,7 @@ library("broom.mixed")
 library("here")
 ```
 
-We converted the effect sizes into common types based on the formulas in [@borenstein2021], which we digitized in our function `convert_effect_sizes`. The formulas are in an executable sidecar csv file in the repo located at 'scripts/functions/conversion_formulas.csv'
+We converted the effect sizes into common types based on the formulas in [@borenstein2021], which we digitized in our function `convert_effect_sizes`. The formulas are in an executable sidecar csv file located at `scripts/functions/conversion_formulas.csv`
 
 ```{r}
 #| eval: true
@@ -82,7 +83,9 @@ formulas <- fread("scripts/functions/conversion_formulas.csv")
 We'll show the formulas below, demonstrate the use of the function, and the digitized `R` formulas. 
 
 :::callout-important
-Note that in all cases, the conversion formulas below are based on conversions from Cohen's d (the uncorrected estimator of SMD). As such, SMD estimates had to first be transformed to Cohen's d, and the outputs of conversions had to be transformed to Hedges' g. Converting from Hedges' g (the default estimator returned from `escalc`) is done as follows, with $n_1$, $n_2$ equivalent to the sample sizes of groups 1 and 2, $yi_g$ and $yi_d$ the effect size point estimate sfor Hedges' g and Cohen's d, and $J$ a small-sample bias correction factor. 
+Note that in all cases, the conversion formulas below are based on conversions from Cohen's d (the uncorrected estimator of SMD). As such, SMD estimates had to first be transformed to Cohen's d, and the outputs of conversions had to be transformed to Hedges' g. 
+
+Converting from Hedges' g (the default estimator returned from `escalc`) is done as follows, with $n_1$, $n_2$ equivalent to the sample sizes of groups 1 and 2, $yi_g$ and $yi_d$ the effect size point estimates for Hedges' g and Cohen's d, and $J$ a small-sample bias correction factor. 
 
 $$
 \begin{aligned}
@@ -103,6 +106,8 @@ $$
 $${#eq-3}
 
 Note that the estimator of sampling variance for SMD, following `escalc`, is Cohen's d's sampling variance estimator and thus did not need to be converted with $J$.
+
+This conversion is done automatically by `convert_effect_sizes`.
 :::
 
 # SMD ↔ lnOR 
@@ -142,9 +147,9 @@ Now let's look at the transcribed formula for the point estimate conversion. `yi
 #| eval: true
 
 sub_f <- formulas[from_effect == "SMD" & to_effect == "lnOR"]$formula
-sub_f <- strsplit(sub_f, split = "; ")
+sub_f <- gsub("; ", "\n", sub_f)
 
-print(sub_f[[1]])
+cat(sub_f[[1]])
 ```
 
 And for sampling variance:
@@ -153,7 +158,7 @@ And for sampling variance:
 #| echo: false
 #| eval: true
 
-print(sub_f[[2]])
+cat(sub_f[[2]])
 ```
 
 ## lnOR → SMD {#sec-lnOR-smd}
@@ -188,9 +193,9 @@ And the transcribed formulas in `R`:
 #| eval: true
 
 sub_f <- formulas[from_effect == "lnOR" & to_effect == "SMD"]$formula
-sub_f <- strsplit(sub_f, split = "; ")
+sub_f <- gsub("; ", "\n", sub_f)
 
-print(sub_f[[1]])
+cat(sub_f[[1]])
 ```
 
 And for sampling variance:
@@ -199,7 +204,7 @@ And for sampling variance:
 #| echo: false
 #| eval: true
 
-print(sub_f[[2]])
+cat(sub_f[[2]])
 ```
 
 The variable names are the same as [above](#sec-smd-lnOR).
@@ -246,9 +251,9 @@ And let's look at the `R` formulas. `yi` and `vi` refer to the original effect s
 #| eval: true
 
 sub_f <- formulas[from_effect == "SMD" & to_effect == "Zr"]$formula
-sub_f <- strsplit(sub_f, split = "; ")
+sub_f <- gsub("; ", "\n", sub_f)
 
-print(sub_f[[1]])
+cat(sub_f[[1]])
 ```
 
 And for sampling variance:
@@ -257,7 +262,7 @@ And for sampling variance:
 #| echo: false
 #| eval: true
 
-print(sub_f[[2]])
+cat(sub_f[[2]])
 ```
 
 ## Zr → SMD {#sec-zr-smd}
@@ -299,9 +304,9 @@ And here are the transcribed formulas used:
 #| eval: true
 
 sub_f <- formulas[from_effect == "Zr" & to_effect == "SMD"]$formula
-sub_f <- strsplit(sub_f, split = "; ")
+sub_f <- gsub("; ", "\n", sub_f)
 
-print(sub_f[[1]])
+cat(sub_f[[1]])
 
 ```
 
@@ -311,6 +316,6 @@ And for sampling variance:
 #| echo: false
 #| eval: true
 
-print(sub_f[[2]])
+cat(sub_f[[2]])
 ```
 The variable names are the same as [above](#sec-smd-zr).

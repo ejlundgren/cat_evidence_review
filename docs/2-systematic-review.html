@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>This section will tally the evidence types encountered. This workflow is derived from a full R script in <code>scripts/2_analysis/2 meta and review summary.R</code>, which includes additional checks and tests and is fully interactive if you clone the repo.</p>
+</header><p>This section will tally the evidence types encountered. This workflow is derived from a full R script in <code>scripts/2_analysis/3 meta and review summary.R</code>, which includes additional checks and tests and is fully interactive if you clone the repo.</p>
 <section id="prepare-environment-load-data" class="level1"><h1>Prepare environment &amp; load data:</h1>
 <div class="cell">
 <details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -513,7 +513,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="va">best.p</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="2-systematic-review_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="480"></p>
+<figure class="figure"><p><img src="2-systematic-review_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption><strong>Fig. 2.</strong> The best evidence found per species.</figcaption></figure>
 </div>
 </div>
@@ -1018,7 +1018,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
 <span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>This section will tally the evidence types encountered. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/2 meta and review summary.R`</span>, which includes additional checks and tests and is fully interactive if you clone the repo. </span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>This section will tally the evidence types encountered. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/3 meta and review summary.R`</span>, which includes additional checks and tests and is fully interactive if you clone the repo. </span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment &amp; load data:</span></span>
 <span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1150,8 +1150,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
 <span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
 <span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 5</span></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 5</span></span>
+<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 7</span></span>
 <span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "**Fig. 2.** The best evidence found per species."</span></span>
 <span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>claims <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/claims/species_claims_tidy_populated.csv"</span>)</span>

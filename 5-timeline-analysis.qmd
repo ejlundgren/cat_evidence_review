@@ -250,7 +250,7 @@ This is the number of extinct populations per cat arrival category:
 
 ```{r}
 #| eval: true
-#| echo: true
+#| code-fold: true
 #| output: true
 full_data <- full_data[order(full_data$Class), ]
 table(full_data$cat_arrival)
@@ -277,7 +277,6 @@ ex_records <- full_data[status == "Extinct", ]
 #Some summaries
 sum_ex <- full_data[status=="Extinct", .N, by= .(Class, cat_arrival)]
 sum_ex[, perc:= N / sum(N) * 100]
-sum_ex[, sum(perc), by = cat_arrival]
 sum_ex[, perc_class:= N / sum(N) * 100, by = Class]
 
 setnames(sum_ex, "cat_arrival", "Cat arrival")
@@ -373,7 +372,7 @@ First, mammals:
 #| fig-width: 5
 #| fig-height: 8
 #| code-fold: true
-#| fig-cap: "**Fig. 2.** Timeline chart of mammal extinctions relative to cat arrival (central line) per species."
+#| fig-cap: "**Fig. 2.** Timeline chart of estimated mammal extinctions relative to estimated cat arrival (vertical line) per species."
 
 plot_dt[min_difference == max_difference,
         `:=` (min_difference = min_difference - 1,
@@ -426,7 +425,7 @@ Now birds:
 #| fig-width: 5
 #| fig-height: 9
 #| code-fold: true
-#| fig-cap: "**Fig. 3.** Timeline chart of bird extinctions relative to cat arrival (central line) per species."
+#| fig-cap: "**Fig. 3.** Timeline chart of estimated bird extinctions relative to estimated cat arrival (vertical line) per species."
 
 sub_plot <- plot_dt[Class == "Birds", ]
 sub_plot[, x_id := x_id - min(x_id)+1]
@@ -475,7 +474,7 @@ Now reptiles:
 #| fig-width: 5
 #| fig-height: 6
 #| code-fold: true
-#| fig-cap: "**Fig. 4.** Timeline chart of reptile extinctions relative to cat arrival (central line) per species."
+#| fig-cap: "**Fig. 4.** Timeline chart of estimated reptile extinctions relative to estimated cat arrival (central line) per species."
 
 sub_plot <- plot_dt[Class == "Reptiles", ]
 sub_plot[, x_id := x_id - min(x_id)+1]

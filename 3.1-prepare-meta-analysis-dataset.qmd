@@ -384,7 +384,7 @@ to_convert[, key := paste(original_effect_size, analysis_effect_size)]
 
 ```
 
-We'll now loop over this dataset based on the unique combinations of original effect size (`original_effect_size`) and destination effect size (`analysis_effect_size`). The effect size formulas we use here are given [here](3.4-effect-size-conversions.qmd).
+We'll now loop over this dataset based on the unique combinations of original effect size (`original_effect_size`) and destination effect size (`analysis_effect_size`). The effect size formulas we use here are given [here](3.5-effect-size-conversions.qmd).
 
 ```{r}
 #| eval: true
@@ -505,9 +505,9 @@ meta.final.mrg <- merge(meta.final,
                            species.m2[, .(scientificName, Order_final, Mass_g_final, class)],
                            by = "scientificName",
                            all.x = T)
-
+# Must be TRUE:
 nrow(meta.final.mrg) == nrow(meta.final)
-# Must be TRUE
+
 
 meta.final.mrg[is.na(class), ]
 meta.final.mrg[scientificName == "Prosobonia cancellata",
@@ -570,8 +570,9 @@ meta.final.mrg2 <- merge(meta.final.mrg,
                         habitat,
                         by = "scientificName")
 
+# Must be TRUE:
 nrow(meta.final.mrg2) == nrow(meta.final.mrg)
-# Must be TRUE
+
 ```
 
 ### Inside prey range
@@ -685,9 +686,9 @@ nrow(meta.final.mrg)
 meta.final.mrg3 <- merge(meta.final.mrg2,
                         meta.spat.jnd,
                         by = "Effect_size_ID")
-
+# Must be TRUE:
 nrow(meta.final.mrg3) == nrow(meta.final.mrg2)
-# Must be TRUE
+
 ```
 
 ### Final checks
@@ -698,12 +699,11 @@ Now we'll do some final checks before proceding to analysis
 #| echo: true
 #| output: true
 
+# All should be 1:
 meta.final.mrg3[, .(n_effects = uniqueN(analysis_effect_size)), by = .(analysis_group)]
-# All should be 1
 
-# >>> Check for duplicates by ID ------------------------------------------
+ # Must be 0 rows:
 meta.final.mrg3[duplicated(paste(Effect_size_ID, analysis_group))]
-# Must be 0 rows
 
 # Save final meta-analysis dataset
 fwrite(meta.final.mrg3, "builds/meta_analysis/analysis_ready_dataset.csv")
