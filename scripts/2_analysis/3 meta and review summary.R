@@ -1,7 +1,7 @@
-# Last reviewed on July 31st, 2026
+# Last reviewed on August 14th, 2026
 # 
 #
-# Conduct meta-analysis and tabulate systematic review figures
+# Load meta-analytic models and make meta+review figures.
 #
 #
 #
@@ -27,438 +27,12 @@ library("ape")
 library("gt")
 library("ggtext")
 
-rma_predictions <- function(m, 
-                            newgrid,
-                            has_intercept = T){
-  
-  
-  if(!is.data.frame(newgrid)){errorCondition("ERROR newgrid must be a data frame")}
-  #create the new model matrix. 
-  
-  if(!all(unlist(lapply(names(newgrid), # lapply through names of newgrid to check that they're in formula
-                        function(x) grepl(pattern=x,
-                                          x = as.character(m$formula.mods)[-1]))))){
-    errorCondition("ERROR: variables in newgrid are not in model formula")
-  }
-  
-  
-  # Drop levels that might be missing from the model...
-  cols <- names(newgrid)
-  coef_nms <- names(coef(m))
-  temp <- c()
-  
-  if(has_intercept == F){
-    
-    for(i in 1:length(cols)){
-      if(class(unlist(newgrid[, cols[i], with = F])) %in% c("factor", "character")){
-        temp <- paste0(names(newgrid[, cols[i], with = F]),
-                       unlist(newgrid[, cols[i], with = F]))
-        newgrid <- newgrid[temp %in% coef_nms, ]
-      }
-    }
-    
-  }
-  
-  newgrid
-  
-  # Create prediction matrix
-  predgrid <- (model.matrix(m$formula.mods, data=newgrid))
-  predgrid
-  
-  if(any(grepl("intercept", colnames(predgrid), 
-               ignore.case = TRUE))){
-    #if intercept is present, remove it?
-    predgrid <- predgrid[, -1]
-  }
-  
-  # predict onto the new model matrix
-  pred.out <- as.data.frame(predict(m, newmods=predgrid))
-  
-  #attach predictions to variables for plotting
-  final.pred <- cbind(newgrid, pred.out)
-  
-  return(final.pred)
-}
+tidy_models <- readRDS("builds/meta_analysis/models/tidy_models.Rds")
+predictions <- readRDS("builds/meta_analysis/models/predictions.Rds")
+dat <- readRDS("builds/meta_analysis/models/analysis_data.Rds")
 
+# >>> Clean up factors and labels -----------------------------------------
 
-createPhyloCorr <- function(spp_list, tree){
-  
-  tree.filt <- keep.tip(tree, spp_list)
-  tree.br <- compute.brlen(tree.filt)
-  tree.corr <- vcv(tree.br, corr=T)
-  return(tree.corr)
-}
-
-# Load meta-analysis data ---------------------------------------------------------------
-
-dat <- fread("builds/meta_analysis/analysis_ready_dataset.csv")
-
-dat[, .(n = .N), by = .(Order_final)]
-# Not enough data.
-
-dat[, .(n = .N), by = .(class)]
-
-unique(dat$log_mass)
-
-dat[, article_id := paste(word(Article, 1, sep = "[[:space:][:punct:]]"), .GRP), by = .(Article)]
-unique(dat[, .(Article, article_id)])
-length(unique(dat$Article)) == length(unique(dat$article_id))
-
-nrow(dat[duplicated(article_id)])
-nrow(dat[duplicated(Article)])
-# Must be equal. Good
-
-unique(dat[, .(analysis_group, analysis_effect_size)])
-
-unique(dat[, .(analysis_effect_size, analysis_group)])
-unique(dat$Effect_size_ID)
-dat[Effect_size_ID %in% c("ES_47a", "ES_47b")]
-#
-dat[Effect_size_ID %in% c("ES_38a")]$analysis_group
-dat
-
-#
-dat[Effect_size_ID == "ES_43"]$analysis_group
-dat[Effect_size_ID == "ES_37"]$analysis_group
-
-dat[, .(n = .N), by = .(Effect_size_ID, analysis_group)]
-dat[Effect_size_ID == "ES_13", ]
-
-dat[, .(n = .N), by = .(Effect_size_ID, analysis_group)][n > 1] # must be 0 rows
-
-# >>> Add column for whether effect size type is dominant within analysis group --------
-dat[, total_n_articles := uniqueN(article_id), by = .(analysis_group)]
-dat[, n_articles_per_original_es := uniqueN(article_id), by = .(analysis_group,
-                                                                     original_effect_size)]
-dat[, dominant_effect_size := ifelse((n_articles_per_original_es / total_n_articles) > .5,
-                                          "yes", "no")]
-dat[dominant_effect_size == "no", ]
-
-
-# >>> Make data long by habitat traits ------------------------------------
-# Instead of having these as factors, let's do univariate subgroup models
-dat.long <- melt(dat,
-                 measure.vars = c("locomotion_volant",
-                                  "ground_or_burrow_resting_or_nesting",
-                                  "Foraging_habitat_ground", "continent_island"),
-                 variable.name = "habitat_category",
-                 value.name = "habitat_trait")
-dat.long
-
-dat[, habitat_trait := "All"]
-dat[, habitat_category := "All"]
-
-dat.final <- rbind(dat[, !c("locomotion_volant",
-                            "ground_or_burrow_resting_or_nesting",
-                            "Foraging_habitat_ground", "continent_island"),
-                       with = F], 
-                   dat.long)
-dat.final
-
-dat.final
-
-# Now let's format these names and concatenate with variable type.
-unique(dat.final[, .(habitat_category, habitat_trait)])
-dat.final[habitat_trait != "All", habitat_trait := paste0(habitat_category, ".", habitat_trait)]
-dput(unique(dat.final$habitat_trait))
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -----------------------------------------
-# Set up model guide -----------------------------------------------------------------
-
-
-# >>> Cross join guide ----------------------------------------------------
-
-# 
-# # Do the guide in 2 steps. We don't have enough data for class * habitat sub-analyses.
-guide <- CJ(analysis_group = unique(dat.final$analysis_group),
-            moderator = c("1", "log_mass"),
-            class = c("Birds", "Mammals", "Reptiles", "All"),
-            habitat_trait = "All",
-            prey_range = c("All", "inside"),
-            non_phylo_species = c("yes", "no"),
-            phylo_species = c("yes", "no"),
-            only_dominant_effect_size = c("yes", "no")
-)
-guide <- guide[!(moderator == "log_mass" & class != "All"), ]
-unique(guide[class != "All", ]$moderator)
-#' [Can't do log_mass for class subgroups]
-unique(guide[moderator == "log_mass", ]$class)
-
-guide2 <- CJ(analysis_group = unique(dat.final$analysis_group),
-             moderator = "1",
-             habitat_trait = c("locomotion_volant.non_volant", "locomotion_volant.volant", 
-                               "ground_or_burrow_resting_or_nesting.other", "ground_or_burrow_resting_or_nesting.ground", 
-                               "Foraging_habitat_ground.other", "Foraging_habitat_ground.ground", 
-                               "continent_island.island", "continent_island.mainland"),
-             class = c("All"),
-             prey_range = c("All"),
-             non_phylo_species = c("yes", "no"),
-             phylo_species = c("yes", "no"),
-             only_dominant_effect_size = c("no")
-             )
-
-guide <- rbind(guide, guide2)
-
-# Add a model comparison ID
-guide[, model_comparison_id := paste0("model_comp_", .GRP), 
-      by = .(analysis_group, class, moderator, prey_range,
-             habitat_trait, only_dominant_effect_size)]
-guide
-guide[, random_effect := "list(~1|article_id/Effect_size_ID"]
-
-guide[, random_effect := ifelse(non_phylo_species == "yes",
-                                paste0(random_effect, ", ~1|scientificName"), 
-                                paste0(random_effect))]
-guide[, random_effect := ifelse(phylo_species == "yes",
-                                paste0(random_effect, ", ~1|phylo_species)"),
-                                paste0(random_effect, ")"))]
-guide
-
-
-# Formulate exclusion formula:
-guide[, exclusion := paste0("analysis_group == '", analysis_group, "'",
-                            " & habitat_trait == '", habitat_trait, "'")]
-guide[class != "All", exclusion := paste0(exclusion, " & class %in% '", class, "'")]
-guide[class != "All",]
-guide[prey_range == "inside", exclusion := paste0(exclusion, " & prey_range_primary == 'inside'")]
-guide[prey_range == "All"]
-
-#
-guide.m1 <- merge(guide,
-               unique(dat[, .(analysis_group, analysis_effect_size)]),
-               by = 'analysis_group',
-               all.x = T)
-guide.m1[is.na(analysis_effect_size)]
-guide.m1
-
-#
-guide.m1[only_dominant_effect_size == "yes", exclusion := paste0(exclusion, " & dominant_effect_size == 'yes'")]
-
-#
-guide.m1[, formula := ifelse(moderator == "1",
-                             "~ 1",
-                             paste("~", moderator))]
-
-guide.m1
-
-unique(guide.m1$formula)
-
-guide.m1[habitat_trait != "All", ]
-
-# >>> Add model ID --------------------------------------------------------
-
-guide.m1[, model_id := paste0("model_", seq(1:.N))]
-
-dat$class
-
-guide.m1[class == "All"]$exclusion
-guide.m1[prey_range == "inside"]$exclusion
-guide.m1 <- guide.m1[!(prey_range == "inside" & only_dominant_effect_size == "yes"), ]
-#' [Insufficient data for these models]
-
-# >>> Get overall sample sizes ----------------------------------------------------
-Ns <- list()
-sub.dat <- c()
-i <- 1
-
-for(i in 1:nrow(guide.m1)){
-  sub.dat <- dat.final[eval(parse(text = guide.m1[i, ]$exclusion))]
-  
-  Ns[[i]] <- sub.dat[, .(n_species = uniqueN(scientificName),
-                    n_articles = uniqueN(Article),
-                    n_obs = .N,
-                    model_id = guide[i, ]$model_id,
-                    analysis_group = guide[i, ]$analysis_group,
-                    class = guide[i, ]$class)]
-  Ns[[i]]$model_id <- guide.m1[i, ]$model_id
-  
-}
-Ns <- rbindlist(Ns)
-Ns
-
-guide.m2 <- merge(guide.m1, 
-               Ns[, .(n_species, n_articles, n_obs, model_id)], 
-               by = "model_id")
-guide.m2[n_articles == 0, ]
-
-# at least 3 articles for intercept only models
-guide.m2 <- guide.m2[n_articles > 0, ]
-guide.m2 # Keep all analysis groups for which there are data for intercept-only models
-
-# More than 2 observations:
-guide.m2 <- guide.m2[n_obs > 2, ]
-guide.m2
-
-# and at least 5 for continuous
-guide.m2 <- guide.m2[!(moderator == "log_mass" & n_articles < 5), ]
-guide.m2
-
-# If only 1 article, drop Article from random effects
-guide.m2[n_articles == 1, random_effect := gsub("article_id/", "", random_effect)]
-guide.m2
-
-# >>> Download phylogeny ---------------------------------------------
-dat.final[, spp_name_corrected := scientificName]
-dat.final[scientificName == "Pampusana erythroptera",
-         spp_name_corrected := "Gallicolumba erythroptera"]
-nms <- unique(dat.final$spp_name_corrected)
-
-(nms_res <- tnrs_match_names(nms))
-nms_res[]
-tnrs_match_names("Prosobonia cancellata")
-#
-#
-tree <- tol_induced_subtree(ott_ids = nms_res$ott_id)
-tree
-plot(tree)
-sort(tree$tip.label)
-tree$tip.label[grepl("Prosobonia", tree$tip.label)]
-
-
-setDT(nms_res)
-nms_res[, label := paste0(gsub(" ", "_", unique_name),
-                          "_ott", ott_id)]
-nms_res
-
-sort(tree$tip.label)
-setdiff(nms_res$label, tree$tip.label)
-setdiff(tree$tip.label, nms_res$label)
-
-nms_res[, search_string := str_to_sentence(search_string)]
-unique(nms_res$search_string)
-setdiff(nms_res$search_string, dat$spp_name_corrected)
-setdiff(dat.final$spp_name_corrected, nms_res$search_string)
-
-dat.final.m <- merge(dat.final,
-                 nms_res[, .(search_string, label)],
-                 by.x = "spp_name_corrected",
-                 by.y = "search_string",
-                 all.x = T)
-nrow(dat.final.m) == nrow(dat.final)
-setnames(dat.final.m, "label", "phylo_species")
-
-dat.final.m[is.na(class)]
-
-dat.final.m
-
-# >>> Set up prediction grids ---------------------------------------------
-
-unique(guide.m2$moderator)
-grids <- list()
-grids[["log_mass"]] <- data.table(log_mass = seq(from = min(dat.final.m$log_mass, na.rm = T),
-                                                 to = max(dat.final.m$log_mass, na.rm = T),
-                                                 by = .1))
-grids
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
-# Run models --------------------------------------------------------------
-
-guide <- copy(guide.m2)
-dat <- copy(dat.final.m)
-rm(guide.m2, guide.m1, dat.final.m)
-
-models <- list()
-predictions <- list()
-tidy_models <- list()
-
-for(i in 1:nrow(guide)){
-  
-  sub_guide <- guide[i, ]
-  sub_guide
-  dat.sub <- dat[eval(parse(text = sub_guide$exclusion))]
-  dat.sub
-  #
-  #
-  models[[i]] <- try({
-      if(sub_guide$phylo_species == "yes"){
-        
-         rma.mv(yi_analysis, 
-                V = vi_analysis,
-                mods = as.formula(sub_guide$formula),
-                random = eval(parse(text = sub_guide$random_effect)),
-                dfs = "contain",
-                test = "t",
-                method = "REML",
-                R =  list(phylo_species = createPhyloCorr(dat.sub$phylo_species, tree)),
-                data = dat.sub) 
-        
-      } else{
-        rma.mv(yi_analysis, 
-                              V = vi_analysis,
-                              mods = as.formula(sub_guide$formula),
-                              random = eval(parse(text = sub_guide$random_effect)),
-                              dfs = "contain",
-                              test = "t",
-                              method = "REML",
-                              data = dat.sub) 
-      }
-  })
-
-  if(inherits(models[[i]], "try-error")){
-    models[[i]] <- as.character(models[[i]])
-  }else{
-    
-    if(sub_guide$moderator == "1"){
-      predictions[[i]] <- predict(models[[i]]) |>
-        as.data.frame() |>
-        bind_cols(sub_guide) |>
-        rename(lower_ci = ci.lb,
-               upper_ci = ci.ub,
-               lower_pi = pi.lb,
-               upper_pi = pi.ub) |>
-        setDT()
-    }else{
-      predictions[[i]] <- rma_predictions(models[[i]], 
-                                          grids[[sub_guide$moderator]]) |>
-        rename("term" = sub_guide$moderator) |>
-        bind_cols(sub_guide) |>
-        rename(lower_ci = ci.lb,
-               upper_ci = ci.ub,
-               lower_pi = pi.lb,
-               upper_pi = pi.ub) |>
-        setDT()
-    }
-    
-    tidy_models[[i]] <- tidy(models[[i]]) |>
-      mutate(lower_ci = models[[i]]$ci.lb, 
-             upper_ci = models[[i]]$ci.ub,
-             df = unique(models[[i]]$ddf)) |>
-      mutate(overfit = ifelse(any(models[[i]]$sigma2 == 0), "yes", "no"),
-             aic = AIC(models[[i]])) |>
-      bind_cols(as.data.frame(i2_ml(models[[i]])) |> t() ) |>
-      bind_cols(sub_guide) |>
-      setDT()
-    
-    cat(i, "/", nrow(guide), "\r")
-    
-    names(predictions)[i] <- sub_guide$model_id
-    names(tidy_models)[i] <- sub_guide$model_id
-    # names(models[i]) <- tidy_models[i]$model_id
-    
-  } 
-}
-
-# The 'V' is not a square numeric matrix is for single species phylogenetic models.
-names(models) <- guide$model_id
-setdiff(names(tidy_models[[2]]), names(tidy_models[[1]]))
-tidy_models <- rbindlist(tidy_models, fill = TRUE)
-tidy_models[overfit == "yes", ]
-tidy_models <- tidy_models[overfit != "yes", ]
-
-length(predictions)
-predictions <- rbindlist(predictions, fill = TRUE)
-predictions
-names(models)
-
-# >>> Select best model ---------------------------------------------------
-tidy_models[, min_aic := min(aic),
-            by = .(model_comparison_id)]
-
-tidy_models <- tidy_models[min_aic == aic, ]
-tidy_models[overfit == "yes", ]
-
-predictions <- predictions[model_id %in% tidy_models$model_id]
-predictions
 
 length(unique(predictions$model_id))
 length(unique(tidy_models$model_id))
@@ -471,16 +45,20 @@ predictions
 dat[, analysis_group_lab := gsub("Abundance ", "", analysis_group)]
 dat[, analysis_group_lab := gsub("Reproduction ", "", analysis_group_lab)]
 dat[, analysis_group_lab := str_to_sentence(analysis_group_lab)]
+dat[analysis_group_lab == "Correlation", analysis_group_lab := "Associations combined"]
 
 
 predictions[, analysis_group_lab := gsub("Abundance ", "", analysis_group)]
 predictions[, analysis_group_lab := gsub("Reproduction ", "", analysis_group_lab)]
 predictions[, analysis_group_lab := str_to_sentence(analysis_group_lab)]
-predictions
+predictions[analysis_group_lab == "Correlation", analysis_group_lab := "Associations combined"]
 
+#
+unique(dat$analysis_group_lab)
 dput(sort(unique(dat$analysis_group_lab)))
 lvls <- c("With/without cats", 
           "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+          "Associations combined",
           "Spatial association", "Temporal association")
 dat$analysis_group_lab <- factor(dat$analysis_group_lab,
                                       levels = rev(lvls))
@@ -489,7 +67,6 @@ predictions$analysis_group_lab <- factor(predictions$analysis_group_lab,
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Plot -----------------------------------------------------------------
-
 
 # > Overall effects across all subgroup -----------------------------------------------------
 
@@ -532,16 +109,16 @@ p.abund <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
   geom_text(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)],
             aes(y = analysis_group_lab,
-                x = -6, vjust = 2,
-               label = string),
+                x = -1, vjust = 2,
+                label = string),
             color = "grey50",
             size = 3)+
   geom_jitter(data = dat.plot[grepl("abundance", analysis_group, ignore.case = T), ], 
-             aes(x = yi, y = analysis_group_lab, 
-                 size = 1/vi_analysis, fill = yi_analysis),
-             shape = 21, #fill = "grey90",
-             height = 0.25, width = 0,
-             alpha = .5)+
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
   scale_fill_gradient2(low = "dodgerblue", high = "indianred",
                        midpoint = 0, mid = "white")+
   guides(size = "none", fill = "none")+
@@ -556,18 +133,20 @@ p.abund <- ggplot()+
                   size = 1)+
   ggtitle("Abundance")+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species abundance")+
-  # coord_cartesian(ylim = c(-4, 4))+
-  # xlab(NULL)+
-  # ylab("Short term abundance correlation (Zr)")+
   guides(size = "none")+
+  coord_cartesian(xlim = c(-5, 5))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -575,14 +154,13 @@ p.abund <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.abund
 
 
 p.reprod <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
   geom_text(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)],
             aes(y = analysis_group_lab,
-                x = -3, vjust = 2,
+                x = -7, vjust = 2,
                 label = string),
             color = "grey50",
             size = 3)+
@@ -608,16 +186,18 @@ p.reprod <- ggplot()+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened bird reproduction")+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
-  # coord_cartesian(ylim = c(-4, 4))+
-  # xlab(NULL)+
-  # ylab("Short term abundance correlation (Zr)")+
   guides(size = "none")+
+  coord_cartesian(xlim = c(-12, 12))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -625,7 +205,7 @@ p.reprod <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.reprod
+
 
 
 # > Supplementary figures: ------------------------------------------------
@@ -635,20 +215,19 @@ p.reprod
 intercept_inside <- predictions[moderator == "1" & 
                                   habitat_trait == "All" &
                                   only_dominant_effect_size == "no" &
-                                   class == "All" &
+                                  class == "All" &
                                   prey_range == "inside", ]
 
 dat.prey <- dat[analysis_group %in% unique(intercept_inside$analysis_group) &
                   habitat_trait == "All", ] 
 dat.prey <- dat.plot[prey_range_primary == "inside"]
 
-intercept_inside$analysis_effect_size
 
 p.abund.inside <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
   geom_text(data = intercept_inside[grepl("abundance", analysis_group, ignore.case = T)],
             aes(y = analysis_group_lab,
-                x = -6, vjust = 2,
+                x = -3, vjust = 2,
                 label = string),
             color = "grey50",
             size = 3)+
@@ -672,17 +251,19 @@ p.abund.inside <- ggplot()+
                   size = 1)+
   ggtitle("Abundance")+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   ylab(NULL)+
+  coord_cartesian(xlim = c(-5, 5))+
   xlab("Association between cats and threatened species")+
-  # coord_cartesian(xlim = c(-8, 8))+
-  # xlab(NULL)+
-  # ylab("Short term abundance correlation (Zr)")+
   guides(size = "none")+
   theme_bw()+
   theme(panel.grid = element_blank(),
@@ -691,13 +272,12 @@ p.abund.inside <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.abund.inside
 
 p.reprod.inside <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
   geom_text(data = intercept_inside[grepl("reproduction", analysis_group, ignore.case = T)],
             aes(y = analysis_group_lab,
-                x = -5, vjust = 2.5,
+                x = -7, vjust = 2.5,
                 label = string),
             color = "grey50",
             size = 3)+
@@ -721,17 +301,19 @@ p.reprod.inside <- ggplot()+
                   size = 1)+
   ggtitle("Bird reproduction")+
   ylab(NULL)+
+  coord_cartesian(xlim = c(-12, 12))+
   xlab("Association between cats and threatened bird reproduction")+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
-  # coord_cartesian(xlim = c(-6, 6))+
-  # xlab(NULL)+
-  # ylab("Short term abundance correlation (Zr)")+
   guides(size = "none")+
   theme_bw()+
   theme(panel.grid = element_blank(),
@@ -740,10 +322,11 @@ p.reprod.inside <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p.reprod.inside
 
-p.inside <- p.abund.inside + p.reprod.inside + plot_layout(ncol = 1,
-                                                           heights = c(5/8, 3/8)) +
+
+p.inside <- p.abund.inside + 
+  p.reprod.inside + 
+  plot_layout(ncol = 1, heights = c(5/9, 4/9)) +
   plot_annotation(tag_levels = "A")
 p.inside
 
@@ -755,11 +338,11 @@ class_pred <- predictions[moderator == "1" & class != "All" &
                             habitat_trait == "All" &
                             only_dominant_effect_size == "no" &
                             prey_range == "All"]
-unique(class_pred$class)
 dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
                   habitat_trait == "All" &
-                   analysis_group %in% class_pred$analysis_group & 
-                   class %in% class_pred$class, ]
+                  analysis_group %in% class_pred$analysis_group & 
+                  class %in% class_pred$class, ]
+
 
 class.abundance <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -788,11 +371,15 @@ class.abundance <- ggplot()+
                   shape = 21, fill = "grey50",
                   size = 1)+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   facet_wrap(~class)+
   ggtitle("Abundance")+
@@ -812,25 +399,25 @@ class.abundance <- ggplot()+
 class.abundance
 
 # >>> log_mass ------------------------------------------------------------
-tidy_models[moderator == "log_mass"  & only_dominant_effect_size == "no", ]
+
 
 mass <- predictions[moderator == "log_mass"  & 
                       only_dominant_effect_size == "no" &
                       habitat_trait == "All" &
                       class == "All" & 
                       prey_range == "All", ]
-unique(mass$analysis_group_lab)
-#
+
 # Back-transform mass.
 mass[, mass_g := 10^as.numeric(term)]
 
 mass$analysis_group_lab <- factor(mass$analysis_group_lab ,
                                   levels = (c("With/without cats",
                                               "On islands with/without cats",
+                                              "Associations combined",
                                               "Temporal association")))
 
 dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
-                    analysis_group %in% mass$analysis_group &
+                  analysis_group %in% mass$analysis_group &
                   habitat_trait == "All"]
 
 p.mass.abund <- ggplot()+
@@ -855,7 +442,6 @@ p.mass.abund <- ggplot()+
                   fill = yi_analysis,
                   size = 1/vi_analysis),
               shape = 21,
-              # fill = "grey50",
               alpha = .5)+
   scale_fill_gradient2(low = "dodgerblue", high = "indianred",
                        midpoint = 0, mid = "white")+
@@ -865,9 +451,10 @@ p.mass.abund <- ggplot()+
              labeller = as_labeller(
                c("With/without cats" = "With-without cats", 
                  "On islands with/without cats" = "Islands with-without cats", 
-                 "Temporal association"="Temporal association")))+
-  # coord_cartesian(ylim = c(-2, 2))+
-  labs(x = expression(atop("Body mass", "(grams,"~log[10]~"scale)")),#"Body mass (log<sub>10</sub>)",
+                 "Associations combined" = "Associations combined",
+                 "Temporal association"="Temporal association",
+                 "Spatial association" = "Spatial association")))+
+  labs(x = expression(atop("Body mass", "(grams,"~log[10]~"scale)")),
        y = "Association between cats and threatened species")+
   guides(size = "none")+
   scale_x_log10()+
@@ -876,20 +463,17 @@ p.mass.abund <- ggplot()+
         axis.ticks.x = element_blank(),
         plot.title = element_text(hjust = 0.5),
         legend.position = "none",
-        # axis.text.x = ggtext::element_markdown(),
         strip.background = element_blank(),
         panel.border = element_blank())
 p.mass.abund
 
 # >>> Locomotion/habitat ----------------------------------------------------------------
-predictions[habitat_trait != "All", ]
+
 
 habitat_pred <- predictions[habitat_trait != "All" & 
                               class == "All" &
                               prey_range == "All" &
-                              only_dominant_effect_size == "no"
-                            ]
-unique(habitat_pred$analysis_group)
+                              only_dominant_effect_size == "no", ]
 
 dat.plot <- dat[habitat_trait != "All" &
                   analysis_group %in% habitat_pred$analysis_group]
@@ -900,8 +484,6 @@ dat.plot[, key := paste(analysis_group, habitat_trait)]
 dat.plot <- dat.plot[key %in% habitat_pred$key]
 
 # Need to format habitat trait and category in dat and predictions
-unique(dat.plot$habitat_trait)
-unique(dat.plot$habitat_category)
 dat.plot[, habitat_category := fcase(habitat_category == "locomotion_volant", "Locomotion",
                                      habitat_category == "ground_or_burrow_resting_or_nesting", "Ground-nesting",
                                      habitat_category == "Foraging_habitat_ground", "Ground-foraging",
@@ -914,22 +496,18 @@ dat.plot$habitat_category <- factor(dat.plot$habitat_category,
                                                "Locomotion", "Landform"))
 
 habitat_pred.mrg <- merge(habitat_pred,
-                      unique(dat.plot[, .(habitat_trait, 
-                                          habitat_category,
-                                          habitat_fac_lvl)]),
-                      by = "habitat_trait",
-                      all.x = T,
-                      all.y = F)
+                          unique(dat.plot[, .(habitat_trait, 
+                                              habitat_category,
+                                              habitat_fac_lvl)]),
+                          by = "habitat_trait",
+                          all.x = T,
+                          all.y = F)
 nrow(habitat_pred.mrg) == nrow(habitat_pred) # Must be TRUE
-unique(habitat_pred.mrg[, .(habitat_trait, habitat_category, habitat_fac_lvl)])
-unique(habitat_pred.mrg$analysis_group_lab)
-
-# Tricky plotting. Let's do ground-foraging, ground nesting together (same factor levels)
 
 habitat.abund.1 <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
   geom_text(data = habitat_pred.mrg[grepl("abundance", 
-                                      analysis_group, ignore.case = T) &
+                                          analysis_group, ignore.case = T) &
                                       habitat_category %in% c("Ground-foraging", "Ground-nesting")],
             aes(y = analysis_group_lab,
                 x = -10, vjust = 1.5,
@@ -946,13 +524,12 @@ habitat.abund.1 <- ggplot()+
               position = position_jitterdodgev(jitter.height = .1,
                                                jitter.width = 0,
                                                dodge.height = .5
-                                               ),
+              ),
               shape = 21, 
               alpha = .6)+
   geom_errorbar(data = habitat_pred.mrg[grepl("abundance", analysis_group, ignore.case = T) &
                                           habitat_category %in% c("Ground-foraging", "Ground-nesting")], 
                 aes(y = analysis_group_lab, group = habitat_fac_lvl,
-                    # color = term,
                     xmin = lower_ci, xmax = upper_ci),
                 position = position_dodgev(height = .5),
                 width = .25)+
@@ -963,28 +540,29 @@ habitat.abund.1 <- ggplot()+
                       xmin = lower_pi, xmax = upper_pi),
                   position = position_dodgev(height = .5),
                   shape = 21,
-                  # fill = "grey50",
                   size = 1)+
   facet_wrap(~habitat_category)+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
                               "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   scale_color_manual(name = NULL,
                      values = c("Ground" = "#565554",
-                                 "Other" = "#2E86AB"))+
+                                "Other" = "#2E86AB"))+
   scale_fill_manual(name = NULL,
                     values = c("Ground" = "#565554",
                                "Other" = "#2E86AB"))+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species")+
   ggtitle("Abundance")+
-  guides(size = "none", color = "none",
-         fill = guide_legend(reverse = TRUE))+
+  guides(size = "none", color = "none")+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -992,11 +570,6 @@ habitat.abund.1 <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-habitat.abund.1
-
-unique(habitat_pred.mrg[grepl("abundance", 
-                              analysis_group, ignore.case = T) &
-                          !habitat_category %in% c("Ground-foraging", "Ground-nesting")]$habitat_fac_lvl)
 
 habitat.abund.2 <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -1039,35 +612,30 @@ habitat.abund.2 <- ggplot()+
                   size = 1)+
   facet_wrap(~habitat_category)+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
                               "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   scale_color_manual(name = NULL,
                      values = c("Non-volant" = "#565554",
                                 "Volant" = "#2E86AB",
                                 "Island" = "#F7B538",
-                                "Mainland" = "#F24236"),
-                     labels = c("Non-volant" = "Flightless",
-                                "Volant" = "Volant",
-                                "Island" = "Island",
-                                "Mainland" = "Mainland (Australia)"))+
+                                "Mainland" = "#F24236"))+
   scale_fill_manual(name = NULL,
                     values = c("Non-volant" = "#565554",
                                "Volant" = "#2E86AB",
                                "Island" = "#F7B538",
-                               "Mainland" = "#F24236"),
-                    labels = c("Non-volant" = "Flightless",
-                               "Volant" = "Volant",
-                               "Island" = "Island",
-                               "Mainland" = "Mainland (Australia)"))+
+                               "Mainland" = "#F24236"))+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species")+
-  guides(size = "none", color = "none",
-         fill = guide_legend(reverse = TRUE))+
+  ggtitle("Abundance")+
+  guides(size = "none", color = "none")+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -1075,17 +643,15 @@ habitat.abund.2 <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-habitat.abund.2
 
-habitat.final <- habitat.abund.1 + xlab(NULL) +
+habitat.final <- habitat.abund.1 + 
   habitat.abund.2 +
-  plot_layout(nrow = 2)
+  plot_layout(nrow = 1)
+
 habitat.final
 
 
 # >>> Only dominant effect sizes --------------------------------------------------------------------
-
-tidy_models[moderator == "1" & only_dominant_effect_size == "yes", ]
 
 intercepts <- predictions[moderator == "1" & 
                             only_dominant_effect_size == "yes" &
@@ -1093,7 +659,6 @@ intercepts <- predictions[moderator == "1" &
                             class == "All" &
                             prey_range == "All"]
 
-unique(intercepts$analysis_group)
 
 intercepts[, key := paste(analysis_effect_size, analysis_group)]
 dat.plot[, key := paste(analysis_effect_size, analysis_group)]
@@ -1127,11 +692,15 @@ p1.si <- ggplot()+
                   shape = 21, fill = "grey50",
                   size = 1)+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   ggtitle("Abundance")+
   ylab(NULL)+
@@ -1147,7 +716,6 @@ p1.si <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p1.si
 
 p2.si <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -1177,11 +745,15 @@ p2.si <- ggplot()+
                   shape = 21, fill = "grey50",
                   size = 1)+
   scale_y_discrete(breaks = c("With/without cats", 
-                              "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"),
                    labels = c("With-without cats",
                               "Before-after eradication", "Inside-outside exclosure", 
                               "Islands with-without cats", 
+                              "Associations combined",
                               "Spatial association", "Temporal association"))+
   ggtitle("Reproduction")+
   ylab(NULL)+
@@ -1197,12 +769,9 @@ p2.si <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-p2.si
 
 dominant.only <- p1.si + p2.si + plot_layout(guides = "collect", nrow = 2,
-                            heights = c(3/5, 2/5)) +
-  plot_annotation(tag_levels = "A") &
-  theme(legend.position = "none")
+                                             heights = c(3/5, 3/8)) 
 dominant.only
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
@@ -1298,24 +867,44 @@ unique(si_models$group)
 
 # >>> Main text models ----------------------------------------------------
 unique(si_models$moderator)
-sub_models <- si_models[class == "All classes" &
-                          moderator == "Overall estimate" &
+unique(si_models$class)
+unique(si_models$analysis_group)
+si_models[analysis_group == "Abundance correlation", analysis_group := "Abundance association"]
+si_models[analysis_group == "Reproduction correlation", analysis_group := "Reproduction association"]
+
+sub_models <- si_models[moderator == "Overall estimate" &
                           only_dominant_effect_size == "no" &
                           prey_range == "All" &
                           habitat_trait == "All habitats"]
 
-sub_models[, group := paste(analysis_group, analysis_effect_size, sep = " | ")]
+sub_models[, group := paste(analysis_group, class, analysis_effect_size, sep = " | ")]
 dput(unique(sub_models$group))
 
-lvls <- c("Abundance with/without cats | SMD", 
-         "Abundance before-after eradication | SMD", 
-          "Abundance on islands with/without cats | lnOR", 
-          "Abundance spatial association | Zr", 
-          "Abundance temporal association | Zr", 
-          "Reproduction with/without cats | lnOR", 
-          "Reproduction before-after eradication | SMD",
-          "Reproduction temporal association | Zr"
-)
+lvls <- c("Abundance with/without cats | All classes | lnOR", 
+          "Abundance on islands with/without cats | All classes | lnOR", 
+          "Abundance association | All classes | Zr", 
+          "Abundance spatial association | All classes | Zr", 
+          "Abundance temporal association | All classes | Zr", 
+          
+          "Abundance with/without cats | Mammals | lnOR", 
+          "Abundance on islands with/without cats | Mammals | lnOR", 
+          "Abundance association | Mammals | Zr", 
+          "Abundance spatial association | Mammals | Zr", 
+          "Abundance temporal association | Mammals | Zr", 
+         
+
+          "Abundance with/without cats | Birds | lnOR", 
+         
+          "Reproduction with/without cats | All classes | lnOR", 
+          "Reproduction before-after eradication | All classes | SMD", 
+          "Reproduction association | All classes | Zr", 
+          "Reproduction temporal association | All classes | Zr", 
+          
+          "Reproduction before-after eradication | Birds | SMD",
+          "Reproduction with/without cats | Birds | lnOR", 
+          "Reproduction association | Birds | Zr",
+          "Reproduction temporal association | Birds | Zr"
+          )
 
 setdiff(sub_models$group, lvls)
 
@@ -1345,7 +934,7 @@ main_text <- sub_models %>%
   fmt_markdown(columns = `Sample size`) %>%
   fmt_markdown(columns = `Test statistics`) %>%
   tab_header(#title = ,
-    md("**Table S6**. Model summaries for intercept-only main-text models across all species. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
+    md("**Table S6**. Model summaries for intercept-only main-text models across all species and by taxonomic class. Model estimates ± 95% CIs and test statistics are reported along with sample sizes and residual unexplained heterogeneity ($I^2$), decomposed by hierarchical model levels (article and observation). The effect size used is given in the heading of each model (SMD=standardized mean difference or Hedges' g; Zr=correlation coefficient; lnOR=log odds ratio).")) |>
   opt_align_table_header(align = c("left")) |>
   tab_style(
     style = cell_text(weight = "bold"),
@@ -1383,10 +972,12 @@ sub_models[, group := paste0(analysis_group," | ", analysis_effect_size, "<br>",
 unique(sub_models$group)
 dput(unique(sub_models$group))
 
-lvls <- c("Abundance with/without cats | SMD<br>$N_{articles}=10$; $N_{species}=13$; $N_{observations}=15$<br>$I^2_{total}=54.2$; $I^2_{article}=54.2$; $I^2_{obs}=0$",
-          "Abundance on islands with/without cats | lnOR<br>$N_{articles}=7$; $N_{species}=11$; $N_{observations}=11$<br>$I^2_{total}=42.1$; $I^2_{article}=42.1$; $I^2_{obs}=0$", 
+lvls <- c("Abundance with/without cats | lnOR<br>$N_{articles}=9$; $N_{species}=11$; $N_{observations}=11$<br>$I^2_{total}=65.2$; $I^2_{article}=65.2$; $I^2_{obs}=0$",
+          "Abundance on islands with/without cats | lnOR<br>$N_{articles}=6$; $N_{species}=8$; $N_{observations}=8$<br>$I^2_{total}=49$; $I^2_{article}=49$; $I^2_{obs}=0$", 
+          "Abundance association | Zr<br>$N_{articles}=15$; $N_{species}=14$; $N_{observations}=23$<br>$I^2_{total}=83.8$; $I^2_{article}=59.4$; $I^2_{obs}=24$",
           "Abundance temporal association | Zr<br>$N_{articles}=11$; $N_{species}=13$; $N_{observations}=19$<br>$I^2_{total}=86.4$; $I^2_{article}=62.3$; $I^2_{obs}=24$"
 )
+
 setdiff(sub_models$group, lvls)
 
 sub_models$group <- factor(sub_models$group,
@@ -1452,13 +1043,15 @@ sub_models[, group := paste(analysis_group, analysis_effect_size, sep = " | ")]
 
 dput(unique(sub_models$group))
 
-lvls <- c("Abundance with/without cats | SMD", 
+lvls <- c("Abundance with/without cats | lnOR", 
           "Abundance before-after eradication | SMD",
           "Abundance on islands with/without cats | lnOR", 
+          "Abundance association | Zr",
           "Abundance spatial association | Zr", 
           "Abundance temporal association | Zr", 
           "Reproduction with/without cats | lnOR", 
           "Reproduction before-after eradication | SMD", 
+          "Reproduction association | Zr",
           "Reproduction temporal association | Zr"
 )
 
@@ -1520,9 +1113,12 @@ sub_models <- si_models[class == "All classes" &
 sub_models[, group := paste(analysis_group, analysis_effect_size, sep = " | ")]
 dput(unique(sub_models$group))
 
-lvls <- c("Abundance on islands with/without cats | lnOR", 
+lvls <- c("Abundance with/without cats | lnOR",
+          "Abundance on islands with/without cats | lnOR", 
+          "Abundance association | Zr",
           "Abundance spatial association | Zr", 
           "Abundance temporal association | Zr",
+          "Reproduction association | Zr",
           "Reproduction temporal association | Zr", 
           "Reproduction with/without cats | lnOR")
 
@@ -1584,70 +1180,31 @@ sub_models <- si_models[class == "All classes" &
                           prey_range == "All" &
                           habitat_trait != "All habitats"]
 sub_models[, group := paste(analysis_group, habitat_trait, analysis_effect_size, sep = " | ")]
+# Sorting these factor levels is too fucking much...
+dput(unique(sub_models$analysis_group))
+sub_models$analysis_group <- factor(sub_models$analysis_group,
+                                    levels = c("Abundance with/without cats", "Abundance on islands with/without cats", 
+                                               "Abundance association", 
+                                               "Abundance spatial association", "Abundance temporal association", 
+                                               "Reproduction with/without cats", 
+                                               "Reproduction before-after eradication",
+                                                "Reproduction association", "Reproduction temporal association"
+                                    ))
 
-dput(unique(sub_models$group))
-
-lvls <- c("Abundance with/without cats | Foraging habitat: ground | SMD", 
-        "Abundance with/without cats | Foraging habitat: other | SMD", 
-        "Abundance with/without cats | Ground nesting: ground | SMD", 
-        "Abundance with/without cats | Ground nesting: other | SMD", 
-        "Abundance with/without cats | Locomotion: Non-volant | SMD", 
-        "Abundance with/without cats | Locomotion: volant | SMD", 
-        "Abundance with/without cats | Landform: island | SMD", 
-        
-        "Abundance before-after eradication | Foraging habitat: other | SMD", 
-        "Abundance before-after eradication | Ground nesting: other | SMD", 
-        "Abundance before-after eradication | Landform: island | SMD",
-        
-        "Abundance on islands with/without cats | Foraging habitat: ground | lnOR", 
-         "Abundance on islands with/without cats | Ground nesting: ground | lnOR", 
-         "Abundance on islands with/without cats | Ground nesting: other | lnOR", 
-         "Abundance on islands with/without cats | Locomotion: Non-volant | lnOR", 
-         "Abundance on islands with/without cats | Locomotion: volant | lnOR", 
-        "Abundance on islands with/without cats | Landform: island | lnOR", 
-        
-           "Abundance spatial association | Foraging habitat: other | Zr", 
-           "Abundance spatial association | Ground nesting: other | Zr", 
-           "Abundance spatial association | Locomotion: Non-volant | Zr", 
-        "Abundance spatial association | Landform: mainland | Zr", 
-        
-           "Abundance temporal association | Foraging habitat: ground | Zr", 
-           "Abundance temporal association | Foraging habitat: other | Zr", 
-           "Abundance temporal association | Ground nesting: ground | Zr", 
-           "Abundance temporal association | Ground nesting: other | Zr", 
-           "Abundance temporal association | Locomotion: Non-volant | Zr", 
-        "Abundance temporal association | Landform: island | Zr", 
-        "Abundance temporal association | Landform: mainland | Zr", 
-          
-          "Reproduction with/without cats | Foraging habitat: ground | lnOR", 
-          "Reproduction with/without cats | Ground nesting: other | lnOR", 
-          "Reproduction with/without cats | Locomotion: volant | lnOR", 
-        "Reproduction with/without cats | Landform: island | lnOR", 
-        
-         
-          "Reproduction before-after eradication | Foraging habitat: ground | SMD", 
-          "Reproduction before-after eradication | Ground nesting: other | SMD", 
-          "Reproduction before-after eradication | Locomotion: volant | SMD", 
-        "Reproduction before-after eradication | Landform: island | SMD", 
-        
-        "Reproduction temporal association | Foraging habitat: ground | Zr", 
-        "Reproduction temporal association | Ground nesting: other | Zr", 
-        "Reproduction temporal association | Locomotion: volant | Zr", 
-        "Reproduction temporal association | Landform: island | Zr"
-          
-)
-
-setdiff(sub_models$group, lvls)
-
-sub_models$group <- factor(sub_models$group,
-                           levels = lvls)
+dput(unique(sub_models$habitat_trait))
+sub_models$habitat_trait <- factor(sub_models$habitat_trait,
+                                    levels = c("Locomotion: volant", "Locomotion: Non-volant", 
+                                               "Foraging habitat: ground", "Foraging habitat: other", 
+                                               "Ground nesting: ground", "Ground nesting: other", 
+                                               "Landform: mainland", "Landform: island" 
+                                                ))
 
 # Also should sort by Intercept vs moderator
 unique(sub_models$term)
 sub_models$term <- factor(sub_models$term,
                           levels = c("overall", "intercept", "Mass (g, log10)"))
-sub_models[, num1 := as.numeric(group)]
-sub_models[, num2 := as.numeric(term)]
+sub_models[, num1 := as.numeric(analysis_group)]
+sub_models[, num2 := as.numeric(habitat_trait)]
 
 setorder(sub_models, num1, num2)
 sub_models

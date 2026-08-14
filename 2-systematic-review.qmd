@@ -42,7 +42,7 @@ execute:
 bibliography: references.bib
 ---
 
-This section will tally the evidence types encountered. This workflow is derived from a full R script in `scripts/2_analysis/2 meta and review summary.R` that includes additional checks and tests and is fully interactive if you clone the repo. 
+This section will tally the evidence types encountered. This workflow is derived from a full R script in `scripts/2_analysis/2 meta and review summary.R`, which includes additional checks and tests and is fully interactive if you clone the repo. 
 
 # Prepare environment & load data:
 ```{r}
@@ -71,27 +71,28 @@ library("gt")
 library("ggtext")
 
 sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
-sys_rev
+
+# Here are a few of the most important columns:
+sys_rev[, .(scientificName, evidence_type, has_data, of_quality, Hypothesis_supported, study_id)]
 
 ```
 
 This dataset was initially cleaned in `scripts/1_data_mgmt/4 clean systematic review and claim.R`.
 
 # Plot evidence types found
-Now we'll do some quality control checks, clean up factor levels, create color palettes and plot this:
+Now we'll do some quality control checks, clean up factor levels, create color palettes and plot this.
 
 ```{r}
 #| eval: true
 #| echo: true
 #| fig-width: 5
 #| fig-height: 5
+#| code-fold: true
 
-sys_rev[spp_name_corrected == "Dasyurus maculatus"]$exclude_species
 sys_rev <- sys_rev[exclude_species == "included_species",]
 n_studies <- sys_rev[, .(n_studies = uniqueN(study_id)),
                      by = .(evidence_type, has_data, of_quality, Hypothesis_supported,
                             class)]
-head(n_studies)
 
 n_studies[, synth_fill := fcase(grepl("Population", evidence_type) & 
                                   has_data == "yes", paste(evidence_type, "with data"),
@@ -159,7 +160,11 @@ p.sys <- ggplot(data = n_studies,
 p.sys
 
 ```
-<img src="figures/main_text/network_legend_2.png" width="200">
+
+<figure>
+  <img src="figures/main_text/network_legend_2.png" width="200">
+  <figcaption><b>Fig. 1.</b> The number of studies found with quantitative evidence on the relationship between cats and threatened species Fill color indicates the article type and whether their results (according to the author's interpretation) found a negative association between cats and threatened species. </figcaption>
+</figure>
 
 # The best evidence per species
 Let's now look at the best evidence available per species that cats are associated with threatened prey declines. To do this, we rank evidence types and select the highest quality type per claimant and species. To do this we also need all claims, e.g., a dataset based on whether a source claimed that cats were a cause of endangerment of a species. We'll merge the evidence found into this dataset.
@@ -168,8 +173,10 @@ Let's now look at the best evidence available per species that cats are associat
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 #| fig-width: 5
 #| fig-height: 5
+#| fig-cap: "**Fig. 2.** The best evidence found per species."
 
 claims <- fread("builds/claims/species_claims_tidy_populated.csv")
 
@@ -186,9 +193,6 @@ claims[spp_name_corrected == "Prosobonia parvirostris", spp_name_corrected := sc
 ranking <- copy(sys_rev)
 ranking <- ranking[, .(spp_name_corrected,
                        of_quality, evidence_type, has_data)]
-unique(ranking$has_data)
-
-sort(unique(ranking$evidence_type))
 
 ranking[of_quality == "yes" &
           evidence_type == "Population in support", rank := 10]
@@ -200,8 +204,6 @@ ranking[of_quality == "no" &
           evidence_type == "Population in support", rank := 8]
 ranking[evidence_type == "Predation in support", rank := 7]
 
-unique(ranking[is.na(rank)]$evidence_type)
-
 ranking[is.na(rank), rank := 0]
 ranking[rank == 0, evidence_type := "No evidence in support"]
 ranking[rank == 0, has_data := NA]
@@ -210,10 +212,7 @@ ranking[rank == 0, of_quality := NA]
 ranking <- ranking[, max_rank := max(rank),
                    by = .(spp_name_corrected)]
 ranking[, no_evidence := .N, by = .(spp_name_corrected)]
-ranking[no_evidence > 1, ]
 ranking <- ranking[rank == max_rank, ] |> unique()
-
-ranking[duplicated(spp_name_corrected), ] # Must be 0 rows
 
 # Now merge into the claims:
 best_evidence <- merge(claims,
@@ -223,11 +222,7 @@ best_evidence <- merge(claims,
                        all.x = T,
                        all.y = T)
 
-best_evidence[duplicated(spp_name_corrected)]
-
 #
-best_evidence[is.na(redlistCategory)] # Must be 0 rows
-unique(best_evidence$class)
 best_evidence[is.na(redlistCategory), class := "Mammals"]
 
 # 
@@ -244,9 +239,7 @@ best_evidence[grepl("Population", evidence_type),
               synth_fill := paste(synth_fill, 
                                     ifelse(of_quality == "yes",
                                            "and qualities", "")) |> trimws()]
-setdiff(best_evidence$synth_fill, names(fill_pal))
 best_evidence[is.na(synth_fill), synth_fill := evidence_type]
-setdiff(best_evidence$synth_fill, names(fill_pal))
 
 fill_pal2 <- c(`Predation in support` = "#a6d3a0", 
                `Population in support without data` = "dodgerblue4", 
@@ -255,16 +248,11 @@ fill_pal2 <- c(`Predation in support` = "#a6d3a0",
                `No evidence in support` = "grey40",
                `No evidence found` = "black")
 
-unique(best_evidence$class)
-
-
 best_evidence.freq <- best_evidence[, .(n_species = uniqueN(scientificName)),
                                     by = .(synth_fill,
                                            of_quality, class)]
 #
-best_evidence.freq[duplicated(paste(synth_fill, class)),]
 
-unique(best_evidence.freq$synth_fill)
 best_evidence.freq$synth_fill <- factor(best_evidence.freq$synth_fill,
                       levels = rev(c("No evidence found", 
                                      "No evidence in support", 
@@ -272,8 +260,6 @@ best_evidence.freq$synth_fill <- factor(best_evidence.freq$synth_fill,
                                      "Population in support without data",
                                      "Population in support with data",
                                      "Population in support with data and qualities")))
-
-unique(best_evidence.freq$class)
 
 best_evidence.freq$class <- factor(best_evidence.freq$class,
                                    levels = (c("Birds", "Reptiles", "Mammals",  "Amphibians")))

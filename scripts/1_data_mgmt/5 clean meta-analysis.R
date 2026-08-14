@@ -159,6 +159,10 @@ smd[, `:=` (Prey_mean_cats_Absent = as.numeric(Prey_mean_cats_Absent),
 unique(smd$Effect_size_ID)
 smd[Effect_size_ID == "ES_45", ]
 
+# >>> Drop N < 3 ----------------------------------------------------------
+smd <- smd[Sample_size_overall_cats_Absent >= 3 &
+             Sample_size_overall_cats_Present >= 3, ]
+
 # >>> Calculate effect sizes --------------------------------------------------
 setnames(smd, c("Sample_size_overall_cats_Absent", "Sample_size_overall_cats_Present"),
                 c("n2", "n1")) # This is to prevent later confusion while converting
@@ -306,6 +310,7 @@ mixed_types
 #
 # For lnOR and Zr groups, instead of 2 conversions, just convert to SMD. OTherwise, go by most populous entity
 #
+
 mixed_types[analysis_group %in% c( "Reproduction spatial association"),
             analysis_effect_size := "SMD"]
 
@@ -337,8 +342,6 @@ for(i in 1:length(combos)){
                                    yi = yi, vi = vi, 
                                    r = r,
                                    from = unique(sub_dat$original_effect_size),
-                                   # from = ifelse(unique(sub_dat$original_effect_size) == "Zr" &
-                                   #                 !any(is.na(sub_dat$r)), "r", unique(sub_dat$original_effect_size)),
                                    to = unique(sub_dat$analysis_effect_size),
                                    data = sub_dat,
                                    bind = TRUE,
@@ -361,17 +364,46 @@ meta.final
 
 length(unique(meta.final$Effect_size_ID))
 
-meta.final
+meta.final[, .(paste(unique(sort(original_effect_size)), collapse = "; ")), by = .(analysis_group)]
+hist(meta.final[analysis_effect_size == "SMD", ]$yi_analysis)
+
+
+# TEST lnRoM --------------------------------------------------------------
+
+sub <- meta.final[analysis_group %in% c("Abundance before-after eradication", "Abundance inside/outside exclosure")]
+sub
+
+sub.rom <- escalc(measure = "ROM",
+                  m2i = Prey_mean_cats_Absent, m1i = Prey_mean_cats_Present,
+                  sd2i = Prey_error_cats_Absent, sd1i = Prey_error_cats_Present,
+                  n2i = n2, n1i = n1,
+                  data = sub) |> setDT()
+
+sub.rom
+
+rma.mv(yi = yi, V = vi,
+       mods = ~ 1,
+       random = ~ 1 | Article / Effect_size_ID,
+       test = "t",
+       method = "REML",
+       dfs = "contain",
+       data = sub.rom[analysis_group == "Abundance before-after eradication", ])
+(exp(-0.8695)-1)*100
+# Strong lnRoM effect (but not sig)
+
+rma.mv(yi = yi_analysis, V = vi_analysis,
+       mods = ~ 1,
+       random = ~ 1 | Article / Effect_size_ID,
+       test = "t",
+       method = "REML",
+       dfs = "contain",
+       data = sub.rom[analysis_group == "Abundance before-after eradication", ])
+# So strong SMD effect (but non-sig)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------
 # Merge in covariates ------------------------------
-# Copy phylacine over:
-#
-
 
 # >>> Body mass -----------------------------------------------------------
-
-
 species <- data.table(scientificName = unique(c(meta.final$scientificName)))
 
 species[, spp_name_corrected := scientificName]

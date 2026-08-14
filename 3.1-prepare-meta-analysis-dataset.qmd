@@ -209,6 +209,12 @@ smd[, `:=` (Prey_mean_cats_Absent = as.numeric(Prey_mean_cats_Absent),
 
 unique(smd$Effect_size_ID)
 
+
+# >>> Drop N < 3 ----------------------------------------------------------
+smd <- smd[Sample_size_overall_cats_Absent >= 3 &
+             Sample_size_overall_cats_Present >= 3, ]
+
+
 # >>> Calculate effect sizes --------------------------------------------------
 setnames(smd, c("Sample_size_overall_cats_Absent", "Sample_size_overall_cats_Present"),
                 c("n2", "n1")) # This is to prevent later confusion while converting

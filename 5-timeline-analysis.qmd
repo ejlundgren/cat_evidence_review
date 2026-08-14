@@ -50,12 +50,15 @@ Now let's look at the timeline of the last records of extinct populations attrib
 - Extinction 101-200 years after cat arrival
 - Extinction >200 years after cat arrival
 
-This workflow corresponds to the full script at `scripts/2_analysis/5 timeline analysis.R`. Let's start by cleaning the environment and loading our data:
+This workflow corresponds to the full script at `scripts/2_analysis/5 timeline analysis.R`. 
+
+The folded code block below cleans the environment, loads the data, and prepares to plot it. Feel free to click the "Code" button to see the code otherwise, we'll go straight to calculating the number of species per cat arrival category above:
 
 ```{r}
 #| eval: true
 #| echo: true
-#| output: true
+#| output: false
+#| code-fold: true
 
 rm(list = ls())
 
@@ -77,15 +80,6 @@ theme_lundy <- theme_bw()+
 
 # Load data 
 data_evidence <- read_xlsx("data/timeline/Cat timeline.xlsx") |> setDT()
-
-```
-
-Now let's do some data cleaning and create the categories listed above.
-
-```{r}
-#| eval: true
-#| echo: true
-#| output: true
 
 #For now exclude one row of Conilurus capricornensis that has NA values
 data_evidence <- data_evidence[!is.na(Prey_extirpation_year_earliest), ]
@@ -250,10 +244,17 @@ full_data <- full_data[, .(Class, Order, Family, Genus, `Scientific name`, statu
                            median_difference, prey_window, cat_window, cat_arrival
 )]
 
+```
+
+This is the number of extinct populations per cat arrival category:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
 full_data <- full_data[order(full_data$Class), ]
 table(full_data$cat_arrival)
 ```
-That is the number of extinct populations per cat arrival category. 
 
 Now let's summarize this dataset and create the main text figure:
 
@@ -261,6 +262,8 @@ Now let's summarize this dataset and create the main text figure:
 #| eval: true
 #| echo: true
 #| output: true
+#| code-fold: true
+#| fig-cap: "**Fig. 1.** Number of attributed population extinctions by taxonomic class and overlap with cats."
 
 # 4. Summaries and figures--------------------------------------------------
 spp_sum_ex <- unique(full_data[status == "Extinct", 
@@ -296,9 +299,6 @@ sum_ex[, `Cat arrival` := factor(`Cat arrival`,
 setorder(sum_ex, `Cat arrival`, `Cat arrival`)
 setorder(sum_ex, Class, -Class)
 
-#Save dataset
-writexl::write_xlsx(sum_ex, "builds/timeline/cat_extinctions_summary.xlsx")
-
 #Let's make some summary figures
 sum_ex[, `Cat arrival` := factor(`Cat arrival`,
                                  levels = arrival_levels)]
@@ -329,6 +329,7 @@ Now let's look at all individual species:
 #| eval: true
 #| echo: true
 #| output: true
+#| code-fold: true
 
 #Forest plot - species extinction and cat arrival times
 plot_dt <- copy(full_data[`Redlist category`== "Extinct" | `Redlist category` == "Extinct in the Wild", ])
@@ -371,6 +372,8 @@ First, mammals:
 #| output: true
 #| fig-width: 5
 #| fig-height: 8
+#| code-fold: true
+#| fig-cap: "**Fig. 2.** Timeline chart of mammal extinctions relative to cat arrival (central line) per species."
 
 plot_dt[min_difference == max_difference,
         `:=` (min_difference = min_difference - 1,
@@ -422,6 +425,8 @@ Now birds:
 #| output: true
 #| fig-width: 5
 #| fig-height: 9
+#| code-fold: true
+#| fig-cap: "**Fig. 3.** Timeline chart of bird extinctions relative to cat arrival (central line) per species."
 
 sub_plot <- plot_dt[Class == "Birds", ]
 sub_plot[, x_id := x_id - min(x_id)+1]
@@ -469,6 +474,8 @@ Now reptiles:
 #| output: true
 #| fig-width: 5
 #| fig-height: 6
+#| code-fold: true
+#| fig-cap: "**Fig. 4.** Timeline chart of reptile extinctions relative to cat arrival (central line) per species."
 
 sub_plot <- plot_dt[Class == "Reptiles", ]
 sub_plot[, x_id := x_id - min(x_id)+1]
@@ -509,12 +516,14 @@ ggplot() +
 ```
 
 
-Now let's explore the spatial dimensions of this with more granularity by at this on an interactive map:
+Now let's explore the spatial dimensions of this with more granularity by at this on an interactive map.
 
 ```{r}
 #| eval: true
 #| echo: true
 #| output: true
+#| code-fold: true
+#| fig-cap: "**Fig. 5.** Map of extinction locations colored by relationship of extinction estimate to cat arrival estimate."
 
 cat_ex_map <- st_as_sf(ex_records, coords = c("Longitude", "Latitude"), crs= 4326)
 cat_ex_map$cat_arrival <- factor(cat_ex_map$cat_arrival, levels = arrival_levels)

@@ -1,0 +1,848 @@
+---
+title: "Plot meta-analysis results"
+date: today
+format: 
+  html:
+    toc: true
+    toc-location: right
+    toc-depth: 6
+    toc-float: true
+    toc-expand: true
+    toc-title: "**CONTENTS**"
+    output-file: "3.3-plot-models.html"
+    # embed-resources: true
+    code-fold: show
+    code-link: true
+    code-tools: true
+    # number-sections: false
+    # bibliography: ./bib/ref.bib
+    fontsize: "10"
+    mainfont: "Helvetica"
+    monofont: "Fira Code"
+    # fontcolor: ""
+    page-layout: article
+    code-overflow: wrap
+    df_print: paged
+    theme: cosmo
+    code-line-numbers: false
+    grid:
+      margin-width: 250px
+crossref:
+  fig-title: Figure     # (default is "Figure")
+  tbl-title: Table     # (default is "Table")
+  title-delim: "—"     # (default is ":")
+  fig-prefix: Fig.     # (default is "Figure")
+  tbl-prefix: Table.   # (default is "Table")
+editor_options: 
+  chunk_output_type: console
+execute:
+  warning: false
+  message: false
+  tidy: true
+bibliography: references.bib
+---
+
+Now let's plot our meta-analysis results. The hidden code chunk below has all the boring details for data cleaning, organizing factor levels, and so on. 
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+#| code-fold: true
+
+# Clean environment:
+rm(list = ls())
+
+# Load packages
+library("data.table")
+library("metafor")
+library("ggplot2")
+library("ggstance")
+library("orchaRd")
+library("patchwork")
+library("readxl")
+library("stringr")
+library("sf")
+library("mapview")
+library("dplyr")
+library("rotl")
+library("broom.mixed")
+library("here")
+
+# First, let's reload the object objects:
+tidy_models <- readRDS("builds/meta_analysis/models/tidy_models.Rds")
+predictions <- readRDS("builds/meta_analysis/models/predictions.Rds")
+dat <- readRDS("builds/meta_analysis/models/analysis_data.Rds")
+
+# First let's clean up the labels and format factor levels for the plots:
+predictions[, string := paste0(analysis_effect_size, ": ", n_articles, "(", n_species, ", ", n_obs, ")")]
+predictions
+
+dat[, analysis_group_lab := gsub("Abundance ", "", analysis_group)]
+dat[, analysis_group_lab := gsub("Reproduction ", "", analysis_group_lab)]
+dat[, analysis_group_lab := str_to_sentence(analysis_group_lab)]
+dat[analysis_group_lab == "Correlation", analysis_group_lab := "Associations combined"]
+
+
+predictions[, analysis_group_lab := gsub("Abundance ", "", analysis_group)]
+predictions[, analysis_group_lab := gsub("Reproduction ", "", analysis_group_lab)]
+predictions[, analysis_group_lab := str_to_sentence(analysis_group_lab)]
+predictions[analysis_group_lab == "Correlation", analysis_group_lab := "Associations combined"]
+
+
+dput(sort(unique(dat$analysis_group_lab)))
+lvls <- c("With/without cats", 
+          "Before-after eradication", "Inside/outside exclosure", "On islands with/without cats", 
+          "Associations combined",
+          "Spatial association", "Temporal association")
+dat$analysis_group_lab <- factor(dat$analysis_group_lab,
+                                      levels = rev(lvls))
+predictions$analysis_group_lab <- factor(predictions$analysis_group_lab,
+                                        levels = rev(lvls))
+
+```
+
+
+## Overall association between cats and prey {#sec-overall-association}
+Let's start by plotting the main text intercept-only models:
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 1.** Association between cats and threatened prey. The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+intercepts <- predictions[moderator == "1" & 
+                            only_dominant_effect_size == "no" &
+                            class == "All" &
+                            habitat_trait == "All" &
+                            prey_range == "All"]
+
+dat.plot <- dat[analysis_group %in% unique(intercepts$analysis_group) &
+                  habitat_trait == "All", ] # Drop analysis groups for which models didn't converge.
+
+
+p.abund <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -3, vjust = 2,
+               label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.plot[grepl("abundance", analysis_group, ignore.case = T), ], 
+             aes(x = yi, y = analysis_group_lab, 
+                 size = 1/vi_analysis, fill = yi_analysis),
+             shape = 21, #fill = "grey90",
+             height = 0.25, width = 0,
+             alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+  ggtitle("Abundance")+
+  scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  ylab(NULL)+
+  xlab("Association between cats and\nthreatened species abundance")+
+  guides(size = "none")+
+  coord_cartesian(xlim = c(-5, 5))+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+
+p.reprod <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -7, vjust = 2,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.plot[grepl("reproduction", analysis_group, ignore.case = T), ], 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+  ggtitle("Bird reproduction")+
+  ylab(NULL)+
+  xlab("Association between cats and\nthreatened bird reproduction")+
+  scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  guides(size = "none")+
+  coord_cartesian(xlim = c(-12, 12))+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+p.abund + p.reprod + 
+  plot_layout(nrow = 2,
+              heights = c(5/9, 4/9))
+
+```
+
+## Inside prey-range only {#sec-inside-prey-range}
+
+Now we'll just look at prey species that are inside the estimated prey range of cats from @Wooster2024-gc.
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 2.** Association between cats and threatened prey within cat prey range. The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+intercept_inside <- predictions[moderator == "1" & 
+                                  habitat_trait == "All" &
+                                  only_dominant_effect_size == "no" &
+                                   class == "All" &
+                                  prey_range == "inside", ]
+
+dat.prey <- dat[analysis_group %in% unique(intercept_inside$analysis_group) &
+                  habitat_trait == "All", ] 
+dat.prey <- dat.plot[prey_range_primary == "inside"]
+
+
+p.abund.inside <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercept_inside[grepl("abundance", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -3, vjust = 2,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.prey[grepl("abundance", analysis_group, ignore.case = T), ], 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercept_inside[grepl("abundance", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercept_inside[grepl("abundance", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+  ggtitle("Abundance")+
+  scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  ylab(NULL)+
+  coord_cartesian(xlim = c(-5, 5))+
+  xlab("Association between cats and threatened species")+
+  guides(size = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+p.reprod.inside <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercept_inside[grepl("reproduction", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -7, vjust = 2.5,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.prey[grepl("reproduction", analysis_group, ignore.case = T), ], 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercept_inside[grepl("reproduction", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercept_inside[grepl("reproduction", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+  ggtitle("Bird reproduction")+
+  ylab(NULL)+
+  coord_cartesian(xlim = c(-12, 12))+
+  xlab("Association between cats and threatened bird reproduction")+
+  scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  guides(size = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+p.inside <- p.abund.inside + 
+  p.reprod.inside + 
+  plot_layout(ncol = 1, heights = c(5/9, 4/9))
+p.inside
+
+
+```
+
+## Associations by taxonomic class {#sec-association-by-class}
+Now let's look per taxonomic class subgroup. Note that we only ran these for abundance since all reproduction analyses groups were focused on birds.
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 3.** Association between cats and threatened prey abundance by taxonomic class. The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+class_pred <- predictions[moderator == "1" & class != "All" &
+                            habitat_trait == "All" &
+                            only_dominant_effect_size == "no" &
+                            prey_range == "All"]
+dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
+                  habitat_trait == "All" &
+                   analysis_group %in% class_pred$analysis_group & 
+                   class %in% class_pred$class, ]
+
+
+class.abundance <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = class_pred[grepl("abundance", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -15, vjust = 2,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.plot, 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = class_pred[grepl("abundance", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = class_pred[grepl("abundance", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+  scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  facet_wrap(~class)+
+  ggtitle("Abundance")+
+  ylab(NULL)+
+  xlab("Association between cats and threatened species")+
+  # coord_cartesian(ylim = c(-4, 4))+
+  # xlab(NULL)+
+  # ylab("Short term abundance correlation (Zr)")+
+  guides(size = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+class.abundance
+
+```
+
+## Prey body mass {#sec-prey-body-mass}
+Does body mass modulate the association between cats and prey? As we showed [here](3.1-prepare-meta-analysis-dataset.qmd), body mass was primarily derived from Phylacine (for mammals) and AvoNet (for birds). 
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 4.** Association between cats and threatened prey by prey body mass (log~10~). The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+mass <- predictions[moderator == "log_mass"  & 
+                      only_dominant_effect_size == "no" &
+                      habitat_trait == "All" &
+                      class == "All" & 
+                      prey_range == "All", ]
+
+# Back-transform mass.
+mass[, mass_g := 10^as.numeric(term)]
+
+mass$analysis_group_lab <- factor(mass$analysis_group_lab ,
+                                  levels = (c("With/without cats",
+                                              "On islands with/without cats",
+                                              "Associations combined",
+                                              "Temporal association")))
+
+dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
+                    analysis_group %in% mass$analysis_group &
+                  habitat_trait == "All"]
+
+p.mass.abund <- ggplot()+
+  geom_hline(yintercept = 0, linetype = "dashed")+
+  geom_ribbon(data = mass[grepl("abundance", analysis_group, ignore.case = T)], 
+              aes(x = mass_g, 
+                  ymin = lower_pi, ymax = upper_pi),
+              alpha = .5,
+              fill = "transparent",
+              color = "black", linetype = "dotted")+
+  geom_ribbon(data = mass[grepl("abundance", analysis_group, ignore.case = T)], 
+              aes(x = mass_g, 
+                  ymin = lower_ci, ymax = upper_ci),
+              alpha = .5,
+              fill = "grey")+
+  geom_line(data = mass[grepl("abundance", analysis_group, ignore.case = T)], 
+            aes(x = mass_g, 
+                y = pred),
+            color = "black")+
+  geom_jitter(data = dat.plot, 
+              aes(x = Mass_g_final, y = yi_analysis, 
+                  fill = yi_analysis,
+                  size = 1/vi_analysis),
+              shape = 21,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  ggtitle("Abundance")+
+  facet_wrap(~(analysis_group_lab), scales = "free_y",
+             ncol = 1,
+             labeller = as_labeller(
+               c("With/without cats" = "With-without cats", 
+                 "On islands with/without cats" = "Islands with-without cats", 
+                 "Associations combined" = "Associations combined",
+                 "Temporal association"="Temporal association",
+                 "Spatial association" = "Spatial association")))+
+  labs(x = expression(atop("Body mass", "(grams,"~log[10]~"scale)")),
+       y = "Association between cats and threatened species")+
+  guides(size = "none")+
+  scale_x_log10()+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "none",
+        strip.background = element_blank(),
+        panel.border = element_blank())
+p.mass.abund
+
+```
+
+## Habitat types and landform {#sec-habitat-landform}
+Now let's look at some variables that are widely thought to influence prey susceptibility to cats. These include being ground-nesting, ground-foraging, being flightless, and living on islands. Note that given insufficient data, we ran these as subgroup analyses instead of using these factors as moderators. See [above](#sec-prepare-data).
+
+```{r}
+#| eval: true
+#| echo: true
+#| output: false
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 5.** Association between cats and threatened prey by prey habitat and landform. The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+habitat_pred <- predictions[habitat_trait != "All" & 
+                              class == "All" &
+                              prey_range == "All" &
+                              only_dominant_effect_size == "no", ]
+
+dat.plot <- dat[habitat_trait != "All" &
+                  analysis_group %in% habitat_pred$analysis_group]
+
+# Drop levels for which models didn't converge:
+habitat_pred[, key := paste(analysis_group, habitat_trait)]
+dat.plot[, key := paste(analysis_group, habitat_trait)]
+dat.plot <- dat.plot[key %in% habitat_pred$key]
+
+# Need to format habitat trait and category in dat and predictions
+dat.plot[, habitat_category := fcase(habitat_category == "locomotion_volant", "Locomotion",
+                                     habitat_category == "ground_or_burrow_resting_or_nesting", "Ground-nesting",
+                                     habitat_category == "Foraging_habitat_ground", "Ground-foraging",
+                                     habitat_category == "continent_island", "Landform")]
+dat.plot[, habitat_fac_lvl := tstrsplit(habitat_trait, "[.]")[2]]
+dat.plot[, habitat_fac_lvl := gsub("_", "-", habitat_fac_lvl)]
+dat.plot[, habitat_fac_lvl := str_to_sentence(habitat_fac_lvl)]
+dat.plot$habitat_category <- factor(dat.plot$habitat_category,
+                                    levels = c("Ground-nesting", "Ground-foraging",
+                                               "Locomotion", "Landform"))
+
+habitat_pred.mrg <- merge(habitat_pred,
+                      unique(dat.plot[, .(habitat_trait, 
+                                          habitat_category,
+                                          habitat_fac_lvl)]),
+                      by = "habitat_trait",
+                      all.x = T,
+                      all.y = F)
+nrow(habitat_pred.mrg) == nrow(habitat_pred) # Must be TRUE
+
+habitat.abund.1 <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = habitat_pred.mrg[grepl("abundance", 
+                                      analysis_group, ignore.case = T) &
+                                      habitat_category %in% c("Ground-foraging", "Ground-nesting")],
+            aes(y = analysis_group_lab,
+                x = -10, vjust = 1.5,
+                label = string, group = habitat_fac_lvl,
+                color = habitat_fac_lvl),
+            position = position_dodgev(height = .5),
+            size = 2.5)+
+  geom_jitter(data = dat.plot[grepl("abundance", analysis_group, ignore.case = T) &
+                                habitat_category %in% c("Ground-foraging", "Ground-nesting"), ],
+              aes(x = yi, 
+                  y = analysis_group_lab,
+                  group = habitat_fac_lvl, fill = habitat_fac_lvl,
+                  size = 1/vi_analysis), 
+              position = position_jitterdodgev(jitter.height = .1,
+                                               jitter.width = 0,
+                                               dodge.height = .5
+                                               ),
+              shape = 21, 
+              alpha = .6)+
+  geom_errorbar(data = habitat_pred.mrg[grepl("abundance", analysis_group, ignore.case = T) &
+                                          habitat_category %in% c("Ground-foraging", "Ground-nesting")], 
+                aes(y = analysis_group_lab, group = habitat_fac_lvl,
+                    xmin = lower_ci, xmax = upper_ci),
+                position = position_dodgev(height = .5),
+                width = .25)+
+  geom_pointrange(data = habitat_pred.mrg[grepl("abundance", analysis_group, ignore.case = T) &
+                                            habitat_category %in% c("Ground-foraging", "Ground-nesting")], 
+                  aes(x = pred, y = analysis_group_lab,
+                      group = habitat_fac_lvl, fill = habitat_fac_lvl,
+                      xmin = lower_pi, xmax = upper_pi),
+                  position = position_dodgev(height = .5),
+                  shape = 21,
+                  size = 1)+
+  facet_wrap(~habitat_category)+
+   scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  scale_color_manual(name = NULL,
+                     values = c("Ground" = "#565554",
+                                 "Other" = "#2E86AB"))+
+  scale_fill_manual(name = NULL,
+                    values = c("Ground" = "#565554",
+                               "Other" = "#2E86AB"))+
+  ylab(NULL)+
+  xlab("Association between cats and\nthreatened species")+
+  ggtitle("Abundance")+
+  guides(size = "none", color = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+habitat.abund.2 <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = habitat_pred.mrg[grepl("abundance", 
+                                          analysis_group, ignore.case = T) &
+                                      !habitat_category %in% c("Ground-foraging", "Ground-nesting")],
+            aes(y = analysis_group_lab,
+                x = -7, vjust = 2.5,
+                label = string, group = habitat_fac_lvl,
+                color = habitat_fac_lvl),
+            position = position_dodgev(height = .5),
+            size = 2.5)+
+  geom_jitter(data = dat.plot[grepl("abundance", analysis_group, ignore.case = T) &
+                                !habitat_category %in% c("Ground-foraging", "Ground-nesting"), ],
+              aes(x = yi, 
+                  y = analysis_group_lab,
+                  group = habitat_fac_lvl, fill = habitat_fac_lvl,
+                  size = 1/vi_analysis), 
+              position = position_jitterdodgev(jitter.height = .1,
+                                               jitter.width = 0,
+                                               dodge.height = .5
+              ),
+              shape = 21, 
+              alpha = .6)+
+  geom_errorbar(data = habitat_pred.mrg[grepl("abundance", analysis_group, ignore.case = T) &
+                                          !habitat_category %in% c("Ground-foraging", "Ground-nesting")], 
+                aes(y = analysis_group_lab, group = habitat_fac_lvl,
+                    # color = term,
+                    xmin = lower_ci, xmax = upper_ci),
+                position = position_dodgev(height = .5),
+                width = .25)+
+  geom_pointrange(data = habitat_pred.mrg[grepl("abundance", analysis_group, ignore.case = T) &
+                                            !habitat_category %in% c("Ground-foraging", "Ground-nesting")], 
+                  aes(x = pred, y = analysis_group_lab,
+                      group = habitat_fac_lvl, fill = habitat_fac_lvl,
+                      xmin = lower_pi, xmax = upper_pi),
+                  position = position_dodgev(height = .5),
+                  shape = 21,
+                  # fill = "grey50",
+                  size = 1)+
+  facet_wrap(~habitat_category)+
+    scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  scale_color_manual(name = NULL,
+                     values = c("Non-volant" = "#565554",
+                                "Volant" = "#2E86AB",
+                                "Island" = "#F7B538",
+                                "Mainland" = "#F24236"))+
+  scale_fill_manual(name = NULL,
+                    values = c("Non-volant" = "#565554",
+                               "Volant" = "#2E86AB",
+                               "Island" = "#F7B538",
+                               "Mainland" = "#F24236"))+
+  ylab(NULL)+
+  xlab("Association between cats and\nthreatened species")+
+  ggtitle("Abundance")+
+  guides(size = "none", color = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+habitat.final <- habitat.abund.1 + 
+  habitat.abund.2 +
+  plot_layout(nrow = 1)
+
+habitat.final
+```
+
+## Dominant effect size only sensitivity analysis {#sec-dominant-only}
+Finally, let's evaluate whether our model estimates change when excluding minority converted effect sizes. 
+```{r}
+#| eval: true
+#| echo: true
+#| output: true
+#| code-fold: true
+#| fig-width: 7
+#| fig-height: 7
+#| fig-cap: '**Fig. 6.** Association between cats and threatened prey when only considering the dominant effect size type per analysis group (e.g., excluding minority converted data). The top panel indicates prey abundance and the lower panel indicates reproduction (birds). "With-without cats" includes "Islands with-without cats and "Before-after eradication" and "Associations combined" includes "Spatial association" and "Temporal association". The annotations inside the panels indicate the effect size type (lnOR = log odds ratio, Zr = r-to-z-transformed correlation coefficient, SMD = Standardized Mean Difference or Hedges g). The numbers indicate the number of articles, number of species, and number of effect sizes.'
+
+intercepts <- predictions[moderator == "1" & 
+                            only_dominant_effect_size == "yes" &
+                            habitat_trait == "All" &
+                            class == "All" &
+                            prey_range == "All"]
+
+
+intercepts[, key := paste(analysis_effect_size, analysis_group)]
+dat.plot[, key := paste(analysis_effect_size, analysis_group)]
+
+#
+p1.si <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -3, vjust = 2,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.plot[grepl("abundance", analysis_group, ignore.case = T) &
+                                key %in% intercepts$key, ], 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercepts[grepl("abundance", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+    scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  ggtitle("Abundance")+
+  ylab(NULL)+
+  xlab("Association between cats and threatened species")+
+  coord_cartesian(xlim = c(-4, 4))+
+  # xlab(NULL)+
+  # ylab("Short term abundance correlation (Zr)")+
+  guides(size = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+p2.si <- ggplot()+
+  geom_vline(xintercept = 0, linetype = "dashed")+
+  geom_text(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)],
+            aes(y = analysis_group_lab,
+                x = -15, vjust = 2,
+                label = string),
+            color = "grey50",
+            size = 3)+
+  geom_jitter(data = dat.plot[grepl("reproduction", analysis_group, ignore.case = T) &
+                                key %in% intercepts$key, ], 
+              aes(x = yi, y = analysis_group_lab, 
+                  size = 1/vi_analysis, fill = yi_analysis),
+              shape = 21, #fill = "grey90",
+              height = 0.25, width = 0,
+              alpha = .5)+
+  scale_fill_gradient2(low = "dodgerblue", high = "indianred",
+                       midpoint = 0, mid = "white")+
+  guides(size = "none", fill = "none")+
+  geom_errorbar(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)], 
+                aes(y = analysis_group_lab, 
+                    xmin = lower_ci, xmax = upper_ci),
+                width = .25)+
+  geom_pointrange(data = intercepts[grepl("reproduction", analysis_group, ignore.case = T)], 
+                  aes(x = pred, y = analysis_group_lab,
+                      xmin = lower_pi, xmax = upper_pi),
+                  shape = 21, fill = "grey50",
+                  size = 1)+
+   scale_y_discrete(breaks = c("With/without cats", 
+                              "Before-after eradication", 
+                              "Inside/outside exclosure", 
+                              "On islands with/without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"),
+                   labels = c("With-without cats",
+                              "Before-after eradication", "Inside-outside exclosure", 
+                              "Islands with-without cats", 
+                              "Associations combined",
+                              "Spatial association", "Temporal association"))+
+  ggtitle("Reproduction")+
+  ylab(NULL)+
+  xlab("Association between cats and bird reproduction")+
+  coord_cartesian(xlim = c(-30, 30))+
+  # xlab(NULL)+
+  # ylab("Short term abundance correlation (Zr)")+
+  guides(size = "none")+
+  theme_bw()+
+  theme(panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "bottom",
+        strip.placement = "outside",        
+        strip.background = element_blank(),
+        panel.border = element_blank())
+
+dominant.only <- p1.si + p2.si + plot_layout(guides = "collect", nrow = 2,
+                            heights = c(3/5, 3/8)) 
+dominant.only
+
+```

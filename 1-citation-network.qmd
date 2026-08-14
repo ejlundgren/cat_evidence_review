@@ -48,7 +48,12 @@ Claimant sources are reviews that claimed that cats were a driver of endangermen
 
 This workflow is derived from a full R script in `scripts/2_analysis/1 citation networks and bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
 
+
 # Prepare environment & load data {#sec-prep}
+
+The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in `scripts/1_data_mgmt/2 create network formats.R` and were further pre-processed in `scripts/2_analysis/1 citation networks and bias.R` to be ready to be used to create our citation network.
+
+
 ```{r}
 #| eval: true
 #| echo: true
@@ -67,29 +72,14 @@ library("patchwork")
 library("glmmTMB")
 library("broom")
 library("broom.mixed")
-library("cowplot")
 
-```
-
-The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in `scripts/1_data_mgmt/2 create network formats.R`
-
-```{r}
-#| eval: true
-#| echo: true
 nodes <- fread("builds/citation_network/nodes_tidied.csv")
 head(nodes)
 
 edges <- fread("builds/citation_network/edges_tidied.csv")
 head(edges)
-```
 
-These files have been cleaned and pre-processed in `scripts/2_analysis/1 citation networks and bias.R` and are ready to be used to create a network.
 
-## Create citation network
-
-```{r}
-#| eval: true
-#| echo: true
 igraph.gr <- igraph::graph_from_data_frame(d = edges, 
                                            vertices = nodes,
                                            directed = T)
@@ -97,19 +87,20 @@ igraph.gr
 
 
 graph <- tidygraph::as_tbl_graph(igraph.gr)
+
 ```
 
 
-## Plot
-Now, we'll format factor levels, create color and size aesthetics and plot this:
+## Network plot
+Now, let's plot it. Feel free to unfold the code to see how:
 
 ```{r}
 #| eval: true
 #| echo: true
-#| fig-width: 9
-#| fig-height: 7
+#| code-fold: true
+#| fig-width: 8
+#| fig-height: 6
 
-unique(nodes$evidence_type_synthetic_simple)
 labels <- c(`Core claim` = "Core claim", 
             `External review without claim` = "External source without claim", 
             `Nothing cited` = "Nothing cited",
@@ -133,17 +124,11 @@ node_size <- c(`Core claim` = 5, `External review without claim` = 5, `Opportuni
                `Predation without data` = 2, #`Control program without data` = 2, 
                `Population without data` = 3, `Population with data` = 4)
 
-unique(nodes$of_quality)
 stroke_color <- c("no" = "black", 
                   "yes" = "gold")
 
 stroke_width <- c("no" = .01, 
                   "yes" = 2)
-
-setdiff(unique(nodes$evidence_type_synthetic_simple),
-        names(labels))
-setdiff(names(labels),
-        unique(nodes$evidence_type_synthetic_simple))
 
 p1 <- ggraph(graph, layout = "kk")+
   geom_edge_fan(arrow = arrow(length = unit(1, 'mm')), 
@@ -175,12 +160,13 @@ p1 <- ggraph(graph, layout = "kk")+
                      values = stroke_color )+
   theme_graph()+
   theme(legend.position = 'bottom')
-p1
 
+p1 
 ```
-And the formatted legend:
-
-<img src="figures/main_text/network_legend.png" width="400">
+<figure>
+  <img src="figures/main_text/network_legend.png" width="300">
+  <figcaption><b>Figure 1:</b> Citation network. Claimant sources are core sources that claim that causes are drivers of endangerment. Non-claimants are sources (including the Web of Science) that do not make this claim. Point color indicates type of article found along each citation chain. </figcaption>
+</figure>
 
 
 # Probability of being cited
@@ -190,12 +176,15 @@ We then asked what proportion of those citation chains ended in *population stud
 
 To do so we'll load a separate data frame produced by this that is organized as source - citation-terminus pairs. Each row is a *potential* citation. The colum `cited` (0 or 1) indicates whether the article was cited or not. Pairs are constrained by species and publication timing (e.g., articles published after ≤6 months after claimant reviews concluded were excluded).
 
-This dataset allows us to evaluate whether claimants cited the available evidence, and whether there was any bias in citation towards articles that found a negative association between cats and prey.
+This dataset allows us to evaluate whether claimants cited the available evidence, and whether there was any bias in citation towards articles that found a negative association between cats and prey. We'll do this with binomial model, to test whether the probability of a population study with data being cited (anywhere within citation chain) by claimant sources was different for studies that found a negative association from those that did not find a negative association. 
 
-Load data and filter to only claimant sources:
+
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
+
+# Load data and filter to only claimant sources:
 
 terminus_exploded_filtered <- fread("builds/citation_network/citation_probability.csv")
 
@@ -205,35 +194,7 @@ terminus_exploded_filtered[, making_claim := ifelse(grepl("_claim",
                                                     "CLAIM", 
                                                     "NO_CLAIM")]
 terminus_exploded_filtered <- terminus_exploded_filtered[making_claim == "CLAIM", ]
-head(terminus_exploded_filtered)
-```
 
-Now we'll do a binomial model on articles that are population studies with data.
-
-```{r}
-#| eval: true
-#| echo: true
-#| fig-width: 9
-#| fig-height: 7
-
-# >>> Model -----------------------------------------------------------------
-# Overall:
-m <- glmmTMB(cited ~ 1 + (1|cited_by_id) + (1|scientificName),
-             family = binomial(link = "logit"),
-             data = terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
-                                                 has_data == "yes", ])
-
-summary(m)
-
-```
-
-Now let's evaluate whether there was a difference in citations between evidence in support or not of the hypothesis and plot this:
-
-```{r}
-#| eval: true
-#| echo: true
-#| fig-width: 9
-#| fig-height: 7
 
 m <- glmmTMB(cited ~ in_support + (1|cited_by_id) + (1|scientificName),
              family = binomial(link = "logit"),
@@ -241,7 +202,14 @@ m <- glmmTMB(cited ~ in_support + (1|cited_by_id) + (1|scientificName),
                                                  has_data == "yes" &
                                                  making_claim == "CLAIM", ])
 summary(m)
-tidy(m)
+```
+The model summary table here gives a suite of information about the model fit (including AIC, BIC, log-likelihood), the amount of variance explained by each random effect (the claimant source `cited_by_id` and the prey species `scientificName`) and estimates for our coefficients. As you can see, there's no difference between citation probability for articles "in support" (estimate = -0.37, z = -0.859, p = 0.39) (also known as finding a negative association) as for articles that did not (the Intercept).
+
+Now let's plot these probabilities:
+```{r}
+#| fig-width: 9
+#| fig-height: 7
+#| fig-cap: "**Fig. 2.** The probability of a population study with data being cited by a claimant source was not influenced by whether the population study found evidence of a negative association between cats and prey (according author's own interpretation)."
 
 pred <- predict(m, data.table(in_support = c("Yes", "No")),
                 re.form = NA, se = TRUE)
@@ -258,7 +226,7 @@ pred[, upper_ci := plogis(upper_ci)]
 
 #
 pred$in_support <- c("Yes", "No")
-pred
+
 
 # Plot
 citation.p <- ggplot(data = pred, 
@@ -283,6 +251,7 @@ And let's summarize the percent cited with descriptive statistics:
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 
 out <- terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &
                                     has_data == "yes", .(n = .N),
@@ -308,6 +277,7 @@ We'll start by looking at all quantitative evidence uncovered, focused only on t
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 
 terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
 
@@ -322,14 +292,15 @@ terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id),
                                         "making claim", "no claim")]
 terminus_edges[grepl("Population", evidence_type_synthetic), evidence_simple := "Population"]
 terminus_edges[grepl("Predation", evidence_type_synthetic), evidence_simple := "Predation"]
+
 ```
 
-What percent of terminuses aren't quantitative evidence?
+First, what percent of citation chain termini are not quantitative evidence?
 
 ```{r}
 #| eval: true
 #| echo: true
-
+#| code-fold: true
 # >>> Calculate % that aren't evidence ------------------------------------
 sub_terminus <- terminus_edges[making_claim == "making claim"]
 sub_terminus[, evidence_simple := ifelse(is.na(evidence_simple), "excluded", "included")]
@@ -341,26 +312,21 @@ out
 
 ```
 
-Now, let's plot the number of citation chains by terminus article type:
+Now, let's plot the number of citation chains by terminus article type, focusing on quantitative evidence:
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 
 terminus_freq.simple <- terminus_edges[evidence_simple %in% c("Population", "Predation"), 
                                        .(n = .N),
             by = .(evidence_type_synthetic, evidence_simple, making_claim,
                   has_data, of_quality, in_support)]
 
-unique(terminus_freq.simple[is.na(evidence_simple)]$evidence_type_synthetic)
-
 terminus_freq.simple$evidence_simple <- factor(terminus_freq.simple$evidence_simple,
                                                levels = c("Predation", "Population"))
 
-unique(terminus_freq.simple$evidence_type_synthetic)
-
-unique(terminus_freq.simple$of_quality)
-
-terminus_freq.simple$evidence_type_synthetic <-   factor(terminus_freq.simple$evidence_type_synthetic,
+terminus_freq.simple$evidence_type_synthetic <- factor(terminus_freq.simple$evidence_type_synthetic,
    levels = (c( 
               "Predation in support without data", 
               "Predation not in support without data", 
@@ -372,8 +338,6 @@ terminus_freq.simple$evidence_type_synthetic <-   factor(terminus_freq.simple$ev
               "Population in support without data"
               )))
 
-unique(terminus_freq.simple$evidence_type_synthetic)
-
 fill_pal <- c(`Predation in support without data` = "#a6d3a0", 
               `Predation not in support without data` = "#40531b", 
               `Population not in support without data` = "indianred4", 
@@ -382,7 +346,6 @@ fill_pal <- c(`Predation in support without data` = "#a6d3a0",
               `Population in support without data` = "dodgerblue4", 
               `Population in support with data` = "dodgerblue",
               `Population in support with data of quality` = "dodgerblue")
-setdiff(terminus_freq.simple$evidence_type_synthetic, names(fill_pal))
 
 terminus_freq.simple[in_support == "Not relevant", in_support := "No"]
 
@@ -426,7 +389,11 @@ cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making c
 cites.p.included
 
 ```
-<img src="figures/main_text/network_legend_2.png" width="200">
+
+<figure>
+  <img src="figures/main_text/network_legend_2.png" width="200">
+  <figcaption><b>Fig. 3.</b> All quantitative evidence cited found at the terminus of citation chains. </figcaption>
+</figure>
 
 The majority of evidence are predation records---that cats have been documented consuming or causing mortality to the prey species in question.
 
@@ -437,9 +404,9 @@ Now let's look at all the other terminus article types that did not qualify as q
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 
 terminus_edges <- fread("builds/citation_network/terminal_citation_chains.csv")
-head(terminus_edges)
 
 terminus_edges[, making_claim := ifelse(grepl("core source_claim", cited_by_id), 
                                         "making claim", "no claim")]
@@ -511,6 +478,7 @@ cites.p.excluded
 
 
 ```
+
 The majority of claims gave no citation, or ended with articles that made no claim about the hypothesis that cats caused endangerment of the prey species in question. Following this, expert opinion and inaccessible grey literature dominate the citation chain termini.
 
 To put these numbers in perspective, we'll now patchwork the two plots:
@@ -518,10 +486,14 @@ To put these numbers in perspective, we'll now patchwork the two plots:
 ```{r}
 #| eval: true
 #| echo: true
+#| code-fold: true
 cites.p.included + xlab(NULL) +
   cites.p.excluded +
   plot_layout(heights = c(.25, .75),
               nrow = 2)
 ```
-<img src="figures/main_text/network_legend_2.png" width="200">
 
+<figure>
+  <img src="figures/main_text/network_legend_2.png" width="200">
+  <figcaption><b>Fig. 4.</b> The terminus of citation chains across the citation network.</figcaption>
+</figure>

@@ -197,8 +197,7 @@ m <- sys_rev.spat %>%
 #| echo: false
 #| output: true
 #| code-fold: false
-#| label: Figure 1
-#| fig-cap: "Quantitative studies linking cats to the endangerment of vertebrate species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+#| fig-cap: "**Fig. 1.** Quantitative studies linking cats to the endangerment of vertebrate species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 
 m
 
@@ -251,8 +250,7 @@ Here is where the evidence concerning **mammal prey** came from:
 #| echo: false
 #| output: true
 #| code-fold: false
-#| label: Figure 2
-#| fig-cap: "Quantitative studies linking cats to the endangerment of mammal species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+#| fig-cap: "**Fig. 2.** Quantitative studies linking cats to the endangerment of mammal species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 
 ```
@@ -303,8 +301,7 @@ And here are **birds:**
 #| echo: false
 #| output: true
 #| code-fold: false
-#| label: Figure 3
-#| fig-cap: "Quantitative studies linking cats to the endangerment of bird species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+#| fig-cap: "**Fig. 3.** Quantitative studies linking cats to the endangerment of bird species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 
 ```
@@ -354,8 +351,7 @@ m <- sub_dat %>%
 #| echo: false
 #| output: true
 #| code-fold: false
-#| label: Figure 4
-#| fig-cap: "Quantitative studies linking cats to the endangerment of reptile species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+#| fig-cap: "**Fig. 4.** Quantitative studies linking cats to the endangerment of reptile species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 
 ```
@@ -404,8 +400,7 @@ And, last but not least, **Amphibians:**
 #| echo: false
 #| output: true
 #| code-fold: false
-#| label: Figure 5
-#| fig-cap: "Quantitative studies linking cats to the endangerment of amphibian species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
+#| fig-cap: "**Fig. 5.** Quantitative studies linking cats to the endangerment of amphibian species. Larger points indicate studies that could be included in meta-analysis. Gold borders indicate studies with qualities."
 m
 ```
 

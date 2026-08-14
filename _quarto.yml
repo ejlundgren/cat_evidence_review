@@ -26,10 +26,12 @@ website:
         - href: 3.1-prepare-meta-analysis-dataset.qmd
           text: Prepare meta-analysis dataset
         - href: 3.2-run-models.qmd
-          text: Run models and plot
-        - href: 3.3-publication-bias-tests.qmd
+          text: Run models
+        - href: 3.3-plot-models.qmd
+          text: Plot results
+        - href: 3.4-publication-bias-tests.qmd
           text: Publication bias tests
-        - href: 3.4-effect-size-conversions.qmd
+        - href: 3.5-effect-size-conversions.qmd
           text: "Appendix: Effect size conversions"
       - href: 4-map.qmd
         text: Where does the evidence come from?
