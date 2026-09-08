@@ -19,8 +19,8 @@ website:
         text: Introduction
       - href: 1-citation-network.qmd
         text: Citation network 
-      - href: 6-species-specific-citation-networks.qmd
-        text: Species specific citation networks
+      - href: 1.2-citation-network-app.qmd
+        text: Explore citation networks
       - href: 2-systematic-review.qmd
         text: Systematic review
       - section: "Meta-analysis"

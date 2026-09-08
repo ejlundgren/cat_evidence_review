@@ -167,6 +167,7 @@ p1
   <figcaption><b>Figure 1:</b> Citation network. Claimant sources are core sources that claim that causes are drivers of endangerment. Non-claimants are sources (including the Web of Science) that do not make this claim. Point color indicates type of article found along each citation chain. </figcaption>
 </figure>
 
+See [here](1.2-citation-network-app.qmd) to explore the citation network in more detail with an interactive app.
 
 # Probability of being cited
 Now, let's evaluate the terminus of each citation chain from the core claimant sources (the large bright pink points). We used graph algorithms to identify the terminus of each citation chain, starting with the core sources (the large pink circles in the network figure above). See `scripts/1_data_mgmt/3 create probability of being cited dataset.R` for this code.
@@ -498,4 +499,4 @@ cites.p.included + xlab(NULL) +
   <figcaption><b>Fig. 5.</b> The terminus of citation chains across the citation network.</figcaption>
 </figure>
 
-See [here](6-species-specific-citation-networks.qmd) for a species-specific citation network app.
+
