@@ -34,12 +34,16 @@ jobs:
       - name: "Setup R dependencies for Quarto's knitr engine"
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages:
-            cran::shinylive@0.5.0 ## Pin version to ensure consistency
+          packages: |
+            cran::shinylive@0.5.0
             any::knitr
             any::rmarkdown
             any::downlit
             any::xml2
+            any::data.table
+            any::igraph
+            any::ggraph
+            any::tidygraph
 
       # Back to our regularly scheduled Quarto output
       - name: "Set up Quarto"
