@@ -258,6 +258,7 @@ ul.task-list li input[type="checkbox"] {
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
 #| viewerHeight: 500
+#| file: www/network_legend.png
 
 suppressPackageStartupMessages({
   library("shiny")
@@ -12222,7 +12223,10 @@ ui &lt;- fluidPage(
         choices = sort(unique(edges$scientificName)),
         selected = sort(unique(edges$scientificName))[1]
       ),
-      htmlOutput(outputId = "references")
+      
+      htmlOutput(outputId = "references"),
+      
+      img(src = "network_legend.png", width = "100%"),
     ),
     mainPanel(
       plotOutput(outputId = "citationPlot")
@@ -12296,9 +12300,9 @@ server &lt;- function(input, output) {
   })
 }
 shinyApp(ui = ui, server = server)</code></pre>
-<figure class="figure">
-<img src="figures/main_text/network_legend.png" width="300" class="figure-img">
-</figure>
+<!-- <figure> -->
+<!--   <img src="figures/main_text/network_legend.png" width="300"> -->
+<!-- </figure> -->
 
 
 
