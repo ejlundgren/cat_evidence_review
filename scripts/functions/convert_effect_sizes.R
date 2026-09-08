@@ -30,7 +30,7 @@ convert_effect_sizes <- function(...,
   if(!is.null(data)) setDT(data)
   
   # Prepare formulas:
-  formulas <- fread("/Users/ejlundgren/Dropbox/Projects/Meta_Methods_UAlberta/package_development/metatools_dev/data/conversion_formulas.csv")
+  formulas <- fread("scripts/functions/conversion_formulas.csv")
   
   if(is.null(from) | is.null(to)){
     
