@@ -63,7 +63,6 @@ library("mapview")
 library("dplyr")
 library("rotl")
 library("broom.mixed")
-library("here")
 ```
 
 We converted the effect sizes into common types based on the formulas in [@borenstein2021], which we digitized in our function `convert_effect_sizes`. The formulas are in an executable sidecar csv file located at `scripts/functions/conversion_formulas.csv`

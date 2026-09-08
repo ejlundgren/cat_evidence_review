@@ -65,6 +65,7 @@ jobs:
             any::rnaturalearth
             any::plotly
             any::mapview
+            any::here
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2

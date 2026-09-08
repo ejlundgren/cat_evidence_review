@@ -67,7 +67,6 @@ library("mapview")
 library("dplyr")
 library("rotl")
 library("broom.mixed")
-library("here")
 
 rma_predictions <- function(m, 
                             newgrid,
