@@ -68,7 +68,6 @@ rm(list = ls())
 # Load packages
 library("data.table")
 library("metafor")
-library("orchaRd")
 library("readxl")
 library("rotl")
 library("broom.mixed")
@@ -490,7 +489,6 @@ for(i in 1:nrow(guide)){
              df = unique(models[[i]]$ddf)) |>
       mutate(overfit = ifelse(any(models[[i]]$sigma2 == 0), "yes", "no"),
              aic = AIC(models[[i]])) |>
-      bind_cols(as.data.frame(i2_ml(models[[i]])) |> t() ) |>
       bind_cols(sub_guide) |>
       setDT()
     
