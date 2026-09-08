@@ -17,6 +17,7 @@ filters:
 ```{shinylive-r}
 #| standalone: true
 #| viewerHeight: 500
+#| file: www/network_legend.png
 
 suppressPackageStartupMessages({
   library("shiny")
@@ -11981,7 +11982,10 @@ ui <- fluidPage(
         choices = sort(unique(edges$scientificName)),
         selected = sort(unique(edges$scientificName))[1]
       ),
-      htmlOutput(outputId = "references")
+      
+      htmlOutput(outputId = "references"),
+      
+      img(src = "network_legend.png", width = "100%"),
     ),
     mainPanel(
       plotOutput(outputId = "citationPlot")
@@ -12057,7 +12061,7 @@ server <- function(input, output) {
 shinyApp(ui = ui, server = server)
 ```
 
-<figure>
-  <img src="figures/main_text/network_legend.png" width="300">
-</figure>
+<!-- <figure> -->
+<!--   <img src="figures/main_text/network_legend.png" width="300"> -->
+<!-- </figure> -->
 
