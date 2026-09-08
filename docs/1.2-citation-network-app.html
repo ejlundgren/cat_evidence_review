@@ -253,13 +253,14 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Select a species in the dropdown menu, which also allows you to search for a species by scientific name. Please see reference section of the article for full citations given in the Reference section. References tagged as “core source” made claims that the species was threatened by cats. Note that some references might occur more than once if they provided multiple lines of evidence (e.g., different studies).</p>
 <div class="columns">
 <div class="column" style="width:85%;">
 <pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
-#| viewerHeight: 500
+#| viewerHeight: 600
 #| file: www/network_legend.png
 
 suppressPackageStartupMessages({
@@ -12356,11 +12357,10 @@ shinyApp(ui = ui, server = server)</code></pre>
 </div><div class="column" style="width:15%;">
 <p><br></p>
 <figure class="figure">
-<img src="figures/main_text/network_legend_vertical.png" style="width: 100%; height: auto;" class="figure-img">
+<img src="figures/main_text/network_legend_vertical.png" width="200" class="figure-img"> <!-- style="width: 100%; height: auto;" -->
 </figure>
 </div>
 </div>
-<p>Please see reference section of the article for full citations. References tagged as “core source” made claims that the species was threatened by cats.</p>
 
 
 

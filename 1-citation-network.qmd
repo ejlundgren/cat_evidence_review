@@ -178,7 +178,8 @@ p1
 <br>
 
 <figure>
-  <img src="figures/main_text/network_legend_vertical.png" style="width: 100%; height: auto;">
+  <img src="figures/main_text/network_legend_vertical.png"  width="200">
+  <!-- style="width: 100%; height: auto;" -->
   <!-- <figcaption> </figcaption> -->
 </figure>
 

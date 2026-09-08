@@ -11,12 +11,15 @@ filters:
   - shinylive
 ---
 
+Select a species in the dropdown menu, which also allows you to search for a species by scientific name. Please see reference section of the article for full citations given in the Reference section. References tagged as "core source" made claims that the species was threatened by cats. Note that some references might occur more than once if they provided multiple lines of evidence (e.g., different studies). 
+
 :::: {.columns}
 
 ::: {.column width = "85%"}
+
 ```{shinylive-r}
 #| standalone: true
-#| viewerHeight: 500
+#| viewerHeight: 600
 #| file: www/network_legend.png
 
 suppressPackageStartupMessages({
@@ -12117,10 +12120,11 @@ shinyApp(ui = ui, server = server)
 <br>
 
 <figure>
-  <img src="figures/main_text/network_legend_vertical.png" style="width: 100%; height: auto;">
+  <img src="figures/main_text/network_legend_vertical.png" width="200">
+  <!-- style="width: 100%; height: auto;" -->
 </figure>
 :::
 
 ::::
 
-Please see reference section of the article for full citations. References tagged as "core source" made claims that the species was threatened by cats. 
+
