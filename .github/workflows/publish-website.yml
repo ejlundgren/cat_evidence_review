@@ -10,9 +10,6 @@ on:
 jobs:
   demo-website:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
       
     # Opt into the newer Node 24 environment execution completely
     env:
@@ -23,7 +20,7 @@ jobs:
       cancel-in-progress: true
 
     permissions:
-      contents: read
+      contents: write
       pages: write
       id-token: write
 
@@ -52,6 +49,7 @@ jobs:
             any::tidygraph
             any::metafor
             any::ggplot2
+            any::glmmTMB
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2
