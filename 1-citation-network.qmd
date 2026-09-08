@@ -48,7 +48,6 @@ Claimant sources are reviews that claimed that cats were a driver of endangermen
 
 This workflow is derived from a full R script in `scripts/2_analysis/1 citation networks and bias.R` that includes additional checks and tests and is fully interactive if you clone the repo.
 
-
 # Prepare environment & load data {#sec-prep}
 
 The data for this analysis consists of two files, one for the nodes (e.g., each article) and one for the edges (the citations between articles). This data was prepared in `scripts/1_data_mgmt/2 create network formats.R` and were further pre-processed in `scripts/2_analysis/1 citation networks and bias.R` to be ready to be used to create our citation network.
@@ -498,3 +497,5 @@ cites.p.included + xlab(NULL) +
   <img src="figures/main_text/network_legend_2.png" width="200">
   <figcaption><b>Fig. 5.</b> The terminus of citation chains across the citation network.</figcaption>
 </figure>
+
+See the next page, [here]

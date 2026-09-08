@@ -338,11 +338,12 @@ class_pred <- predictions[moderator == "1" & class != "All" &
                             habitat_trait == "All" &
                             only_dominant_effect_size == "no" &
                             prey_range == "All"]
+class_pred[, key := paste(analysis_group, class)]
+dat[, key := paste(analysis_group, class)]
+
 dat.plot <- dat[grepl("abundance", analysis_group, ignore.case = T) &
                   habitat_trait == "All" &
-                  analysis_group %in% class_pred$analysis_group & 
-                  class %in% class_pred$class, ]
-
+                  key %in% class_pred$key, ]
 
 class.abundance <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
