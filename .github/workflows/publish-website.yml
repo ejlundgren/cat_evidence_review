@@ -8,9 +8,13 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  demo-website:
+  cat-website:
     runs-on: ubuntu-latest
     
+    # Force the runner to tolerate Node 20 actions temporarily
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+
     concurrency:
       group: quarto-website-${{ github.event_name != 'pull_request' || github.run_id }}
       cancel-in-progress: true
@@ -22,16 +26,16 @@ jobs:
 
     steps:
       - name: "Check out repository"
-        uses: actions/checkout@v4 # Uses latest v4 point release automatically
+        uses: actions/checkout@v4
 
       - name: "Setup pandoc"
-        uses: r-lib/actions/setup-pandoc@v2 # Fixed: Tracking major tag v2
+        uses: r-lib/actions/setup-pandoc@v2
 
       - name: "Setup R"
-        uses: r-lib/actions/setup-r@v2 # Fixed: Tracking major tag v2
+        uses: r-lib/actions/setup-r@v2
 
       - name: "Setup R dependencies for Quarto's knitr engine"
-        uses: r-lib/actions/setup-r-dependencies@v2 # Fixed: Tracking major tag v2
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
             cran::shinylive@0.5.0
@@ -51,10 +55,10 @@ jobs:
         uses: quarto-dev/quarto-actions/render@v2
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3 # Reverted to standard major tag
+        uses: actions/upload-pages-artifact@v3
         with: 
           retention-days: 1
       
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 # Reverted to standard major tag
+        uses: actions/deploy-pages@v4
