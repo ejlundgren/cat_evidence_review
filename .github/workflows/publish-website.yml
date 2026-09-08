@@ -22,16 +22,16 @@ jobs:
 
     steps:
       - name: "Check out repository"
-        uses: actions/checkout@v4.2.2 # Fixed: Updated minor version for Node 24 support
+        uses: actions/checkout@v4 # Uses latest v4 point release automatically
 
       - name: "Setup pandoc"
-        uses: r-lib/actions/setup-pandoc@v2.5.0 # Fixed: Bumped for Node 24 runtime
+        uses: r-lib/actions/setup-pandoc@v2 # Fixed: Tracking major tag v2
 
       - name: "Setup R"
-        uses: r-lib/actions/setup-r@v2.11.0 # Fixed: Bumped for Node 24 runtime
+        uses: r-lib/actions/setup-r@v2 # Fixed: Tracking major tag v2
 
       - name: "Setup R dependencies for Quarto's knitr engine"
-        uses: r-lib/actions/setup-r-dependencies@v2.14.0 # Fixed: Bumped for Node 24 runtime
+        uses: r-lib/actions/setup-r-dependencies@v2 # Fixed: Tracking major tag v2
         with:
           packages: |
             cran::shinylive@0.5.0
@@ -45,16 +45,16 @@ jobs:
             any::tidygraph
 
       - name: "Set up Quarto"
-        uses: quarto-dev/quarto-actions/setup@v2 # Kept v2 as it auto-resolves, but ensures runner compatibility
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: "Render working directory"
         uses: quarto-dev/quarto-actions/render@v2
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3.0.1 # Fixed: Bumped for Node 24 compatibility
+        uses: actions/upload-pages-artifact@v3 # Reverted to standard major tag
         with: 
           retention-days: 1
       
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4.0.5 # Fixed: Bumped for Node 24 compatibility
+        uses: actions/deploy-pages@v4 # Reverted to standard major tag
