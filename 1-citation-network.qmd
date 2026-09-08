@@ -498,4 +498,4 @@ cites.p.included + xlab(NULL) +
   <figcaption><b>Fig. 5.</b> The terminus of citation chains across the citation network.</figcaption>
 </figure>
 
-See the next page, [here]
+See [here](6-species-specific-citation-networks.qmd) for a species-specific citation network app.
