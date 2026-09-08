@@ -70,8 +70,8 @@ library("rnaturalearth")
 library("ggplot2")
 library("dplyr")
 library("plotly")
-library("writexl")
 library("leafpop")
+mapviewOptions(basemaps = c("Esri.WorldGrayCanvas", "Esri.WorldImagery", "OpenStreetMap", "OpenTopoMap"))
 
 theme_lundy <- theme_bw()+
   theme(panel.border = element_blank(),
@@ -514,7 +514,7 @@ ggplot() +
 
 ```
 
-
+# Maps
 Now let's explore the spatial dimensions of this with more granularity by at this on an interactive map.
 
 ```{r}

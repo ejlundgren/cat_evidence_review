@@ -52,23 +52,13 @@ This section will tally the evidence types encountered. This workflow is derived
 rm(list = ls())
 
 library("data.table")
-library("metafor")
 library("ggplot2")
-library("orchaRd")
 library("patchwork")
 library("readxl")
 library("stringr")
-library("ggstance")
 library("sf")
-library("mapview")
 library("tidyr")
-library("broom")
-library("broom.mixed")
 library("dplyr")
-library("rotl")
-library("ape")
-library("gt")
-library("ggtext")
 
 sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 

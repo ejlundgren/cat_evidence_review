@@ -60,6 +60,8 @@ library("stringr")
 library("dplyr")
 library("leafpop")
 
+mapviewOptions(basemaps = c("Esri.WorldGrayCanvas", "Esri.WorldImagery", "OpenStreetMap", "OpenTopoMap"))
+
 # Load the datasets this needs:
 sys_rev <- fread("builds/systematic_review/systematic_review_tidy.csv")
 dat <- fread("builds/meta_analysis/analysis_ready_dataset.csv")

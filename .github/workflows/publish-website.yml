@@ -50,6 +50,20 @@ jobs:
             any::metafor
             any::ggplot2
             any::glmmTMB
+            any::ggstance
+            any::dplyr
+            any::tidyr
+            any::readxl
+            any::stringr
+            any::patchwork
+            any::broom
+            any::broom.mixed
+            any::sf
+            any::rotl
+            any::ape
+            any::leafpop
+            any::rnaturalearth
+            any::plotly
 
       - name: "Set up Quarto"
         uses: quarto-dev/quarto-actions/setup@v2

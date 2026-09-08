@@ -68,18 +68,12 @@ rm(list = ls())
 # Load packages
 library("data.table")
 library("metafor")
-library("ggplot2")
-library("ggstance")
 library("orchaRd")
-library("patchwork")
 library("readxl")
-library("stringr")
-library("sf")
-library("mapview")
-library("dplyr")
 library("rotl")
 library("broom.mixed")
-library("here")
+library("stringr")
+library("dplyr")
 
 # Load custom functions:
 # This helps extract predictions on rma.mv objects:
