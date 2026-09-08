@@ -62,7 +62,6 @@ jobs:
             any::rotl
             any::ape
             any::leafpop
-            any::rnaturalearth
             any::plotly
             any::mapview
             any::here

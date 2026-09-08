@@ -138,7 +138,6 @@ unique(dat[, .(analysis_group, analysis_effect_size)])
 dat.long <- copy(dat)
 
 # >>> Extract publicaiton years ------------------------------------------
-library("readr")
 
 # parse_number(x = "Gerber, G.P. and Iverson, J.B., 2000. Turks and Caicos iguana, Cyclura carinata carinata. West Indian Iguanas: Status Survey and Conservation Action Plan. IUCN the World Conservation Union, Gland, Switzerland, pp.15-18.")
 str_extract("Gerber, G.P. and Iverson, J.B., 2000. Turks and Caicos iguana, Cyclura carinata carinata. West Indian Iguanas: Status Survey and Conservation Action Plan. IUCN the World Conservation Union, Gland, Switzerland, pp.15-18.", 
