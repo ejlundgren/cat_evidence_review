@@ -316,4 +316,5 @@ And for sampling variance:
 
 cat(sub_f[[2]])
 ```
+
 The variable names are the same as [above](#sec-smd-zr).
