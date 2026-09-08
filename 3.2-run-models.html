@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="dcterms.date" content="2026-09-08">
 <title>Fit meta-analysis models – When consensus procedes the evidence</title>
@@ -10,10 +10,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -91,10 +94,10 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-61b838042b633b16d416a2b6f0e5420d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-2ec9438896886003ef826e245ad992e2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -707,21 +710,16 @@ Index: &lt;n_articles&gt;
 <span></span>
 <span><span class="va">nms_res</span> <span class="op">&lt;-</span> <span class="fu">rotl</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/rotl/reference/tnrs_match_names.html">tnrs_match_names</a></span><span class="op">(</span><span class="va">nms</span><span class="op">)</span></span>
 <span><span class="co">#</span></span>
-<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rotl/reference/tol_induced_subtree.html">tol_induced_subtree</a></span><span class="op">(</span>ott_ids <span class="op">=</span> <span class="va">nms_res</span><span class="op">$</span><span class="va">ott_id</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details><div class="cell-output cell-output-stdout">
-<pre><code>
-Progress [---------------------------------] 0/284 (  0%) ?s
-Progress [==============================] 284/284 (100%)  0s
-                                                            </code></pre>
-</div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/rotl/reference/tol_induced_subtree.html">tol_induced_subtree</a></span><span class="op">(</span>ott_ids <span class="op">=</span> <span class="va">nms_res</span><span class="op">$</span><span class="va">ott_id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="3.2-run-models_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT</a></span><span class="op">(</span><span class="va">nms_res</span><span class="op">)</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setDT.html">setDT</a></span><span class="op">(</span><span class="va">nms_res</span><span class="op">)</span></span>
 <span><span class="va">nms_res</span><span class="op">[</span>, <span class="va">label</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">" "</span>, <span class="st">"_"</span>, <span class="va">unique_name</span><span class="op">)</span>,</span>
 <span>                          <span class="st">"_ott"</span>, <span class="va">ott_id</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
@@ -736,14 +734,14 @@ Progress [==============================] 284/284 (100%)  0s
 </details><div class="cell-output cell-output-stdout">
 <pre><code>[1] TRUE</code></pre>
 </div>
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dat.final.m</span>, <span class="st">"label"</span>, <span class="st">"phylo_species"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html">setnames</a></span><span class="op">(</span><span class="va">dat.final.m</span>, <span class="st">"label"</span>, <span class="st">"phylo_species"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </section><section id="sec-run-models" class="level2"><h2 class="anchored" data-anchor-id="sec-run-models">Run models</h2>
 <p>Finally, let’s run the models. We’ll save the raw model objects in a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> object named <code>models</code>, the predictions in a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> object named <code>predictions</code> and tidied tables of model coefficients in a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> called <code>tidy_models</code>.</p>
 <p>In total, we have 528 models to run. Many of these will not fit because they have tiny sample sizes and complex non-independence structures (with the phylogeny and species identity random effects especially). However, we’ll give it a try. The model fitting is done by <code><a href="https://wviechtb.github.io/metafor/reference/rma.mv.html">metafor::rma.mv</a></code>.</p>
 <div class="cell">
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Clean up the objects in the environment:</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Clean up the objects in the environment:</span></span>
 <span><span class="va">guide</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/copy.html">copy</a></span><span class="op">(</span><span class="va">guide.m2</span><span class="op">)</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/copy.html">copy</a></span><span class="op">(</span><span class="va">dat.final.m</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">guide.m2</span>, <span class="va">guide.m1</span>, <span class="va">dat.final.m</span><span class="op">)</span></span>
@@ -830,7 +828,7 @@ Progress [==============================] 284/284 (100%)  0s
 </section><section id="sec-model-selection" class="level2"><h2 class="anchored" data-anchor-id="sec-model-selection">Model selection</h2>
 <p>Now we’ll filter out overfit models by removing any with a sigma equal to 0 (which has been designated with the column <code>overfit</code>). Then we’ll select the best model per analysis group, moderator, subgroup, and sensitivity analysis category (specified with <code>model_comparison_id</code>).</p>
 <div class="cell">
-<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">models</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">guide</span><span class="op">$</span><span class="va">model_id</span></span>
+<details open="" class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">models</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">guide</span><span class="op">$</span><span class="va">model_id</span></span>
 <span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">tidy_models</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">tidy_models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">tidy_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/rbindlist.html">rbindlist</a></span><span class="op">(</span><span class="va">tidy_models</span>, fill <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -964,16 +962,16 @@ Viechtbauer, Wolfgang. 2010. <span>“Conducting Meta-Analyses in <span>R</span>
     }
     function toggleCodeHandler(show) {
       return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
           if (show) {
             details.open = true;
           } else {
             details.removeAttribute("open");
           }
         }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
         const fromCls = show ? "hidden" : "unhidden";
         const toCls = show ? "unhidden" : "hidden";
         for (let i=0; i<cellCodeDivs.length; i++) {
@@ -996,7 +994,7 @@ Viechtbauer, Wolfgang. 2010. <span>“Conducting Meta-Analyses in <span>R</span>
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/ejlundgren\.github\.io\/cat_evidence_review\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1323,550 +1321,550 @@ Viechtbauer, Wolfgang. 2010. <span>“Conducting Meta-Analyses in <span>R</span>
     }
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Fit meta-analysis models"</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "3.2-run-models.html"</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
-<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
-<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
-<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
-<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
-<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
-<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
-<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
-<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
-<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
-<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
-<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
-<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
-<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
-<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
-<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
-<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
-<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
-<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
-<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>Now we'll fit multilevel meta-analytic models in the R package <span class="in">`metafor`</span> <span class="co">[</span><span class="ot">@Viechtbauer2010-uq</span><span class="co">]</span>. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/2 fit meta analysis models.R`</span> that includes additional checks and tests and is fully interactive if you clone the repo.</span>
-<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>Given the non-independence structures in this data we will fit a series of models with increasingly complex random effects, particularly to control for phylogenetic similarity between prey species and to also deal with non-phylogenetic components of species identity. We'll create a model guide to organize these models, as well as our subgroup analyses and sensitivity analyses. These analyses include:</span>
-<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only prey inside of cat's prey range</span>
-<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only dominant effect sizes (e.g., excluding minority converted effect sizes)</span>
-<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Prey body mass</span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Habitat / locomotion / landform subgroup analyses</span>
-<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>Note that instead of including habitat type, locomotion, or landform as categorical predictors, we used separate univariate (intercept-only) models on these subgroups of the data. In part this is to keep the code cleaner (the results are the same regardless) but also because in most cases there was only one factor level of these variables with sufficient data to estimate coefficients and we were not interested in testing for differences between factor levels.</span>
-<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment</span></span>
-<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>We'll start by cleaning the environment and loading some custom functions</span>
-<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean environment:</span></span>
-<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
-<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
-<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"metafor"</span>)</span>
-<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"readxl"</span>)</span>
-<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rotl"</span>)</span>
-<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom.mixed"</span>)</span>
-<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"stringr"</span>)</span>
-<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Load custom functions:</span></span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a><span class="co"># This helps extract predictions on rma.mv objects:</span></span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>rma_predictions <span class="ot">&lt;-</span> <span class="cf">function</span>(m, </span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>                            newgrid,</span>
-<span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a>                            <span class="at">has_intercept =</span> T){</span>
-<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.data.frame</span>(newgrid)){<span class="fu">errorCondition</span>(<span class="st">"ERROR newgrid must be a data frame"</span>)}</span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create the new model matrix. </span></span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">all</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(newgrid), <span class="co"># lapply through names of newgrid to check that they're in formula</span></span>
-<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">function</span>(x) <span class="fu">grepl</span>(<span class="at">pattern=</span>x,</span>
-<span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">x =</span> <span class="fu">as.character</span>(m<span class="sc">$</span>formula.mods)[<span class="sc">-</span><span class="dv">1</span>]))))){</span>
-<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">errorCondition</span>(<span class="st">"ERROR: variables in newgrid are not in model formula"</span>)</span>
-<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Drop levels that might be missing from the model...</span></span>
-<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="fu">names</span>(newgrid)</span>
-<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>  coef_nms <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">coef</span>(m))</span>
-<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(has_intercept <span class="sc">==</span> F){</span>
-<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(cols)){</span>
-<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">class</span>(<span class="fu">unlist</span>(newgrid[, cols[i], <span class="at">with =</span> F])) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"factor"</span>, <span class="st">"character"</span>)){</span>
-<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>        temp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">names</span>(newgrid[, cols[i], <span class="at">with =</span> F]),</span>
-<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">unlist</span>(newgrid[, cols[i], <span class="at">with =</span> F]))</span>
-<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>        newgrid <span class="ot">&lt;-</span> newgrid[temp <span class="sc">%in%</span> coef_nms, ]</span>
-<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>  newgrid</span>
-<span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create prediction matrix</span></span>
-<span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a>  predgrid <span class="ot">&lt;-</span> (<span class="fu">model.matrix</span>(m<span class="sc">$</span>formula.mods, <span class="at">data=</span>newgrid))</span>
-<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>  predgrid</span>
-<span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">"intercept"</span>, <span class="fu">colnames</span>(predgrid), </span>
-<span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a>               <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))){</span>
-<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if intercept is present, remove it?</span></span>
-<span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a>    predgrid <span class="ot">&lt;-</span> predgrid[, <span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a>  <span class="co"># predict onto the new model matrix</span></span>
-<span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a>  pred.out <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">predict</span>(m, <span class="at">newmods=</span>predgrid))</span>
-<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a>  <span class="co">#attach predictions to variables for plotting</span></span>
-<span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a>  final.pred <span class="ot">&lt;-</span> <span class="fu">cbind</span>(newgrid, pred.out)</span>
-<span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final.pred)</span>
-<span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-135"><a href="#cb19-135" aria-hidden="true" tabindex="-1"></a><span class="co"># This function creates a phylogenetic covariance matrix</span></span>
-<span id="cb19-136"><a href="#cb19-136" aria-hidden="true" tabindex="-1"></a>createPhyloCorr <span class="ot">&lt;-</span> <span class="cf">function</span>(spp_list, tree){</span>
-<span id="cb19-137"><a href="#cb19-137" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-138"><a href="#cb19-138" aria-hidden="true" tabindex="-1"></a>  tree.filt <span class="ot">&lt;-</span> <span class="fu">keep.tip</span>(tree, spp_list)</span>
-<span id="cb19-139"><a href="#cb19-139" aria-hidden="true" tabindex="-1"></a>  tree.br <span class="ot">&lt;-</span> <span class="fu">compute.brlen</span>(tree.filt)</span>
-<span id="cb19-140"><a href="#cb19-140" aria-hidden="true" tabindex="-1"></a>  tree.corr <span class="ot">&lt;-</span> <span class="fu">vcv</span>(tree.br, <span class="at">corr=</span>T)</span>
-<span id="cb19-141"><a href="#cb19-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree.corr)</span>
-<span id="cb19-142"><a href="#cb19-142" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-143"><a href="#cb19-143" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prepare the dataset {#sec-prepare-data}</span></span>
-<span id="cb19-149"><a href="#cb19-149" aria-hidden="true" tabindex="-1"></a>Let's reload our dataset. We'll clean up the article ID to be a bit friendlier as a text string in the models and we'll add a variable to our dataset to specify whether the effect size type was dominant (for filtering out minority converted effect sizes). Finally, we'll reshape our dataset to be *long* by our habitat and landform variables to make our models easier to succinctly fit:</span>
-<span id="cb19-150"><a href="#cb19-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-153"><a href="#cb19-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-154"><a href="#cb19-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-155"><a href="#cb19-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-156"><a href="#cb19-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-157"><a href="#cb19-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-158"><a href="#cb19-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Load prepared data:</span></span>
-<span id="cb19-159"><a href="#cb19-159" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/meta_analysis/analysis_ready_dataset.csv"</span>)</span>
-<span id="cb19-160"><a href="#cb19-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-161"><a href="#cb19-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the article ID a bit:</span></span>
-<span id="cb19-162"><a href="#cb19-162" aria-hidden="true" tabindex="-1"></a>dat[, article_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(<span class="fu">word</span>(Article, <span class="dv">1</span>, </span>
-<span id="cb19-163"><a href="#cb19-163" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sep =</span> <span class="st">"[[:space:][:punct:]]"</span>), </span>
-<span id="cb19-164"><a href="#cb19-164" aria-hidden="true" tabindex="-1"></a>                          .GRP), </span>
-<span id="cb19-165"><a href="#cb19-165" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> .(Article)]</span>
-<span id="cb19-166"><a href="#cb19-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-167"><a href="#cb19-167" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that that didn't screw anything up:</span></span>
-<span id="cb19-168"><a href="#cb19-168" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(dat<span class="sc">$</span>Article)) <span class="sc">==</span> <span class="fu">length</span>(<span class="fu">unique</span>(dat<span class="sc">$</span>article_id))</span>
-<span id="cb19-169"><a href="#cb19-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-170"><a href="#cb19-170" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat[<span class="fu">duplicated</span>(article_id)]) <span class="sc">==</span> <span class="fu">nrow</span>(dat[<span class="fu">duplicated</span>(Article)])</span>
-<span id="cb19-171"><a href="#cb19-171" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE</span></span>
-<span id="cb19-172"><a href="#cb19-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-173"><a href="#cb19-173" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Add column for whether effect size type is dominant within analysis group --------</span></span>
-<span id="cb19-174"><a href="#cb19-174" aria-hidden="true" tabindex="-1"></a>dat[, total_n_articles <span class="sc">:</span><span class="er">=</span> <span class="fu">uniqueN</span>(article_id), by <span class="ot">=</span> .(analysis_group)]</span>
-<span id="cb19-175"><a href="#cb19-175" aria-hidden="true" tabindex="-1"></a>dat[, n_articles_per_original_es <span class="sc">:</span><span class="er">=</span> <span class="fu">uniqueN</span>(article_id), by <span class="ot">=</span> .(analysis_group,</span>
-<span id="cb19-176"><a href="#cb19-176" aria-hidden="true" tabindex="-1"></a>                                                                     original_effect_size)]</span>
-<span id="cb19-177"><a href="#cb19-177" aria-hidden="true" tabindex="-1"></a>dat[, dominant_effect_size <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>((n_articles_per_original_es <span class="sc">/</span> total_n_articles) <span class="sc">&gt;</span> .<span class="dv">5</span>,</span>
-<span id="cb19-178"><a href="#cb19-178" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"yes"</span>, <span class="st">"no"</span>)]</span>
-<span id="cb19-179"><a href="#cb19-179" aria-hidden="true" tabindex="-1"></a>dat[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> .(dominant_effect_size)]</span>
-<span id="cb19-180"><a href="#cb19-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-181"><a href="#cb19-181" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Make data long by habitat traits ------------------------------------</span></span>
-<span id="cb19-182"><a href="#cb19-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of having these as separate factors, let's do univariate subgroup models</span></span>
-<span id="cb19-183"><a href="#cb19-183" aria-hidden="true" tabindex="-1"></a>dat.long <span class="ot">&lt;-</span> <span class="fu">melt</span>(dat,</span>
-<span id="cb19-184"><a href="#cb19-184" aria-hidden="true" tabindex="-1"></a>                 <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"locomotion_volant"</span>,</span>
-<span id="cb19-185"><a href="#cb19-185" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"ground_or_burrow_resting_or_nesting"</span>,</span>
-<span id="cb19-186"><a href="#cb19-186" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Foraging_habitat_ground"</span>, <span class="st">"continent_island"</span>),</span>
-<span id="cb19-187"><a href="#cb19-187" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"habitat_category"</span>,</span>
-<span id="cb19-188"><a href="#cb19-188" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"habitat_trait"</span>)</span>
-<span id="cb19-189"><a href="#cb19-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-190"><a href="#cb19-190" aria-hidden="true" tabindex="-1"></a>dat[, habitat_trait <span class="sc">:</span><span class="er">=</span> <span class="st">"All"</span>]</span>
-<span id="cb19-191"><a href="#cb19-191" aria-hidden="true" tabindex="-1"></a>dat[, habitat_category <span class="sc">:</span><span class="er">=</span> <span class="st">"All"</span>]</span>
-<span id="cb19-192"><a href="#cb19-192" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-193"><a href="#cb19-193" aria-hidden="true" tabindex="-1"></a>dat.final <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dat[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"locomotion_volant"</span>,</span>
-<span id="cb19-194"><a href="#cb19-194" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"ground_or_burrow_resting_or_nesting"</span>,</span>
-<span id="cb19-195"><a href="#cb19-195" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Foraging_habitat_ground"</span>, <span class="st">"continent_island"</span>),</span>
-<span id="cb19-196"><a href="#cb19-196" aria-hidden="true" tabindex="-1"></a>                       <span class="at">with =</span> F], </span>
-<span id="cb19-197"><a href="#cb19-197" aria-hidden="true" tabindex="-1"></a>                   dat.long)</span>
-<span id="cb19-198"><a href="#cb19-198" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat.final)</span>
-<span id="cb19-199"><a href="#cb19-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-200"><a href="#cb19-200" aria-hidden="true" tabindex="-1"></a><span class="co"># Now let's format these names and concatenate with variable type.</span></span>
-<span id="cb19-201"><a href="#cb19-201" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(dat.final[, .(habitat_category, habitat_trait)])</span>
-<span id="cb19-202"><a href="#cb19-202" aria-hidden="true" tabindex="-1"></a>dat.final[habitat_trait <span class="sc">!=</span> <span class="st">"All"</span>, </span>
-<span id="cb19-203"><a href="#cb19-203" aria-hidden="true" tabindex="-1"></a>          habitat_trait <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(habitat_category, <span class="st">"."</span>, </span>
-<span id="cb19-204"><a href="#cb19-204" aria-hidden="true" tabindex="-1"></a>                                  habitat_trait)]</span>
-<span id="cb19-205"><a href="#cb19-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-206"><a href="#cb19-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-207"><a href="#cb19-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-208"><a href="#cb19-208" aria-hidden="true" tabindex="-1"></a>The variable <span class="in">`habitat_trait`</span> will allow for easy subgroup filtering as we fit our models.</span>
-<span id="cb19-209"><a href="#cb19-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-210"><a href="#cb19-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up model guide {#sec-model-guide}</span></span>
-<span id="cb19-211"><a href="#cb19-211" aria-hidden="true" tabindex="-1"></a>Now let's create all the combinations of models we want to run. The function <span class="in">`data.table::CJ`</span> is similar to <span class="in">`expand.grid`</span> and makes all combinations of the input vectors. We'll do this in two steps to avoid having to filter out some combinations that we don't have sample size to run.</span>
-<span id="cb19-212"><a href="#cb19-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-215"><a href="#cb19-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-216"><a href="#cb19-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-217"><a href="#cb19-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-218"><a href="#cb19-218" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb19-219"><a href="#cb19-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-220"><a href="#cb19-220" aria-hidden="true" tabindex="-1"></a><span class="co"># # Do the guide in 2 steps. We don't have enough data for class * habitat sub-analyses.</span></span>
-<span id="cb19-221"><a href="#cb19-221" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">CJ</span>(<span class="at">analysis_group =</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>analysis_group),</span>
-<span id="cb19-222"><a href="#cb19-222" aria-hidden="true" tabindex="-1"></a>            <span class="at">moderator =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"log_mass"</span>),</span>
-<span id="cb19-223"><a href="#cb19-223" aria-hidden="true" tabindex="-1"></a>            <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Mammals"</span>, <span class="st">"Reptiles"</span>, <span class="st">"All"</span>),</span>
-<span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a>            <span class="at">habitat_trait =</span> <span class="st">"All"</span>,</span>
-<span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a>            <span class="at">prey_range =</span> <span class="fu">c</span>(<span class="st">"All"</span>, <span class="st">"inside"</span>),</span>
-<span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a>            <span class="at">non_phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
-<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a>            <span class="at">phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
-<span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a>            <span class="at">only_dominant_effect_size =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>)</span>
-<span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> guide[<span class="sc">!</span>(moderator <span class="sc">==</span> <span class="st">"log_mass"</span> <span class="sc">&amp;</span> class <span class="sc">!=</span> <span class="st">"All"</span>), ]</span>
-<span id="cb19-231"><a href="#cb19-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-232"><a href="#cb19-232" aria-hidden="true" tabindex="-1"></a>guide2 <span class="ot">&lt;-</span> <span class="fu">CJ</span>(<span class="at">analysis_group =</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>analysis_group),</span>
-<span id="cb19-233"><a href="#cb19-233" aria-hidden="true" tabindex="-1"></a>             <span class="at">moderator =</span> <span class="st">"1"</span>,</span>
-<span id="cb19-234"><a href="#cb19-234" aria-hidden="true" tabindex="-1"></a>             <span class="at">habitat_trait =</span> <span class="fu">c</span>(<span class="st">"locomotion_volant.non_volant"</span>, </span>
-<span id="cb19-235"><a href="#cb19-235" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"locomotion_volant.volant"</span>, </span>
-<span id="cb19-236"><a href="#cb19-236" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"ground_or_burrow_resting_or_nesting.other"</span>,</span>
-<span id="cb19-237"><a href="#cb19-237" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"ground_or_burrow_resting_or_nesting.ground"</span>, </span>
-<span id="cb19-238"><a href="#cb19-238" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Foraging_habitat_ground.other"</span>,</span>
-<span id="cb19-239"><a href="#cb19-239" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Foraging_habitat_ground.ground"</span>, </span>
-<span id="cb19-240"><a href="#cb19-240" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"continent_island.island"</span>, </span>
-<span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"continent_island.mainland"</span>),</span>
-<span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a>             <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"All"</span>),</span>
-<span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a>             <span class="at">prey_range =</span> <span class="fu">c</span>(<span class="st">"All"</span>),</span>
-<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a>             <span class="at">non_phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
-<span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a>             <span class="at">phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
-<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a>             <span class="at">only_dominant_effect_size =</span> <span class="fu">c</span>(<span class="st">"no"</span>)</span>
-<span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a>             )</span>
-<span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">rbind</span>(guide, guide2)</span>
-<span id="cb19-250"><a href="#cb19-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-251"><a href="#cb19-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-252"><a href="#cb19-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-253"><a href="#cb19-253" aria-hidden="true" tabindex="-1"></a>Now we'll add a unique ID that we'll use to compare alternative random effects per model series (<span class="in">`model_comparison_id`</span>). And we'll formulate strings which we'll evaluate as R code for our random effects (<span class="in">`random_effect`</span>), to filter our dataset (<span class="in">`exclusion`</span>) and for our fixed effect formula (<span class="in">`formula`</span>):</span>
-<span id="cb19-254"><a href="#cb19-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-257"><a href="#cb19-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-258"><a href="#cb19-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>guide[, model_comparison_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"model_comp_"</span>, .GRP), </span>
-<span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a>      by <span class="ot">=</span> .(analysis_group, class, moderator, prey_range,</span>
-<span id="cb19-264"><a href="#cb19-264" aria-hidden="true" tabindex="-1"></a>             habitat_trait, only_dominant_effect_size)]</span>
-<span id="cb19-265"><a href="#cb19-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="st">"list(~1|article_id/Effect_size_ID"</span>]</span>
-<span id="cb19-267"><a href="#cb19-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-268"><a href="#cb19-268" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(non_phylo_species <span class="sc">==</span> <span class="st">"yes"</span>,</span>
-<span id="cb19-269"><a href="#cb19-269" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">", ~1|scientificName"</span>), </span>
-<span id="cb19-270"><a href="#cb19-270" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect))]</span>
-<span id="cb19-271"><a href="#cb19-271" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(phylo_species <span class="sc">==</span> <span class="st">"yes"</span>,</span>
-<span id="cb19-272"><a href="#cb19-272" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">", ~1|phylo_species)"</span>),</span>
-<span id="cb19-273"><a href="#cb19-273" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">")"</span>))]</span>
-<span id="cb19-274"><a href="#cb19-274" aria-hidden="true" tabindex="-1"></a>guide</span>
-<span id="cb19-275"><a href="#cb19-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-276"><a href="#cb19-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Formulate exclusion formula:</span></span>
-<span id="cb19-277"><a href="#cb19-277" aria-hidden="true" tabindex="-1"></a>guide[, exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"analysis_group == '"</span>, analysis_group, <span class="st">"'"</span>,</span>
-<span id="cb19-278"><a href="#cb19-278" aria-hidden="true" tabindex="-1"></a>                            <span class="st">" &amp; habitat_trait == '"</span>, habitat_trait, <span class="st">"'"</span>)]</span>
-<span id="cb19-279"><a href="#cb19-279" aria-hidden="true" tabindex="-1"></a>guide[class <span class="sc">!=</span> <span class="st">"All"</span>, exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; class %in% '"</span>, class, <span class="st">"'"</span>)]</span>
-<span id="cb19-280"><a href="#cb19-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-281"><a href="#cb19-281" aria-hidden="true" tabindex="-1"></a>guide[prey_range <span class="sc">==</span> <span class="st">"inside"</span>, </span>
-<span id="cb19-282"><a href="#cb19-282" aria-hidden="true" tabindex="-1"></a>      exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; prey_range_primary == 'inside'"</span>)]</span>
-<span id="cb19-283"><a href="#cb19-283" aria-hidden="true" tabindex="-1"></a>guide[prey_range <span class="sc">==</span> <span class="st">"All"</span>]</span>
-<span id="cb19-284"><a href="#cb19-284" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-285"><a href="#cb19-285" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb19-286"><a href="#cb19-286" aria-hidden="true" tabindex="-1"></a>guide.m1 <span class="ot">&lt;-</span> <span class="fu">merge</span>(guide,</span>
-<span id="cb19-287"><a href="#cb19-287" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unique</span>(dat[, .(analysis_group, analysis_effect_size)]),</span>
-<span id="cb19-288"><a href="#cb19-288" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">'analysis_group'</span>,</span>
-<span id="cb19-289"><a href="#cb19-289" aria-hidden="true" tabindex="-1"></a>               <span class="at">all.x =</span> T)</span>
-<span id="cb19-290"><a href="#cb19-290" aria-hidden="true" tabindex="-1"></a>guide.m1[<span class="fu">is.na</span>(analysis_effect_size)]</span>
-<span id="cb19-291"><a href="#cb19-291" aria-hidden="true" tabindex="-1"></a>guide.m1</span>
-<span id="cb19-292"><a href="#cb19-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-293"><a href="#cb19-293" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb19-294"><a href="#cb19-294" aria-hidden="true" tabindex="-1"></a>guide.m1[only_dominant_effect_size <span class="sc">==</span> <span class="st">"yes"</span>, </span>
-<span id="cb19-295"><a href="#cb19-295" aria-hidden="true" tabindex="-1"></a>         exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; dominant_effect_size == 'yes'"</span>)]</span>
-<span id="cb19-296"><a href="#cb19-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a>guide.m1[, formula <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(moderator <span class="sc">==</span> <span class="st">"1"</span>,</span>
-<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"~ 1"</span>,</span>
-<span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">paste</span>(<span class="st">"~"</span>, moderator))]</span>
-<span id="cb19-301"><a href="#cb19-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-302"><a href="#cb19-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-303"><a href="#cb19-303" aria-hidden="true" tabindex="-1"></a>guide.m1[, model_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"model_"</span>, <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span>.N))]</span>
-<span id="cb19-304"><a href="#cb19-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-305"><a href="#cb19-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-306"><a href="#cb19-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-307"><a href="#cb19-307" aria-hidden="true" tabindex="-1"></a>The resulting guide will execute 1,232 models and looks like this: </span>
-<span id="cb19-308"><a href="#cb19-308" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-311"><a href="#cb19-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-312"><a href="#cb19-312" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-313"><a href="#cb19-313" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(guide.m1)</span>
-<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a>The columns <span class="in">`exclusion`</span>, <span class="in">`random_effect`</span>, and <span class="in">`formula`</span> are text strings that we will evaluate to filter the dataset and run models. </span>
-<span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-321"><a href="#cb19-321" aria-hidden="true" tabindex="-1"></a>Now we'll filter out models for which we have insufficient sample size. We'll do this by evaluating the exclusion strings as a subsetting operation on the dataset. We'll be very generous with sample size inclusion criteria and will fit models if there are at least 2 observations for intercept-only models and 5 observations for models with a continuous moderator (body mass).</span>
-<span id="cb19-322"><a href="#cb19-322" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-325"><a href="#cb19-325" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-326"><a href="#cb19-326" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-327"><a href="#cb19-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-328"><a href="#cb19-328" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-329"><a href="#cb19-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-330"><a href="#cb19-330" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb19-331"><a href="#cb19-331" aria-hidden="true" tabindex="-1"></a>sub.dat <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
-<span id="cb19-332"><a href="#cb19-332" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-333"><a href="#cb19-333" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(guide.m1)){</span>
-<span id="cb19-334"><a href="#cb19-334" aria-hidden="true" tabindex="-1"></a>  sub.dat <span class="ot">&lt;-</span> dat.final[<span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> guide.m1[i, ]<span class="sc">$</span>exclusion)), ] <span class="co"># Evaluate `esclusion` string</span></span>
-<span id="cb19-335"><a href="#cb19-335" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-336"><a href="#cb19-336" aria-hidden="true" tabindex="-1"></a>  Ns[[i]] <span class="ot">&lt;-</span> sub.dat[, .(<span class="at">n_species =</span> <span class="fu">uniqueN</span>(scientificName),</span>
-<span id="cb19-337"><a href="#cb19-337" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_articles =</span> <span class="fu">uniqueN</span>(Article),</span>
-<span id="cb19-338"><a href="#cb19-338" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_obs =</span> .N,</span>
-<span id="cb19-339"><a href="#cb19-339" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model_id =</span> guide[i, ]<span class="sc">$</span>model_id,</span>
-<span id="cb19-340"><a href="#cb19-340" aria-hidden="true" tabindex="-1"></a>                    <span class="at">analysis_group =</span> guide[i, ]<span class="sc">$</span>analysis_group,</span>
-<span id="cb19-341"><a href="#cb19-341" aria-hidden="true" tabindex="-1"></a>                    <span class="at">class =</span> guide[i, ]<span class="sc">$</span>class)]</span>
-<span id="cb19-342"><a href="#cb19-342" aria-hidden="true" tabindex="-1"></a>  Ns[[i]]<span class="sc">$</span>model_id <span class="ot">&lt;-</span> guide.m1[i, ]<span class="sc">$</span>model_id</span>
-<span id="cb19-343"><a href="#cb19-343" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-344"><a href="#cb19-344" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-345"><a href="#cb19-345" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(Ns)</span>
-<span id="cb19-346"><a href="#cb19-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(guide.m1, </span>
-<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a>               Ns[, .(n_species, n_articles, n_obs, model_id)], </span>
-<span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">"model_id"</span>)</span>
-<span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a><span class="co"># More than 2 observations:</span></span>
-<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[n_obs <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
-<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a><span class="co"># and at least 5 for continuous</span></span>
-<span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[<span class="sc">!</span>(moderator <span class="sc">==</span> <span class="st">"log_mass"</span> <span class="sc">&amp;</span> n_articles <span class="sc">&lt;</span> <span class="dv">5</span>), ]</span>
-<span id="cb19-356"><a href="#cb19-356" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(guide.m2)</span>
-<span id="cb19-357"><a href="#cb19-357" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-358"><a href="#cb19-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-359"><a href="#cb19-359" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-360"><a href="#cb19-360" aria-hidden="true" tabindex="-1"></a>If there is only 1 article per analysis group we will drop 'article_id` from the random effects:</span>
-<span id="cb19-361"><a href="#cb19-361" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-364"><a href="#cb19-364" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-365"><a href="#cb19-365" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-366"><a href="#cb19-366" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-367"><a href="#cb19-367" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb19-368"><a href="#cb19-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-369"><a href="#cb19-369" aria-hidden="true" tabindex="-1"></a>guide.m2[n_articles <span class="sc">==</span> <span class="dv">1</span>, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">gsub</span>(<span class="st">"article_id/"</span>, <span class="st">""</span>, random_effect)]</span>
-<span id="cb19-370"><a href="#cb19-370" aria-hidden="true" tabindex="-1"></a>guide.m2</span>
-<span id="cb19-371"><a href="#cb19-371" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-372"><a href="#cb19-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-373"><a href="#cb19-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-374"><a href="#cb19-374" aria-hidden="true" tabindex="-1"></a>To facilitate model fitting and tidying we'll also set up a prediction grid for extracting predictions for our only moderator, log mass.</span>
-<span id="cb19-375"><a href="#cb19-375" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-378"><a href="#cb19-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-379"><a href="#cb19-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-380"><a href="#cb19-380" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-381"><a href="#cb19-381" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-382"><a href="#cb19-382" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-383"><a href="#cb19-383" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(guide.m2<span class="sc">$</span>moderator)</span>
-<span id="cb19-384"><a href="#cb19-384" aria-hidden="true" tabindex="-1"></a>grids <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb19-385"><a href="#cb19-385" aria-hidden="true" tabindex="-1"></a>grids[[<span class="st">"log_mass"</span>]] <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">log_mass =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(dat.final<span class="sc">$</span>log_mass, <span class="at">na.rm =</span> T),</span>
-<span id="cb19-386"><a href="#cb19-386" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">to =</span> <span class="fu">max</span>(dat.final<span class="sc">$</span>log_mass, <span class="at">na.rm =</span> T),</span>
-<span id="cb19-387"><a href="#cb19-387" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">by =</span> .<span class="dv">1</span>))</span>
-<span id="cb19-388"><a href="#cb19-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-389"><a href="#cb19-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-390"><a href="#cb19-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-391"><a href="#cb19-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prepare phylogeny {#sec-phylogeny}</span></span>
-<span id="cb19-392"><a href="#cb19-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-393"><a href="#cb19-393" aria-hidden="true" tabindex="-1"></a>Now we'll prepare a phylogeny using the <span class="in">`rotl`</span> package <span class="co">[</span><span class="ot">@rotl-cit</span><span class="co">]</span>. This will download a <span class="in">`phylo`</span> object and we will merge in the tip ID to our dataset (<span class="in">`dat.final`</span>)</span>
-<span id="cb19-394"><a href="#cb19-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-397"><a href="#cb19-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-398"><a href="#cb19-398" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-399"><a href="#cb19-399" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-400"><a href="#cb19-400" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
-<span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a>dat.final[, spp_name_corrected <span class="sc">:</span><span class="er">=</span> scientificName]</span>
-<span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a>dat.final[scientificName <span class="sc">==</span> <span class="st">"Pampusana erythroptera"</span>,</span>
-<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>         spp_name_corrected <span class="sc">:</span><span class="er">=</span> <span class="st">"Gallicolumba erythroptera"</span>]</span>
-<span id="cb19-405"><a href="#cb19-405" aria-hidden="true" tabindex="-1"></a>nms <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>spp_name_corrected)</span>
-<span id="cb19-406"><a href="#cb19-406" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-407"><a href="#cb19-407" aria-hidden="true" tabindex="-1"></a>nms_res <span class="ot">&lt;-</span> rotl<span class="sc">::</span><span class="fu">tnrs_match_names</span>(nms)</span>
-<span id="cb19-408"><a href="#cb19-408" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb19-409"><a href="#cb19-409" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">tol_induced_subtree</span>(<span class="at">ott_ids =</span> nms_res<span class="sc">$</span>ott_id)</span>
-<span id="cb19-410"><a href="#cb19-410" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-411"><a href="#cb19-411" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree)</span>
-<span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(nms_res)</span>
-<span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a>nms_res[, label <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="fu">gsub</span>(<span class="st">" "</span>, <span class="st">"_"</span>, unique_name),</span>
-<span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"_ott"</span>, ott_id)]</span>
-<span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-417"><a href="#cb19-417" aria-hidden="true" tabindex="-1"></a>nms_res[, search_string <span class="sc">:</span><span class="er">=</span> <span class="fu">str_to_sentence</span>(search_string)]</span>
-<span id="cb19-418"><a href="#cb19-418" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-419"><a href="#cb19-419" aria-hidden="true" tabindex="-1"></a>dat.final.m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dat.final,</span>
-<span id="cb19-420"><a href="#cb19-420" aria-hidden="true" tabindex="-1"></a>                 nms_res[, .(search_string, label)],</span>
-<span id="cb19-421"><a href="#cb19-421" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.x =</span> <span class="st">"spp_name_corrected"</span>,</span>
-<span id="cb19-422"><a href="#cb19-422" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.y =</span> <span class="st">"search_string"</span>,</span>
-<span id="cb19-423"><a href="#cb19-423" aria-hidden="true" tabindex="-1"></a>                 <span class="at">all.x =</span> T)</span>
-<span id="cb19-424"><a href="#cb19-424" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat.final.m) <span class="sc">==</span> <span class="fu">nrow</span>(dat.final)</span>
-<span id="cb19-425"><a href="#cb19-425" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dat.final.m, <span class="st">"label"</span>, <span class="st">"phylo_species"</span>)</span>
-<span id="cb19-426"><a href="#cb19-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-427"><a href="#cb19-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-428"><a href="#cb19-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-429"><a href="#cb19-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## Run models {#sec-run-models}</span></span>
-<span id="cb19-430"><a href="#cb19-430" aria-hidden="true" tabindex="-1"></a>Finally, let's run the models. We'll save the raw model objects in a <span class="in">`list()`</span> object named <span class="in">`models`</span>, the predictions in a <span class="in">`list()`</span> object named <span class="in">`predictions`</span> and tidied tables of model coefficients in a <span class="in">`list()`</span> called <span class="in">`tidy_models`</span>. </span>
-<span id="cb19-431"><a href="#cb19-431" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-432"><a href="#cb19-432" aria-hidden="true" tabindex="-1"></a>In total, we have 528 models to run. Many of these will not fit because they have tiny sample sizes and complex non-independence structures (with the phylogeny and species identity random effects especially). However, we'll give it a try. The model fitting is done by <span class="in">`metafor::rma.mv`</span>. </span>
-<span id="cb19-433"><a href="#cb19-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-436"><a href="#cb19-436" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-437"><a href="#cb19-437" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-438"><a href="#cb19-438" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-439"><a href="#cb19-439" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-440"><a href="#cb19-440" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-441"><a href="#cb19-441" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the objects in the environment:</span></span>
-<span id="cb19-442"><a href="#cb19-442" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">copy</span>(guide.m2)</span>
-<span id="cb19-443"><a href="#cb19-443" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">copy</span>(dat.final.m)</span>
-<span id="cb19-444"><a href="#cb19-444" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(guide.m2, guide.m1, dat.final.m)</span>
-<span id="cb19-445"><a href="#cb19-445" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-446"><a href="#cb19-446" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb19-447"><a href="#cb19-447" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
-<span id="cb19-449"><a href="#cb19-449" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-450"><a href="#cb19-450" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(guide)){</span>
-<span id="cb19-451"><a href="#cb19-451" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-452"><a href="#cb19-452" aria-hidden="true" tabindex="-1"></a>  sub_guide <span class="ot">&lt;-</span> guide[i, ]</span>
-<span id="cb19-453"><a href="#cb19-453" aria-hidden="true" tabindex="-1"></a>  sub_guide</span>
-<span id="cb19-454"><a href="#cb19-454" aria-hidden="true" tabindex="-1"></a>  dat.sub <span class="ot">&lt;-</span> dat[<span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>exclusion))]</span>
-<span id="cb19-455"><a href="#cb19-455" aria-hidden="true" tabindex="-1"></a>  dat.sub</span>
-<span id="cb19-456"><a href="#cb19-456" aria-hidden="true" tabindex="-1"></a>  <span class="co">#</span></span>
-<span id="cb19-457"><a href="#cb19-457" aria-hidden="true" tabindex="-1"></a>  models[[i]] <span class="ot">&lt;-</span> <span class="fu">try</span>({</span>
-<span id="cb19-458"><a href="#cb19-458" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(sub_guide<span class="sc">$</span>phylo_species <span class="sc">==</span> <span class="st">"yes"</span>){</span>
-<span id="cb19-459"><a href="#cb19-459" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb19-460"><a href="#cb19-460" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rma.mv</span>(yi_analysis, </span>
-<span id="cb19-461"><a href="#cb19-461" aria-hidden="true" tabindex="-1"></a>                <span class="at">V =</span> vi_analysis,</span>
-<span id="cb19-462"><a href="#cb19-462" aria-hidden="true" tabindex="-1"></a>                <span class="at">mods =</span> <span class="fu">as.formula</span>(sub_guide<span class="sc">$</span>formula),</span>
-<span id="cb19-463"><a href="#cb19-463" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>random_effect)),</span>
-<span id="cb19-464"><a href="#cb19-464" aria-hidden="true" tabindex="-1"></a>                <span class="at">dfs =</span> <span class="st">"contain"</span>,</span>
-<span id="cb19-465"><a href="#cb19-465" aria-hidden="true" tabindex="-1"></a>                <span class="at">test =</span> <span class="st">"t"</span>,</span>
-<span id="cb19-466"><a href="#cb19-466" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"REML"</span>,</span>
-<span id="cb19-467"><a href="#cb19-467" aria-hidden="true" tabindex="-1"></a>                <span class="at">R =</span>  <span class="fu">list</span>(<span class="at">phylo_species =</span> <span class="fu">createPhyloCorr</span>(dat.sub<span class="sc">$</span>phylo_species, tree)),</span>
-<span id="cb19-468"><a href="#cb19-468" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> dat.sub) </span>
-<span id="cb19-469"><a href="#cb19-469" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb19-470"><a href="#cb19-470" aria-hidden="true" tabindex="-1"></a>      }<span class="cf">else</span>{</span>
-<span id="cb19-471"><a href="#cb19-471" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rma.mv</span>(yi_analysis, </span>
-<span id="cb19-472"><a href="#cb19-472" aria-hidden="true" tabindex="-1"></a>                <span class="at">V =</span> vi_analysis,</span>
-<span id="cb19-473"><a href="#cb19-473" aria-hidden="true" tabindex="-1"></a>                <span class="at">mods =</span> <span class="fu">as.formula</span>(sub_guide<span class="sc">$</span>formula),</span>
-<span id="cb19-474"><a href="#cb19-474" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>random_effect)),</span>
-<span id="cb19-475"><a href="#cb19-475" aria-hidden="true" tabindex="-1"></a>                <span class="at">dfs =</span> <span class="st">"contain"</span>,</span>
-<span id="cb19-476"><a href="#cb19-476" aria-hidden="true" tabindex="-1"></a>                <span class="at">test =</span> <span class="st">"t"</span>,</span>
-<span id="cb19-477"><a href="#cb19-477" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"REML"</span>,</span>
-<span id="cb19-478"><a href="#cb19-478" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> dat.sub) </span>
-<span id="cb19-479"><a href="#cb19-479" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb19-480"><a href="#cb19-480" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb19-481"><a href="#cb19-481" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-482"><a href="#cb19-482" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">inherits</span>(models[[i]], <span class="st">"try-error"</span>)){</span>
-<span id="cb19-483"><a href="#cb19-483" aria-hidden="true" tabindex="-1"></a>    models[[i]] <span class="ot">&lt;-</span> <span class="fu">as.character</span>(models[[i]])</span>
-<span id="cb19-484"><a href="#cb19-484" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
-<span id="cb19-485"><a href="#cb19-485" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-486"><a href="#cb19-486" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sub_guide<span class="sc">$</span>moderator <span class="sc">==</span> <span class="st">"1"</span>){</span>
-<span id="cb19-487"><a href="#cb19-487" aria-hidden="true" tabindex="-1"></a>      predictions[[i]] <span class="ot">&lt;-</span> <span class="fu">predict</span>(models[[i]]) <span class="sc">|&gt;</span></span>
-<span id="cb19-488"><a href="#cb19-488" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb19-489"><a href="#cb19-489" aria-hidden="true" tabindex="-1"></a>        <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
-<span id="cb19-490"><a href="#cb19-490" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">lower_ci =</span> ci.lb,</span>
-<span id="cb19-491"><a href="#cb19-491" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_ci =</span> ci.ub,</span>
-<span id="cb19-492"><a href="#cb19-492" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower_pi =</span> pi.lb,</span>
-<span id="cb19-493"><a href="#cb19-493" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_pi =</span> pi.ub) <span class="sc">|&gt;</span></span>
-<span id="cb19-494"><a href="#cb19-494" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setDT</span>()</span>
-<span id="cb19-495"><a href="#cb19-495" aria-hidden="true" tabindex="-1"></a>    }<span class="cf">else</span>{</span>
-<span id="cb19-496"><a href="#cb19-496" aria-hidden="true" tabindex="-1"></a>      predictions[[i]] <span class="ot">&lt;-</span> <span class="fu">rma_predictions</span>(models[[i]], grids[[sub_guide<span class="sc">$</span>moderator]]) <span class="sc">|&gt;</span></span>
-<span id="cb19-497"><a href="#cb19-497" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="st">"term"</span> <span class="ot">=</span> sub_guide<span class="sc">$</span>moderator) <span class="sc">|&gt;</span></span>
-<span id="cb19-498"><a href="#cb19-498" aria-hidden="true" tabindex="-1"></a>        <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
-<span id="cb19-499"><a href="#cb19-499" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">lower_ci =</span> ci.lb,</span>
-<span id="cb19-500"><a href="#cb19-500" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_ci =</span> ci.ub,</span>
-<span id="cb19-501"><a href="#cb19-501" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower_pi =</span> pi.lb,</span>
-<span id="cb19-502"><a href="#cb19-502" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_pi =</span> pi.ub) <span class="sc">|&gt;</span></span>
-<span id="cb19-503"><a href="#cb19-503" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setDT</span>()</span>
-<span id="cb19-504"><a href="#cb19-504" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb19-505"><a href="#cb19-505" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-506"><a href="#cb19-506" aria-hidden="true" tabindex="-1"></a>    tidy_models[[i]] <span class="ot">&lt;-</span> <span class="fu">tidy</span>(models[[i]]) <span class="sc">|&gt;</span></span>
-<span id="cb19-507"><a href="#cb19-507" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">lower_ci =</span> models[[i]]<span class="sc">$</span>ci.lb, </span>
-<span id="cb19-508"><a href="#cb19-508" aria-hidden="true" tabindex="-1"></a>             <span class="at">upper_ci =</span> models[[i]]<span class="sc">$</span>ci.ub,</span>
-<span id="cb19-509"><a href="#cb19-509" aria-hidden="true" tabindex="-1"></a>             <span class="at">df =</span> <span class="fu">unique</span>(models[[i]]<span class="sc">$</span>ddf)) <span class="sc">|&gt;</span></span>
-<span id="cb19-510"><a href="#cb19-510" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">overfit =</span> <span class="fu">ifelse</span>(<span class="fu">any</span>(models[[i]]<span class="sc">$</span>sigma2 <span class="sc">==</span> <span class="dv">0</span>), <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
-<span id="cb19-511"><a href="#cb19-511" aria-hidden="true" tabindex="-1"></a>             <span class="at">aic =</span> <span class="fu">AIC</span>(models[[i]])) <span class="sc">|&gt;</span></span>
-<span id="cb19-512"><a href="#cb19-512" aria-hidden="true" tabindex="-1"></a>      <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
-<span id="cb19-513"><a href="#cb19-513" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setDT</span>()</span>
-<span id="cb19-514"><a href="#cb19-514" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-515"><a href="#cb19-515" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(i, <span class="st">"/"</span>, <span class="fu">nrow</span>(guide), <span class="st">"</span><span class="sc">\r</span><span class="st">"</span>)</span>
-<span id="cb19-516"><a href="#cb19-516" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-517"><a href="#cb19-517" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(predictions)[i] <span class="ot">&lt;-</span> sub_guide<span class="sc">$</span>model_id</span>
-<span id="cb19-518"><a href="#cb19-518" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(tidy_models)[i] <span class="ot">&lt;-</span> sub_guide<span class="sc">$</span>model_id</span>
-<span id="cb19-519"><a href="#cb19-519" aria-hidden="true" tabindex="-1"></a>    <span class="co"># names(models[i]) &lt;- tidy_models[i]$model_id</span></span>
-<span id="cb19-520"><a href="#cb19-520" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb19-521"><a href="#cb19-521" aria-hidden="true" tabindex="-1"></a>  } </span>
-<span id="cb19-522"><a href="#cb19-522" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb19-523"><a href="#cb19-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-524"><a href="#cb19-524" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-525"><a href="#cb19-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-526"><a href="#cb19-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model selection {#sec-model-selection}</span></span>
-<span id="cb19-527"><a href="#cb19-527" aria-hidden="true" tabindex="-1"></a>Now we'll filter out overfit models by removing any with a sigma equal to 0 (which has been designated with the column <span class="in">`overfit`</span>). Then we'll select the best model per analysis group, moderator, subgroup, and sensitivity analysis category (specified with <span class="in">`model_comparison_id`</span>). </span>
-<span id="cb19-528"><a href="#cb19-528" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-531"><a href="#cb19-531" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb19-532"><a href="#cb19-532" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
-<span id="cb19-533"><a href="#cb19-533" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
-<span id="cb19-534"><a href="#cb19-534" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
-<span id="cb19-535"><a href="#cb19-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-536"><a href="#cb19-536" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span> guide<span class="sc">$</span>model_id</span>
-<span id="cb19-537"><a href="#cb19-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-538"><a href="#cb19-538" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(<span class="fu">names</span>(tidy_models[[<span class="dv">2</span>]]), <span class="fu">names</span>(tidy_models[[<span class="dv">1</span>]]))</span>
-<span id="cb19-539"><a href="#cb19-539" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(tidy_models, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-540"><a href="#cb19-540" aria-hidden="true" tabindex="-1"></a>tidy_models[overfit <span class="sc">==</span> <span class="st">"yes"</span>, ]</span>
-<span id="cb19-541"><a href="#cb19-541" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> tidy_models[overfit <span class="sc">!=</span> <span class="st">"yes"</span>, ]</span>
-<span id="cb19-542"><a href="#cb19-542" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-543"><a href="#cb19-543" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(predictions)</span>
-<span id="cb19-544"><a href="#cb19-544" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(predictions, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-545"><a href="#cb19-545" aria-hidden="true" tabindex="-1"></a>predictions</span>
-<span id="cb19-546"><a href="#cb19-546" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models)</span>
-<span id="cb19-547"><a href="#cb19-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-548"><a href="#cb19-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-549"><a href="#cb19-549" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Select best model ---------------------------------------------------</span></span>
-<span id="cb19-550"><a href="#cb19-550" aria-hidden="true" tabindex="-1"></a>tidy_models[, min_aic <span class="sc">:</span><span class="er">=</span> <span class="fu">min</span>(aic),</span>
-<span id="cb19-551"><a href="#cb19-551" aria-hidden="true" tabindex="-1"></a>            by <span class="ot">=</span> .(model_comparison_id)]</span>
-<span id="cb19-552"><a href="#cb19-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-553"><a href="#cb19-553" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> tidy_models[min_aic <span class="sc">==</span> aic, ]</span>
-<span id="cb19-554"><a href="#cb19-554" aria-hidden="true" tabindex="-1"></a>tidy_models[overfit <span class="sc">==</span> <span class="st">"yes"</span>, ]</span>
-<span id="cb19-555"><a href="#cb19-555" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-556"><a href="#cb19-556" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> predictions[model_id <span class="sc">%in%</span> tidy_models<span class="sc">$</span>model_id]</span>
-<span id="cb19-557"><a href="#cb19-557" aria-hidden="true" tabindex="-1"></a>predictions</span>
-<span id="cb19-558"><a href="#cb19-558" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-559"><a href="#cb19-559" aria-hidden="true" tabindex="-1"></a><span class="co"># Now let's save these objects and reload in the next section:</span></span>
-<span id="cb19-560"><a href="#cb19-560" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(tidy_models, <span class="st">"builds/meta_analysis/models/tidy_models.Rds"</span>)</span>
-<span id="cb19-561"><a href="#cb19-561" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(predictions, <span class="st">"builds/meta_analysis/models/predictions.Rds"</span>)</span>
-<span id="cb19-562"><a href="#cb19-562" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(dat, <span class="st">"builds/meta_analysis/models/analysis_data.Rds"</span>)</span>
-<span id="cb19-563"><a href="#cb19-563" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-564"><a href="#cb19-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-565"><a href="#cb19-565" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-566"><a href="#cb19-566" aria-hidden="true" tabindex="-1"></a>See the <span class="co">[</span><span class="ot">next section</span><span class="co">](3.3-plot-models.qmd)</span> for meta-analysis figures</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Fit meta-analysis models"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> </span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-location: right</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-depth: 6</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-float: true</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-expand: true</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="co">    toc-title: "**CONTENTS**"</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">    output-file: "3.2-run-models.html"</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co">    # embed-resources: true</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: show</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: true</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">    # number-sections: false</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">    # bibliography: ./bib/ref.bib</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co">    fontsize: "10"</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co">    mainfont: "Helvetica"</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="co">    monofont: "Fira Code"</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="co">    # fontcolor: ""</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co">    page-layout: article</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="co">    code-overflow: wrap</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="co">    df_print: paged</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="co">    theme: cosmo</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co">    code-line-numbers: false</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="co">    grid:</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a><span class="co">      margin-width: 250px</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a><span class="an">crossref:</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-title: Figure     # (default is "Figure")</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-title: Table     # (default is "Table")</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a><span class="co">  title-delim: "—"     # (default is ":")</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="co">  fig-prefix: Fig.     # (default is "Figure")</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a><span class="co">  tbl-prefix: Table.   # (default is "Table")</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a><span class="an">editor_options:</span><span class="co"> </span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="co">  chunk_output_type: console</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co">  tidy: true</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>Now we'll fit multilevel meta-analytic models in the R package <span class="in">`metafor`</span> <span class="co">[</span><span class="ot">@Viechtbauer2010-uq</span><span class="co">]</span>. This workflow is derived from a full R script in <span class="in">`scripts/2_analysis/2 fit meta analysis models.R`</span> that includes additional checks and tests and is fully interactive if you clone the repo.</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>Given the non-independence structures in this data we will fit a series of models with increasingly complex random effects, particularly to control for phylogenetic similarity between prey species and to also deal with non-phylogenetic components of species identity. We'll create a model guide to organize these models, as well as our subgroup analyses and sensitivity analyses. These analyses include:</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only prey inside of cat's prey range</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Only dominant effect sizes (e.g., excluding minority converted effect sizes)</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Prey body mass</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Habitat / locomotion / landform subgroup analyses</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>Note that instead of including habitat type, locomotion, or landform as categorical predictors, we used separate univariate (intercept-only) models on these subgroups of the data. In part this is to keep the code cleaner (the results are the same regardless) but also because in most cases there was only one factor level of these variables with sufficient data to estimate coefficients and we were not interested in testing for differences between factor levels.</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a><span class="fu"># Prepare environment</span></span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>We'll start by cleaning the environment and loading some custom functions</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean environment:</span></span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"data.table"</span>)</span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"metafor"</span>)</span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"readxl"</span>)</span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"rotl"</span>)</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"broom.mixed"</span>)</span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"stringr"</span>)</span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Load custom functions:</span></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a><span class="co"># This helps extract predictions on rma.mv objects:</span></span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>rma_predictions <span class="ot">&lt;-</span> <span class="cf">function</span>(m, </span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a>                            newgrid,</span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>                            <span class="at">has_intercept =</span> T){</span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.data.frame</span>(newgrid)){<span class="fu">errorCondition</span>(<span class="st">"ERROR newgrid must be a data frame"</span>)}</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>  <span class="co">#create the new model matrix. </span></span>
+<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">all</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(newgrid), <span class="co"># lapply through names of newgrid to check that they're in formula</span></span>
+<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">function</span>(x) <span class="fu">grepl</span>(<span class="at">pattern=</span>x,</span>
+<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">x =</span> <span class="fu">as.character</span>(m<span class="sc">$</span>formula.mods)[<span class="sc">-</span><span class="dv">1</span>]))))){</span>
+<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a>    <span class="fu">errorCondition</span>(<span class="st">"ERROR: variables in newgrid are not in model formula"</span>)</span>
+<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Drop levels that might be missing from the model...</span></span>
+<span id="cb17-97"><a href="#cb17-97" aria-hidden="true" tabindex="-1"></a>  cols <span class="ot">&lt;-</span> <span class="fu">names</span>(newgrid)</span>
+<span id="cb17-98"><a href="#cb17-98" aria-hidden="true" tabindex="-1"></a>  coef_nms <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">coef</span>(m))</span>
+<span id="cb17-99"><a href="#cb17-99" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb17-100"><a href="#cb17-100" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-101"><a href="#cb17-101" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(has_intercept <span class="sc">==</span> F){</span>
+<span id="cb17-102"><a href="#cb17-102" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-103"><a href="#cb17-103" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(cols)){</span>
+<span id="cb17-104"><a href="#cb17-104" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">class</span>(<span class="fu">unlist</span>(newgrid[, cols[i], <span class="at">with =</span> F])) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"factor"</span>, <span class="st">"character"</span>)){</span>
+<span id="cb17-105"><a href="#cb17-105" aria-hidden="true" tabindex="-1"></a>        temp <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">names</span>(newgrid[, cols[i], <span class="at">with =</span> F]),</span>
+<span id="cb17-106"><a href="#cb17-106" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">unlist</span>(newgrid[, cols[i], <span class="at">with =</span> F]))</span>
+<span id="cb17-107"><a href="#cb17-107" aria-hidden="true" tabindex="-1"></a>        newgrid <span class="ot">&lt;-</span> newgrid[temp <span class="sc">%in%</span> coef_nms, ]</span>
+<span id="cb17-108"><a href="#cb17-108" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb17-109"><a href="#cb17-109" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-110"><a href="#cb17-110" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-111"><a href="#cb17-111" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-112"><a href="#cb17-112" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-113"><a href="#cb17-113" aria-hidden="true" tabindex="-1"></a>  newgrid</span>
+<span id="cb17-114"><a href="#cb17-114" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-115"><a href="#cb17-115" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Create prediction matrix</span></span>
+<span id="cb17-116"><a href="#cb17-116" aria-hidden="true" tabindex="-1"></a>  predgrid <span class="ot">&lt;-</span> (<span class="fu">model.matrix</span>(m<span class="sc">$</span>formula.mods, <span class="at">data=</span>newgrid))</span>
+<span id="cb17-117"><a href="#cb17-117" aria-hidden="true" tabindex="-1"></a>  predgrid</span>
+<span id="cb17-118"><a href="#cb17-118" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-119"><a href="#cb17-119" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">"intercept"</span>, <span class="fu">colnames</span>(predgrid), </span>
+<span id="cb17-120"><a href="#cb17-120" aria-hidden="true" tabindex="-1"></a>               <span class="at">ignore.case =</span> <span class="cn">TRUE</span>))){</span>
+<span id="cb17-121"><a href="#cb17-121" aria-hidden="true" tabindex="-1"></a>    <span class="co">#if intercept is present, remove it?</span></span>
+<span id="cb17-122"><a href="#cb17-122" aria-hidden="true" tabindex="-1"></a>    predgrid <span class="ot">&lt;-</span> predgrid[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb17-123"><a href="#cb17-123" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-124"><a href="#cb17-124" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-125"><a href="#cb17-125" aria-hidden="true" tabindex="-1"></a>  <span class="co"># predict onto the new model matrix</span></span>
+<span id="cb17-126"><a href="#cb17-126" aria-hidden="true" tabindex="-1"></a>  pred.out <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">predict</span>(m, <span class="at">newmods=</span>predgrid))</span>
+<span id="cb17-127"><a href="#cb17-127" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-128"><a href="#cb17-128" aria-hidden="true" tabindex="-1"></a>  <span class="co">#attach predictions to variables for plotting</span></span>
+<span id="cb17-129"><a href="#cb17-129" aria-hidden="true" tabindex="-1"></a>  final.pred <span class="ot">&lt;-</span> <span class="fu">cbind</span>(newgrid, pred.out)</span>
+<span id="cb17-130"><a href="#cb17-130" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-131"><a href="#cb17-131" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(final.pred)</span>
+<span id="cb17-132"><a href="#cb17-132" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-133"><a href="#cb17-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-134"><a href="#cb17-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-135"><a href="#cb17-135" aria-hidden="true" tabindex="-1"></a><span class="co"># This function creates a phylogenetic covariance matrix</span></span>
+<span id="cb17-136"><a href="#cb17-136" aria-hidden="true" tabindex="-1"></a>createPhyloCorr <span class="ot">&lt;-</span> <span class="cf">function</span>(spp_list, tree){</span>
+<span id="cb17-137"><a href="#cb17-137" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-138"><a href="#cb17-138" aria-hidden="true" tabindex="-1"></a>  tree.filt <span class="ot">&lt;-</span> <span class="fu">keep.tip</span>(tree, spp_list)</span>
+<span id="cb17-139"><a href="#cb17-139" aria-hidden="true" tabindex="-1"></a>  tree.br <span class="ot">&lt;-</span> <span class="fu">compute.brlen</span>(tree.filt)</span>
+<span id="cb17-140"><a href="#cb17-140" aria-hidden="true" tabindex="-1"></a>  tree.corr <span class="ot">&lt;-</span> <span class="fu">vcv</span>(tree.br, <span class="at">corr=</span>T)</span>
+<span id="cb17-141"><a href="#cb17-141" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(tree.corr)</span>
+<span id="cb17-142"><a href="#cb17-142" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-143"><a href="#cb17-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-144"><a href="#cb17-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-145"><a href="#cb17-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-146"><a href="#cb17-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-147"><a href="#cb17-147" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-148"><a href="#cb17-148" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prepare the dataset {#sec-prepare-data}</span></span>
+<span id="cb17-149"><a href="#cb17-149" aria-hidden="true" tabindex="-1"></a>Let's reload our dataset. We'll clean up the article ID to be a bit friendlier as a text string in the models and we'll add a variable to our dataset to specify whether the effect size type was dominant (for filtering out minority converted effect sizes). Finally, we'll reshape our dataset to be *long* by our habitat and landform variables to make our models easier to succinctly fit:</span>
+<span id="cb17-150"><a href="#cb17-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-153"><a href="#cb17-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-154"><a href="#cb17-154" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-155"><a href="#cb17-155" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-156"><a href="#cb17-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-157"><a href="#cb17-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-158"><a href="#cb17-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Load prepared data:</span></span>
+<span id="cb17-159"><a href="#cb17-159" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"builds/meta_analysis/analysis_ready_dataset.csv"</span>)</span>
+<span id="cb17-160"><a href="#cb17-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-161"><a href="#cb17-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the article ID a bit:</span></span>
+<span id="cb17-162"><a href="#cb17-162" aria-hidden="true" tabindex="-1"></a>dat[, article_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste</span>(<span class="fu">word</span>(Article, <span class="dv">1</span>, </span>
+<span id="cb17-163"><a href="#cb17-163" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sep =</span> <span class="st">"[[:space:][:punct:]]"</span>), </span>
+<span id="cb17-164"><a href="#cb17-164" aria-hidden="true" tabindex="-1"></a>                          .GRP), </span>
+<span id="cb17-165"><a href="#cb17-165" aria-hidden="true" tabindex="-1"></a>    by <span class="ot">=</span> .(Article)]</span>
+<span id="cb17-166"><a href="#cb17-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-167"><a href="#cb17-167" aria-hidden="true" tabindex="-1"></a><span class="co"># Check that that didn't screw anything up:</span></span>
+<span id="cb17-168"><a href="#cb17-168" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(dat<span class="sc">$</span>Article)) <span class="sc">==</span> <span class="fu">length</span>(<span class="fu">unique</span>(dat<span class="sc">$</span>article_id))</span>
+<span id="cb17-169"><a href="#cb17-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-170"><a href="#cb17-170" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat[<span class="fu">duplicated</span>(article_id)]) <span class="sc">==</span> <span class="fu">nrow</span>(dat[<span class="fu">duplicated</span>(Article)])</span>
+<span id="cb17-171"><a href="#cb17-171" aria-hidden="true" tabindex="-1"></a><span class="co"># Must be TRUE</span></span>
+<span id="cb17-172"><a href="#cb17-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-173"><a href="#cb17-173" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Add column for whether effect size type is dominant within analysis group --------</span></span>
+<span id="cb17-174"><a href="#cb17-174" aria-hidden="true" tabindex="-1"></a>dat[, total_n_articles <span class="sc">:</span><span class="er">=</span> <span class="fu">uniqueN</span>(article_id), by <span class="ot">=</span> .(analysis_group)]</span>
+<span id="cb17-175"><a href="#cb17-175" aria-hidden="true" tabindex="-1"></a>dat[, n_articles_per_original_es <span class="sc">:</span><span class="er">=</span> <span class="fu">uniqueN</span>(article_id), by <span class="ot">=</span> .(analysis_group,</span>
+<span id="cb17-176"><a href="#cb17-176" aria-hidden="true" tabindex="-1"></a>                                                                     original_effect_size)]</span>
+<span id="cb17-177"><a href="#cb17-177" aria-hidden="true" tabindex="-1"></a>dat[, dominant_effect_size <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>((n_articles_per_original_es <span class="sc">/</span> total_n_articles) <span class="sc">&gt;</span> .<span class="dv">5</span>,</span>
+<span id="cb17-178"><a href="#cb17-178" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"yes"</span>, <span class="st">"no"</span>)]</span>
+<span id="cb17-179"><a href="#cb17-179" aria-hidden="true" tabindex="-1"></a>dat[, .(<span class="at">n =</span> .N), by <span class="ot">=</span> .(dominant_effect_size)]</span>
+<span id="cb17-180"><a href="#cb17-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-181"><a href="#cb17-181" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Make data long by habitat traits ------------------------------------</span></span>
+<span id="cb17-182"><a href="#cb17-182" aria-hidden="true" tabindex="-1"></a><span class="co"># Instead of having these as separate factors, let's do univariate subgroup models</span></span>
+<span id="cb17-183"><a href="#cb17-183" aria-hidden="true" tabindex="-1"></a>dat.long <span class="ot">&lt;-</span> <span class="fu">melt</span>(dat,</span>
+<span id="cb17-184"><a href="#cb17-184" aria-hidden="true" tabindex="-1"></a>                 <span class="at">measure.vars =</span> <span class="fu">c</span>(<span class="st">"locomotion_volant"</span>,</span>
+<span id="cb17-185"><a href="#cb17-185" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"ground_or_burrow_resting_or_nesting"</span>,</span>
+<span id="cb17-186"><a href="#cb17-186" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"Foraging_habitat_ground"</span>, <span class="st">"continent_island"</span>),</span>
+<span id="cb17-187"><a href="#cb17-187" aria-hidden="true" tabindex="-1"></a>                 <span class="at">variable.name =</span> <span class="st">"habitat_category"</span>,</span>
+<span id="cb17-188"><a href="#cb17-188" aria-hidden="true" tabindex="-1"></a>                 <span class="at">value.name =</span> <span class="st">"habitat_trait"</span>)</span>
+<span id="cb17-189"><a href="#cb17-189" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-190"><a href="#cb17-190" aria-hidden="true" tabindex="-1"></a>dat[, habitat_trait <span class="sc">:</span><span class="er">=</span> <span class="st">"All"</span>]</span>
+<span id="cb17-191"><a href="#cb17-191" aria-hidden="true" tabindex="-1"></a>dat[, habitat_category <span class="sc">:</span><span class="er">=</span> <span class="st">"All"</span>]</span>
+<span id="cb17-192"><a href="#cb17-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-193"><a href="#cb17-193" aria-hidden="true" tabindex="-1"></a>dat.final <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dat[, <span class="sc">!</span><span class="fu">c</span>(<span class="st">"locomotion_volant"</span>,</span>
+<span id="cb17-194"><a href="#cb17-194" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"ground_or_burrow_resting_or_nesting"</span>,</span>
+<span id="cb17-195"><a href="#cb17-195" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"Foraging_habitat_ground"</span>, <span class="st">"continent_island"</span>),</span>
+<span id="cb17-196"><a href="#cb17-196" aria-hidden="true" tabindex="-1"></a>                       <span class="at">with =</span> F], </span>
+<span id="cb17-197"><a href="#cb17-197" aria-hidden="true" tabindex="-1"></a>                   dat.long)</span>
+<span id="cb17-198"><a href="#cb17-198" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat.final)</span>
+<span id="cb17-199"><a href="#cb17-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-200"><a href="#cb17-200" aria-hidden="true" tabindex="-1"></a><span class="co"># Now let's format these names and concatenate with variable type.</span></span>
+<span id="cb17-201"><a href="#cb17-201" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(dat.final[, .(habitat_category, habitat_trait)])</span>
+<span id="cb17-202"><a href="#cb17-202" aria-hidden="true" tabindex="-1"></a>dat.final[habitat_trait <span class="sc">!=</span> <span class="st">"All"</span>, </span>
+<span id="cb17-203"><a href="#cb17-203" aria-hidden="true" tabindex="-1"></a>          habitat_trait <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(habitat_category, <span class="st">"."</span>, </span>
+<span id="cb17-204"><a href="#cb17-204" aria-hidden="true" tabindex="-1"></a>                                  habitat_trait)]</span>
+<span id="cb17-205"><a href="#cb17-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-206"><a href="#cb17-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-207"><a href="#cb17-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-208"><a href="#cb17-208" aria-hidden="true" tabindex="-1"></a>The variable <span class="in">`habitat_trait`</span> will allow for easy subgroup filtering as we fit our models.</span>
+<span id="cb17-209"><a href="#cb17-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-210"><a href="#cb17-210" aria-hidden="true" tabindex="-1"></a><span class="fu">## Set up model guide {#sec-model-guide}</span></span>
+<span id="cb17-211"><a href="#cb17-211" aria-hidden="true" tabindex="-1"></a>Now let's create all the combinations of models we want to run. The function <span class="in">`data.table::CJ`</span> is similar to <span class="in">`expand.grid`</span> and makes all combinations of the input vectors. We'll do this in two steps to avoid having to filter out some combinations that we don't have sample size to run.</span>
+<span id="cb17-212"><a href="#cb17-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-215"><a href="#cb17-215" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-216"><a href="#cb17-216" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-217"><a href="#cb17-217" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-218"><a href="#cb17-218" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb17-219"><a href="#cb17-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-220"><a href="#cb17-220" aria-hidden="true" tabindex="-1"></a><span class="co"># # Do the guide in 2 steps. We don't have enough data for class * habitat sub-analyses.</span></span>
+<span id="cb17-221"><a href="#cb17-221" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">CJ</span>(<span class="at">analysis_group =</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>analysis_group),</span>
+<span id="cb17-222"><a href="#cb17-222" aria-hidden="true" tabindex="-1"></a>            <span class="at">moderator =</span> <span class="fu">c</span>(<span class="st">"1"</span>, <span class="st">"log_mass"</span>),</span>
+<span id="cb17-223"><a href="#cb17-223" aria-hidden="true" tabindex="-1"></a>            <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"Birds"</span>, <span class="st">"Mammals"</span>, <span class="st">"Reptiles"</span>, <span class="st">"All"</span>),</span>
+<span id="cb17-224"><a href="#cb17-224" aria-hidden="true" tabindex="-1"></a>            <span class="at">habitat_trait =</span> <span class="st">"All"</span>,</span>
+<span id="cb17-225"><a href="#cb17-225" aria-hidden="true" tabindex="-1"></a>            <span class="at">prey_range =</span> <span class="fu">c</span>(<span class="st">"All"</span>, <span class="st">"inside"</span>),</span>
+<span id="cb17-226"><a href="#cb17-226" aria-hidden="true" tabindex="-1"></a>            <span class="at">non_phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb17-227"><a href="#cb17-227" aria-hidden="true" tabindex="-1"></a>            <span class="at">phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb17-228"><a href="#cb17-228" aria-hidden="true" tabindex="-1"></a>            <span class="at">only_dominant_effect_size =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>)</span>
+<span id="cb17-229"><a href="#cb17-229" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-230"><a href="#cb17-230" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> guide[<span class="sc">!</span>(moderator <span class="sc">==</span> <span class="st">"log_mass"</span> <span class="sc">&amp;</span> class <span class="sc">!=</span> <span class="st">"All"</span>), ]</span>
+<span id="cb17-231"><a href="#cb17-231" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-232"><a href="#cb17-232" aria-hidden="true" tabindex="-1"></a>guide2 <span class="ot">&lt;-</span> <span class="fu">CJ</span>(<span class="at">analysis_group =</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>analysis_group),</span>
+<span id="cb17-233"><a href="#cb17-233" aria-hidden="true" tabindex="-1"></a>             <span class="at">moderator =</span> <span class="st">"1"</span>,</span>
+<span id="cb17-234"><a href="#cb17-234" aria-hidden="true" tabindex="-1"></a>             <span class="at">habitat_trait =</span> <span class="fu">c</span>(<span class="st">"locomotion_volant.non_volant"</span>, </span>
+<span id="cb17-235"><a href="#cb17-235" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"locomotion_volant.volant"</span>, </span>
+<span id="cb17-236"><a href="#cb17-236" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"ground_or_burrow_resting_or_nesting.other"</span>,</span>
+<span id="cb17-237"><a href="#cb17-237" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"ground_or_burrow_resting_or_nesting.ground"</span>, </span>
+<span id="cb17-238"><a href="#cb17-238" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Foraging_habitat_ground.other"</span>,</span>
+<span id="cb17-239"><a href="#cb17-239" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Foraging_habitat_ground.ground"</span>, </span>
+<span id="cb17-240"><a href="#cb17-240" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"continent_island.island"</span>, </span>
+<span id="cb17-241"><a href="#cb17-241" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"continent_island.mainland"</span>),</span>
+<span id="cb17-242"><a href="#cb17-242" aria-hidden="true" tabindex="-1"></a>             <span class="at">class =</span> <span class="fu">c</span>(<span class="st">"All"</span>),</span>
+<span id="cb17-243"><a href="#cb17-243" aria-hidden="true" tabindex="-1"></a>             <span class="at">prey_range =</span> <span class="fu">c</span>(<span class="st">"All"</span>),</span>
+<span id="cb17-244"><a href="#cb17-244" aria-hidden="true" tabindex="-1"></a>             <span class="at">non_phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb17-245"><a href="#cb17-245" aria-hidden="true" tabindex="-1"></a>             <span class="at">phylo_species =</span> <span class="fu">c</span>(<span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb17-246"><a href="#cb17-246" aria-hidden="true" tabindex="-1"></a>             <span class="at">only_dominant_effect_size =</span> <span class="fu">c</span>(<span class="st">"no"</span>)</span>
+<span id="cb17-247"><a href="#cb17-247" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb17-248"><a href="#cb17-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-249"><a href="#cb17-249" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">rbind</span>(guide, guide2)</span>
+<span id="cb17-250"><a href="#cb17-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-251"><a href="#cb17-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-252"><a href="#cb17-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-253"><a href="#cb17-253" aria-hidden="true" tabindex="-1"></a>Now we'll add a unique ID that we'll use to compare alternative random effects per model series (<span class="in">`model_comparison_id`</span>). And we'll formulate strings which we'll evaluate as R code for our random effects (<span class="in">`random_effect`</span>), to filter our dataset (<span class="in">`exclusion`</span>) and for our fixed effect formula (<span class="in">`formula`</span>):</span>
+<span id="cb17-254"><a href="#cb17-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-257"><a href="#cb17-257" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-258"><a href="#cb17-258" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-259"><a href="#cb17-259" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-260"><a href="#cb17-260" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-261"><a href="#cb17-261" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-262"><a href="#cb17-262" aria-hidden="true" tabindex="-1"></a>guide[, model_comparison_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"model_comp_"</span>, .GRP), </span>
+<span id="cb17-263"><a href="#cb17-263" aria-hidden="true" tabindex="-1"></a>      by <span class="ot">=</span> .(analysis_group, class, moderator, prey_range,</span>
+<span id="cb17-264"><a href="#cb17-264" aria-hidden="true" tabindex="-1"></a>             habitat_trait, only_dominant_effect_size)]</span>
+<span id="cb17-265"><a href="#cb17-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-266"><a href="#cb17-266" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="st">"list(~1|article_id/Effect_size_ID"</span>]</span>
+<span id="cb17-267"><a href="#cb17-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-268"><a href="#cb17-268" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(non_phylo_species <span class="sc">==</span> <span class="st">"yes"</span>,</span>
+<span id="cb17-269"><a href="#cb17-269" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">", ~1|scientificName"</span>), </span>
+<span id="cb17-270"><a href="#cb17-270" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect))]</span>
+<span id="cb17-271"><a href="#cb17-271" aria-hidden="true" tabindex="-1"></a>guide[, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(phylo_species <span class="sc">==</span> <span class="st">"yes"</span>,</span>
+<span id="cb17-272"><a href="#cb17-272" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">", ~1|phylo_species)"</span>),</span>
+<span id="cb17-273"><a href="#cb17-273" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">paste0</span>(random_effect, <span class="st">")"</span>))]</span>
+<span id="cb17-274"><a href="#cb17-274" aria-hidden="true" tabindex="-1"></a>guide</span>
+<span id="cb17-275"><a href="#cb17-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-276"><a href="#cb17-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Formulate exclusion formula:</span></span>
+<span id="cb17-277"><a href="#cb17-277" aria-hidden="true" tabindex="-1"></a>guide[, exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"analysis_group == '"</span>, analysis_group, <span class="st">"'"</span>,</span>
+<span id="cb17-278"><a href="#cb17-278" aria-hidden="true" tabindex="-1"></a>                            <span class="st">" &amp; habitat_trait == '"</span>, habitat_trait, <span class="st">"'"</span>)]</span>
+<span id="cb17-279"><a href="#cb17-279" aria-hidden="true" tabindex="-1"></a>guide[class <span class="sc">!=</span> <span class="st">"All"</span>, exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; class %in% '"</span>, class, <span class="st">"'"</span>)]</span>
+<span id="cb17-280"><a href="#cb17-280" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-281"><a href="#cb17-281" aria-hidden="true" tabindex="-1"></a>guide[prey_range <span class="sc">==</span> <span class="st">"inside"</span>, </span>
+<span id="cb17-282"><a href="#cb17-282" aria-hidden="true" tabindex="-1"></a>      exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; prey_range_primary == 'inside'"</span>)]</span>
+<span id="cb17-283"><a href="#cb17-283" aria-hidden="true" tabindex="-1"></a>guide[prey_range <span class="sc">==</span> <span class="st">"All"</span>]</span>
+<span id="cb17-284"><a href="#cb17-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-285"><a href="#cb17-285" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb17-286"><a href="#cb17-286" aria-hidden="true" tabindex="-1"></a>guide.m1 <span class="ot">&lt;-</span> <span class="fu">merge</span>(guide,</span>
+<span id="cb17-287"><a href="#cb17-287" aria-hidden="true" tabindex="-1"></a>               <span class="fu">unique</span>(dat[, .(analysis_group, analysis_effect_size)]),</span>
+<span id="cb17-288"><a href="#cb17-288" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">'analysis_group'</span>,</span>
+<span id="cb17-289"><a href="#cb17-289" aria-hidden="true" tabindex="-1"></a>               <span class="at">all.x =</span> T)</span>
+<span id="cb17-290"><a href="#cb17-290" aria-hidden="true" tabindex="-1"></a>guide.m1[<span class="fu">is.na</span>(analysis_effect_size)]</span>
+<span id="cb17-291"><a href="#cb17-291" aria-hidden="true" tabindex="-1"></a>guide.m1</span>
+<span id="cb17-292"><a href="#cb17-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-293"><a href="#cb17-293" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb17-294"><a href="#cb17-294" aria-hidden="true" tabindex="-1"></a>guide.m1[only_dominant_effect_size <span class="sc">==</span> <span class="st">"yes"</span>, </span>
+<span id="cb17-295"><a href="#cb17-295" aria-hidden="true" tabindex="-1"></a>         exclusion <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(exclusion, <span class="st">" &amp; dominant_effect_size == 'yes'"</span>)]</span>
+<span id="cb17-296"><a href="#cb17-296" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-297"><a href="#cb17-297" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb17-298"><a href="#cb17-298" aria-hidden="true" tabindex="-1"></a>guide.m1[, formula <span class="sc">:</span><span class="er">=</span> <span class="fu">ifelse</span>(moderator <span class="sc">==</span> <span class="st">"1"</span>,</span>
+<span id="cb17-299"><a href="#cb17-299" aria-hidden="true" tabindex="-1"></a>                             <span class="st">"~ 1"</span>,</span>
+<span id="cb17-300"><a href="#cb17-300" aria-hidden="true" tabindex="-1"></a>                             <span class="fu">paste</span>(<span class="st">"~"</span>, moderator))]</span>
+<span id="cb17-301"><a href="#cb17-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-302"><a href="#cb17-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-303"><a href="#cb17-303" aria-hidden="true" tabindex="-1"></a>guide.m1[, model_id <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="st">"model_"</span>, <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span>.N))]</span>
+<span id="cb17-304"><a href="#cb17-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-305"><a href="#cb17-305" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-306"><a href="#cb17-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-307"><a href="#cb17-307" aria-hidden="true" tabindex="-1"></a>The resulting guide will execute 1,232 models and looks like this: </span>
+<span id="cb17-308"><a href="#cb17-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-311"><a href="#cb17-311" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-312"><a href="#cb17-312" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-313"><a href="#cb17-313" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-314"><a href="#cb17-314" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb17-315"><a href="#cb17-315" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-316"><a href="#cb17-316" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(guide.m1)</span>
+<span id="cb17-317"><a href="#cb17-317" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-318"><a href="#cb17-318" aria-hidden="true" tabindex="-1"></a>The columns <span class="in">`exclusion`</span>, <span class="in">`random_effect`</span>, and <span class="in">`formula`</span> are text strings that we will evaluate to filter the dataset and run models. </span>
+<span id="cb17-319"><a href="#cb17-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-320"><a href="#cb17-320" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-321"><a href="#cb17-321" aria-hidden="true" tabindex="-1"></a>Now we'll filter out models for which we have insufficient sample size. We'll do this by evaluating the exclusion strings as a subsetting operation on the dataset. We'll be very generous with sample size inclusion criteria and will fit models if there are at least 2 observations for intercept-only models and 5 observations for models with a continuous moderator (body mass).</span>
+<span id="cb17-322"><a href="#cb17-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-325"><a href="#cb17-325" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-326"><a href="#cb17-326" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-327"><a href="#cb17-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-328"><a href="#cb17-328" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-329"><a href="#cb17-329" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-330"><a href="#cb17-330" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-331"><a href="#cb17-331" aria-hidden="true" tabindex="-1"></a>sub.dat <span class="ot">&lt;-</span> <span class="fu">c</span>()</span>
+<span id="cb17-332"><a href="#cb17-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-333"><a href="#cb17-333" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(guide.m1)){</span>
+<span id="cb17-334"><a href="#cb17-334" aria-hidden="true" tabindex="-1"></a>  sub.dat <span class="ot">&lt;-</span> dat.final[<span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> guide.m1[i, ]<span class="sc">$</span>exclusion)), ] <span class="co"># Evaluate `esclusion` string</span></span>
+<span id="cb17-335"><a href="#cb17-335" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-336"><a href="#cb17-336" aria-hidden="true" tabindex="-1"></a>  Ns[[i]] <span class="ot">&lt;-</span> sub.dat[, .(<span class="at">n_species =</span> <span class="fu">uniqueN</span>(scientificName),</span>
+<span id="cb17-337"><a href="#cb17-337" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_articles =</span> <span class="fu">uniqueN</span>(Article),</span>
+<span id="cb17-338"><a href="#cb17-338" aria-hidden="true" tabindex="-1"></a>                    <span class="at">n_obs =</span> .N,</span>
+<span id="cb17-339"><a href="#cb17-339" aria-hidden="true" tabindex="-1"></a>                    <span class="at">model_id =</span> guide[i, ]<span class="sc">$</span>model_id,</span>
+<span id="cb17-340"><a href="#cb17-340" aria-hidden="true" tabindex="-1"></a>                    <span class="at">analysis_group =</span> guide[i, ]<span class="sc">$</span>analysis_group,</span>
+<span id="cb17-341"><a href="#cb17-341" aria-hidden="true" tabindex="-1"></a>                    <span class="at">class =</span> guide[i, ]<span class="sc">$</span>class)]</span>
+<span id="cb17-342"><a href="#cb17-342" aria-hidden="true" tabindex="-1"></a>  Ns[[i]]<span class="sc">$</span>model_id <span class="ot">&lt;-</span> guide.m1[i, ]<span class="sc">$</span>model_id</span>
+<span id="cb17-343"><a href="#cb17-343" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-344"><a href="#cb17-344" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-345"><a href="#cb17-345" aria-hidden="true" tabindex="-1"></a>Ns <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(Ns)</span>
+<span id="cb17-346"><a href="#cb17-346" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-347"><a href="#cb17-347" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> <span class="fu">merge</span>(guide.m1, </span>
+<span id="cb17-348"><a href="#cb17-348" aria-hidden="true" tabindex="-1"></a>               Ns[, .(n_species, n_articles, n_obs, model_id)], </span>
+<span id="cb17-349"><a href="#cb17-349" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">"model_id"</span>)</span>
+<span id="cb17-350"><a href="#cb17-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-351"><a href="#cb17-351" aria-hidden="true" tabindex="-1"></a><span class="co"># More than 2 observations:</span></span>
+<span id="cb17-352"><a href="#cb17-352" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[n_obs <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb17-353"><a href="#cb17-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-354"><a href="#cb17-354" aria-hidden="true" tabindex="-1"></a><span class="co"># and at least 5 for continuous</span></span>
+<span id="cb17-355"><a href="#cb17-355" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[<span class="sc">!</span>(moderator <span class="sc">==</span> <span class="st">"log_mass"</span> <span class="sc">&amp;</span> n_articles <span class="sc">&lt;</span> <span class="dv">5</span>), ]</span>
+<span id="cb17-356"><a href="#cb17-356" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(guide.m2)</span>
+<span id="cb17-357"><a href="#cb17-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-358"><a href="#cb17-358" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-359"><a href="#cb17-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-360"><a href="#cb17-360" aria-hidden="true" tabindex="-1"></a>If there is only 1 article per analysis group we will drop 'article_id` from the random effects:</span>
+<span id="cb17-361"><a href="#cb17-361" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-364"><a href="#cb17-364" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-365"><a href="#cb17-365" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-366"><a href="#cb17-366" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-367"><a href="#cb17-367" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb17-368"><a href="#cb17-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-369"><a href="#cb17-369" aria-hidden="true" tabindex="-1"></a>guide.m2[n_articles <span class="sc">==</span> <span class="dv">1</span>, random_effect <span class="sc">:</span><span class="er">=</span> <span class="fu">gsub</span>(<span class="st">"article_id/"</span>, <span class="st">""</span>, random_effect)]</span>
+<span id="cb17-370"><a href="#cb17-370" aria-hidden="true" tabindex="-1"></a>guide.m2</span>
+<span id="cb17-371"><a href="#cb17-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-372"><a href="#cb17-372" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-373"><a href="#cb17-373" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-374"><a href="#cb17-374" aria-hidden="true" tabindex="-1"></a>To facilitate model fitting and tidying we'll also set up a prediction grid for extracting predictions for our only moderator, log mass.</span>
+<span id="cb17-375"><a href="#cb17-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-378"><a href="#cb17-378" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-379"><a href="#cb17-379" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-380"><a href="#cb17-380" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-381"><a href="#cb17-381" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-382"><a href="#cb17-382" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-383"><a href="#cb17-383" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(guide.m2<span class="sc">$</span>moderator)</span>
+<span id="cb17-384"><a href="#cb17-384" aria-hidden="true" tabindex="-1"></a>grids <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-385"><a href="#cb17-385" aria-hidden="true" tabindex="-1"></a>grids[[<span class="st">"log_mass"</span>]] <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">log_mass =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(dat.final<span class="sc">$</span>log_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb17-386"><a href="#cb17-386" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">to =</span> <span class="fu">max</span>(dat.final<span class="sc">$</span>log_mass, <span class="at">na.rm =</span> T),</span>
+<span id="cb17-387"><a href="#cb17-387" aria-hidden="true" tabindex="-1"></a>                                                 <span class="at">by =</span> .<span class="dv">1</span>))</span>
+<span id="cb17-388"><a href="#cb17-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-389"><a href="#cb17-389" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-390"><a href="#cb17-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-391"><a href="#cb17-391" aria-hidden="true" tabindex="-1"></a><span class="fu">## Prepare phylogeny {#sec-phylogeny}</span></span>
+<span id="cb17-392"><a href="#cb17-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-393"><a href="#cb17-393" aria-hidden="true" tabindex="-1"></a>Now we'll prepare a phylogeny using the <span class="in">`rotl`</span> package <span class="co">[</span><span class="ot">@rotl-cit</span><span class="co">]</span>. This will download a <span class="in">`phylo`</span> object and we will merge in the tip ID to our dataset (<span class="in">`dat.final`</span>)</span>
+<span id="cb17-394"><a href="#cb17-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-397"><a href="#cb17-397" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-398"><a href="#cb17-398" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-399"><a href="#cb17-399" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-400"><a href="#cb17-400" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: true</span></span>
+<span id="cb17-401"><a href="#cb17-401" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-402"><a href="#cb17-402" aria-hidden="true" tabindex="-1"></a>dat.final[, spp_name_corrected <span class="sc">:</span><span class="er">=</span> scientificName]</span>
+<span id="cb17-403"><a href="#cb17-403" aria-hidden="true" tabindex="-1"></a>dat.final[scientificName <span class="sc">==</span> <span class="st">"Pampusana erythroptera"</span>,</span>
+<span id="cb17-404"><a href="#cb17-404" aria-hidden="true" tabindex="-1"></a>         spp_name_corrected <span class="sc">:</span><span class="er">=</span> <span class="st">"Gallicolumba erythroptera"</span>]</span>
+<span id="cb17-405"><a href="#cb17-405" aria-hidden="true" tabindex="-1"></a>nms <span class="ot">&lt;-</span> <span class="fu">unique</span>(dat.final<span class="sc">$</span>spp_name_corrected)</span>
+<span id="cb17-406"><a href="#cb17-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-407"><a href="#cb17-407" aria-hidden="true" tabindex="-1"></a>nms_res <span class="ot">&lt;-</span> rotl<span class="sc">::</span><span class="fu">tnrs_match_names</span>(nms)</span>
+<span id="cb17-408"><a href="#cb17-408" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb17-409"><a href="#cb17-409" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> <span class="fu">tol_induced_subtree</span>(<span class="at">ott_ids =</span> nms_res<span class="sc">$</span>ott_id)</span>
+<span id="cb17-410"><a href="#cb17-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-411"><a href="#cb17-411" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree)</span>
+<span id="cb17-412"><a href="#cb17-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-413"><a href="#cb17-413" aria-hidden="true" tabindex="-1"></a><span class="fu">setDT</span>(nms_res)</span>
+<span id="cb17-414"><a href="#cb17-414" aria-hidden="true" tabindex="-1"></a>nms_res[, label <span class="sc">:</span><span class="er">=</span> <span class="fu">paste0</span>(<span class="fu">gsub</span>(<span class="st">" "</span>, <span class="st">"_"</span>, unique_name),</span>
+<span id="cb17-415"><a href="#cb17-415" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"_ott"</span>, ott_id)]</span>
+<span id="cb17-416"><a href="#cb17-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-417"><a href="#cb17-417" aria-hidden="true" tabindex="-1"></a>nms_res[, search_string <span class="sc">:</span><span class="er">=</span> <span class="fu">str_to_sentence</span>(search_string)]</span>
+<span id="cb17-418"><a href="#cb17-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-419"><a href="#cb17-419" aria-hidden="true" tabindex="-1"></a>dat.final.m <span class="ot">&lt;-</span> <span class="fu">merge</span>(dat.final,</span>
+<span id="cb17-420"><a href="#cb17-420" aria-hidden="true" tabindex="-1"></a>                 nms_res[, .(search_string, label)],</span>
+<span id="cb17-421"><a href="#cb17-421" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.x =</span> <span class="st">"spp_name_corrected"</span>,</span>
+<span id="cb17-422"><a href="#cb17-422" aria-hidden="true" tabindex="-1"></a>                 <span class="at">by.y =</span> <span class="st">"search_string"</span>,</span>
+<span id="cb17-423"><a href="#cb17-423" aria-hidden="true" tabindex="-1"></a>                 <span class="at">all.x =</span> T)</span>
+<span id="cb17-424"><a href="#cb17-424" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat.final.m) <span class="sc">==</span> <span class="fu">nrow</span>(dat.final)</span>
+<span id="cb17-425"><a href="#cb17-425" aria-hidden="true" tabindex="-1"></a><span class="fu">setnames</span>(dat.final.m, <span class="st">"label"</span>, <span class="st">"phylo_species"</span>)</span>
+<span id="cb17-426"><a href="#cb17-426" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-427"><a href="#cb17-427" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-428"><a href="#cb17-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-429"><a href="#cb17-429" aria-hidden="true" tabindex="-1"></a><span class="fu">## Run models {#sec-run-models}</span></span>
+<span id="cb17-430"><a href="#cb17-430" aria-hidden="true" tabindex="-1"></a>Finally, let's run the models. We'll save the raw model objects in a <span class="in">`list()`</span> object named <span class="in">`models`</span>, the predictions in a <span class="in">`list()`</span> object named <span class="in">`predictions`</span> and tidied tables of model coefficients in a <span class="in">`list()`</span> called <span class="in">`tidy_models`</span>. </span>
+<span id="cb17-431"><a href="#cb17-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-432"><a href="#cb17-432" aria-hidden="true" tabindex="-1"></a>In total, we have 528 models to run. Many of these will not fit because they have tiny sample sizes and complex non-independence structures (with the phylogeny and species identity random effects especially). However, we'll give it a try. The model fitting is done by <span class="in">`metafor::rma.mv`</span>. </span>
+<span id="cb17-433"><a href="#cb17-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-436"><a href="#cb17-436" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-437"><a href="#cb17-437" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-438"><a href="#cb17-438" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-439"><a href="#cb17-439" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-440"><a href="#cb17-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-441"><a href="#cb17-441" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean up the objects in the environment:</span></span>
+<span id="cb17-442"><a href="#cb17-442" aria-hidden="true" tabindex="-1"></a>guide <span class="ot">&lt;-</span> <span class="fu">copy</span>(guide.m2)</span>
+<span id="cb17-443"><a href="#cb17-443" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">copy</span>(dat.final.m)</span>
+<span id="cb17-444"><a href="#cb17-444" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(guide.m2, guide.m1, dat.final.m)</span>
+<span id="cb17-445"><a href="#cb17-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-446"><a href="#cb17-446" aria-hidden="true" tabindex="-1"></a>models <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-447"><a href="#cb17-447" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-448"><a href="#cb17-448" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb17-449"><a href="#cb17-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-450"><a href="#cb17-450" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(guide)){</span>
+<span id="cb17-451"><a href="#cb17-451" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb17-452"><a href="#cb17-452" aria-hidden="true" tabindex="-1"></a>  sub_guide <span class="ot">&lt;-</span> guide[i, ]</span>
+<span id="cb17-453"><a href="#cb17-453" aria-hidden="true" tabindex="-1"></a>  sub_guide</span>
+<span id="cb17-454"><a href="#cb17-454" aria-hidden="true" tabindex="-1"></a>  dat.sub <span class="ot">&lt;-</span> dat[<span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>exclusion))]</span>
+<span id="cb17-455"><a href="#cb17-455" aria-hidden="true" tabindex="-1"></a>  dat.sub</span>
+<span id="cb17-456"><a href="#cb17-456" aria-hidden="true" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb17-457"><a href="#cb17-457" aria-hidden="true" tabindex="-1"></a>  models[[i]] <span class="ot">&lt;-</span> <span class="fu">try</span>({</span>
+<span id="cb17-458"><a href="#cb17-458" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(sub_guide<span class="sc">$</span>phylo_species <span class="sc">==</span> <span class="st">"yes"</span>){</span>
+<span id="cb17-459"><a href="#cb17-459" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-460"><a href="#cb17-460" aria-hidden="true" tabindex="-1"></a>         <span class="fu">rma.mv</span>(yi_analysis, </span>
+<span id="cb17-461"><a href="#cb17-461" aria-hidden="true" tabindex="-1"></a>                <span class="at">V =</span> vi_analysis,</span>
+<span id="cb17-462"><a href="#cb17-462" aria-hidden="true" tabindex="-1"></a>                <span class="at">mods =</span> <span class="fu">as.formula</span>(sub_guide<span class="sc">$</span>formula),</span>
+<span id="cb17-463"><a href="#cb17-463" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>random_effect)),</span>
+<span id="cb17-464"><a href="#cb17-464" aria-hidden="true" tabindex="-1"></a>                <span class="at">dfs =</span> <span class="st">"contain"</span>,</span>
+<span id="cb17-465"><a href="#cb17-465" aria-hidden="true" tabindex="-1"></a>                <span class="at">test =</span> <span class="st">"t"</span>,</span>
+<span id="cb17-466"><a href="#cb17-466" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"REML"</span>,</span>
+<span id="cb17-467"><a href="#cb17-467" aria-hidden="true" tabindex="-1"></a>                <span class="at">R =</span>  <span class="fu">list</span>(<span class="at">phylo_species =</span> <span class="fu">createPhyloCorr</span>(dat.sub<span class="sc">$</span>phylo_species, tree)),</span>
+<span id="cb17-468"><a href="#cb17-468" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> dat.sub) </span>
+<span id="cb17-469"><a href="#cb17-469" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-470"><a href="#cb17-470" aria-hidden="true" tabindex="-1"></a>      }<span class="cf">else</span>{</span>
+<span id="cb17-471"><a href="#cb17-471" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rma.mv</span>(yi_analysis, </span>
+<span id="cb17-472"><a href="#cb17-472" aria-hidden="true" tabindex="-1"></a>                <span class="at">V =</span> vi_analysis,</span>
+<span id="cb17-473"><a href="#cb17-473" aria-hidden="true" tabindex="-1"></a>                <span class="at">mods =</span> <span class="fu">as.formula</span>(sub_guide<span class="sc">$</span>formula),</span>
+<span id="cb17-474"><a href="#cb17-474" aria-hidden="true" tabindex="-1"></a>                <span class="at">random =</span> <span class="fu">eval</span>(<span class="fu">parse</span>(<span class="at">text =</span> sub_guide<span class="sc">$</span>random_effect)),</span>
+<span id="cb17-475"><a href="#cb17-475" aria-hidden="true" tabindex="-1"></a>                <span class="at">dfs =</span> <span class="st">"contain"</span>,</span>
+<span id="cb17-476"><a href="#cb17-476" aria-hidden="true" tabindex="-1"></a>                <span class="at">test =</span> <span class="st">"t"</span>,</span>
+<span id="cb17-477"><a href="#cb17-477" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"REML"</span>,</span>
+<span id="cb17-478"><a href="#cb17-478" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> dat.sub) </span>
+<span id="cb17-479"><a href="#cb17-479" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb17-480"><a href="#cb17-480" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb17-481"><a href="#cb17-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-482"><a href="#cb17-482" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">inherits</span>(models[[i]], <span class="st">"try-error"</span>)){</span>
+<span id="cb17-483"><a href="#cb17-483" aria-hidden="true" tabindex="-1"></a>    models[[i]] <span class="ot">&lt;-</span> <span class="fu">as.character</span>(models[[i]])</span>
+<span id="cb17-484"><a href="#cb17-484" aria-hidden="true" tabindex="-1"></a>  }<span class="cf">else</span>{</span>
+<span id="cb17-485"><a href="#cb17-485" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-486"><a href="#cb17-486" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(sub_guide<span class="sc">$</span>moderator <span class="sc">==</span> <span class="st">"1"</span>){</span>
+<span id="cb17-487"><a href="#cb17-487" aria-hidden="true" tabindex="-1"></a>      predictions[[i]] <span class="ot">&lt;-</span> <span class="fu">predict</span>(models[[i]]) <span class="sc">|&gt;</span></span>
+<span id="cb17-488"><a href="#cb17-488" aria-hidden="true" tabindex="-1"></a>        <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb17-489"><a href="#cb17-489" aria-hidden="true" tabindex="-1"></a>        <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
+<span id="cb17-490"><a href="#cb17-490" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">lower_ci =</span> ci.lb,</span>
+<span id="cb17-491"><a href="#cb17-491" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_ci =</span> ci.ub,</span>
+<span id="cb17-492"><a href="#cb17-492" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower_pi =</span> pi.lb,</span>
+<span id="cb17-493"><a href="#cb17-493" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_pi =</span> pi.ub) <span class="sc">|&gt;</span></span>
+<span id="cb17-494"><a href="#cb17-494" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setDT</span>()</span>
+<span id="cb17-495"><a href="#cb17-495" aria-hidden="true" tabindex="-1"></a>    }<span class="cf">else</span>{</span>
+<span id="cb17-496"><a href="#cb17-496" aria-hidden="true" tabindex="-1"></a>      predictions[[i]] <span class="ot">&lt;-</span> <span class="fu">rma_predictions</span>(models[[i]], grids[[sub_guide<span class="sc">$</span>moderator]]) <span class="sc">|&gt;</span></span>
+<span id="cb17-497"><a href="#cb17-497" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="st">"term"</span> <span class="ot">=</span> sub_guide<span class="sc">$</span>moderator) <span class="sc">|&gt;</span></span>
+<span id="cb17-498"><a href="#cb17-498" aria-hidden="true" tabindex="-1"></a>        <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
+<span id="cb17-499"><a href="#cb17-499" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename</span>(<span class="at">lower_ci =</span> ci.lb,</span>
+<span id="cb17-500"><a href="#cb17-500" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_ci =</span> ci.ub,</span>
+<span id="cb17-501"><a href="#cb17-501" aria-hidden="true" tabindex="-1"></a>               <span class="at">lower_pi =</span> pi.lb,</span>
+<span id="cb17-502"><a href="#cb17-502" aria-hidden="true" tabindex="-1"></a>               <span class="at">upper_pi =</span> pi.ub) <span class="sc">|&gt;</span></span>
+<span id="cb17-503"><a href="#cb17-503" aria-hidden="true" tabindex="-1"></a>        <span class="fu">setDT</span>()</span>
+<span id="cb17-504"><a href="#cb17-504" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb17-505"><a href="#cb17-505" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-506"><a href="#cb17-506" aria-hidden="true" tabindex="-1"></a>    tidy_models[[i]] <span class="ot">&lt;-</span> <span class="fu">tidy</span>(models[[i]]) <span class="sc">|&gt;</span></span>
+<span id="cb17-507"><a href="#cb17-507" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">lower_ci =</span> models[[i]]<span class="sc">$</span>ci.lb, </span>
+<span id="cb17-508"><a href="#cb17-508" aria-hidden="true" tabindex="-1"></a>             <span class="at">upper_ci =</span> models[[i]]<span class="sc">$</span>ci.ub,</span>
+<span id="cb17-509"><a href="#cb17-509" aria-hidden="true" tabindex="-1"></a>             <span class="at">df =</span> <span class="fu">unique</span>(models[[i]]<span class="sc">$</span>ddf)) <span class="sc">|&gt;</span></span>
+<span id="cb17-510"><a href="#cb17-510" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mutate</span>(<span class="at">overfit =</span> <span class="fu">ifelse</span>(<span class="fu">any</span>(models[[i]]<span class="sc">$</span>sigma2 <span class="sc">==</span> <span class="dv">0</span>), <span class="st">"yes"</span>, <span class="st">"no"</span>),</span>
+<span id="cb17-511"><a href="#cb17-511" aria-hidden="true" tabindex="-1"></a>             <span class="at">aic =</span> <span class="fu">AIC</span>(models[[i]])) <span class="sc">|&gt;</span></span>
+<span id="cb17-512"><a href="#cb17-512" aria-hidden="true" tabindex="-1"></a>      <span class="fu">bind_cols</span>(sub_guide) <span class="sc">|&gt;</span></span>
+<span id="cb17-513"><a href="#cb17-513" aria-hidden="true" tabindex="-1"></a>      <span class="fu">setDT</span>()</span>
+<span id="cb17-514"><a href="#cb17-514" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-515"><a href="#cb17-515" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(i, <span class="st">"/"</span>, <span class="fu">nrow</span>(guide), <span class="st">"</span><span class="sc">\r</span><span class="st">"</span>)</span>
+<span id="cb17-516"><a href="#cb17-516" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-517"><a href="#cb17-517" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(predictions)[i] <span class="ot">&lt;-</span> sub_guide<span class="sc">$</span>model_id</span>
+<span id="cb17-518"><a href="#cb17-518" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(tidy_models)[i] <span class="ot">&lt;-</span> sub_guide<span class="sc">$</span>model_id</span>
+<span id="cb17-519"><a href="#cb17-519" aria-hidden="true" tabindex="-1"></a>    <span class="co"># names(models[i]) &lt;- tidy_models[i]$model_id</span></span>
+<span id="cb17-520"><a href="#cb17-520" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-521"><a href="#cb17-521" aria-hidden="true" tabindex="-1"></a>  } </span>
+<span id="cb17-522"><a href="#cb17-522" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-523"><a href="#cb17-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-524"><a href="#cb17-524" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-525"><a href="#cb17-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-526"><a href="#cb17-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Model selection {#sec-model-selection}</span></span>
+<span id="cb17-527"><a href="#cb17-527" aria-hidden="true" tabindex="-1"></a>Now we'll filter out overfit models by removing any with a sigma equal to 0 (which has been designated with the column <span class="in">`overfit`</span>). Then we'll select the best model per analysis group, moderator, subgroup, and sensitivity analysis category (specified with <span class="in">`model_comparison_id`</span>). </span>
+<span id="cb17-528"><a href="#cb17-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-531"><a href="#cb17-531" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb17-532"><a href="#cb17-532" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: true</span></span>
+<span id="cb17-533"><a href="#cb17-533" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb17-534"><a href="#cb17-534" aria-hidden="true" tabindex="-1"></a><span class="co">#| output: false</span></span>
+<span id="cb17-535"><a href="#cb17-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-536"><a href="#cb17-536" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models) <span class="ot">&lt;-</span> guide<span class="sc">$</span>model_id</span>
+<span id="cb17-537"><a href="#cb17-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-538"><a href="#cb17-538" aria-hidden="true" tabindex="-1"></a><span class="fu">setdiff</span>(<span class="fu">names</span>(tidy_models[[<span class="dv">2</span>]]), <span class="fu">names</span>(tidy_models[[<span class="dv">1</span>]]))</span>
+<span id="cb17-539"><a href="#cb17-539" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(tidy_models, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-540"><a href="#cb17-540" aria-hidden="true" tabindex="-1"></a>tidy_models[overfit <span class="sc">==</span> <span class="st">"yes"</span>, ]</span>
+<span id="cb17-541"><a href="#cb17-541" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> tidy_models[overfit <span class="sc">!=</span> <span class="st">"yes"</span>, ]</span>
+<span id="cb17-542"><a href="#cb17-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-543"><a href="#cb17-543" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(predictions)</span>
+<span id="cb17-544"><a href="#cb17-544" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">rbindlist</span>(predictions, <span class="at">fill =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-545"><a href="#cb17-545" aria-hidden="true" tabindex="-1"></a>predictions</span>
+<span id="cb17-546"><a href="#cb17-546" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(models)</span>
+<span id="cb17-547"><a href="#cb17-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-548"><a href="#cb17-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-549"><a href="#cb17-549" aria-hidden="true" tabindex="-1"></a><span class="co"># &gt;&gt;&gt; Select best model ---------------------------------------------------</span></span>
+<span id="cb17-550"><a href="#cb17-550" aria-hidden="true" tabindex="-1"></a>tidy_models[, min_aic <span class="sc">:</span><span class="er">=</span> <span class="fu">min</span>(aic),</span>
+<span id="cb17-551"><a href="#cb17-551" aria-hidden="true" tabindex="-1"></a>            by <span class="ot">=</span> .(model_comparison_id)]</span>
+<span id="cb17-552"><a href="#cb17-552" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-553"><a href="#cb17-553" aria-hidden="true" tabindex="-1"></a>tidy_models <span class="ot">&lt;-</span> tidy_models[min_aic <span class="sc">==</span> aic, ]</span>
+<span id="cb17-554"><a href="#cb17-554" aria-hidden="true" tabindex="-1"></a>tidy_models[overfit <span class="sc">==</span> <span class="st">"yes"</span>, ]</span>
+<span id="cb17-555"><a href="#cb17-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-556"><a href="#cb17-556" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> predictions[model_id <span class="sc">%in%</span> tidy_models<span class="sc">$</span>model_id]</span>
+<span id="cb17-557"><a href="#cb17-557" aria-hidden="true" tabindex="-1"></a>predictions</span>
+<span id="cb17-558"><a href="#cb17-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-559"><a href="#cb17-559" aria-hidden="true" tabindex="-1"></a><span class="co"># Now let's save these objects and reload in the next section:</span></span>
+<span id="cb17-560"><a href="#cb17-560" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(tidy_models, <span class="st">"builds/meta_analysis/models/tidy_models.Rds"</span>)</span>
+<span id="cb17-561"><a href="#cb17-561" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(predictions, <span class="st">"builds/meta_analysis/models/predictions.Rds"</span>)</span>
+<span id="cb17-562"><a href="#cb17-562" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(dat, <span class="st">"builds/meta_analysis/models/analysis_data.Rds"</span>)</span>
+<span id="cb17-563"><a href="#cb17-563" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-564"><a href="#cb17-564" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb17-565"><a href="#cb17-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-566"><a href="#cb17-566" aria-hidden="true" tabindex="-1"></a>See the <span class="co">[</span><span class="ot">next section</span><span class="co">](3.3-plot-models.qmd)</span> for meta-analysis figures</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
