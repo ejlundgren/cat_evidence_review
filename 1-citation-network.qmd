@@ -93,12 +93,19 @@ graph <- tidygraph::as_tbl_graph(igraph.gr)
 ## Network plot
 Now, let's plot it. Feel free to unfold the code to see how:
 
+
+:::: {.columns}
+
+::: {.column width = "85%"}
+
 ```{r}
 #| eval: true
 #| echo: true
 #| code-fold: true
 #| fig-width: 8
 #| fig-height: 6
+#| label: fig-network
+#| fig-cap: "Citation network. Claimant sources are core sources that claim that causes are drivers of endangerment. Non-claimants are sources (including the Web of Science) that do not make this claim. Point color indicates type of article found along each citation chain."
 
 labels <- c(`Core claim` = "Core claim", 
             `External review without claim` = "External source without claim", 
@@ -162,10 +169,22 @@ p1 <- ggraph(graph, layout = "kk")+
 
 p1 
 ```
+
+:::
+
+::: {.column width = "15%"}
+
+<br>
+<br>
+
 <figure>
-  <img src="figures/main_text/network_legend.png" width="300">
-  <figcaption><b>Figure 1:</b> Citation network. Claimant sources are core sources that claim that causes are drivers of endangerment. Non-claimants are sources (including the Web of Science) that do not make this claim. Point color indicates type of article found along each citation chain. </figcaption>
+  <img src="figures/main_text/network_legend_vertical.png" style="width: 100%; height: auto;">
+  <!-- <figcaption> </figcaption> -->
 </figure>
+
+:::
+
+::::
 
 See [here](1.2-citation-network-app.qmd) to explore the citation network in more detail with an interactive app.
 
@@ -209,7 +228,8 @@ Now let's plot these probabilities:
 ```{r}
 #| fig-width: 9
 #| fig-height: 7
-#| fig-cap: "**Fig. 2.** The probability of a population study with data being cited by a claimant source was not influenced by whether the population study found evidence of a negative association between cats and prey (according author's own interpretation)."
+#| label: fig-citation-probabilities
+#| fig-cap: "The probability of a population study with data being cited by a claimant source was not influenced by whether the population study found evidence of a negative association between cats and prey (according author's own interpretation)."
 
 pred <- predict(m, data.table(in_support = c("Yes", "No")),
                 re.form = NA, se = TRUE)
@@ -313,10 +333,16 @@ out
 ```
 
 Now, let's plot the number of citation chains by terminus article type, focusing on quantitative evidence:
+
+:::: {.columns}
+
+::: {.column width = "85%"}
 ```{r}
 #| eval: true
 #| echo: true
 #| code-fold: true
+#| label: fig-evidence
+#| fig-cap: "Quantitative evidence cited found at the terminus of citation chains. X-axis indicates number of citation chains per evidence type."
 
 terminus_freq.simple <- terminus_edges[evidence_simple %in% c("Population", "Predation"), 
                                        .(n = .N),
@@ -390,10 +416,18 @@ cites.p.included
 
 ```
 
+:::
+
+::: {.column width = "15%"}
+<br>
+<br>
 <figure>
   <img src="figures/main_text/network_legend_2.png" width="200">
-  <figcaption><b>Fig. 3.</b> Quantitative evidence cited found at the terminus of citation chains. X-axis indicates number of citation chains per evidence type. </figcaption>
 </figure>
+
+:::
+
+::::
 
 The majority of evidence are predation records---that cats have been documented consuming or causing mortality to the prey species in question.
 
@@ -484,19 +518,34 @@ The majority of claims gave no citation, or ended with articles that made no cla
 
 To put these numbers in perspective, we'll now patchwork the two plots:
 
+:::: {.columns}
+
+::: {.column width = "85%"}
+
 ```{r}
 #| eval: true
 #| echo: true
 #| code-fold: true
+#| label: fig-all-records
+#| fig-cap: "The terminus of citation chains across the citation network. Each value (on x-axis) corresponds to a citation chain."
+# 
 cites.p.included + xlab(NULL) +
   cites.p.excluded +
   plot_layout(heights = c(.25, .75),
               nrow = 2)
 ```
 
+:::
+
+::: {.column width = "15%"}
+<br>
+<br>
+
 <figure>
-  <img src="figures/main_text/network_legend_2.png" width="200">
-  <figcaption><b>Fig. 5.</b> The terminus of citation chains across the citation network.</figcaption>
+  <img src="figures/main_text/network_legend_vertical.png" width="200">
 </figure>
 
+:::
+
+::::
 

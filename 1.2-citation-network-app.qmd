@@ -12105,7 +12105,7 @@ server <- function(input, output) {
 
     nodes.sub[, node_description := paste0(node_label, ": ", node_name_clean)]
     
-    HTML(paste("References:<br>",
+    HTML(paste("<b>References:</b><br>",
           paste(sort(nodes.sub$node_description), collapse = "<br>")))
   })
 }
