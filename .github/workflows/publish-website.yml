@@ -8,12 +8,12 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  cat-website:
+  demo-website:
     runs-on: ubuntu-latest
     
-    # Force the runner to tolerate Node 20 actions temporarily
+    # Opt into the newer Node 24 environment execution completely
     env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     concurrency:
       group: quarto-website-${{ github.event_name != 'pull_request' || github.run_id }}
@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: "Check out repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2 # Explicitly uses the Node 24 patched release
 
       - name: "Setup pandoc"
         uses: r-lib/actions/setup-pandoc@v2
