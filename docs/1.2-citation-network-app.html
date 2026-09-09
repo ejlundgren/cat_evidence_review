@@ -12241,7 +12241,7 @@ server &lt;- function(input, output) {
 
     graph &lt;- tidygraph::as_tbl_graph(igraph.gr)
     
-    ggraph(graph, layout = "kk")+
+    ggraph(graph, layout = "auto")+
         geom_node_point(aes(fill = evidence_type_synthetic_simple,
                             color = of_quality,
                             stroke = of_quality,

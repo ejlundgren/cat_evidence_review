@@ -175,6 +175,32 @@ edges.sub <- edges[edge_type == "citation", ]
 nodes.sub <- nodes[node_id %in% c(edges.sub$cited_by_id, edges.sub$article_id)]
 
 
+# >>> Test some plotting weirdnesses with some species ----------------------------------------------------------------
+
+test.edges <- edges.sub[scientificName == "Acrocephalus longirostris", ]
+test.nodes <- nodes.sub[node_id %in% c(test.edges$cited_by_id, test.edges$article_id)]
+
+gr <- igraph::graph_from_data_frame(d = test.edges, 
+                                    vertices = test.nodes,
+                                    directed = T)
+gr
+plot(gr)
+
+graph <- tidygraph::as_tbl_graph(gr)
+
+ggraph(graph, layout = "auto")+
+  geom_edge_fan(arrow = arrow(length = unit(1, 'mm')), 
+                start_cap = circle(1, 'mm'),
+                end_cap = circle(1, 'mm'),
+                color = "grey50",
+                alpha = .5,
+                linewidth = 0.25)+
+  geom_node_point(aes(fill = evidence_type_synthetic_simple,
+                      color = of_quality), 
+                  shape = 21, #stroke = 2,
+                  alpha = .75)
+#
+
 # /\/\/\ Save for website -------------------------------------------------
 fwrite(edges.sub, "builds/citation_network/edges_tidied.csv")
 fwrite(nodes.sub, "builds/citation_network/nodes_tidied.csv")
@@ -185,7 +211,6 @@ igraph.gr <- igraph::graph_from_data_frame(d = edges.sub,
                                            vertices = nodes.sub,
                                            directed = T)
 igraph.gr
-
 
 graph <- tidygraph::as_tbl_graph(igraph.gr)
 #
