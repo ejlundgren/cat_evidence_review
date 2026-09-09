@@ -11930,6 +11930,12 @@ edges <- structure(list(cited_by_id = c("(Doherty et al. 2016) core source_claim
 # 
 # 
 
+
+
+# This ddidn't work:
+# edges <- url("https://github.com/ejlundgren/cat_evidence_review/raw/main/builds/citation_network/edges_tidied.Rds", 
+#              method = "libcurl")
+
 # Prepare for app ----------------------------------------------------------
 labels <- c(`Core claim` = "Claimant", 
             `External review without claim` = "Non-claimant", 
