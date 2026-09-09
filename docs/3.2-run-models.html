@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2026-09-08">
+<meta name="dcterms.date" content="2026-09-09">
 <title>Fit meta-analysis models – When consensus procedes the evidence</title>
 <style>
 /* Default styles provided by pandoc.
@@ -169,8 +169,8 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./6-species-specific-citation-networks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Species specific citation networks</span></a>
+  <a href="./1.2-citation-network-app.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Explore citation networks</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -289,7 +289,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2026</p>
+      <p class="date">September 9, 2026</p>
     </div>
   </div>
   
@@ -594,7 +594,7 @@ div.csl-indent {
 <span>               by <span class="op">=</span> <span class="st">"model_id"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># More than 2 observations:</span></span>
-<span><span class="va">guide.m2</span> <span class="op">&lt;-</span> <span class="va">guide.m2</span><span class="op">[</span><span class="va">n_obs</span> <span class="op">&gt;</span> <span class="fl">2</span>, <span class="op">]</span></span>
+<span><span class="va">guide.m2</span> <span class="op">&lt;-</span> <span class="va">guide.m2</span><span class="op">[</span><span class="va">n_obs</span> <span class="op">&gt;=</span> <span class="fl">2</span>, <span class="op">]</span></span>
 <span></span>
 <span><span class="co"># and at least 5 for continuous</span></span>
 <span><span class="va">guide.m2</span> <span class="op">&lt;-</span> <span class="va">guide.m2</span><span class="op">[</span><span class="op">!</span><span class="op">(</span><span class="va">moderator</span> <span class="op">==</span> <span class="st">"log_mass"</span> <span class="op">&amp;</span> <span class="va">n_articles</span> <span class="op">&lt;</span> <span class="fl">5</span><span class="op">)</span>, <span class="op">]</span></span>
@@ -608,84 +608,84 @@ div.csl-indent {
 </details><div class="cell-output cell-output-stdout">
 <pre><code>Key: &lt;model_id&gt;
 Index: &lt;n_articles&gt;
-       model_id           analysis_group moderator  class
-         &lt;char&gt;                   &lt;char&gt;    &lt;char&gt; &lt;char&gt;
-  1: model_1000 Reproduction correlation         1    All
-  2: model_1005 Reproduction correlation         1    All
-  3: model_1006 Reproduction correlation         1    All
-  4: model_1007 Reproduction correlation         1    All
-  5: model_1008 Reproduction correlation         1    All
- ---                                                     
-524:  model_987 Reproduction correlation         1    All
-525:  model_988 Reproduction correlation         1    All
-526:  model_997 Reproduction correlation         1    All
-527:  model_998 Reproduction correlation         1    All
-528:  model_999 Reproduction correlation         1    All
+       model_id                     analysis_group moderator  class
+         &lt;char&gt;                             &lt;char&gt;    &lt;char&gt; &lt;char&gt;
+  1:    model_1 Abundance before-after eradication         1    All
+  2:   model_10 Abundance before-after eradication         1    All
+  3: model_1000           Reproduction correlation         1    All
+  4: model_1005           Reproduction correlation         1    All
+  5: model_1006           Reproduction correlation         1    All
+ ---                                                               
+684:  model_987           Reproduction correlation         1    All
+685:  model_988           Reproduction correlation         1    All
+686:  model_997           Reproduction correlation         1    All
+687:  model_998           Reproduction correlation         1    All
+688:  model_999           Reproduction correlation         1    All
                                  habitat_trait prey_range non_phylo_species
                                         &lt;char&gt;     &lt;char&gt;            &lt;char&gt;
-  1: ground_or_burrow_resting_or_nesting.other        All               yes
-  2:                  locomotion_volant.volant        All                no
-  3:                  locomotion_volant.volant        All                no
-  4:                  locomotion_volant.volant        All               yes
-  5:                  locomotion_volant.volant        All               yes
+  1:                                       All        All                no
+  2:                                       All     inside                no
+  3: ground_or_burrow_resting_or_nesting.other        All               yes
+  4:                  locomotion_volant.volant        All                no
+  5:                  locomotion_volant.volant        All                no
  ---                                                                       
-524:                   continent_island.island        All               yes
-525:                   continent_island.island        All               yes
-526: ground_or_burrow_resting_or_nesting.other        All                no
-527: ground_or_burrow_resting_or_nesting.other        All                no
-528: ground_or_burrow_resting_or_nesting.other        All               yes
+684:                   continent_island.island        All               yes
+685:                   continent_island.island        All               yes
+686: ground_or_burrow_resting_or_nesting.other        All                no
+687: ground_or_burrow_resting_or_nesting.other        All                no
+688: ground_or_burrow_resting_or_nesting.other        All               yes
      phylo_species only_dominant_effect_size model_comparison_id
             &lt;char&gt;                    &lt;char&gt;              &lt;char&gt;
-  1:           yes                        no      model_comp_330
-  2:            no                        no      model_comp_332
-  3:           yes                        no      model_comp_332
+  1:            no                        no        model_comp_1
+  2:            no                       yes        model_comp_4
+  3:           yes                        no      model_comp_330
   4:            no                        no      model_comp_332
   5:           yes                        no      model_comp_332
  ---                                                            
-524:            no                        no      model_comp_327
-525:           yes                        no      model_comp_327
-526:            no                        no      model_comp_330
-527:           yes                        no      model_comp_330
-528:            no                        no      model_comp_330
+684:            no                        no      model_comp_327
+685:           yes                        no      model_comp_327
+686:            no                        no      model_comp_330
+687:           yes                        no      model_comp_330
+688:            no                        no      model_comp_330
                                                                random_effect
                                                                       &lt;char&gt;
-  1: list(~1|article_id/Effect_size_ID, ~1|scientificName, ~1|phylo_species)
+  1:                                      list(~1|article_id/Effect_size_ID)
   2:                                      list(~1|article_id/Effect_size_ID)
-  3:                    list(~1|article_id/Effect_size_ID, ~1|phylo_species)
-  4:                   list(~1|article_id/Effect_size_ID, ~1|scientificName)
-  5: list(~1|article_id/Effect_size_ID, ~1|scientificName, ~1|phylo_species)
+  3: list(~1|article_id/Effect_size_ID, ~1|scientificName, ~1|phylo_species)
+  4:                                      list(~1|article_id/Effect_size_ID)
+  5:                    list(~1|article_id/Effect_size_ID, ~1|phylo_species)
  ---                                                                        
-524:                   list(~1|article_id/Effect_size_ID, ~1|scientificName)
-525: list(~1|article_id/Effect_size_ID, ~1|scientificName, ~1|phylo_species)
-526:                                      list(~1|article_id/Effect_size_ID)
-527:                    list(~1|article_id/Effect_size_ID, ~1|phylo_species)
-528:                   list(~1|article_id/Effect_size_ID, ~1|scientificName)
-                                                                                                       exclusion
-                                                                                                          &lt;char&gt;
-  1: analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
-  2:                  analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
-  3:                  analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
-  4:                  analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
-  5:                  analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
- ---                                                                                                            
-524:                   analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'continent_island.island'
-525:                   analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'continent_island.island'
-526: analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
-527: analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
-528: analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
+684:                   list(~1|article_id/Effect_size_ID, ~1|scientificName)
+685: list(~1|article_id/Effect_size_ID, ~1|scientificName, ~1|phylo_species)
+686:                                      list(~1|article_id/Effect_size_ID)
+687:                    list(~1|article_id/Effect_size_ID, ~1|phylo_species)
+688:                   list(~1|article_id/Effect_size_ID, ~1|scientificName)
+                                                                                                                                            exclusion
+                                                                                                                                               &lt;char&gt;
+  1:                                                                  analysis_group == 'Abundance before-after eradication' &amp; habitat_trait == 'All'
+  2: analysis_group == 'Abundance before-after eradication' &amp; habitat_trait == 'All' &amp; prey_range_primary == 'inside' &amp; dominant_effect_size == 'yes'
+  3:                                      analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
+  4:                                                       analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
+  5:                                                       analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'locomotion_volant.volant'
+ ---                                                                                                                                                 
+684:                                                        analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'continent_island.island'
+685:                                                        analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'continent_island.island'
+686:                                      analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
+687:                                      analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
+688:                                      analysis_group == 'Reproduction correlation' &amp; habitat_trait == 'ground_or_burrow_resting_or_nesting.other'
      analysis_effect_size formula n_species n_articles n_obs
                    &lt;char&gt;  &lt;char&gt;     &lt;int&gt;      &lt;int&gt; &lt;int&gt;
-  1:                   Zr     ~ 1         2          2     5
-  2:                   Zr     ~ 1         2          2     5
+  1:                  SMD     ~ 1         2          2     2
+  2:                  SMD     ~ 1         2          2     2
   3:                   Zr     ~ 1         2          2     5
   4:                   Zr     ~ 1         2          2     5
   5:                   Zr     ~ 1         2          2     5
  ---                                                        
-524:                   Zr     ~ 1         2          2     5
-525:                   Zr     ~ 1         2          2     5
-526:                   Zr     ~ 1         2          2     5
-527:                   Zr     ~ 1         2          2     5
-528:                   Zr     ~ 1         2          2     5</code></pre>
+684:                   Zr     ~ 1         2          2     5
+685:                   Zr     ~ 1         2          2     5
+686:                   Zr     ~ 1         2          2     5
+687:                   Zr     ~ 1         2          2     5
+688:                   Zr     ~ 1         2          2     5</code></pre>
 </div>
 </div>
 <p>To facilitate model fitting and tidying we’ll also set up a prediction grid for extracting predictions for our only moderator, log mass.</p>
@@ -1662,7 +1662,7 @@ Viechtbauer, Wolfgang. 2010. <span>“Conducting Meta-Analyses in <span>R</span>
 <span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>               <span class="at">by =</span> <span class="st">"model_id"</span>)</span>
 <span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a><span class="co"># More than 2 observations:</span></span>
-<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[n_obs <span class="sc">&gt;</span> <span class="dv">2</span>, ]</span>
+<span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[n_obs <span class="sc">&gt;=</span> <span class="dv">2</span>, ]</span>
 <span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a><span class="co"># and at least 5 for continuous</span></span>
 <span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a>guide.m2 <span class="ot">&lt;-</span> guide.m2[<span class="sc">!</span>(moderator <span class="sc">==</span> <span class="st">"log_mass"</span> <span class="sc">&amp;</span> n_articles <span class="sc">&lt;</span> <span class="dv">5</span>), ]</span>

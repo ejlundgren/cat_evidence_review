@@ -134,7 +134,6 @@ dat[, dominant_effect_size := ifelse((n_articles_per_original_es / total_n_artic
                                      "yes", "no")]
 dat[dominant_effect_size == "no", ]
 
-
 # >>> Make data long by habitat traits ------------------------------------
 # Instead of having these as factors, let's do univariate subgroup models
 dat.long <- melt(dat,
@@ -167,6 +166,7 @@ dput(unique(dat.final$habitat_trait))
 
 
 # >>> Cross join guide ----------------------------------------------------
+unique(dat.final[analysis_group == "Abundance before-after eradication"]$Effect_size_ID)
 
 # 
 # # Do the guide in 2 steps. We don't have enough data for class * habitat sub-analyses.
@@ -179,6 +179,7 @@ guide <- CJ(analysis_group = unique(dat.final$analysis_group),
             phylo_species = c("yes", "no"),
             only_dominant_effect_size = c("yes", "no")
 )
+
 guide <- guide[!(moderator == "log_mass" & class != "All"), ]
 unique(guide[class != "All", ]$moderator)
 #' [Can't do log_mass for class subgroups]
@@ -286,7 +287,7 @@ guide.m2 <- guide.m2[n_articles > 0, ]
 guide.m2 # Keep all analysis groups for which there are data for intercept-only models
 
 # More than 2 observations:
-guide.m2 <- guide.m2[n_obs > 2, ]
+guide.m2 <- guide.m2[n_obs >= 2, ]
 guide.m2
 
 # and at least 5 for continuous
@@ -449,7 +450,6 @@ length(predictions)
 predictions <- rbindlist(predictions, fill = TRUE)
 predictions
 names(models)
-
 
 # >>> Select best model ---------------------------------------------------
 tidy_models[, min_aic := min(aic),

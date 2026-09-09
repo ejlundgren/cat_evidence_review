@@ -337,7 +337,7 @@ guide.m2 <- merge(guide.m1,
                by = "model_id")
 
 # More than 2 observations:
-guide.m2 <- guide.m2[n_obs > 2, ]
+guide.m2 <- guide.m2[n_obs >= 2, ]
 
 # and at least 5 for continuous
 guide.m2 <- guide.m2[!(moderator == "log_mass" & n_articles < 5), ]

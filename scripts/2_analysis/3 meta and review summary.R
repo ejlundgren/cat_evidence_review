@@ -65,6 +65,8 @@ dat$analysis_group_lab <- factor(dat$analysis_group_lab,
 predictions$analysis_group_lab <- factor(predictions$analysis_group_lab,
                                         levels = rev(lvls))
 
+# unique(predictions$analysis_group)
+# predictions[analysis_group == ""]
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
 # Plot -----------------------------------------------------------------
 
@@ -146,7 +148,7 @@ p.abund <- ggplot()+
   ylab(NULL)+
   xlab("Association between cats and\nthreatened species abundance")+
   guides(size = "none")+
-  coord_cartesian(xlim = c(-5, 5))+
+  coord_cartesian(xlim = c(-8, 8))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -154,7 +156,7 @@ p.abund <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-
+p.abund
 
 p.reprod <- ggplot()+
   geom_vline(xintercept = 0, linetype = "dashed")+
@@ -197,7 +199,7 @@ p.reprod <- ggplot()+
                               "Associations combined",
                               "Spatial association", "Temporal association"))+
   guides(size = "none")+
-  coord_cartesian(xlim = c(-12, 12))+
+  coord_cartesian(xlim = c(-11, 11))+
   theme_bw()+
   theme(panel.grid = element_blank(),
         plot.title = element_text(hjust = 0.5),
@@ -205,8 +207,7 @@ p.reprod <- ggplot()+
         strip.placement = "outside",        
         strip.background = element_blank(),
         panel.border = element_blank())
-
-
+p.reprod
 
 # > Supplementary figures: ------------------------------------------------
 
@@ -262,7 +263,7 @@ p.abund.inside <- ggplot()+
                               "Associations combined",
                               "Spatial association", "Temporal association"))+
   ylab(NULL)+
-  coord_cartesian(xlim = c(-5, 5))+
+  coord_cartesian(xlim = c(-8, 8))+
   xlab("Association between cats and threatened species")+
   guides(size = "none")+
   theme_bw()+
@@ -326,7 +327,7 @@ p.reprod.inside <- ggplot()+
 
 p.inside <- p.abund.inside + 
   p.reprod.inside + 
-  plot_layout(ncol = 1, heights = c(5/9, 4/9)) +
+  plot_layout(ncol = 1, heights = c(6/11, 5/11)) +
   plot_annotation(tag_levels = "A")
 p.inside
 
@@ -651,7 +652,6 @@ habitat.final <- habitat.abund.1 +
 
 habitat.final
 
-
 # >>> Only dominant effect sizes --------------------------------------------------------------------
 
 intercepts <- predictions[moderator == "1" & 
@@ -772,7 +772,7 @@ p2.si <- ggplot()+
         panel.border = element_blank())
 
 dominant.only <- p1.si + p2.si + plot_layout(guides = "collect", nrow = 2,
-                                             heights = c(3/5, 3/8)) 
+                                             heights = c(6/10, 4/10)) 
 dominant.only
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~ ---------------------------------------------
@@ -833,11 +833,12 @@ si_models[, `Sample size` := paste0("$N_{articles}=", n_articles, "$<br>",
                                      "$N_{species}=", n_species, "$<br>",
                                      "$N_{observations}=", n_obs, "$")]
 
-si_models$analysis_group
+unique(si_models$analysis_group)
 
+unique(si_models$class)
 si_models[class == "All", class := "All classes"]
 si_models$class <- factor(si_models$class,
-                          levels = rev(c("All classes", "Mammals", "Birds")))
+                          levels = rev(c("All classes", "Mammals", "Birds", "Reptiles")))
 si_models
 
 unique(si_models$moderator)
@@ -873,6 +874,7 @@ unique(si_models$analysis_group)
 si_models[analysis_group == "Abundance correlation", analysis_group := "Abundance association"]
 si_models[analysis_group == "Reproduction correlation", analysis_group := "Reproduction association"]
 
+
 sub_models <- si_models[moderator == "Overall estimate" &
                           only_dominant_effect_size == "no" &
                           prey_range == "All" &
@@ -881,8 +883,16 @@ sub_models <- si_models[moderator == "Overall estimate" &
 sub_models[, group := paste(analysis_group, class, analysis_effect_size, sep = " | ")]
 dput(unique(sub_models$group))
 
+# Reproduction is only birds...
+sub_models <- sub_models[!group %in% c( "Reproduction with/without cats | All classes | lnOR", 
+                                        "Reproduction inside/outside exclosure | All classes | lnOR", 
+                                        "Reproduction before-after eradication | All classes | SMD", 
+                                        "Reproduction association | All classes | Zr", 
+                                        "Reproduction temporal association | All classes | Zr" )]
+
 lvls <- c("Abundance with/without cats | All classes | lnOR", 
           "Abundance on islands with/without cats | All classes | lnOR", 
+          "Abundance before-after eradication | All classes | SMD",
           "Abundance association | All classes | Zr", 
           "Abundance spatial association | All classes | Zr", 
           "Abundance temporal association | All classes | Zr", 
@@ -893,16 +903,17 @@ lvls <- c("Abundance with/without cats | All classes | lnOR",
           "Abundance spatial association | Mammals | Zr", 
           "Abundance temporal association | Mammals | Zr", 
          
-
           "Abundance with/without cats | Birds | lnOR", 
-         
-          "Reproduction with/without cats | All classes | lnOR", 
-          "Reproduction before-after eradication | All classes | SMD", 
-          "Reproduction association | All classes | Zr", 
-          "Reproduction temporal association | All classes | Zr", 
+          "Abundance on islands with/without cats | Birds | lnOR",
+          "Abundance association | Birds | Zr",
+          "Abundance temporal association | Birds | Zr",
           
-          "Reproduction before-after eradication | Birds | SMD",
+          "Abundance with/without cats | Reptiles | lnOR",
+          "Abundance on islands with/without cats | Reptiles | lnOR",
+          
           "Reproduction with/without cats | Birds | lnOR", 
+          "Reproduction inside/outside exclosure | Birds | lnOR", 
+          "Reproduction before-after eradication | Birds | SMD",
           "Reproduction association | Birds | Zr",
           "Reproduction temporal association | Birds | Zr"
           )
@@ -1051,6 +1062,7 @@ lvls <- c("Abundance with/without cats | lnOR",
           "Abundance spatial association | Zr", 
           "Abundance temporal association | Zr", 
           "Reproduction with/without cats | lnOR", 
+          "Reproduction inside/outside exclosure | lnOR",
           "Reproduction before-after eradication | SMD", 
           "Reproduction association | Zr",
           "Reproduction temporal association | Zr"
@@ -1116,12 +1128,15 @@ dput(unique(sub_models$group))
 
 lvls <- c("Abundance with/without cats | lnOR",
           "Abundance on islands with/without cats | lnOR", 
+          "Abundance before-after eradication | SMD",
           "Abundance association | Zr",
           "Abundance spatial association | Zr", 
           "Abundance temporal association | Zr",
+          "Reproduction with/without cats | lnOR",
+          "Reproduction inside/outside exclosure | lnOR",
           "Reproduction association | Zr",
-          "Reproduction temporal association | Zr", 
-          "Reproduction with/without cats | lnOR")
+          "Reproduction temporal association | Zr"
+          )
 
 setdiff(sub_models$group, lvls)
 
@@ -1183,22 +1198,27 @@ sub_models <- si_models[class == "All classes" &
 sub_models[, group := paste(analysis_group, habitat_trait, analysis_effect_size, sep = " | ")]
 # Sorting these factor levels is too fucking much...
 dput(unique(sub_models$analysis_group))
+lvls <- c("Abundance with/without cats", "Abundance on islands with/without cats", 
+          "Abundance before-after eradication",
+          "Abundance association", 
+          "Abundance spatial association", "Abundance temporal association", 
+          "Reproduction with/without cats", "Reproduction inside/outside exclosure",
+          "Reproduction before-after eradication",
+          "Reproduction association", "Reproduction temporal association")
+setdiff(unique(sub_models$analysis_group), lvls)
+
 sub_models$analysis_group <- factor(sub_models$analysis_group,
-                                    levels = c("Abundance with/without cats", "Abundance on islands with/without cats", 
-                                               "Abundance association", 
-                                               "Abundance spatial association", "Abundance temporal association", 
-                                               "Reproduction with/without cats", 
-                                               "Reproduction before-after eradication",
-                                                "Reproduction association", "Reproduction temporal association"
-                                    ))
+                                    levels = lvls)
 
 dput(unique(sub_models$habitat_trait))
+lvls <- c("Locomotion: volant", "Locomotion: Non-volant", 
+          "Foraging habitat: ground", "Foraging habitat: other", 
+          "Ground nesting: ground", "Ground nesting: other", 
+          "Landform: mainland", "Landform: island" )
+setdiff(unique(sub_models$habitat_trait), lvls)
+
 sub_models$habitat_trait <- factor(sub_models$habitat_trait,
-                                    levels = c("Locomotion: volant", "Locomotion: Non-volant", 
-                                               "Foraging habitat: ground", "Foraging habitat: other", 
-                                               "Ground nesting: ground", "Ground nesting: other", 
-                                               "Landform: mainland", "Landform: island" 
-                                                ))
+                                    levels = lvls)
 
 # Also should sort by Intercept vs moderator
 unique(sub_models$term)

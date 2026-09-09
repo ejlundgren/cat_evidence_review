@@ -1,4 +1,5 @@
 analysis_group,n_articles,n_obs,analysis_effect_size,original_effect_size
+Abundance before-after eradication,2,2,SMD,SMD
 Abundance correlation,15,23,Zr,Zr
 Abundance on islands with/without cats,6,8,lnOR,lnOR; SMD
 Abundance spatial association,4,4,Zr,Zr
@@ -6,5 +7,6 @@ Abundance temporal association,11,19,Zr,Zr
 Abundance with/without cats,9,11,lnOR,lnOR; SMD
 Reproduction before-after eradication,2,3,SMD,SMD; lnOR
 Reproduction correlation,2,5,Zr,Zr
+Reproduction inside/outside exclosure,1,2,lnOR,lnOR
 Reproduction temporal association,1,4,Zr,Zr
 Reproduction with/without cats,3,5,lnOR,SMD; lnOR
