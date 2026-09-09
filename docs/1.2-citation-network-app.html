@@ -12172,7 +12172,9 @@ edges &lt;- structure(list(cited_by_id = c("(Doherty et al. 2016) core source_cl
 # 
 
 
-
+# Some tweaks:
+nodes[evidence_inclusion %in% c("Systematic external review"), evidence_inclusion := "Systematic review (this article)"]
+unique(nodes$evidence_inclusion)
 # This ddidn't work:
 # edges &lt;- url("https://github.com/ejlundgren/cat_evidence_review/raw/main/builds/citation_network/edges_tidied.Rds", 
 #              method = "libcurl")
@@ -12233,7 +12235,16 @@ server &lt;- function(input, output) {
     edges.sub &lt;- edges[scientificName %in% input$spp, ]
     nodes.sub &lt;- nodes[node_id %in% unique(c(edges.sub$cited_by_id,
                                               edges.sub$article_id)), ]
-    nodes.sub[, node_label := as.numeric(as.factor(node_id))]
+    unique(nodes.sub$evidence_inclusion)
+    
+    # Sort so that factor levels are assigned first to claimants and then external reviews and then included studies and then excluded:
+    nodes.sub$evidence_inclusion &lt;- factor(nodes.sub$evidence_inclusion,
+                                           levels = c("claim", "Systematic review (this article)", 
+                                                      "external review without claim", "INCLUDE",
+                                                      "EXCLUDE"))
+    setorder(nodes.sub, evidence_inclusion, node_id)
+    
+    nodes.sub[, node_label := as.numeric(factor(node_id, levels = unique(node_id)))]
     igraph.gr &lt;- igraph::graph_from_data_frame(d = edges.sub, 
                                            vertices = nodes.sub,
                                            directed = T)
@@ -12241,7 +12252,7 @@ server &lt;- function(input, output) {
 
     graph &lt;- tidygraph::as_tbl_graph(igraph.gr)
     
-    ggraph(graph, layout = "auto")+
+    ggraph(graph, layout = "fr")+
         geom_node_point(aes(fill = evidence_type_synthetic_simple,
                             color = of_quality,
                             stroke = of_quality,
@@ -12253,7 +12264,7 @@ server &lt;- function(input, output) {
                       end_cap = circle(5, 'mm'),
                       color = "black",
                       # alpha = .5,
-                      disconnect = TRUE ,
+                      # disconnect = TRUE ,
                       linewidth = 0.5) + 
         geom_node_label(aes(label = node_label),
                         nudge_y = 0.1,
@@ -12281,7 +12292,17 @@ server &lt;- function(input, output) {
     edges.sub &lt;- edges[scientificName %in% input$spp, ]
     nodes.sub &lt;- nodes[node_id %in% unique(c(edges.sub$cited_by_id,
                                               edges.sub$article_id)), ]
-    nodes.sub[, node_label := as.numeric(as.factor(node_id))]
+   unique(nodes.sub$evidence_inclusion)
+    # Sort so that factor levels are assigned first to claimants and then external reviews and then included studies and then excluded:
+    nodes.sub$evidence_inclusion &lt;- factor(nodes.sub$evidence_inclusion,
+                                           levels = c("claim", "Systematic review (this article)", 
+                                                      "external review without claim", "INCLUDE",
+                                                      "EXCLUDE"))
+    setorder(nodes.sub, evidence_inclusion, node_id)
+    
+    nodes.sub[, node_label := as.numeric(factor(node_id, levels = unique(node_id)))]
+    
+    #
     nodes.sub[, node_name_clean := ifelse(grepl("NOTHING", article_node_name),
                                           "Nothing cited", 
                                           article_node_name)]
