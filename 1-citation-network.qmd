@@ -72,13 +72,15 @@ library("glmmTMB")
 library("broom")
 library("broom.mixed")
 
-nodes <- fread("builds/citation_network/nodes_tidied.csv")
-head(nodes)
-
+# The edges/citations between articles:
 edges <- fread("builds/citation_network/edges_tidied.csv")
-head(edges)
+head(edges[, .(scientificName, cited_by_id, article_id)])
 
+# And the node information:
+nodes <- fread("builds/citation_network/nodes_tidied.csv")
+head(nodes[, .(node_id, article_node_name, evidence_type_fine)])
 
+# Now make the network:
 igraph.gr <- igraph::graph_from_data_frame(d = edges, 
                                            vertices = nodes,
                                            directed = T)
