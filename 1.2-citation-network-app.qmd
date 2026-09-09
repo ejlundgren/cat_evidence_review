@@ -11966,73 +11966,6 @@ stroke_color <- c("no" = "black",
 stroke_width <- c("no" = .01, 
                   "yes" = 2)
 
-# Create a legend ggplot: ---------------------------------------------------------
-# legend_dat <- as.data.frame(labels)
-# legend_dat$raw_value <- row.names(legend_dat)
-# setDT(legend_dat)
-# 
-# temp1 <- as.data.frame(node_fill)
-# temp1$raw_value <- row.names(temp1)
-# setDT(temp1)
-# 
-# legend_dat <- merge(legend_dat,
-#                     temp1,
-#                     by = "raw_value",
-#                     all.x = T)
-# legend_dat[, node_size := fcase(raw_value %in% c("Core claim", "External review without claim"), 5,
-#                                 raw_value %in% c("Excluded"), 2,
-#                                 raw_value %in% c("Nothing cited"), 2,
-#                                 grepl("Predation", raw_value), 3,
-#                                 grepl("Population", raw_value) & grepl("without data", raw_value), 4,
-#                                 grepl("Population", raw_value) & grepl("with data", raw_value), 4)]
-# legend_dat[, type := fcase(raw_value %in% c("External review without claim", "Core claim"), "Source",
-#                            raw_value %in% c("Excluded", "Nothing cited"), "Excluded",
-#                            default = "Evidence")]
-# 
-# legend_dat[type %in% "Evidence",
-#            Negative_association := ifelse(grepl("not in support", raw_value), "No", "Yes")]
-# legend_dat
-# 
-# p1 <- ggplot(data = legend_dat[type == "Evidence", ],
-#              aes(x = Negative_association, y = labels,
-#                  fill = node_fill, size = node_size*2))+
-#   geom_point(shape = 21)+
-#   scale_size_identity()+
-#   scale_fill_identity()+
-#   scale_x_discrete(position = "top")+
-#   ylab("Evidence")+
-#   xlab("Negative association\nfound")+
-#   theme_bw()+
-#   theme(panel.grid = element_blank(), panel.border = element_blank(),
-#         axis.title = element_text(size = 14),
-#         axis.ticks.x = element_blank(), axis.ticks.y = element_blank())
-# p1
-# 
-# legend_dat$type <- factor(legend_dat$type,
-#                           levels = c("Evidence", "Source", "Excluded"))
-# p2 <- ggplot(data = legend_dat[type != "Evidence", ],
-#              aes(x = 1, y = labels,
-#                  fill = node_fill, size = node_size*2))+
-#   facet_wrap(~type, ncol = 2, scales = "free",
-#              strip.position = "left")+
-#   geom_point(shape = 21)+
-#   scale_size_identity()+
-#   scale_fill_identity()+
-#   scale_x_discrete(position = "top")+
-#   xlab(NULL)+
-#   ylab(NULL)+
-#   theme_bw()+
-#   theme(panel.grid = element_blank(), panel.border = element_blank(),
-#         strip.background = element_blank(),
-#         strip.placement = "outside",
-#         strip.text = element_text(size = 14),
-#         axis.ticks.x = element_blank(), axis.ticks.y = element_blank())
-# p2
-# 
-# p2 + p1 + plot_layout(nrow = 2, heights = c(1/5, 4/5))
-
-
-
 # Shiny app ----------------------------------------------------------------------
 ui <- fluidPage(
   titlePanel(""),
@@ -12117,8 +12050,9 @@ server <- function(input, output) {
 
     nodes.sub[, node_description := paste0(node_label, ": ", node_name_clean)]
     
+    setorder(nodes.sub, node_label)
     HTML(paste("<b>References:</b><br>",
-          paste(sort(nodes.sub$node_description), collapse = "<br>")))
+          paste(nodes.sub$node_description, collapse = "<br>")))
   })
 }
 shinyApp(ui = ui, server = server)
