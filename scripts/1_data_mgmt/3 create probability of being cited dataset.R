@@ -12,6 +12,7 @@ library("igraph")
 library("tidygraph")
 library("ggplot2")
 library("readxl")
+library("stringr")
 
 raw_dat <- read_excel("data/systematic_review/Cat_Database.xlsx",
                       sheet = "Citations") |> setDT()
@@ -75,9 +76,6 @@ unique(test_edges.mrg2[source_year < article_year]$cited_by_id)
 
 test_edges.mrg2[source_year < article_year &
                   cited_by_id == "(Wallach & Lundgren 2025)_external review without claim"]
-# We must have data that we added opportunistically too.
-
-# Save for Arian to check and fix in main dataset.
 
 test_edges.mrg2[source_year < article_year, ]
 
