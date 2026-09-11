@@ -442,12 +442,24 @@ edges.final <- rbind(temp, edges.sub2)
 nodes.final <- rbind(nodes.sub, nodes.new)
 nodes.final <- unique(nodes.final)
 
+
+
 # >>> Test that network works ---------------------------------------------
 
 igraph.gr <- igraph::graph_from_data_frame(d = edges.final, 
                                            vertices = nodes.final,
                                            directed = T)
 igraph.gr
+
+
+# >>> Test a species ------------------------------------------------------
+
+
+edges.test <- edges.final[scientificName == "Gallotia simonyi", ]
+nodes.test <- nodes[node_id %in% c(edges.final$cited_by_id,
+                                   edges.final$article_id)]
+
+
 
 # >>> Save --------------------------------------------------
 fwrite(nodes.final, "builds/citation_network/nodes.csv")

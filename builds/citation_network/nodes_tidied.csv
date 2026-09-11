@@ -18,6 +18,7 @@ node_id,article_node_name,evidence_inclusion,Peer_reviewed_source,evidence_type,
 (Banko et al. 2002b)_EXCLUDE_NA_Expert opinion_NA_NA,(Banko et al. 2002b),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Banko et al. 2014a)_INCLUDE_NA_Predation in support_no_no,(Banko et al. 2014a),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Banko et al. 2019)_INCLUDE_NA_Predation not in support_no_no,(Banko et al. 2019),INCLUDE,"",Predation not in support,no,no,Predation not in support without data,Predation not in support without data,Predation without data,No,Predation not in support without data
+(Banko et al. 2019)_EXCLUDE_NA_No claim_NA_NA,(Banko et al. 2019),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Barker & Williams 2002)_INCLUDE_NA_Predation not in support_no_no,(Barker & Williams 2002),INCLUDE,"",Predation not in support,no,no,Predation not in support without data,Predation not in support without data,Predation without data,No,Predation not in support without data
 (Bauer et al. 2006a)_EXCLUDE_NA_Expert opinion_NA_NA,(Bauer et al. 2006a),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Bauer et al. 2006a)_EXCLUDE_NA_No claim_NA_NA,(Bauer et al. 2006a),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -128,8 +129,10 @@ node_id,article_node_name,evidence_inclusion,Peer_reviewed_source,evidence_type,
 (McAlpin 2001)_INCLUDE_NA_Predation in support_no_no,(McAlpin 2001),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (McChesney & Tershy 1998)_INCLUDE_NA_Predation in support_no_no,(McChesney & Tershy 1998),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (McChesney & Tershy 1998)_EXCLUDE_NA_No claim_NA_NA,(McChesney & Tershy 1998),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
+(McDonald et al. 2013)_EXCLUDE_NA_Expert opinion_NA_NA,(McDonald et al. 2013),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (McHugh et al. 2019)_INCLUDE_NA_Population not in support_yes_yes,(McHugh et al. 2019),INCLUDE,"",Population not in support,yes,yes,Population not in support with data of quality,Population not in support with data of quality,Population with data,No,Population not in support with data
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Medina & Nogales 2009),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Medina & Nogales 2009),EXCLUDE,"",,"",no,"",,Excluded,Not relevant,Excluded
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Medina & Nogales 2009),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Medina & Nogales 2009),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Medina et al. 2011) core source_claim,(Medina et al. 2011) core source,claim,"",Core claim,"",no,Core claim,Core claim,Core claim,Not relevant,Core claim
@@ -219,8 +222,10 @@ node_id,article_node_name,evidence_inclusion,Peer_reviewed_source,evidence_type,
 (Zino et al. 1995)_INCLUDE_NA_Predation in support_no_no,(Zino et al. 1995),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Zino et al. 2001)_INCLUDE_NA_Predation in support_no_no,(Zino et al. 2001),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (van Riper III 1980a)_INCLUDE_NA_Predation in support_no_no,(van Riper III 1980a),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+H. Avila-Villegas pers. comm. 2007_INCLUDE_NA_Predation in support_no_no,H. Avila-Villegas pers. comm. 2007,INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 Systematic (WoS+Opportunistic),Systematic (WoS+Opportunistic),Systematic external review,"",External review without claim,"",no,External review without claim,External review without claim,External review without claim,Not relevant,External review without claim
 (Williams 1991)_INCLUDE_NA_Predation in support_no_no,(Williams 1991),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+(Iverson 1979)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,(Iverson 1979),EXCLUDE,Peer-reviewed journal article,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Iverson 1978)_INCLUDE_NA_Predation in support_no_no,(Iverson 1978),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Moreno 1995)_EXCLUDE_NA_Unpublished data or article_NA_NA,(Moreno 1995),EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Cyclura collei,NOTHING NA Cyclura collei,EXCLUDE,"",No citation given,"",no,No citation,Opinion claim,Excluded,Not relevant,Nothing cited
@@ -440,6 +445,7 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Zyzomys pedunculatus,NOTHING NA Zyzom
 (Priddel & Wheeler 1996)_EXCLUDE_NA_Expert opinion_NA_NA,(Priddel & Wheeler 1996),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Priddel & Wheeler 1997)_INCLUDE_NA_Predation in support_no_no,(Priddel & Wheeler 1997),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Priddel & Wheeler 1994)_INCLUDE_NA_Predation in support_no_no,(Priddel & Wheeler 1994),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+(Damme & Banfield 2011)_EXCLUDE_NA_No claim_NA_NA,(Damme & Banfield 2011),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Day et al. 2003)_EXCLUDE_NA_Expert opinion_NA_NA,(Day et al. 2003),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Deem et al. 2010)_EXCLUDE_NA_Does not test claim_NA_NA,(Deem et al. 2010),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Does not test claim,Excluded,Not relevant,Excluded
 (Conservation 2001b)_EXCLUDE_NA_Expert opinion_NA_NA,(Conservation 2001b),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
@@ -475,6 +481,7 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Zyzomys pedunculatus,NOTHING NA Zyzom
 (IUCN 2025) core source_INCLUDE_NA_Population in support_no_no,(IUCN 2025) core source,INCLUDE,"",Population in support,no,no,Population in support without data,Population in support without data,Population without data,Yes,Population in support without data
 (IUCN 2025) core source_INCLUDE_NA_Population not in support_no_no,(IUCN 2025) core source,INCLUDE,"",Population not in support,no,no,Population not in support without data,Population not in support without data,Population without data,No,Population not in support without data
 (IUCN 2025) core source_INCLUDE_NA_Population not in support_yes_no,(IUCN 2025) core source,INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
+(Woinarski et al. 2014) core source_INCLUDE_NA_Predation in support_no_no,(Woinarski et al. 2014) core source,INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,(Woinarski 2004),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Courtenay & Friend 2004)_EXCLUDE_NA_Expert opinion_NA_NA,(Courtenay & Friend 2004),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Dowding & Davis 2007)_EXCLUDE_NA_Expert opinion_NA_NA,(Dowding & Davis 2007),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
@@ -567,7 +574,10 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Zyzomys pedunculatus,NOTHING NA Zyzom
 (Van Rensburg & Bester 1988)_INCLUDE_NA_Population in support_yes_yes,(Van Rensburg & Bester 1988),INCLUDE,"",Population in support,yes,yes,Population in support with data of quality,Population in support with data of quality,Population with data,Yes,Population in support with data
 (Veitch 1985)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Veitch 1985),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Vázquez-Domínguez et al. 2004)_INCLUDE_NA_Predation in support_no_no,(Vázquez-Domínguez et al. 2004),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+(Wayne et al. 2017b)_INCLUDE_NA_Population not in support_yes_no,(Wayne et al. 2017b),INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
+(Wayne et al. 2005)_INCLUDE_NA_Predation in support_no_no,(Wayne et al. 2005),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Weston 2003)_INCLUDE_NA_Predation in support_no_no,(Weston 2003),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+(Wheeler & Priddel 2009)_INCLUDE_NA_Predation in support_no_no,(Wheeler & Priddel 2009),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Wiedenfeld & Jiménez-Uzcátegui 2008)_EXCLUDE_NA_No claim_NA_NA,(Wiedenfeld & Jiménez-Uzcátegui 2008),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Woinarski et al. 2011a)_INCLUDE_NA_Population in support_no_no,(Woinarski et al. 2011a),INCLUDE,"",Population in support,no,no,Population in support without data,Population in support without data,Population without data,Yes,Population in support without data
 (Woinarski et al. 2011a)_INCLUDE_NA_Population not in support_yes_no,(Woinarski et al. 2011a),INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
@@ -594,6 +604,7 @@ Director of National Parks unpublished_EXCLUDE_NA_Unpublished data or article_NA
 (Garnett & Baker 2021) core source_INCLUDE_NA_Predation not in support_no_no,(Garnett & Baker 2021) core source,INCLUDE,"",Predation not in support,no,no,Predation not in support without data,Predation not in support without data,Predation without data,No,Predation not in support without data
 (Gilfillan et al. 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Gilfillan et al. 2009),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Hanisch 1998)_EXCLUDE_Thesis_Failure to access or locate online full citation_NA_NA,(Hanisch 1998),EXCLUDE,Thesis,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
+(Leseberg et al. 2021)_EXCLUDE_NA_Expert opinion_NA_NA,(Leseberg et al. 2021),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Lindenmayer et al. 2009)_EXCLUDE_NA_No claim_NA_NA,(Lindenmayer et al. 2009),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Maguire et al. 2013)_EXCLUDE_NA_Expert opinion_NA_NA,(Maguire et al. 2013),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 N Dexter unpublished_EXCLUDE_NA_Unpublished data or article_NA_NA,N Dexter unpublished,EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
@@ -611,6 +622,7 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Zosterops albogularis,NOTHING NA Zost
 (Pavey et al. 2008a)_EXCLUDE_NA_No claim_NA_NA,(Pavey et al. 2008a),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Threatened Species Scientific Committee 2016a)_INCLUDE_NA_Predation not in support_no_no,(Threatened Species Scientific Committee 2016a),INCLUDE,"",Predation not in support,no,no,Predation not in support without data,Predation not in support without data,Predation without data,No,Predation not in support without data
 (White 1922)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,(White 1922),EXCLUDE,Journal pre-1975,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
+(Whitlock 1924)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,(Whitlock 1924),EXCLUDE,Journal pre-1975,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Woinarski et al. 2017)_EXCLUDE_NA_Expert opinion_NA_NA,(Woinarski et al. 2017),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Ashby 1924)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,(Ashby 1924),EXCLUDE,Journal pre-1975,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Mathieson & Smith 2009b)_EXCLUDE_NA_No claim_NA_NA,(Mathieson & Smith 2009b),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -623,10 +635,8 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Thalassarche steadi,NOTHING NA Thalas
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Turnix olivii,NOTHING NA Turnix olivii,EXCLUDE,"",No citation given,"",no,No citation,Opinion claim,Excluded,Not relevant,Nothing cited
 (Rounsevell & Brothers 1984)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Rounsevell & Brothers 1984),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Villard et al. 2006)_EXCLUDE_NA_Expert opinion_NA_NA,(Villard et al. 2006),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
-(Whitlock 1924)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,(Whitlock 1924),EXCLUDE,Journal pre-1975,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Cayot 2008)_INCLUDE_NA_Predation in support_no_no,(Cayot 2008),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Woram 1991)_EXCLUDE_NA_No claim_NA_NA,(Woram 1991),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
-(Iverson 1979)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,(Iverson 1979),EXCLUDE,Peer-reviewed journal article,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Olson 1984)_EXCLUDE_NA_No claim_NA_NA,(Olson 1984),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Mathew 1996)_EXCLUDE_NA_No claim_NA_NA,(Mathew 1996),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Morris et al. 2003)_EXCLUDE_NA_No claim_NA_NA,(Morris et al. 2003),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -653,7 +663,6 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Turnix olivii,NOTHING NA Turnix olivi
 (Cheke & Hume 2008)_EXCLUDE_NA_Expert opinion_NA_NA,(Cheke & Hume 2008),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 Galbreath 1989_EXCLUDE_NA_Missing reference_NA_NA,Galbreath 1989,EXCLUDE,,Inaccessible,"",no,Inaccessible,Missing reference,Excluded,Not relevant,Excluded
 (Gibbs et al. 2001)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Gibbs et al. 2001),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
-(Hume 2017) core source_INCLUDE_NA_Population not in support_yes_no,(Hume 2017) core source,INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Acrocephalus longirostris,NOTHING NA Acrocephalus longirostris,EXCLUDE,"",No citation given,"",no,No citation,Opinion claim,Excluded,Not relevant,Nothing cited
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Acrocephalus yamashinae,NOTHING NA Acrocephalus yamashinae,EXCLUDE,"",No citation given,"",no,No citation,Opinion claim,Excluded,Not relevant,Nothing cited
 NOTHING_EXCLUDE_NA_No citation given_NA_NA Alopochen mauritiana,NOTHING NA Alopochen mauritiana,EXCLUDE,"",No citation given,"",no,No citation,Opinion claim,Excluded,Not relevant,Nothing cited
@@ -723,6 +732,7 @@ Banko 2009_EXCLUDE_NA_Missing reference_NA_NA,Banko 2009,EXCLUDE,,Inaccessible,"
 (Banko & Elder 1990)_EXCLUDE_NA_Expert opinion_NA_NA,(Banko & Elder 1990),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Barbraud et al. 2009)_EXCLUDE_NA_No claim_NA_NA,(Barbraud et al. 2009),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Basse et al. 1999)_EXCLUDE_NA_No claim_NA_NA,(Basse et al. 1999),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
+(Bell 2017)_INCLUDE_NA_Predation in support_no_no,(Bell 2017),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Bell et al. 2012)_EXCLUDE_NA_No claim_NA_NA,(Bell et al. 2012),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Berlin & Vangelder 1999)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Berlin & Vangelder 1999),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (BirdLife International 2001)_EXCLUDE_NA_No claim_NA_NA,(BirdLife International 2001),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -848,6 +858,7 @@ Hodum in litt. 2008_EXCLUDE_NA_Unpublished data or article_NA_NA,Hodum in litt. 
 (Hodum & Wainstein 2004)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Hodum & Wainstein 2004),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Honsterette & Probst 1999)_EXCLUDE_NA_Not in English or Spanish_NA_NA,(Honsterette & Probst 1999),EXCLUDE,,Inaccessible,"",no,Inaccessible,Not in English or Spanish,Excluded,Not relevant,Excluded
 Hume 2017_EXCLUDE_NA_Missing reference_NA_NA,Hume 2017,EXCLUDE,,Inaccessible,"",no,Inaccessible,Missing reference,Excluded,Not relevant,Excluded
+(Hume 2017) core source_INCLUDE_NA_Population not in support_yes_no,(Hume 2017) core source,INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
 (Hume 2017) core source_INCLUDE_NA_Population in support_yes_no,(Hume 2017) core source,INCLUDE,"",Population in support,yes,no,Population in support with data,Population in support with data,Population with data,Yes,Population in support with data
 (Hunter et al. 2018)_EXCLUDE_NA_Expert opinion_NA_NA,(Hunter et al. 2018),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 I. Debski in litt. 2018_EXCLUDE_NA_Missing reference_NA_NA,I. Debski in litt. 2018,EXCLUDE,,Inaccessible,"",no,Inaccessible,Missing reference,Excluded,Not relevant,Excluded
@@ -871,6 +882,7 @@ J. Townsend pers. comm. 2020_EXCLUDE_NA_Personal communication_NA_NA,J. Townsend
 "J. Valiulis, pers. comm. 2015_EXCLUDE_NA_Personal communication_NA_NA","J. Valiulis, pers. comm. 2015",EXCLUDE,,Inaccessible,"",no,Inaccessible,Personal communication,Excluded,Not relevant,Excluded
 J. Woinarski pers. comm. 2017_EXCLUDE_NA_Personal communication_NA_NA,J. Woinarski pers. comm. 2017,EXCLUDE,,Inaccessible,"",no,Inaccessible,Personal communication,Excluded,Not relevant,Excluded
 J.C. Ortiz pers. comm. July 2015_EXCLUDE_NA_Personal communication_NA_NA,J.C. Ortiz pers. comm. July 2015,EXCLUDE,,Inaccessible,"",no,Inaccessible,Personal communication,Excluded,Not relevant,Excluded
+(Jessop et al. In prep)_EXCLUDE_NA_Unpublished data or article_NA_NA,(Jessop et al. In prep),EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
 (Jiménez-Uzcátegui et al. 2019)_EXCLUDE_NA_Expert opinion_NA_NA,(Jiménez-Uzcátegui et al. 2019),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Jones 1988)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,(Jones 1988),EXCLUDE,Peer-reviewed journal article,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Jones 1993)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,(Jones 1993),EXCLUDE,Peer-reviewed journal article,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
@@ -895,7 +907,6 @@ L. Dollar pers. comm._EXCLUDE_NA_Personal communication_NA_NA,L. Dollar pers. co
 (Leary 1992)_EXCLUDE_NA_No claim_NA_NA,(Leary 1992),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Lepson 2020)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Lepson 2020),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Lepson & Freed 2020)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Lepson & Freed 2020),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
-(Leseberg et al. 2021)_EXCLUDE_NA_Expert opinion_NA_NA,(Leseberg et al. 2021),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Lindsey et al. 2009)_EXCLUDE_NA_No claim_NA_NA,(Lindsey et al. 2009),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Lindsey et al. 2009)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Lindsey et al. 2009),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Lindsey et al. 1998)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Lindsey et al. 1998),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
@@ -1358,7 +1369,6 @@ V. Reynoso and Y. Gadar pers. obs. 2016_EXCLUDE_NA_Personal communication_NA_NA,
 (Watling 2013)_EXCLUDE_NA_No claim_NA_NA,(Watling 2013),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Watling & Lewanavanua 1985)_EXCLUDE_NA_Expert opinion_NA_NA,(Watling & Lewanavanua 1985),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Watson 1992)_EXCLUDE_NA_Expert opinion_NA_NA,(Watson 1992),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
-(Wayne et al. 2005)_INCLUDE_NA_Predation in support_no_no,(Wayne et al. 2005),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 Weller 2014_EXCLUDE_NA_Missing reference_NA_NA,Weller 2014,EXCLUDE,,Inaccessible,"",no,Inaccessible,Missing reference,Excluded,Not relevant,Excluded
 (Weller et al. 2016)_EXCLUDE_NA_No claim_NA_NA,(Weller et al. 2016),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Whitaker et al. 2018)_EXCLUDE_NA_Expert opinion_NA_NA,(Whitaker et al. 2018),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
@@ -1393,6 +1403,7 @@ R. Rodriguez-Estrella in litt. 1995)._EXCLUDE_NA_Unpublished data or article_NA_
 (Sumner & Bond 1939)_EXCLUDE_NA_Unpublished data or article_NA_NA,(Sumner & Bond 1939),EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
 (Howell 1917)_INCLUDE_NA_Population in support_no_no,(Howell 1917),INCLUDE,"",Population in support,no,no,Population in support without data,Population in support without data,Population without data,Yes,Population in support without data
 (Willett 1912)_INCLUDE_NA_Predation in support_no_no,(Willett 1912),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
+(Nano et al. 2008)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,(Nano et al. 2008),EXCLUDE,,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Lazenby 2012)_INCLUDE_NA_Predation in support_no_no,(Lazenby 2012),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Scott 1994)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Scott 1994),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Ardura & Calabuig 1993)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Ardura & Calabuig 1993),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
@@ -1402,6 +1413,7 @@ R. Rodriguez-Estrella in litt. 1995)._EXCLUDE_NA_Unpublished data or article_NA_
 (Bell & Robertson 1994)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(Bell & Robertson 1994),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Berruti 1986)_INCLUDE_NA_Predation in support_no_no,(Berruti 1986),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,(BirdLife International 2000),EXCLUDE,Book or chapter,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
+(BirdLife International 2000)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,(BirdLife International 2000),EXCLUDE,,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Bloomer & Bester 1990)_INCLUDE_NA_Predation in support_no_no,(Bloomer & Bester 1990),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Burbidge 2004)_EXCLUDE_NA_No claim_NA_NA,(Burbidge 2004),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Clevenger 1995)_INCLUDE_NA_Predation in support_no_no,(Clevenger 1995),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
@@ -1425,6 +1437,7 @@ R. Rodriguez-Estrella in litt. 1995)._EXCLUDE_NA_Unpublished data or article_NA_
 (Smucker et al. 2000)_INCLUDE_NA_Predation in support_no_no,(Smucker et al. 2000),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Snetsinger et al. 1994)_INCLUDE_NA_Predation in support_no_no,(Snetsinger et al. 1994),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Tomkins 1985)_EXCLUDE_Conference proceedings_Failure to access or locate online full citation_NA_NA,(Tomkins 1985),EXCLUDE,Conference proceedings,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
+(Veitch 1985)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,(Veitch 1985),EXCLUDE,,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Williams 1984)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Williams 1984),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
 (Winter & Wallace 2006)_EXCLUDE_NA_Expert opinion_NA_NA,(Winter & Wallace 2006),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Winter & Wallace 2006)_EXCLUDE_NA_No claim_NA_NA,(Winter & Wallace 2006),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -1473,7 +1486,6 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Pteropus vetula,NOTHING NA Pteropus v
 (Morris et al. 2015)_EXCLUDE_NA_Expert opinion_NA_NA,(Morris et al. 2015),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Morris et al. 2004)_EXCLUDE_NA_Expert opinion_NA_NA,(Morris et al. 2004),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 (Radford et al. 2018) core source_INCLUDE_NA_Population not in support_yes_no,(Radford et al. 2018) core source,INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
-(Wayne et al. 2017b)_INCLUDE_NA_Population not in support_yes_no,(Wayne et al. 2017b),INCLUDE,"",Population not in support,yes,no,Population not in support with data,Population not in support with data,Population with data,No,Population not in support with data
 (West et al. 2018)_EXCLUDE_NA_Does not test claim_NA_NA,(West et al. 2018),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Does not test claim,Excluded,Not relevant,Excluded
 (Woinarski et al. 2011a)_INCLUDE_NA_Population in support_yes_yes,(Woinarski et al. 2011a),INCLUDE,"",Population in support,yes,yes,Population in support with data of quality,Population in support with data of quality,Population with data,Yes,Population in support with data
 (Woinarski et al. 2011a)_INCLUDE_NA_Population not in support_yes_yes,(Woinarski et al. 2011a),INCLUDE,"",Population not in support,yes,yes,Population not in support with data of quality,Population not in support with data of quality,Population with data,No,Population not in support with data
@@ -1555,7 +1567,6 @@ NOTHING_EXCLUDE_NA_No citation given_NA_NA Pteropus vetula,NOTHING NA Pteropus v
 (Vernes et al. 2021a)_INCLUDE_NA_Predation in support_no_no,(Vernes et al. 2021a),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Wallach & Lundgren 2025)_INCLUDE_NA_Population in support_yes_no,(Wallach & Lundgren 2025),INCLUDE,"",Population in support,yes,no,Population in support with data,Population in support with data,Population with data,Yes,Population in support with data
 (Wayne et al. 2017b)_INCLUDE_NA_Population in support_yes_no,(Wayne et al. 2017b),INCLUDE,"",Population in support,yes,no,Population in support with data,Population in support with data,Population with data,Yes,Population in support with data
-(Wheeler & Priddel 2009)_INCLUDE_NA_Predation in support_no_no,(Wheeler & Priddel 2009),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Wysong 2016)_INCLUDE_NA_Predation in support_no_no,(Wysong 2016),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Molloy & Daniel 1995)_INCLUDE_NA_Predation in support_no_no,(Molloy & Daniel 1995),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Van Denburgh 1924)_EXCLUDE_NA_No claim_NA_NA,(Van Denburgh 1924),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -1594,7 +1605,6 @@ P. McRae pers. comm._EXCLUDE_NA_Personal communication_NA_NA,P. McRae pers. comm
 (Pavey et al. 2012)_EXCLUDE_NA_Expert opinion_NA_NA,(Pavey et al. 2012),EXCLUDE,"",Does not test claim,"",no,Does not test claim,Expert opinion,Excluded,Not relevant,Excluded
 S. Legge pers.comm._EXCLUDE_NA_Personal communication_NA_NA,S. Legge pers.comm.,EXCLUDE,,Inaccessible,"",no,Inaccessible,Personal communication,Excluded,Not relevant,Excluded
 (Van Dyck & Gynther 2012)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,(Van Dyck & Gynther 2012),EXCLUDE,Report,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
-(Woinarski et al. 2014) core source_INCLUDE_NA_Predation in support_no_no,(Woinarski et al. 2014) core source,INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 "LCY and EAV, unpubl. data_EXCLUDE_NA_Unpublished data or article_NA_NA","LCY and EAV, unpubl. data",EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
 (Zavalaga et al. 2008b)_EXCLUDE_NA_No claim_NA_NA,(Zavalaga et al. 2008b),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Zino 1992)_INCLUDE_NA_Predation in support_no_no,(Zino 1992),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
@@ -1628,7 +1638,6 @@ S. Legge pers.comm._EXCLUDE_NA_Personal communication_NA_NA,S. Legge pers.comm.,
 (Baker & Beveridge 2001)_EXCLUDE_NA_No claim_NA_NA,(Baker & Beveridge 2001),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Balasubramanian et al. 2022)_EXCLUDE_NA_No claim_NA_NA,(Balasubramanian et al. 2022),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Bannister et al. 2021)_EXCLUDE_NA_No claim_NA_NA,(Bannister et al. 2021),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
-(Bell 2017)_INCLUDE_NA_Predation in support_no_no,(Bell 2017),INCLUDE,"",Predation in support,no,no,Predation in support without data,Predation in support without data,Predation without data,Yes,Predation in support without data
 (Berris et al. 2020)_EXCLUDE_NA_No claim_NA_NA,(Berris et al. 2020),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Bird et al. 2024)_INCLUDE_NA_Population not in support_no_no,(Bird et al. 2024),INCLUDE,"",Population not in support,no,no,Population not in support without data,Population not in support without data,Population without data,No,Population not in support without data
 (Bisbal 2008)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,(Bisbal 2008),EXCLUDE,Peer-reviewed journal article,Inaccessible,"",no,Inaccessible,Failure to access or locate online full citation,Excluded,Not relevant,Excluded
@@ -1700,7 +1709,6 @@ S. Legge pers.comm._EXCLUDE_NA_Personal communication_NA_NA,S. Legge pers.comm.,
 (Hocking & Guiler 1983)_EXCLUDE_NA_No claim_NA_NA,(Hocking & Guiler 1983),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Indigo et al. 2019)_EXCLUDE_NA_No claim_NA_NA,(Indigo et al. 2019),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Ishida et al. 2015)_EXCLUDE_NA_No claim_NA_NA,(Ishida et al. 2015),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
-(Jessop et al. In prep)_EXCLUDE_NA_Unpublished data or article_NA_NA,(Jessop et al. In prep),EXCLUDE,,Inaccessible,"",no,Inaccessible,Unpublished data or article,Excluded,Not relevant,Excluded
 (Jones et al. 2021)_EXCLUDE_NA_No claim_NA_NA,(Jones et al. 2021),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Jones & Ryan 2010)_EXCLUDE_NA_No claim_NA_NA,(Jones & Ryan 2010),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Juhasz et al. 2022a)_EXCLUDE_NA_No claim_NA_NA,(Juhasz et al. 2022a),EXCLUDE,"",No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
@@ -1791,4 +1799,3 @@ S. Legge pers.comm._EXCLUDE_NA_Personal communication_NA_NA,S. Legge pers.comm.,
 (Garnett et al. 2011) core source_EXCLUDE_NA_No claim,(Garnett et al. 2011) core source,EXCLUDE,,No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Dickman 1996b) core source_EXCLUDE_NA_No claim,(Dickman 1996b) core source,EXCLUDE,,No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
 (Hume 2017) core source_EXCLUDE_NA_No claim,(Hume 2017) core source,EXCLUDE,,No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded
-(IUCN 2025) core source_EXCLUDE_NA_No claim,(IUCN 2025) core source,EXCLUDE,,No claim,"",no,No claim,No claim,Excluded,Not relevant,Excluded

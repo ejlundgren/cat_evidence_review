@@ -29,6 +29,105 @@ library("broom.mixed")
 nodes <- fread("builds/citation_network/nodes.csv")
 edges <- fread("builds/citation_network/edges.csv")
 
+edges
+
+# Make sure we've dropped excluded species
+claims <- fread("builds/claims/species_claims_tidy_raw.csv")
+claims <- claims[exclude_species == "included_species"]
+all(edges$scientificName %in% claims$scientificName)
+
+# >>> Test that the number of citations matches that in the species claims file --------
+unique(edges$cited_by_id)
+temp <- edges[grepl("core source", cited_by_id) | grepl("external review", cited_by_id)]
+unique(temp$cited_by_id)
+
+temp <- merge(temp,
+              nodes[, .(node_id, article_node_name)],
+              by.x = "cited_by_id", by.y = "node_id")
+
+unique(temp$article_id)
+temp <- temp[!grepl("NOTHING_EXCLUDE", article_id)]
+
+n_cited <- temp[, .(n_articles_cited = uniqueN(article_id)),
+                by = .(scientificName, cited_by_id)]
+n_cited
+
+claims
+unique(claims$EXCLUDE_cats_not_attributed)
+
+claims_mlt <- melt(claims[, !c("assessmentId", "internalTaxonId", "realm",
+                               "systems", "redlistCategory", "criteriaVersion",
+                               "populationTrend", "EXCLUDE_cats_not_attributed",
+                               "Mass_g_final", "class", "spp_name_corrected",
+                               "Cat_effect", "Search_conducted", "exclude_species"),
+                          with = F],
+                   id.vars = c("scientificName", "assessmentDate", "Synonyms_or_previous_lump"))
+
+unique(claims_mlt$variable)
+
+claims_mlt <- claims_mlt[variable != "Snowball", ]
+claims_mlt
+unique(claims_mlt$value)
+claims_mlt <- claims_mlt[!is.na(value) & !value %in% c("Cats not mentioned", "Not attributed")]
+
+unique(n_cited$cited_by_id)
+
+# Ugh.
+unique(claims_mlt$variable)
+
+n_cited[, cited_by_key := fcase(cited_by_id == "(Alberts 2000) core source_claim", "Alberts_iguanas",
+                                cited_by_id == "(Dickman 1996b) core source_claim", "Dickman_AU_mammal",
+                                cited_by_id == "(Doherty et al. 2016) core source_claim", "Doherty_references0_NA",
+                                cited_by_id == "(Garnett & Baker 2021) core source_claim", "Garnett2020_AU_birds",
+                                cited_by_id == "(Garnett et al. 2011) core source_claim", "Garnett2010_AU_birds",
+                                cited_by_id == "(Hess 2014) core source_claim", "Hess",
+                                cited_by_id == "(Hume 2017) core source_claim", "Hume_EX_birds",
+                                cited_by_id == "(IUCN 2025) core source_claim", "IUCN_references",
+                                cited_by_id == "(Medina et al. 2011) core source_claim", "Medina_references0_NA",
+                                cited_by_id == "(Oedin et al. 2021) core source_claim", "Oedin_bats",
+                                cited_by_id == "(Radford et al. 2018) core source_claim", "Radford",
+                                cited_by_id == "(Wallach & Lundgren 2025)_external review without claim", "Wallach_AU_mammal_no_claim",
+                                cited_by_id == "(Welch & Leppanen 2017) core source_claim", "Welch_bats",
+                                cited_by_id == "(Woinarski et al. 2014) core source_claim", "Woinarski_AU_mammal",
+                                cited_by_id == "Opportunistic_Systematic external review", "Opportunistic",
+                                cited_by_id == "Web of Science_Systematic external review", "Web_of_Science_no_claim")]
+unique(n_cited$cited_by_key)
+n_cited <- n_cited[!is.na(cited_by_key)]
+n_cited[, key := paste(cited_by_key, scientificName, sep = ";")]
+claims_mlt[, key := paste(variable, scientificName, sep = ";")]
+
+setdiff(n_cited$key, claims_mlt$key)
+setdiff(claims_mlt$key, n_cited$key)
+
+unique(n_cited$n_articles_cited)
+#
+n_cited.mrg <- merge(claims_mlt[!is.na(value), .(key, value)],
+                     n_cited[, .(key, n_articles_cited)],
+                     all.x = T,
+                     all.y = T,
+                     by = "key")
+n_cited.mrg
+setnames(n_cited.mrg, "value", "n_cited_in_original_dataset")
+setnames(n_cited.mrg, "n_articles_cited", "n_articles_cited_in_network")
+
+unique(n_cited.mrg$n_cited_in_original_dataset)
+n_cited.mrg[is.na(n_cited_in_original_dataset)]
+
+n_cited.mrg[n_cited_in_original_dataset %in% c("Not attributed", "Cats not mentioned"), 
+            n_cited_in_original_dataset := NA]
+
+n_cited.mrg[is.na(n_articles_cited_in_network) , n_articles_cited_in_network := 0]
+n_cited.mrg[n_cited_in_original_dataset == "", n_cited_in_original_dataset := 0]
+
+n_cited.mrg[, n_cited_in_original_dataset := as.integer(n_cited_in_original_dataset)]
+
+n_cited.mrg[n_articles_cited_in_network != n_cited_in_original_dataset, ]
+
+n_cited.mrg[, c("source", "scientificName") := tstrsplit(key, ";")]
+n_cited.mrg
+
+fwrite(n_cited.mrg[n_cited_in_original_dataset != n_articles_cited_in_network, ], "data/temp/checking_citation_numbers.csv")
+
 # >>> Collapse opportunistic and web of science -------------------------------
 
 nodes[grepl("Opportunistic", node_id),]
@@ -45,8 +144,6 @@ edges[grepl("Opportunistic", cited_by_id) | grepl("Web of Science", cited_by_id)
 
 # >>> Check that core sources in evidence is treated as the same node as cited_by unless it presents novel data --------
 edges[grepl("core source", article_id), ]
-
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ------------------------------------------
 
@@ -82,6 +179,7 @@ nodes[!evidence_type_synthetic %in% c("Opinion claim", "Inaccessible", "No claim
 #
 unique(nodes$evidence_type_synthetic)
 unique(nodes$evidence_type_synthetic_simple)
+
 nodes[evidence_type_synthetic == "Not in English", evidence_type_synthetic_simple := "Excluded"]
 
 # unique(nodes$evidence_type_synthetic_simple)
@@ -98,6 +196,9 @@ unique(nodes$evidence_type_synthetic_simple)
 # nodes[grepl("Opportunistic", article_node_name), evidence_type_synthetic_simple := "Opportunistic"]
 
 unique(nodes$evidence_type_synthetic_simple)
+
+unique(nodes$evidence_type_simple)
+nodes[evidence_type_simple == "Excluded", evidence_type_synthetic_simple := "Excluded"]
 
 # Create color palettes
 unique(nodes$evidence_type_synthetic_simple)
@@ -177,7 +278,7 @@ nodes.sub <- nodes[node_id %in% c(edges.sub$cited_by_id, edges.sub$article_id)]
 
 # >>> Test some plotting weirdnesses with some species ----------------------------------------------------------------
 
-test.edges <- edges.sub[scientificName == "Acrocephalus longirostris", ]
+test.edges <- edges.sub[scientificName == "Gallotia simonyi", ]
 test.nodes <- nodes.sub[node_id %in% c(test.edges$cited_by_id, test.edges$article_id)]
 
 gr <- igraph::graph_from_data_frame(d = test.edges, 
@@ -205,6 +306,10 @@ ggraph(graph, layout = "auto")+
 fwrite(edges.sub, "builds/citation_network/edges_tidied.csv")
 fwrite(nodes.sub, "builds/citation_network/nodes_tidied.csv")
 
+saveRDS(edges.sub, "builds/citation_network/edges_tidied.Rds")
+saveRDS(nodes.sub, "builds/citation_network/nodes_tidied.Rds")
+
+
 edges.sub[scientificName == "Nannoscincus hanchisteus"]
 
 igraph.gr <- igraph::graph_from_data_frame(d = edges.sub, 
@@ -219,6 +324,7 @@ unique(edges$edge_type)
 #
 unique(nodes$evidence_type_synthetic)
 #
+nodes[evidence_type_synthetic == "", ]
 
 # >>> Plot ----------------------------------------------------------------
 unique(nodes$evidence_type_synthetic_simple)
@@ -277,7 +383,6 @@ p1 <- ggraph(graph, layout = "kk")+
   theme(legend.position = 'bottom')
 p1
 
-
 # >>> Number of claimants per species -------------------------------------
 claimants <- edges[grepl("_claim", cited_by_id) ]
 claimant_freq <- claimants[, .(n_claimants = uniqueN(cited_by_id)),
@@ -288,7 +393,7 @@ median(claimant_freq$n_claimants)
 claimant_freq[, cat := ifelse(n_claimants == 1, "one_claimant", "more_than_one")]
 claimant_freq[, .(n = .N),
               by = .(cat)]
-333/(333+393)
+332/(332+396)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -----------------------------------------
 # Probability of a population study being cited by support/not support ---------------------------
@@ -407,7 +512,7 @@ out[, perc_cited := `1` / total * 100]
 out[, .(mean = mean(perc_cited), sd=sd(perc_cited)),
     by = .(in_support)]
 
-  #
+#
 # Just claimants with lists (no possibility of misinterpretation):
 #
 unique(terminus_exploded_filtered$cited_by_id)
@@ -541,8 +646,7 @@ cites.p.included <- ggplot(data = terminus_freq.simple[making_claim == "making c
                    labels = c("Population", "Predation", "No primary data found"))+
   scale_color_manual(name = "Of quality",
                      values = col_pal)+
-  scale_fill_manual(values = fill_pal,
-                    labels = labs)+
+  scale_fill_manual(values = fill_pal)+
   xlab("Terminus of citation chains\n(total number of citations)")+
   ylab(NULL)+
   # geom_text(stat = "stratum", size = 3, color = "black") +
@@ -568,8 +672,7 @@ cites.included.no.claim <- ggplot(data = terminus_freq.simple[making_claim == "n
                    labels = c("Population", "Predation", "No primary data found"))+
   scale_color_manual(name = "Of quality",
                      values = col_pal)+
-  scale_fill_manual(values = fill_pal,
-                    labels = labs)+
+  scale_fill_manual(values = fill_pal)+
   xlab("Terminus of citation chains\n(total number of citations)")+
   ylab(NULL)+
   # geom_text(stat = "stratum", size = 3, color = "black") +
@@ -599,7 +702,6 @@ unique(excluded[evidence_type_fine == "Failure to access or locate online full c
 
 excluded[evidence_type_fine == "Failure to access or locate online full citation", .(n = .N),
          by = Peer_reviewed_source]
-
 
 excluded[evidence_type_fine == "Failure to access or locate online full citation" &
            Peer_reviewed_source %in% c("Peer-reviewed journal article",
@@ -841,8 +943,8 @@ ggsave("figures/main_text/citations_raw.pdf",
 # cites.p.excluded + cites.p.included
 
 bottom_row
-ggsave("figures/main_text/citations_bottom_row.pdf", 
-       width = 8, height = 3)
+# ggsave("figures/main_text/citations_bottom_row.pdf", 
+#        width = 8, height = 3)
 
 # Alternatibve:
 bottom_row_left <- (cites.p.excluded + theme(legend.position = "none", 

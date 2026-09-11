@@ -69,6 +69,12 @@ test_edges.mrg2 <- merge(test_edges.mrg,
 test_edges.mrg2
 setnames(test_edges.mrg2, "pub_year", "article_year")
 
+unique(test_edges.mrg2[is.na(article_year) & !grepl("NOTHING_EXCLUDE", article_id), ]$article_id)
+
+# ALl personal communication or No citation.
+test_edges.mrg2[is.na(article_year) & !grepl("NOTHING_EXCLUDE", article_id), 
+                article_year := source_year - 1]
+
 # >>> Check direct citations ----------------------------------------------
 test_edges.mrg2[source_year < article_year]
 

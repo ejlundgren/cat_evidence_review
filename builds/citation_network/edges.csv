@@ -5,11 +5,8 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Perameles eremiana,core_sources
 (IUCN 2025) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Macrotis leucura,core_sources
 (IUCN 2025) core source_claim,(Hume 2017) core source_EXCLUDE_NA_No claim,citation,Gallinula nesiotis,core_sources
-(Welch & Leppanen 2017) core source_claim,(IUCN 2025) core source_EXCLUDE_NA_No claim,citation,Pteropus melanotus,core_sources
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Caloprymnus campestris,core_sources
-(Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Notomys macrotis,core_sources
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Notomys mordax,core_sources
-(Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Notomys robustus,core_sources
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Onychogalea lunata,core_sources
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Perameles eremiana,core_sources
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Pseudomys auritus,core_sources
@@ -17,6 +14,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Woinarski et al. 2014) core source_claim,(Dickman 1996b) core source_EXCLUDE_NA_No claim,citation,Macrotis leucura,core_sources
 (ACAP 2009b)_EXCLUDE_NA_Expert opinion_NA_NA,(Taylor 2000)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Diomedea epomophora,snowball
 (Adams et al. 1997)_EXCLUDE_NA_Expert opinion_NA_NA,(Williams 1991)_INCLUDE_NA_Predation in support_no_no,citation,Hymenolaimus malacorhynchos,snowball
+(Alberts 2000) core source_claim,(Iverson 1979)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Cyclura carinata,core_sources
 (Alberts 2000) core source_claim,(Iverson 1978)_INCLUDE_NA_Predation in support_no_no,citation,Cyclura carinata,core_sources
 (Alberts 2000) core source_claim,(Moreno 1995)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Cyclura stejnegeri,core_sources
 (Alberts 2000) core source_claim,NOTHING_EXCLUDE_NA_No citation given_NA_NA Cyclura collei,citation,Cyclura collei,core_sources
@@ -46,6 +44,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Banko et al. 2014a)_INCLUDE_NA_Predation in support_no_no,(Hess et al. 2004)_INCLUDE_NA_Predation in support_no_no,citation,Loxioides bailleui,snowball
 (Banko et al. 2014a)_INCLUDE_NA_Predation in support_no_no,(Banko et al. 2002b)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Loxioides bailleui,snowball
 (Banko et al. 2019)_INCLUDE_NA_Predation not in support_no_no,(Sarr et al. 1998)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Chasiempis sandwichensis,snowball
+(Banko et al. 2019)_EXCLUDE_NA_No claim_NA_NA,(Sarr et al. 1998)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Chasiempis sandwichensis,snowball
 (Barker & Williams 2002)_INCLUDE_NA_Predation not in support_no_no,(Barker 1998)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Anas chlorotis,snowball
 (Barker & Williams 2002)_INCLUDE_NA_Predation not in support_no_no,(Barker 1999)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Anas chlorotis,snowball
 (Barker & Williams 2002)_INCLUDE_NA_Predation not in support_no_no,(Williams 2001)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Anas chlorotis,snowball
@@ -233,6 +232,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Bentz et al. 2011)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Sphaerodactylus kirbyi,core_sources
 (Doherty et al. 2016) core source_claim,(Bonnaud et al. 2012)_INCLUDE_NA_Predation in support_no_no,citation,Puffinus yelkouan,core_sources
 (Doherty et al. 2016) core source_claim,(Bonnaud et al. 2010a)_INCLUDE_NA_Predation in support_no_no,citation,Diplothrix legata,core_sources
+(Doherty et al. 2016) core source_claim,(Bonnaud et al. 2010a)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,core_sources
 (Doherty et al. 2016) core source_claim,(Bonnaud et al. 2010a)_INCLUDE_NA_Predation in support_no_no,citation,Pentalagus furnessi,core_sources
 (Doherty et al. 2016) core source_claim,(Bonnaud et al. 2010a)_INCLUDE_NA_Predation in support_no_no,citation,Sylvilagus mansuetus,core_sources
 (Doherty et al. 2016) core source_claim,(Buller & Keulemans 1905)_INCLUDE_NA_Predation in support_no_no,citation,Traversia lyalli,core_sources
@@ -262,6 +262,8 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Priddel & Wheeler 1996)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Leipoa ocellata,core_sources
 (Doherty et al. 2016) core source_claim,(Priddel & Wheeler 1997)_INCLUDE_NA_Predation in support_no_no,citation,Leipoa ocellata,core_sources
 (Doherty et al. 2016) core source_claim,(Priddel & Wheeler 1994)_INCLUDE_NA_Predation in support_no_no,citation,Leipoa ocellata,core_sources
+(Doherty et al. 2016) core source_claim,(Damme & Banfield 2011)_EXCLUDE_NA_No claim_NA_NA,citation,Emberiza socotrana,core_sources
+(Doherty et al. 2016) core source_claim,(Daniel & Williams 1984)_INCLUDE_NA_Predation in support_no_no,citation,Chalinolobus tuberculatus,core_sources
 (Doherty et al. 2016) core source_claim,(Darby et al. 1990)_INCLUDE_NA_Predation in support_no_no,citation,Megadyptes antipodes,core_sources
 (Doherty et al. 2016) core source_claim,(Day et al. 2003)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Puffinus newelli,core_sources
 (Doherty et al. 2016) core source_claim,(Deem et al. 2010)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Spheniscus mendiculus,core_sources
@@ -389,8 +391,10 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Dierogekko validiclavis,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Diomedea exulans,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Diomedea sanfordi,core_sources
+(Doherty et al. 2016) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Diplothrix legata,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Dryolimnas augusti,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Dysmorodrepanis munroi,core_sources
+(Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Emberiza socotrana,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Emoia adspersa,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Emoia lawesi,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Emoia loyaltiensis,core_sources
@@ -449,6 +453,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Oedodera marmorata,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Otus insularis,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Palmeria dolei,core_sources
+(Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Parantechinus apicalis,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Pareudiastes pacificus,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Perochirus ateles,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Peromyscus interparietalis,core_sources
@@ -456,6 +461,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Peromyscus sejugis,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Pezophaps solitaria,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Phyllodactylus leei,core_sources
+(Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Phyllomys thomasi,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Pitta superba,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Podarcis lilfordi,core_sources
 (Doherty et al. 2016) core source_claim,(IUCN 2025) core source_claim,citation,Pomarea dimidiata,core_sources
@@ -514,6 +520,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Cruz & Cruz 1987)_INCLUDE_NA_Predation in support_no_no,citation,Pterodroma phaeopygia,core_sources
 (Doherty et al. 2016) core source_claim,(Cruz & Cruz 1996)_INCLUDE_NA_Predation in support_no_no,citation,Pterodroma phaeopygia,core_sources
 (Doherty et al. 2016) core source_claim,(Benshemesh 2007)_INCLUDE_NA_Predation in support_no_no,citation,Leipoa ocellata,core_sources
+(Doherty et al. 2016) core source_claim,(Woinarski et al. 2014) core source_INCLUDE_NA_Predation in support_no_no,citation,Parantechinus apicalis,core_sources
 (Doherty et al. 2016) core source_claim,(Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Notomys aquilo,core_sources
 (Doherty et al. 2016) core source_claim,(Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Notomys fuscus,core_sources
 (Doherty et al. 2016) core source_claim,(Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pseudantechinus mimulus,core_sources
@@ -553,6 +560,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Schulz 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Crocidura trichura,core_sources
 (Doherty et al. 2016) core source_claim,(MNRE 2006)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Didunculus strigirostris,core_sources
 (Doherty et al. 2016) core source_claim,(Marks & Redmond 1994)_INCLUDE_NA_Population in support_yes_no,citation,Numenius tahitiensis,core_sources
+(Doherty et al. 2016) core source_claim,(Marlow et al. 2015a)_INCLUDE_NA_Predation in support_no_no,citation,Bettongia penicillata,core_sources
 (Doherty et al. 2016) core source_claim,(Martínez-Gómez & Curry 1996)_INCLUDE_NA_Predation not in support_no_no,citation,Mimus graysoni,core_sources
 (Doherty et al. 2016) core source_claim,(Martınez-Gomez et al. 2001)_INCLUDE_NA_Population not in support_yes_no,citation,Mimus graysoni,core_sources
 (Doherty et al. 2016) core source_claim,(Martınez-Gomez & Jacobsen 2004)_INCLUDE_NA_Predation in support_no_no,citation,Puffinus auricularis,core_sources
@@ -563,9 +571,11 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(McLennan et al. 1996)_INCLUDE_NA_Predation in support_no_no,citation,Apteryx australis,core_sources
 (Doherty et al. 2016) core source_claim,(McLennan et al. 1996)_EXCLUDE_NA_No claim_NA_NA,citation,Apteryx mantelli,core_sources
 (Doherty et al. 2016) core source_claim,(Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,citation,Gallotia bravoana,core_sources
+(Doherty et al. 2016) core source_claim,(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,citation,Gallotia intermedia,core_sources
 (Doherty et al. 2016) core source_claim,(Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,core_sources
 (Doherty et al. 2016) core source_claim,(Mitchell et al. 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Cyclura carinata,core_sources
 (Doherty et al. 2016) core source_claim,(Molur et al. 2005)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Tupaia nicobarica,core_sources
+(Doherty et al. 2016) core source_claim,(Moore & Reid 2009)_INCLUDE_NA_Predation in support_no_no,citation,Haematopus chathamensis,core_sources
 (Doherty et al. 2016) core source_claim,(Moseby et al. 2015)_INCLUDE_NA_Predation in support_no_no,citation,Macrotis lagotis,core_sources
 (Doherty et al. 2016) core source_claim,(Moseby et al. 2015)_INCLUDE_NA_Predation not in support_no_no,citation,Macrotis lagotis,core_sources
 (Doherty et al. 2016) core source_claim,(Moseby et al. 2011)_EXCLUDE_NA_No claim_NA_NA,citation,Leporillus conditor,core_sources
@@ -648,6 +658,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Tennent 2009)_INCLUDE_NA_Predation in support_no_no,citation,Microgoura meeki,core_sources
 (Doherty et al. 2016) core source_claim,(Thiebot et al. 2014)_INCLUDE_NA_Predation not in support_no_no,citation,Diomedea amsterdamensis,core_sources
 (Doherty et al. 2016) core source_claim,(Thorsen et al. 2002)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Ducula galeata,core_sources
+(Doherty et al. 2016) core source_claim,(Tidemann et al. 1994)_INCLUDE_NA_Predation in support_no_no,citation,Pteropus melanotus,core_sources
 (Doherty et al. 2016) core source_claim,(Tocher 2006)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Oligosoma otagense,core_sources
 (Doherty et al. 2016) core source_claim,(Traill et al. 2011)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Xeromys myoides,core_sources
 (Doherty et al. 2016) core source_claim,(USFWS 2004)_INCLUDE_NA_Predation in support_no_no,citation,Branta sandvicensis,core_sources
@@ -662,7 +673,10 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Doherty et al. 2016) core source_claim,(Van Rensburg & Bester 1988)_INCLUDE_NA_Population in support_yes_yes,citation,Procellaria aequinoctialis,core_sources
 (Doherty et al. 2016) core source_claim,(Veitch 1985)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Petroica traversi,core_sources
 (Doherty et al. 2016) core source_claim,(Vázquez-Domínguez et al. 2004)_INCLUDE_NA_Predation in support_no_no,citation,Peromyscus guardia,core_sources
+(Doherty et al. 2016) core source_claim,(Wayne et al. 2017b)_INCLUDE_NA_Population not in support_yes_no,citation,Bettongia penicillata,core_sources
+(Doherty et al. 2016) core source_claim,(Wayne et al. 2005)_INCLUDE_NA_Predation in support_no_no,citation,Pseudocheirus occidentalis,core_sources
 (Doherty et al. 2016) core source_claim,(Weston 2003)_INCLUDE_NA_Predation in support_no_no,citation,Thinornis cucullatus,core_sources
+(Doherty et al. 2016) core source_claim,(Wheeler & Priddel 2009)_INCLUDE_NA_Predation in support_no_no,citation,Bettongia penicillata,core_sources
 (Doherty et al. 2016) core source_claim,(Wiedenfeld & Jiménez-Uzcátegui 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Larus fuliginosus,core_sources
 (Doherty et al. 2016) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Bettongia penicillata,core_sources
 (Doherty et al. 2016) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Bettongia tropica,core_sources
@@ -777,16 +791,15 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Garnett & Baker 2021) core source_claim,(Bell 1990)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Zosterops tenuirostris,core_sources
 (Garnett & Baker 2021) core source_claim,(BirdLife International 2018)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Thalassarche steadi,core_sources
 (Garnett & Baker 2021) core source_claim,(Burbidge et al. 2010)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Dasyornis longirostris,core_sources
-(Garnett & Baker 2021) core source_claim,(Veitch et al. 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pterodroma cervicalis,core_sources
 (Garnett & Baker 2021) core source_claim,(Comer & Danks 2000)_EXCLUDE_NA_No claim_NA_NA,citation,Atrichornis clamosus,core_sources
 (Garnett & Baker 2021) core source_claim,(Danks 1997)_EXCLUDE_NA_No claim_NA_NA,citation,Atrichornis clamosus,core_sources
 (Garnett & Baker 2021) core source_claim,Director of National Parks unpublished_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Petroica multicolor,core_sources
 (Garnett & Baker 2021) core source_claim,Director of National Parks unpublished_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Zosterops tenuirostris,core_sources
-(Garnett & Baker 2021) core source_claim,(Bell et al. 2018)_INCLUDE_NA_Predation in support_no_no,citation,Procellaria parkinsoni,core_sources
 (Garnett & Baker 2021) core source_claim,(Garnett & Baker 2021) core source_INCLUDE_NA_Predation in support_no_no,citation,Leipoa ocellata,core_sources
 (Garnett & Baker 2021) core source_claim,(Garnett & Baker 2021) core source_INCLUDE_NA_Predation not in support_no_no,citation,Turnix olivii,core_sources
 (Garnett & Baker 2021) core source_claim,(Gilfillan et al. 2009)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Dasyornis longirostris,core_sources
 (Garnett & Baker 2021) core source_claim,(Hanisch 1998)_EXCLUDE_Thesis_Failure to access or locate online full citation_NA_NA,citation,Thinornis cucullatus,core_sources
+(Garnett & Baker 2021) core source_claim,(Leseberg et al. 2021)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pezoporus occidentalis,core_sources
 (Garnett & Baker 2021) core source_claim,(Lindenmayer et al. 2009)_EXCLUDE_NA_No claim_NA_NA,citation,Dasyornis brachypterus,core_sources
 (Garnett & Baker 2021) core source_claim,(Maguire et al. 2013)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Thinornis cucullatus,core_sources
 (Garnett & Baker 2021) core source_claim,N Dexter unpublished_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Dasyornis brachypterus,core_sources
@@ -806,12 +819,15 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Garnett & Baker 2021) core source_claim,(Threatened Species Scientific Committee 2016a)_INCLUDE_NA_Predation not in support_no_no,citation,Amytornis dorotheae,core_sources
 (Garnett & Baker 2021) core source_claim,(Weston 2003)_INCLUDE_NA_Predation in support_no_no,citation,Thinornis cucullatus,core_sources
 (Garnett & Baker 2021) core source_claim,(White 1922)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,citation,Turnix olivii,core_sources
+(Garnett & Baker 2021) core source_claim,(Whitlock 1924)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,citation,Pezoporus occidentalis,core_sources
 (Garnett & Baker 2021) core source_claim,(Woinarski et al. 2017)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Dasyornis brachypterus,core_sources
 (Garnett et al. 2011) core source_claim,(Ashby 1924)_EXCLUDE_Journal pre-1975_Failure to access or locate online full citation_NA_NA,citation,Pezoporus occidentalis,core_sources
 (Garnett et al. 2011) core source_claim,(Bell 1990)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Zosterops tenuirostris,core_sources
 (Garnett et al. 2011) core source_claim,(Burbidge et al. 2010)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Dasyornis longirostris,core_sources
+(Garnett et al. 2011) core source_claim,(Veitch et al. 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pterodroma cervicalis,core_sources
 (Garnett et al. 2011) core source_claim,(Comer & Danks 2000)_EXCLUDE_NA_No claim_NA_NA,citation,Atrichornis clamosus,core_sources
 (Garnett et al. 2011) core source_claim,(Danks 1997)_EXCLUDE_NA_No claim_NA_NA,citation,Atrichornis clamosus,core_sources
+(Garnett et al. 2011) core source_claim,(Bell et al. 2018)_INCLUDE_NA_Predation in support_no_no,citation,Procellaria parkinsoni,core_sources
 (Garnett et al. 2011) core source_claim,(Garnett et al. 2011) core source_INCLUDE_NA_Predation in support_no_no,citation,Petroica multicolor,core_sources
 (Garnett et al. 2011) core source_claim,(Gilfillan et al. 2009)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Dasyornis longirostris,core_sources
 (Garnett et al. 2011) core source_claim,(Lindenmayer et al. 2009)_EXCLUDE_NA_No claim_NA_NA,citation,Dasyornis brachypterus,core_sources
@@ -883,7 +899,6 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Hume 2017) core source_claim,(Greenway 1967)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Gallirallus lafresnayanus,core_sources
 (Hume 2017) core source_claim,(Greenway 1967)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Pareudiastes pacificus,core_sources
 (Hume 2017) core source_claim,(Hume 2017) core source_INCLUDE_NA_Predation in support_no_no,citation,Microgoura meeki,core_sources
-(Hume 2017) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population not in support_yes_no,citation,Pterodroma rupinarum,core_sources
 (Hume 2017) core source_claim,(IUCN 2025) core source_claim,citation,Prosobonia cancellata,core_sources
 (Hume 2017) core source_claim,NOTHING_EXCLUDE_NA_No citation given_NA_NA Acrocephalus longirostris,citation,Acrocephalus longirostris,core_sources
 (Hume 2017) core source_claim,NOTHING_EXCLUDE_NA_No citation given_NA_NA Acrocephalus yamashinae,citation,Acrocephalus yamashinae,core_sources
@@ -974,12 +989,14 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Banko et al. 2002a)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Corvus hawaiiensis,core_sources
 (IUCN 2025) core source_claim,(Banko et al. 2013)_EXCLUDE_NA_No claim_NA_NA,citation,Loxioides bailleui,core_sources
 (IUCN 2025) core source_claim,(Banko et al. 2019)_INCLUDE_NA_Predation not in support_no_no,citation,Chasiempis ibidis,core_sources
+(IUCN 2025) core source_claim,(Banko et al. 2019)_EXCLUDE_NA_No claim_NA_NA,citation,Chasiempis sandwichensis,core_sources
 (IUCN 2025) core source_claim,(Banko et al. 2014b)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Loxioides bailleui,core_sources
 (IUCN 2025) core source_claim,(Banko & Elder 1990)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Branta sandvicensis,core_sources
 (IUCN 2025) core source_claim,(Barbraud et al. 2009)_EXCLUDE_NA_No claim_NA_NA,citation,Procellaria aequinoctialis,core_sources
 (IUCN 2025) core source_claim,(Basse et al. 1999)_EXCLUDE_NA_No claim_NA_NA,citation,Apteryx mantelli,core_sources
 (IUCN 2025) core source_claim,(Bell 1990)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Petroica multicolor,core_sources
 (IUCN 2025) core source_claim,(Bell 1990)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Zosterops tenuirostris,core_sources
+(IUCN 2025) core source_claim,(Bell 2017)_INCLUDE_NA_Predation in support_no_no,citation,Chlidonias albostriatus,core_sources
 (IUCN 2025) core source_claim,(Bell et al. 2012)_EXCLUDE_NA_No claim_NA_NA,citation,Oligosoma toka,core_sources
 (IUCN 2025) core source_claim,(Bentz et al. 2011)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Gonatodes daudini,core_sources
 (IUCN 2025) core source_claim,(Bentz et al. 2011)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Amerotyphlops tasymicris,core_sources
@@ -1004,6 +1021,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Bruner 1972)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Hypotaenidia pacifica,core_sources
 (IUCN 2025) core source_claim,(Buden 2000)_EXCLUDE_NA_No claim_NA_NA,citation,Pampusana kubaryi,core_sources
 (IUCN 2025) core source_claim,(Burbidge & Manly 2002)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Leporillus conditor,core_sources
+(IUCN 2025) core source_claim,(Burbidge & Manly 2002)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Pseudomys fieldi,core_sources
 (IUCN 2025) core source_claim,(Burbidge & McKenzie 1989)_EXCLUDE_NA_No claim_NA_NA,citation,Pseudomys oralis,core_sources
 (IUCN 2025) core source_claim,(Burbidge & Short 2008)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Bettongia lesueur,core_sources
 (IUCN 2025) core source_claim,(Burns et al. 2013)_INCLUDE_NA_Population in support_yes_yes,citation,Charadrius sanctaehelenae,core_sources
@@ -1149,6 +1167,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,"(Guicking 1999)_EXCLUDE_Newspaper, newsletter or magazine_Failure to access or locate online full citation_NA_NA",citation,Ardenna creatopus,core_sources
 (IUCN 2025) core source_claim,(Guo et al. 2020)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Eurostopodus nigripennis,core_sources
 (IUCN 2025) core source_claim,(Gustafson 2020)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Lanius ludovicianus,core_sources
+(IUCN 2025) core source_claim,H. Avila-Villegas pers. comm. 2007_INCLUDE_NA_Predation in support_no_no,citation,Crotalus catalinensis,core_sources
 (IUCN 2025) core source_claim,H. Baker and P. Baker in litt. 1999_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Loxioides bailleui,core_sources
 (IUCN 2025) core source_claim,H. C. Baker and P. E. Baker in litt. 1999_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Fulica alai,core_sources
 (IUCN 2025) core source_claim,H. Weimerskirch in litt. 2008_EXCLUDE_NA_Missing reference_NA_NA,citation,Diomedea exulans,core_sources
@@ -1199,6 +1218,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population not in support_yes_no,citation,Mundia elpenor,core_sources
 (IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population in support_yes_no,citation,Nesoenas duboisi,core_sources
 (IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population in support_yes_no,citation,Pezophaps solitaria,core_sources
+(IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population not in support_yes_no,citation,Pterodroma rupinarum,core_sources
 (IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Predation in support_no_no,citation,Traversia lyalli,core_sources
 (IUCN 2025) core source_claim,(Hume 2017) core source_INCLUDE_NA_Population in support_no_no,citation,Traversia lyalli,core_sources
 (IUCN 2025) core source_claim,(Hume 2011)_EXCLUDE_NA_No claim_NA_NA,citation,Nesoenas duboisi,core_sources
@@ -1230,7 +1250,6 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Pentalagus furnessi,core_sources
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Population in support_no_no,citation,Pentalagus furnessi,core_sources
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Petrogale lateralis,core_sources
-(IUCN 2025) core source_claim,(IUCN 2025) core source_claim,citation,Phyllomys thomasi,core_sources
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Psittirostra psittacea,core_sources
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Raorchestes primarrumpfi,core_sources
 (IUCN 2025) core source_claim,(IUCN 2025) core source_INCLUDE_NA_Predation in support_no_no,citation,Raorchestes tinniens,core_sources
@@ -1244,6 +1263,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,J. Burgett in litt. 2007_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Corvus hawaiiensis,core_sources
 (IUCN 2025) core source_claim,J. C. Simon in litt. 1999_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Palmeria dolei,core_sources
 (IUCN 2025) core source_claim,J. C. Torres-Mura in litt.1999_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Pterodroma longirostris,core_sources
+(IUCN 2025) core source_claim,(Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pseudantechinus mimulus,core_sources
 (IUCN 2025) core source_claim,(Woinarski 2004)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Sminthopsis butleri,core_sources
 (IUCN 2025) core source_claim,(Dowding 1999)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Charadrius obscurus,core_sources
 (IUCN 2025) core source_claim,J. E. Martínez-Gómez in litt. 1999_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Zenaida graysoni,core_sources
@@ -1264,6 +1284,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,J. Woinarski pers. comm. 2017_EXCLUDE_NA_Personal communication_NA_NA,citation,Lerista puncticauda,core_sources
 (IUCN 2025) core source_claim,J.C. Ortiz pers. comm. July 2015_EXCLUDE_NA_Personal communication_NA_NA,citation,Eupsophus insularis,core_sources
 (IUCN 2025) core source_claim,(Jehl & SI 1975)_EXCLUDE_NA_No claim_NA_NA,citation,Synthliboramphus scrippsi,core_sources
+(IUCN 2025) core source_claim,(Jessop et al. In prep)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Varanus komodoensis,core_sources
 (IUCN 2025) core source_claim,(Jiménez-Uzcátegui et al. 2019)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Geospiza psittacula,core_sources
 (IUCN 2025) core source_claim,(Jones 1988)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Gongylomorphus fontenayi,core_sources
 (IUCN 2025) core source_claim,(Jones 1993)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Cryptoblepharus boutonii,core_sources
@@ -1333,6 +1354,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Maxwell et al. 1996)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Perameles bougainville,core_sources
 (IUCN 2025) core source_claim,(McAlpin 2001)_INCLUDE_NA_Predation in support_no_no,citation,Liopholis kintorei,core_sources
 (IUCN 2025) core source_claim,(McChesney & Tershy 1998)_INCLUDE_NA_Predation in support_no_no,citation,Ptychoramphus aleuticus,core_sources
+(IUCN 2025) core source_claim,(McDonald et al. 2013)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Zyzomys pedunculatus,core_sources
 (IUCN 2025) core source_claim,(McGregor et al. 2015)_EXCLUDE_NA_No claim_NA_NA,citation,Ctenotus kurnbudj,core_sources
 (IUCN 2025) core source_claim,(McGregor et al. 2015)_EXCLUDE_NA_No claim_NA_NA,citation,Ctenotus stuarti,core_sources
 (IUCN 2025) core source_claim,(McGregor et al. 2015)_EXCLUDE_NA_No claim_NA_NA,citation,Lerista puncticauda,core_sources
@@ -1349,6 +1371,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Medina et al. 2011) core source_claim,citation,Leiocephalus eremitus,core_sources
 (IUCN 2025) core source_claim,(Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Saxicola dacotiae,core_sources
 (IUCN 2025) core source_claim,(Mellink et al. 2002)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Peromyscus dickeyi,core_sources
+(IUCN 2025) core source_claim,(Militao et al. 2017)_INCLUDE_NA_Predation in support_no_no,citation,Pterodroma feae,core_sources
 (IUCN 2025) core source_claim,(Mills 2013)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Sterna striata,core_sources
 (IUCN 2025) core source_claim,(Milner et al. 2015)_EXCLUDE_NA_No claim_NA_NA,citation,Mastacomys fuscus,core_sources
 (IUCN 2025) core source_claim,(Ministerio del Medio Ambiente 2014)_EXCLUDE_NA_No claim_NA_NA,citation,Pristidactylus volcanensis,core_sources
@@ -1793,6 +1816,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Riethmuller et al. 2012)_EXCLUDE_NA_Not in English or Spanish_NA_NA,citation,Pseudobulweria aterrima,core_sources
 (IUCN 2025) core source_claim,(Rimmer et al. 2008)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Calyptophilus tertius,core_sources
 (IUCN 2025) core source_claim,(Roberts & Miskelly 2003)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Coenocorypha pusilla,core_sources
+(IUCN 2025) core source_claim,(Robertson et al. 2011)_INCLUDE_NA_Predation in support_no_no,citation,Apteryx mantelli,core_sources
 (IUCN 2025) core source_claim,(Rocamora 1997)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Otus insularis,core_sources
 (IUCN 2025) core source_claim,(Rocamora 2013)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Falco araeus,core_sources
 (IUCN 2025) core source_claim,(Rocha 2015)_INCLUDE_NA_Predation in support_no_no,citation,Pipistrellus maderensis,core_sources
@@ -1810,6 +1834,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Hess & Banko 2006)_INCLUDE_NA_Predation in support_no_no,citation,Loxioides bailleui,core_sources
 (IUCN 2025) core source_claim,S. Chan pers. comm. 2015_EXCLUDE_NA_Personal communication_NA_NA,citation,Synthliboramphus wumizusume,core_sources
 (IUCN 2025) core source_claim,(Molur et al. 2005)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Mus mayori,core_sources
+(IUCN 2025) core source_claim,(Oppel et al. 2011)_INCLUDE_NA_Population not in support_yes_yes,citation,Puffinus yelkouan,core_sources
 (IUCN 2025) core source_claim,S.B. Hedges and B. Wilson pers. comm. 2015_EXCLUDE_NA_Personal communication_NA_NA,citation,Celestus molesworthi,core_sources
 (IUCN 2025) core source_claim,S.B. Hedges pers. comm. 2015_EXCLUDE_NA_Personal communication_NA_NA,citation,Hypsirhynchus polylepis,core_sources
 (IUCN 2025) core source_claim,S.B. Hedges pers. comm. 2016_EXCLUDE_NA_Personal communication_NA_NA,citation,Sphaerodactylus mariguanae,core_sources
@@ -1825,6 +1850,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Sanders & Maloney 2002)_INCLUDE_NA_Predation in support_no_no,citation,Himantopus novaezelandiae,core_sources
 (IUCN 2025) core source_claim,(Schulz & Bamford 1987)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Thinornis cucullatus,core_sources
 (IUCN 2025) core source_claim,(Schwartz & Carey 1977)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Cyclura onchiopsis,core_sources
+(IUCN 2025) core source_claim,(Scrimgeour et al. 2012)_INCLUDE_NA_Predation in support_no_no,citation,Mystacina tuberculata,core_sources
 (IUCN 2025) core source_claim,Seitre and Seitre 1991_EXCLUDE_NA_Missing reference_NA_NA,citation,Ducula galeata,core_sources
 (IUCN 2025) core source_claim,Seitre and Seitre 1991_EXCLUDE_NA_Missing reference_NA_NA,citation,Pomarea mendozae,core_sources
 (IUCN 2025) core source_claim,(Seitre 1992)_EXCLUDE_NA_No claim_NA_NA,citation,Ducula galeata,core_sources
@@ -1876,6 +1902,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Thibault et al. 2017)_EXCLUDE_NA_No claim_NA_NA,citation,Dierogekko nehoueensis,core_sources
 (IUCN 2025) core source_claim,(Thibault et al. 2017)_EXCLUDE_NA_No claim_NA_NA,citation,Dierogekko thomaswhitei,core_sources
 (IUCN 2025) core source_claim,(Thibault et al. 2017)_EXCLUDE_NA_No claim_NA_NA,citation,Eurydactylodes occidentalis,core_sources
+(IUCN 2025) core source_claim,(Thibault et al. 2017)_EXCLUDE_NA_No claim_NA_NA,citation,Eurydactylodes vieillardi,core_sources
 (IUCN 2025) core source_claim,(Thibault et al. 2017)_EXCLUDE_NA_No claim_NA_NA,citation,Oedodera marmorata,core_sources
 (IUCN 2025) core source_claim,(Thiebot et al. 2014)_INCLUDE_NA_Predation not in support_no_no,citation,Diomedea amsterdamensis,core_sources
 (IUCN 2025) core source_claim,(Thomas 1981)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Tukutuku rakiurae,core_sources
@@ -1886,6 +1913,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Threatened Species Scientific Committee 2016c)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Tympanocryptis condaminensis,core_sources
 (IUCN 2025) core source_claim,(Threatened Species Scientific Committee 2016a)_INCLUDE_NA_Predation not in support_no_no,citation,Amytornis dorotheae,core_sources
 (IUCN 2025) core source_claim,(Threatened Species Scientific Committee 2021)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Litoria watsoni,core_sources
+(IUCN 2025) core source_claim,(Tidemann et al. 1994)_INCLUDE_NA_Predation in support_no_no,citation,Pteropus melanotus,core_sources
 (IUCN 2025) core source_claim,(Tocher 2006)_EXCLUDE_NA_No claim_NA_NA,citation,Oligosoma acrinasum,core_sources
 (IUCN 2025) core source_claim,(Tocher 2006)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Oligosoma otagense,core_sources
 (IUCN 2025) core source_claim,(Tolson 1996)_EXCLUDE_Conference proceedings_Failure to access or locate online full citation_NA_NA,citation,Chilabothrus monensis,core_sources
@@ -1931,6 +1959,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (IUCN 2025) core source_claim,(Williams & Robertson 2013)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Anas aucklandica,core_sources
 (IUCN 2025) core source_claim,Wilson 2005_EXCLUDE_NA_Missing reference_NA_NA,citation,Charadrius obscurus,core_sources
 (IUCN 2025) core source_claim,(Wilson & Coast 2016)_INCLUDE_NA_Predation in support_no_no,citation,Procellaria westlandica,core_sources
+(IUCN 2025) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Lagostrophus fasciatus,core_sources
 (IUCN 2025) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Notomys aquilo,core_sources
 (IUCN 2025) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Zyzomys maini,core_sources
 (IUCN 2025) core source_claim,(Woinarski et al. 2014) core source_claim,citation,Zyzomys palatalis,core_sources
@@ -2006,24 +2035,31 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (McChesney & Tershy 1998)_EXCLUDE_NA_No claim_NA_NA,(Howell 1917)_INCLUDE_NA_Population in support_no_no,citation,Ptychoramphus aleuticus,snowball
 (McChesney & Tershy 1998)_INCLUDE_NA_Predation in support_no_no,(Willett 1912)_INCLUDE_NA_Predation in support_no_no,citation,Ptychoramphus aleuticus,snowball
 (McChesney & Tershy 1998)_EXCLUDE_NA_No claim_NA_NA,(Willett 1912)_INCLUDE_NA_Predation in support_no_no,citation,Ptychoramphus aleuticus,snowball
+(McDonald et al. 2013)_EXCLUDE_NA_Expert opinion_NA_NA,(Nano et al. 2008)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,citation,Zyzomys pedunculatus,snowball
 (McHugh et al. 2019)_INCLUDE_NA_Population not in support_yes_yes,(Lazenby 2012)_INCLUDE_NA_Predation in support_no_no,citation,Potorous tridactylus,snowball
 (McHugh et al. 2019)_INCLUDE_NA_Population not in support_yes_yes,(Scott 1994)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Potorous tridactylus,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Ardura & Calabuig 1993)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Ardura & Calabuig 1993)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Ardura & Calabuig 1993)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Ardura & Calabuig 1993)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Illera & Díaz 2006)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Saxicola dacotiae,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Illera & Díaz 2006)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Illera & Díaz 2006)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Illera & Díaz 2006)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Lorenzo et al. 2002)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Lorenzo et al. 2002)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Lorenzo et al. 2002)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Lorenzo et al. 2002)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Saxicola dacotiae,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(García Márquez et al. 1999)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(García Márquez et al. 1999)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(García Márquez et al. 1999)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(García Márquez et al. 1999)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia simonyi,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Efraín et al. 2000)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia intermedia,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Efraín et al. 2000)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia intermedia,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Efraín et al. 2000)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia intermedia,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Efraín et al. 2000)_INCLUDE_NA_Predation in support_no_no,citation,Gallotia intermedia,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_No claim_NA_NA,(Domínguez et al. 1997)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Gallotia simonyi,snowball
+(Medina & Nogales 2009)_EXCLUDE_NA_NA_NA_NA,(Domínguez et al. 1997)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Gallotia simonyi,snowball
 (Medina & Nogales 2009)_INCLUDE_NA_Predation in support_no_no,(Domínguez et al. 1997)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Gallotia simonyi,snowball
 (Medina & Nogales 2009)_EXCLUDE_NA_Expert opinion_NA_NA,(Domínguez et al. 1997)_EXCLUDE_Peer-reviewed journal article_Failure to access or locate online full citation_NA_NA,citation,Gallotia simonyi,snowball
 (Medina et al. 2011) core source_claim,(Ainley et al. 2001)_INCLUDE_NA_Predation in support_no_no,citation,Puffinus newelli,core_sources
@@ -2061,6 +2097,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Pterodroma atrata,core_sources
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Pterodroma defilippiana,core_sources
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Pterodroma externa,core_sources
+(Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,citation,Pterodroma longirostris,core_sources
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Pterodroma madeira,core_sources
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Sephanoides fernandensis,core_sources
 (Medina et al. 2011) core source_claim,(BirdLife International 2000)_EXCLUDE_Book or chapter_Failure to access or locate online full citation_NA_NA,citation,Spheniscus mendiculus,core_sources
@@ -2091,6 +2128,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Medina et al. 2011) core source_claim,(Dowding & Murphy 2001)_INCLUDE_NA_Population in support_no_no,citation,Coenocorypha aucklandica,core_sources
 (Medina et al. 2011) core source_claim,(Dowding & Murphy 2001)_INCLUDE_NA_Population not in support_no_no,citation,Coenocorypha aucklandica,core_sources
 (Medina et al. 2011) core source_claim,(Dowding & Murphy 2001)_INCLUDE_NA_Population not in support_no_no,citation,Coenocorypha barrierensis,core_sources
+(Medina et al. 2011) core source_claim,(Dowding & Murphy 2001)_INCLUDE_NA_Population in support_yes_no,citation,Coenocorypha pusilla,core_sources
 (Medina et al. 2011) core source_claim,(Dowding & Murphy 2001)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Thinornis novaeseelandiae,core_sources
 (Medina et al. 2011) core source_claim,(Dowler et al. 2000)_INCLUDE_NA_Population in support_no_no,citation,Nesoryzomys darwini,core_sources
 (Medina et al. 2011) core source_claim,(Dowler et al. 2000)_INCLUDE_NA_Population in support_no_no,citation,Nesoryzomys indefessus,core_sources
@@ -2156,6 +2194,8 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Medina et al. 2011) core source_claim,(Tomkins 1985)_EXCLUDE_Conference proceedings_Failure to access or locate online full citation_NA_NA,citation,Pterodroma phaeopygia,core_sources
 (Medina et al. 2011) core source_claim,(Van Rensburg & Bester 1988)_INCLUDE_NA_Population in support_yes_yes,citation,Procellaria aequinoctialis,core_sources
 (Medina et al. 2011) core source_claim,(Veitch 1985)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Anthornis melanocephala,core_sources
+(Medina et al. 2011) core source_claim,(Veitch 1985)_EXCLUDE_NA_Failure to access or locate online full citation_NA_NA,citation,Coenocorypha pusilla,core_sources
+(Medina et al. 2011) core source_claim,(Veitch 1985)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Petroica traversi,core_sources
 (Medina et al. 2011) core source_claim,(Veitch 1985)_EXCLUDE_Report_Failure to access or locate online full citation_NA_NA,citation,Traversia lyalli,core_sources
 (Medina et al. 2011) core source_claim,(Vázquez-Domínguez et al. 2004)_INCLUDE_NA_Predation in support_no_no,citation,Myotis vivesi,core_sources
 (Medina et al. 2011) core source_claim,(Vázquez-Domínguez et al. 2004)_INCLUDE_NA_Predation in support_no_no,citation,Peromyscus guardia,core_sources
@@ -2565,6 +2605,7 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Wallach & Lundgren 2025)_external review without claim,(Wysong 2016)_INCLUDE_NA_Predation in support_no_no,citation,Macrotis lagotis,core_sources
 (Welch & Leppanen 2017) core source_claim,(Daniel & Williams 1984)_INCLUDE_NA_Predation in support_no_no,citation,Chalinolobus tuberculatus,core_sources
 (Welch & Leppanen 2017) core source_claim,(Daniel & Williams 1984)_INCLUDE_NA_Predation in support_no_no,citation,Mystacina tuberculata,core_sources
+(Welch & Leppanen 2017) core source_claim,(IUCN 2025) core source_claim,citation,Pteropus melanotus,core_sources
 (Welch & Leppanen 2017) core source_claim,(Molloy & Daniel 1995)_INCLUDE_NA_Predation in support_no_no,citation,Mystacina tuberculata,core_sources
 (Welch & Leppanen 2017) core source_claim,(Vincenot et al. 2017)_INCLUDE_NA_Predation in support_no_no,citation,Pteropus dasymallus,core_sources
 (Welch & Leppanen 2017) core source_claim,(Vincenot et al. 2015)_INCLUDE_NA_Predation in support_no_no,citation,Pteropus dasymallus,core_sources
@@ -2580,14 +2621,22 @@ cited_by_id,article_id,edge_type,scientificName,encounter_method
 (Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Leporillus apicalis,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys amplus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys longicaudatus,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys macrotis,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys mordax,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys robustus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Perameles eremiana,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2008)_EXCLUDE_NA_No claim_NA_NA,citation,Pseudomys auritus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Chaeropus ecaudatus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Conilurus albipes,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Leporillus apicalis,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Macrotis leucura,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys amplus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys longicaudatus,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys macrotis,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys mordax,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Notomys robustus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Perameles eremiana,core_sources
+(Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Pseudomys auritus,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Pseudomys shortridgei,core_sources
 (Woinarski et al. 2014) core source_claim,(Abbott 2002)_EXCLUDE_NA_No claim_NA_NA,citation,Setonix brachyurus,core_sources
 (Woinarski et al. 2014) core source_claim,(Burbidge & Manly 2002)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Bettongia lesueur,core_sources
@@ -2882,7 +2931,6 @@ Web of Science_Systematic external review,(Cruz & Cruz 1987)_INCLUDE_NA_Predatio
 Web of Science_Systematic external review,(Madeiros et al. 2012)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Pterodroma cahow,web_of_science
 Web of Science_Systematic external review,(Jehl & Parkes 1983)_EXCLUDE_NA_Expert opinion_NA_NA,citation,Mimus graysoni,web_of_science
 Web of Science_Systematic external review,(Jehl & Parkes 1983)_INCLUDE_NA_Population not in support_yes_no,citation,Zenaida graysoni,web_of_science
-Web of Science_Systematic external review,(Jessop et al. In prep)_EXCLUDE_NA_Unpublished data or article_NA_NA,citation,Varanus komodoensis,web_of_science
 Web of Science_Systematic external review,(Jones et al. 2021)_EXCLUDE_NA_No claim_NA_NA,citation,Bettongia gaimardi,web_of_science
 Web of Science_Systematic external review,(Jones et al. 2004)_EXCLUDE_NA_Does not test claim_NA_NA,citation,Dasyurus viverrinus,web_of_science
 Web of Science_Systematic external review,(Jones & Ryan 2010)_EXCLUDE_NA_No claim_NA_NA,citation,Diomedea dabbenena,web_of_science

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.9.38">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<meta name="dcterms.date" content="2026-09-08">
+<meta name="dcterms.date" content="2026-09-11">
 <title>Citation network – When consensus procedes the evidence</title>
 <style>
 /* Default styles provided by pandoc.
@@ -293,7 +293,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">September 8, 2026</p>
+      <p class="date">September 11, 2026</p>
     </div>
   </div>
   
@@ -371,14 +371,14 @@ div.csl-indent {
 <span>                                           directed <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span><span class="va">igraph.gr</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>IGRAPH ab23962 DN-- 1793 3105 -- 
+<pre><code>IGRAPH 7995a3b DN-- 1800 3153 -- 
 + attr: name (v/c), article_node_name (v/c), evidence_inclusion (v/c),
 | Peer_reviewed_source (v/c), evidence_type (v/c), has_data (v/c),
 | of_quality (v/c), evidence_type_synthetic (v/c), evidence_type_fine
 | (v/c), evidence_type_simple (v/c), in_support (v/c),
 | evidence_type_synthetic_simple (v/c), edge_type (e/c), scientificName
 | (e/c), encounter_method (e/c)
-+ edges from ab23962 (vertex names):
++ edges from 7995a3b (vertex names):
 [1] (Doherty et al. 2016) core source_claim-&gt;(Alberts 2000) core source_EXCLUDE_NA_No claim       
 [2] (Doherty et al. 2016) core source_claim-&gt;(Garnett et al. 2011) core source_EXCLUDE_NA_No claim
 + ... omitted several edges</code></pre>
@@ -501,20 +501,20 @@ terminus_exploded_filtered[grepl("Population", evidence_type_synthetic) &amp;
     has_data == "yes" &amp; making_claim == "CLAIM", ]
 
       AIC       BIC    logLik -2*log(L)  df.resid 
-    259.3     273.7    -125.6     251.3       269 
+    266.2     280.7    -129.1     258.2       273 
 
 Random effects:
 
 Conditional model:
  Groups         Name        Variance Std.Dev.
- cited_by_id    (Intercept) 0.2225   0.4717  
- scientificName (Intercept) 2.5809   1.6065  
-Number of obs: 273, groups:  cited_by_id, 11; scientificName, 60
+ cited_by_id    (Intercept) 0.1927   0.439   
+ scientificName (Intercept) 2.8692   1.694   
+Number of obs: 277, groups:  cited_by_id, 11; scientificName, 60
 
 Conditional model:
               Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)    -1.7182     0.4624  -3.715 0.000203 ***
-in_supportYes  -0.3763     0.4380  -0.859 0.390177    
+(Intercept)    -1.7244     0.4684  -3.681 0.000232 ***
+in_supportYes  -0.3274     0.4342  -0.754 0.450851    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -583,8 +583,8 @@ Figure&nbsp;2— The probability of a population study with data being cited by 
 </details><div class="cell-output cell-output-stdout">
 <pre><code>   in_support     mean       sd
        &lt;char&gt;    &lt;num&gt;    &lt;num&gt;
-1:        Yes 17.34694 36.75858
-2:         No 23.00000 39.83552</code></pre>
+1:        Yes 18.00000 37.35653
+2:         No 23.76238 40.36958</code></pre>
 </div>
 </div>
 <p>On average, claimants cited 17% of the available population studies that found a negative association between cats and prey and 23% of available populations studies that did not. All of these citations were made to make the claim that cats were the cause of prey decline.</p>
@@ -662,10 +662,10 @@ Figure&nbsp;2— The probability of a population study with data being cited by 
 <span><span class="va">out</span><span class="op">[</span>, <span class="va">perc</span> <span class="op">:=</span> <span class="va">n</span> <span class="op">/</span> <span class="va">total</span><span class="op">]</span></span>
 <span><span class="va">out</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details><div class="cell-output cell-output-stdout">
-<pre><code>   evidence_simple     n total      perc
-            &lt;char&gt; &lt;int&gt; &lt;int&gt;     &lt;num&gt;
-1:        excluded  1859  2304 0.8068576
-2:        included   445  2304 0.1931424</code></pre>
+<pre><code>   evidence_simple     n total     perc
+            &lt;char&gt; &lt;int&gt; &lt;int&gt;    &lt;num&gt;
+1:        excluded  1891  2357 0.802291
+2:        included   466  2357 0.197709</code></pre>
 </div>
 </div>
 <p>Now, let’s plot the number of citation chains by terminus article type, focusing on quantitative evidence:</p>
@@ -773,13 +773,14 @@ Figure&nbsp;3— Quantitative evidence cited found at the terminus of citation c
 <pre><code>                Peer_reviewed_source     n
                               &lt;char&gt; &lt;int&gt;
 1:                            Thesis    14
-2:                   Book or chapter   172
-3:     Peer-reviewed journal article    32
-4:                            Report   124
+2:                   Book or chapter   173
+3:     Peer-reviewed journal article    33
+4:                            Report   125
 5: Newspaper, newsletter or magazine    35
 6:                   Online resource     9
 7:            Conference proceedings     9
-8:                  Journal pre-1975    24</code></pre>
+8:                  Journal pre-1975    25
+9:                                       3</code></pre>
 </div>
 <details class="code-fold"><summary>Code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">excluded</span><span class="op">[</span><span class="va">evidence_type_fine</span> <span class="op">==</span> <span class="st">"Failure to access or locate online full citation"</span> <span class="op">&amp;</span></span>
 <span>           <span class="va">Peer_reviewed_source</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Peer-reviewed journal article"</span>,</span>

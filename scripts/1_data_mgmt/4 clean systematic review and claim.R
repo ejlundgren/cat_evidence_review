@@ -33,7 +33,6 @@ dat[, spp_name_corrected := scientificName]
 dat[scientificName == "Pampusana erythroptera", spp_name_corrected := "Gallicolumba erythroptera"]
 dat[scientificName == "Prosobonia cancellata", spp_name_corrected := "Prosobonia parvirostris"]
 
-
 # >>> Get class ---------------------------------------------------------------
 
 
@@ -626,7 +625,7 @@ dat.m2[class %in% c("Amphibia"), class := "Amphibians"]
 
 unique(dat.m2$evidence_type)
 
-dat.m2
+
 dat.m2 <- dat.m2[, .(scientificName, spp_name_corrected, assessmentId,
                      internalTaxonId, realm, systems, assessmentDate,
                      redlistCategory, criteriaVersion, populationTrend,
@@ -635,7 +634,7 @@ dat.m2 <- dat.m2[, .(scientificName, spp_name_corrected, assessmentId,
                      IUCN_references, Doherty_references0_NA, Dickman_AU_mammal,
                      Medina_references0_NA, Woinarski_AU_mammal, Garnett2020_AU_birds,
                      Garnett2010_AU_birds, Alberts_iguanas, Oedin_bats, Welch_bats,
-                     Hume_EX_birds, Hess,
+                     Hume_EX_birds, Hess, Radford,
                      Search_conducted,Mass_g_final, exclude_species, class)]
 unique(dat.m2$class)
 fwrite(dat.m2, "builds/claims/species_claims_tidy_raw.csv")
